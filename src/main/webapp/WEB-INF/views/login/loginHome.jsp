@@ -3,7 +3,7 @@
 
 <div class="flex-col">
     <h1>${errMsg }</h1>
-    <form method="post" action="${pageContext.request.contextPath}/login/login-proc">
+<%--    <form method="post" action="${pageContext.request.contextPath}/login/login-proc">--%>
         <div class="flex-row">
             <div class="flex-col">
                 <div class="flex-row justify-content-end">
@@ -18,11 +18,11 @@
             <div>
                 <label for="rememberMe">자동 로그인</label>
                 <input id="rememberMe" name="_spring_security_remember_me" type="checkbox">
-                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
-                <input type="submit" value="로그인" style="width: 150px; height: 50px;"/>
+<%--                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>--%>
+                <input type="submit" value="로그인" onclick="main.loginProc()" style="width: 150px; height: 50px;"/>
             </div>
         </div>
-    </form>
+<%--    </form>--%>
 
     <div class="flex-col mt-30">
         <div class="flex-row">

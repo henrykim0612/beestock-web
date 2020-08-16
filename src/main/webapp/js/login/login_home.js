@@ -4,8 +4,8 @@ const main = (function() {
     function loginProc() {
 
         const param = {
-            email: document.getElementById('email').value,
-            pwd: document.getElementById('pwd').value
+            loginId: document.getElementById('loginId').value,
+            loginPwd: document.getElementById('loginPwd').value
         }
         const url = CONTEXT_PATH + '/api/v1/login/login-check';
         fetch(url, {
@@ -13,15 +13,18 @@ const main = (function() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(param)
         }).then(function(response) {
+            console.log(response);
             return response.json();
         }).then(function(result) {
             console.log(result);
-            if (result.status === '200') {
-                // 로그인
-                goToDashboard();
-            } else {
-                alert('아이디 또는 비밀번호가 틀렸습니다.');
-            }
+            test(result);
+
+            // if (result.status === '200') {
+            //     // 로그인
+            //     goToDashboard();
+            // } else {
+            //     alert('아이디 또는 비밀번호가 틀렸습니다.');
+            // }
         });
     }
 
@@ -44,6 +47,18 @@ const main = (function() {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(param)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(result) {
+            console.log(result);
+        });
+    }
+
+    function test(result) {
+       // fetch(CONTEXT_PATH + '/user/test', {
+        fetch(CONTEXT_PATH + '/admin/test', {
+            method: 'get',
+            headers: {'Content-Type': 'application/json', 'X-AUTH-TOKEN': result.token}
         }).then(function(response) {
             return response.json();
         }).then(function(result) {
