@@ -8,11 +8,11 @@
     <sec:authorize access="isAuthenticated()">
         <sec:authentication var="userDetails" property="principal"/>
         <h1>Dashboard Page</h1>
-        <p>principal : <sec:authentication property="principal"/></p>
-        <p>principal.username : <sec:authentication property="principal.username"/></p>
-        <p>principal.email : <sec:authentication property="principal.userName"/></p>
-        <p>principal.email : <sec:authentication property="principal.userPhone"/></p>
-        <p>principal.accountNonExpired : <sec:authentication property="principal.accountNonExpired"/></p>
+        <h2>principal : <sec:authentication property="principal"/></h2>
+        <h2>UserName : <sec:authentication property="principal.username"/></h2>
+        <h2>Email : <sec:authentication property="principal.userNm"/></h2>
+        <h2>Phone : <sec:authentication property="principal.userPhone"/></h2>
+        <h2>AccountNonExpired : <sec:authentication property="principal.accountNonExpired"/></h2>
         <button style="width: 150px;" onclick="main.logout()">Logout</button>
     </sec:authorize>
 
