@@ -4,9 +4,8 @@
 <html>
     <tiles:insertAttribute name="header" />
     <body>
-        <div class="container">
-            <tiles:insertAttribute name="content" />
-            <tiles:insertAttribute name="footer" />
-        </div>
+        <tiles:insertAttribute name="top" />
+        <tiles:insertAttribute name="content" />
+        <tiles:insertAttribute name="footer" />
     </body>
 </html>

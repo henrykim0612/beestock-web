@@ -1,7 +1,52 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <script src="${pageContext.request.contextPath}/js/login/login_home.js"></script>
 
-<div class="flex-col">
+<form method="post" action="${pageContext.request.contextPath}/login/login-proc">
+    <nav class="level">
+        <div class="level-item has-text-left">
+            <div class="field loginField">
+                <label class="label">Email</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input id="ipEmail" class="input" type="email" placeholder="Email">
+                    <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                    <span class="icon is-small is-right">
+                    <i id="icoEmailCheck" class="fas fa-check is-hidden"></i>
+                    <i id="icoEmailTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
+                </span>
+                </div>
+                <p id="helpEmail" class="help is-hidden">입력하신 값은 이메일 형식이 아닙니다.</p>
+            </div>
+        </div>
+    </nav>
+    <nav class="level">
+        <div class="level-item has-text-left">
+            <div class="field loginField">
+                <label class="label">Password</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input id="ipPwd" class="input" type="password" placeholder="Password">
+                    <span class="icon is-small is-left">
+                     <i class="fas fa-lock"></i>
+                </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <div class="field loginField is-grouped is-grouped-centered">
+                <div class="control">
+                    <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+                    <button id="btnSubmit" class="button is-warning" onclick="main.signup()"><strong>Log in</strong></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</form>
+
+
+<%--<div class="flex-col">
     <h1>${errMsg }</h1>
     <form method="post" action="${pageContext.request.contextPath}/login/login-proc">
         <div class="flex-row">
@@ -23,23 +68,4 @@
             </div>
         </div>
     </form>
-
-    <div class="flex-col mt-30">
-        <div class="flex-row">
-            <label for="insEmail">Email</label>
-            <input type="text" id="insEmail" style="width: 200px;">
-        </div>
-        <div class="flex-row">
-            <label for="insPwd">Password</label>
-            <input type="text" id="insPwd" style="width: 200px;">
-        </div>
-        <div class="flex-row">
-            <label for="insName">Name</label>
-            <input type="text" id="insName" style="width: 200px;">
-        </div>
-        <div>
-            <button id="btnInsert" onclick="main.insertProc()" style="width: 150px; height: 50px;">저장</button>
-        </div>
-    </div>
-
-</div>
+</div>--%>

@@ -11,6 +11,7 @@
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=Promise%2Cfetch" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.3.1/fontawesome.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         const CONTEXT_PATH = "${pageContext.request.contextPath}";

@@ -17,10 +17,10 @@ public class HomeController {
         return "home/dashboard";
     }
 
-    @GetMapping("/test")
-    public String goToTest(ModelMap model) {
-        model.addAttribute("title", "Test");
-        return "home/test";
+    @GetMapping("/documentation")
+    public String goToDocumentation(ModelMap model) {
+        model.addAttribute("title", "Documentation");
+        return "home/documentation";
     }
 
 }

@@ -1,14 +1,11 @@
 package com.beestock.controller;
 
-import com.beestock.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 @Slf4j
@@ -26,6 +23,13 @@ public class MainController {
         model.addAttribute("title", "Login");
         return "login/loginHome";
     }
+
+    @RequestMapping(value="/login/signup", method = RequestMethod.GET)
+    public String goToSignup(ModelMap model) {
+        model.addAttribute("title", "Sign up");
+        return "login/signUp";
+    }
+
 
 //    @RequestMapping(value="/login/login-proc", method = RequestMethod.POST)
 //    public String loginProc(@RequestParam UserVo param, ModelMap model) {
