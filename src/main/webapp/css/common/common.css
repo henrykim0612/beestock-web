@@ -66,6 +66,12 @@
 	align-content: space-between;
 }
 
+.is-vertical-center {
+	display: flex;
+	align-items: center;
+}
+
+
 
 
 /* 

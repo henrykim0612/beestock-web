@@ -256,7 +256,3 @@ const main = (function() {
     }
 
 }());
-
-document.addEventListener('DomContentLoaded', function() {
-
-});

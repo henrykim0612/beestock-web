@@ -1,5 +1,13 @@
 const main = (function() {
 
+    function init() {
+        const accountNonExpired = document.getElementById('accountNonExpired');
+        console.log(accountNonExpired.value);
+        if (accountNonExpired.value === 'true') {
+            document.getElementById('aLogin').classList.add('is-hidden');
+        }
+    }
+
     function logout() {
         const frm = document.createElement('form');
         frm.action = CONTEXT_PATH + '/login/logout';
@@ -38,6 +46,7 @@ const main = (function() {
     }
 
     return {
+        init: init,
         goToLogin: goToLogin,
         goToUser1: goToUser1,
         goToSubc1: goToSubc1,
@@ -47,6 +56,6 @@ const main = (function() {
 
 }());
 
-document.addEventListener('DomContentLoaded', function() {
-
+document.addEventListener('DOMContentLoaded', function() {
+    main.init();
 });

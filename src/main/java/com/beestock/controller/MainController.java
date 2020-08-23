@@ -18,7 +18,7 @@ public class MainController {
         return "home/dashboard";
     }
 
-    @RequestMapping(value="/login/login-home", method = RequestMethod.GET)
+    @RequestMapping(value="/login/login-home", method = {RequestMethod.GET, RequestMethod.POST})
     public String goToLogin(ModelMap model) {
         model.addAttribute("title", "Login");
         return "login/loginHome";
