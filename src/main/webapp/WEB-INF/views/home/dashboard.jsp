@@ -3,8 +3,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/home/dashboard.js"></script>
 
-<input type="hidden" id="accountNonExpired" value="<sec:authentication property="principal.accountNonExpired"/>"/>
-
 <div class="flex-col">
     <sec:authorize access="isAuthenticated()">
         <sec:authentication var="userDetails" property="principal"/>

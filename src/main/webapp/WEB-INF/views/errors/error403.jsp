@@ -2,7 +2,20 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
 
-<div class="flex-col">
-    <p>${errMsg }</p>
-    <p>${auth }</p>
-</div>
+<%--<sec:authorize access="hasRole('ROLE_USER') and isAuthenticated()">--%>
+<%--</sec:authorize>--%>
+<%--<p>${errMsg }</p>--%>
+<%--<p>${auth }</p>--%>
+
+<section class="hero is-danger is-medium">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Access denied.
+            </h1>
+            <h2 class="subtitle">
+                죄송합니다. 해당 URL 접근 권한이 없습니다.
+            </h2>
+        </div>
+    </div>
+</section>

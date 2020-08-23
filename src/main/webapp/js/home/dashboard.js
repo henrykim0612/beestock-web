@@ -1,28 +1,5 @@
 const main = (function() {
 
-    function init() {
-        const accountNonExpired = document.getElementById('accountNonExpired');
-        console.log(accountNonExpired.value);
-        if (accountNonExpired.value === 'true') {
-            document.getElementById('aLogin').classList.add('is-hidden');
-        }
-    }
-
-    function logout() {
-        const frm = document.createElement('form');
-        frm.action = CONTEXT_PATH + '/login/logout';
-        frm.method = 'get';
-        document.body.appendChild(frm);
-        frm.submit();
-    }
-
-    function goToLogin() {
-        const frm = document.createElement('form');
-        frm.action = CONTEXT_PATH + '/login/login-home';
-        document.body.appendChild(frm);
-        frm.submit();
-    }
-
     function goToUser1() {
         const frm = document.createElement('form');
         frm.action = CONTEXT_PATH + '/user/user1';
@@ -46,16 +23,9 @@ const main = (function() {
     }
 
     return {
-        init: init,
-        goToLogin: goToLogin,
         goToUser1: goToUser1,
         goToSubc1: goToSubc1,
-        goToAdmin1: goToAdmin1,
-        logout: logout
+        goToAdmin1: goToAdmin1
     }
 
 }());
-
-document.addEventListener('DOMContentLoaded', function() {
-    main.init();
-});
