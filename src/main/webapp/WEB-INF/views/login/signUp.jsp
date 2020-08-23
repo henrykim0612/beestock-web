@@ -42,7 +42,7 @@
         <div class="field loginField">
             <label class="label">Your Name</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipUserName" class="input" type="text" placeholder="사용자 이름">
+                <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임">
                 <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                 </span>

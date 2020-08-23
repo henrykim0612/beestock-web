@@ -181,7 +181,9 @@
 	width: 400px;
 }
 
-
+.cursor {
+	cursor: pointer;
+}
 
 
 

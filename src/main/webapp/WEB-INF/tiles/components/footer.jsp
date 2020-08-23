@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<footer class="footer">
+<footer class="footer mt-6">
     <div class="content has-text-centered">
         <p>
             Copyright(c)2020 <strong>BeeStock</strong> All rights reserved.

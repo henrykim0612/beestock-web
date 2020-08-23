@@ -26,7 +26,7 @@
             <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation">Documentation</a>
 
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="${pageContext.request.contextPath}/login/login-home">Log in / Sign up</a>
+                <a class="navbar-link" href="${pageContext.request.contextPath}/login/login-home">Others</a>
                 <div class="navbar-dropdown">
                     <a class="navbar-item">Menu1</a>
                     <a class="navbar-item">Menu2</a>
@@ -40,6 +40,11 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
+                    <sec:authorize access="isAuthenticated()">
+                        <span class="icon has-text-link-dark is-medium ml-2 mb-1 cursor">
+                          <i class="fas fa-user-alt"></i>
+                        </span>
+                    </sec:authorize>
                     <a class="button is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>Sign up</strong></a>
                     <a id="aLogin" class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>Log in</strong></a>
                     <sec:authorize access="isAuthenticated()">

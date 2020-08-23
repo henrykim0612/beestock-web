@@ -7,7 +7,7 @@
 <%--<p>${errMsg }</p>--%>
 <%--<p>${auth }</p>--%>
 
-<section class="hero is-danger is-medium">
+<section class="hero is-danger">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
