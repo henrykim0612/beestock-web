@@ -6,9 +6,11 @@
 
 <sec:authorize access="isAuthenticated()">
     <input type="hidden" id="accountNonExpired" value="<sec:authentication property="principal.accountNonExpired"/>"/>
+    <input type="hidden" id="loginId" value="<sec:authentication property="principal.username"/>"/>
+    <input type="hidden" id="loginUserNm" value="<sec:authentication property="principal.userNm"/>"/>
 </sec:authorize>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar mb-5" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
             <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
@@ -41,7 +43,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span class="icon has-text-link-dark is-medium ml-2 mb-1 cursor">
+                        <span class="icon has-text-link-dark is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
                           <i class="fas fa-user-alt"></i>
                         </span>
                     </sec:authorize>

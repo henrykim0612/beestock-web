@@ -17,4 +17,16 @@ public class UserController {
         return "user/user1";
     }
 
+    @GetMapping("/my-page")
+    public String goToMyPage(ModelMap model) {
+        model.addAttribute("title", "MyPage");
+        return "user/myPage";
+    }
+
+    @GetMapping("/mod/profile")
+    public String goToModProfile(ModelMap model) {
+        model.addAttribute("title", "MyPage");
+        return "mod/profile";
+    }
+
 }

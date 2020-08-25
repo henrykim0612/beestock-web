@@ -9,8 +9,18 @@ const topMain = (function() {
         }
     }
 
+    function goToMyPage() {
+        const form = document.createElement('form');
+        form.method = 'get';
+        form.action = CONTEXT_PATH + '/user/my-page';
+        document.body.appendChild(form);
+        form.submit();
+        form.remove();
+    }
+
     return {
-        init: init
+        init: init,
+        goToMyPage: goToMyPage
     }
 
 }());

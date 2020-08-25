@@ -1,13 +1,5 @@
 const main = (function() {
 
-    function isExistedEmail(loginId) {
-        cmmUtils.fetch({
-            url : '/api/v1/login/is-existed/' + loginId
-        }, function(response) {
-            return response;
-        })
-    }
-
     function isEmailPattern() {
 
         const ipEmail = document.getElementById('ipEmail');
@@ -28,6 +20,26 @@ const main = (function() {
             }
         } else {
             appendHiddenClass([icoEmailCheck, icoEmailTriangle, helpEmail]);
+        }
+    }
+
+    function isSamePassword() {
+
+        const ipCfPwd = document.getElementById('ipCfPwd');
+        const ipPwd = document.getElementById('ipPwd');
+        const helpCfPwd = document.getElementById('helpCfPwd');
+        const icoCfPwdCheck = document.getElementById('icoCfPwdCheck');
+        const icoCfPwdTriangle = document.getElementById('icoCfPwdTriangle');
+        clearClasses([ipCfPwd, helpCfPwd]);
+
+        if (ipPwd.value === ipCfPwd.value) {
+            appendInfoClasses([ipCfPwd, helpCfPwd], true);
+            removeHiddenClass([icoCfPwdCheck]);
+            appendHiddenClass([icoCfPwdTriangle, helpCfPwd]);
+        } else {
+            appendInfoClasses([ipCfPwd, helpCfPwd], false);
+            removeHiddenClass([icoCfPwdTriangle]);
+            appendHiddenClass([icoCfPwdCheck]);
         }
     }
 
@@ -119,6 +131,11 @@ const main = (function() {
             return false;
         }
 
+        if (!params.cfPwd.value || params.cfPwd.classList.contains('is-danger')) {
+            showIpModal('비밀번호 확인', 'cfPwd');
+            return false;
+        }
+
         if (!params.userNm.value) {
             showIpModal('이름', 'ipUserName');
             return false;
@@ -137,12 +154,14 @@ const main = (function() {
 
         const loginId = document.getElementById('ipEmail');
         const loginPwd = document.getElementById('ipPwd');
+        const cfPwd = document.getElementById('ipCfPwd');
         const userNm = document.getElementById('ipUserName');
         const userPhone = document.getElementById('ipUserPhone');
 
         if ( verifyInputData({
             loginId: loginId,
             loginPwd: loginPwd,
+            cfPwd: cfPwd,
             userNm: userNm,
             userPhone: userPhone
         }) ) {
@@ -249,6 +268,7 @@ const main = (function() {
     return {
         isEmailPattern: isEmailPattern,
         isPwdPattern: isPwdPattern,
+        isSamePassword: isSamePassword,
         isUserPhonePattern: isUserPhonePattern,
         signup: signup,
         closeModal: closeModal,
