@@ -87,10 +87,39 @@
     </div>
 </nav>
 <nav class="level">
+    <div class="level-item has-text-left">
+        <div class="field loginField">
+            <label class="label">비밀번호 힌트 질문</label>
+            <div class="control has-icons-left ">
+                <div class="select">
+                    <select id="selHintCode">
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="level">
+    <div class="level-item has-text-left">
+        <div class="field loginField">
+            <label class="label">비밀번호 힌트 답변</label>
+            <div class="control has-icons-left has-icons-right">
+                <input id="ipHintAnswer" class="input" type="text" placeholder="비밀번호 힌트 질문 답변">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="level mt-6">
     <div class="level-item has-text-centered">
         <div class="field loginField is-grouped is-grouped-centered">
             <div class="control">
-                <button id="btnSubmit" class="button is-primary" onclick="main.signup()"><strong>Sign up</strong></button>
+                <button id="btnSubmit" class="button is-primary" onclick="main.signup()"><strong>회원가입</strong></button>
             </div>
         </div>
     </div>
@@ -111,7 +140,7 @@
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>Log in</strong></a>
+                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인 창으로 이동</strong></a>
             </div>
         </footer>
     </div>
@@ -141,20 +170,6 @@
         </header>
         <section class="modal-card-body">
             <h2 id="ipModalH2"></h2>
-        </section>
-    </div>
-</div>
-
-<%--에러 입력관련 모달--%>
-<div id="errModal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">에러</p>
-            <button class="delete" aria-label="close" onclick="main.closeModal('errModal')"></button>
-        </header>
-        <section class="modal-card-body">
-            <h2>서버와 통신도중 문제가 발생했습니다. 다시 진행해주세요.</h2>
         </section>
     </div>
 </div>

@@ -20,6 +20,10 @@
         <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
     </definition>
 
+    <definition name="login/findingAccount" extends="layout-without-footer">
+        <put-attribute name="content" value="/WEB-INF/views/login/findingAccount.jsp" />
+    </definition>
+
     <definition name="errors/*" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/errors/{1}.jsp" />
     </definition>

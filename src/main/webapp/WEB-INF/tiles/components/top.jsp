@@ -13,7 +13,7 @@
 <nav class="navbar mb-5" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+            <img src="" width="112" height="28">
         </a>
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="topNav">
             <span aria-hidden="true"></span>
@@ -47,13 +47,28 @@
                           <i class="fas fa-user-alt"></i>
                         </span>
                     </sec:authorize>
-                    <a class="button is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>Sign up</strong></a>
-                    <a id="aLogin" class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>Log in</strong></a>
+                    <a class="button is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
+                    <a id="aLogin" class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>
                     <sec:authorize access="isAuthenticated()">
-                        <a class="button is-danger is-small" href="${pageContext.request.contextPath}/login/logout"><strong>Log out</strong></a>
+                        <a class="button is-danger is-small" href="${pageContext.request.contextPath}/login/logout"><strong>로그아웃</strong></a>
                     </sec:authorize>
                 </div>
             </div>
         </div>
     </div>
 </nav>
+
+
+<%--에러 입력관련 모달--%>
+<div id="errModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">에러</p>
+            <button class="delete" aria-label="close" onclick="main.closeModal('errModal')"></button>
+        </header>
+        <section class="modal-card-body">
+            <h2>서버와 통신도중 문제가 발생했습니다. 다시 진행해주세요.</h2>
+        </section>
+    </div>
+</div>

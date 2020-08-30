@@ -30,17 +30,10 @@ public class MainController {
         return "login/signUp";
     }
 
-
-//    @RequestMapping(value="/login/login-proc", method = RequestMethod.POST)
-//    public String loginProc(@RequestParam UserVo param, ModelMap model) {
-//        return "login/loginHome";
-//    }
-//
-//    @RequestMapping(value="/login/logout", method = RequestMethod.GET)
-//    public String logout(ModelMap model, SessionStatus sessionStatus) {
-//        sessionStatus.setComplete(); // 세션제거
-//        model.addAttribute("title", "Login");
-//        return "login/loginHome";
-//    }
+    @RequestMapping(value="/login/finding-account", method = RequestMethod.GET)
+    public String goToFindingAccount(ModelMap model) {
+        model.addAttribute("title", "Sign up");
+        return "login/findingAccount";
+    }
 
 }

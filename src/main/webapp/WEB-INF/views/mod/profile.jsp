@@ -2,6 +2,8 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/mod/profile.js"></script>
 
+<input type="hidden" id="hiddenHintCode" value="<sec:authentication property="principal.hintCode"/>"/>
+
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
@@ -79,6 +81,35 @@
                 </span>
             </div>
             <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요(010-xxxx-xxxx).</p>
+        </div>
+    </div>
+</nav>
+<nav class="level">
+    <div class="level-item has-text-left">
+        <div class="field loginField">
+            <label class="label">비밀번호 힌트 질문</label>
+            <div class="control has-icons-left ">
+                <div class="select">
+                    <select id="selHintCode">
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="level">
+    <div class="level-item has-text-left">
+        <div class="field loginField">
+            <label class="label">비밀번호 힌트 답변</label>
+            <div class="control has-icons-left has-icons-right">
+                <input id="ipHintAnswer" class="input" type="text" placeholder="비밀번호 힌트 질문 답변" value="<sec:authentication property="principal.hintAnswer"/>">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+            </div>
         </div>
     </div>
 </nav>

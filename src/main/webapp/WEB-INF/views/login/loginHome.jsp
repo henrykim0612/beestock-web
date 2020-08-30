@@ -45,7 +45,8 @@
         <div class="level-item has-text-centered">
             <div class="field loginField is-grouped is-grouped-centered">
                 <div class="control">
-                    <button id="btnSubmit" class="button is-warning" onclick="main.login()"><strong>Log in</strong></button>
+                    <a class="button is-primary" href="${pageContext.request.contextPath}/login/finding-account"><strong>Email/Password 찾기</strong></a>
+                    <button id="btnSubmit" class="button is-warning" onclick="main.login()"><strong>로그인</strong></button>
                 </div>
             </div>
         </div>

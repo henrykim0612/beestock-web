@@ -4,7 +4,7 @@ const main = (function() {
         const loginId = document.getElementById('loginId').value;
         const loginPwd = document.getElementById('ipPwd').value;
         cmmUtils.postData({
-            url: CONTEXT_PATH + '/api/v1/login/check-pwd',
+            url: '/api/v1/login/check-pwd',
             body: {
                 loginId: loginId,
                 loginPwd: loginPwd
