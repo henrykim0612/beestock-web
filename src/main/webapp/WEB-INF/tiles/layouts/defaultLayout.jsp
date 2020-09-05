@@ -5,7 +5,10 @@
     <tiles:insertAttribute name="header" />
     <body>
         <tiles:insertAttribute name="top" />
-        <tiles:insertAttribute name="content" />
+        <div class="container">
+            <tiles:insertAttribute name="content" />
+        </div>
+        <tiles:insertAttribute name="modal" />
         <tiles:insertAttribute name="footer" />
     </body>
 </html>

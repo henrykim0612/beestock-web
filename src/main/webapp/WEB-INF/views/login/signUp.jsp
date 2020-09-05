@@ -3,6 +3,14 @@
 
 <nav class="level">
     <div class="level-item has-text-left">
+        <div class="notification is-info is-light">
+            간단한 회원가입으로 <strong>BeeStock</strong> 을 이용해보세요.
+        </div>
+    </div>
+</nav>
+
+<nav class="level">
+    <div class="level-item has-text-left">
         <div class="field loginField">
             <label class="label">Email</label>
             <div class="control has-icons-left has-icons-right">
@@ -159,18 +167,3 @@
         </section>
     </div>
 </div>
-
-<%--텍스트 입력관련 모달--%>
-<div id="inputModal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p id="ipModalTitle" class="modal-card-title"></p>
-            <button id="btnClsIpModal" class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-            <h2 id="ipModalH2"></h2>
-        </section>
-    </div>
-</div>
-

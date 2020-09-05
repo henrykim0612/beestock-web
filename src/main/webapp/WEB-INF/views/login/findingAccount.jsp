@@ -40,15 +40,16 @@
             <div class="field loginField">
                 <label class="label">Your Mobile</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)">
+                    <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()">
                     <span class="icon is-small is-left">
-                     <i class="fas fa-mobile-alt"></i>
-                </span>
+                         <i class="fas fa-mobile-alt"></i>
+                    </span>
                     <span class="icon is-small is-right">
-                    <i id="icoUserPhoneCheck" class="fas fa-check is-hidden"></i>
-                    <i id="icoUserPhoneTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
-                </span>
+                        <i id="icoUserPhoneCheck" class="fas fa-check is-hidden"></i>
+                        <i id="icoUserPhoneTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
+                    </span>
                 </div>
+                <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요(010-xxxx-xxxx).</p>
             </div>
         </div>
     </nav>
@@ -70,15 +71,16 @@
             <div class="field loginField">
                 <label class="label">Email</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipEmail" class="input" type="email" placeholder="Email 형식">
+                    <input id="ipEmail" class="input" type="email" placeholder="Email 형식" onblur="main.isEmailPattern()">
                     <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                </span>
+                        <i class="fas fa-envelope"></i>
+                    </span>
                     <span class="icon is-small is-right">
-                    <i id="icoEmailCheck" class="fas fa-check is-hidden"></i>
-                    <i id="icoEmailTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
-                </span>
+                        <i id="icoEmailCheck" class="fas fa-check is-hidden"></i>
+                        <i id="icoEmailTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
+                    </span>
                 </div>
+                <p id="helpEmail" class="help is-hidden">입력하신 값은 이메일 형식이 아닙니다.</p>
             </div>
         </div>
     </nav>

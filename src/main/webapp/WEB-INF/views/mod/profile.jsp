@@ -105,7 +105,7 @@
         <div class="field loginField">
             <label class="label">비밀번호 힌트 답변</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipHintAnswer" class="input" type="text" placeholder="비밀번호 힌트 질문 답변" value="<sec:authentication property="principal.hintAnswer"/>">
+                <input id="ipHintAnswer" class="input" type="text" placeholder="비밀번호 힌트 질문 답변">
                 <span class="icon is-small is-left">
                     <i class="fas fa-pencil-alt"></i>
                 </span>

@@ -100,7 +100,7 @@ const main = (function() {
     clearClasses([ipUserPhone, helpUserPhone]);
 
     if (ipUserPhone.value) {
-      if ( isCelluar(ipUserPhone.value) ) {
+      if ( isCellular(ipUserPhone.value) ) {
         appendInfoClasses([ipUserPhone, helpUserPhone], true);
         removeHiddenClass([icoUserPhoneCheck]);
         appendHiddenClass([icoUserPhoneTriangle, helpUserPhone]);
@@ -288,7 +288,7 @@ const main = (function() {
   }
 
   // 핸드폰 번호 체크 정규식
-  function isCelluar(asValue) {
+  function isCellular(asValue) {
     const regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
 

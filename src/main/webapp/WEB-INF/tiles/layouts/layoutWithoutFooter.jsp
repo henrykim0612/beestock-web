@@ -6,5 +6,6 @@
     <body>
         <tiles:insertAttribute name="top" />
         <tiles:insertAttribute name="content" />
+        <tiles:insertAttribute name="modal" />
     </body>
 </html>

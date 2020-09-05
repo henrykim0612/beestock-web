@@ -41,14 +41,29 @@ const main = (function () {
   }
 
   function findEmail() {
+
+    const upUserName = document.getElementById('ipUserName');
+    const ipUserPhone = document.getElementById('ipUserPhone');
+
+    if (!upUserName.value) {
+      cmmUtils.showIpModal('이름', 'ipUserName');
+      return false;
+    }
+
+    if (!ipUserPhone.value || ipUserPhone.classList.contains('is-danger')) {
+      cmmUtils.showIpModal('핸드폰 번호', 'ipUserPhone');
+      return false;
+    }
+
     cmmUtils.postData({
       url: '/api/v1/login/user',
       body: {
-        userNm: document.getElementById('ipUserName').value,
-        userPhone: document.getElementById('ipUserPhone').value
+        userNm: upUserName.value,
+        userPhone: ipUserPhone.value
       },
       loading: 'btnEmail'
     }).then(function (response) {
+      console.log(response);
       showEmailModal(response.data);
     }).catch(function (err) {
       cmmUtils.hideLoadingElement(document.getElementById('btnEmail'));
@@ -58,16 +73,22 @@ const main = (function () {
   }
 
   function findPassword() {
-    const loginId = document.getElementById('ipEmail').value;
-    const selHintCode = document.getElementById('selHintCode').value;
-    const ipHintAnswer = document.getElementById('ipHintAnswer').value;
+
+    const ipEmail = document.getElementById('ipEmail');
+    const selHintCode = document.getElementById('selHintCode');
+    const ipHintAnswer = document.getElementById('ipHintAnswer');
+
+    if (!ipEmail.value || ipEmail.classList.contains('is-danger')) {
+      cmmUtils.showIpModal('이메일', 'ipEmail');
+      return false;
+    }
 
     cmmUtils.postData({
       url: '/api/v1/login/user',
       body: {
-        loginId: loginId,
-        hintCode: selHintCode,
-        hintAnswer: ipHintAnswer
+        loginId: ipEmail.value,
+        hintCode: selHintCode.value,
+        hintAnswer: ipHintAnswer.value
       },
       loading: 'btnPwd'
     }).then(function (response) {
@@ -77,7 +98,7 @@ const main = (function () {
         cmmUtils.postData({
           url: '/api/v1/login/gen-pwd',
           body: {
-            loginId: loginId,
+            loginId: ipEmail.value,
           },
           loading: 'btnPwd'
         }).then(function (response) {
@@ -95,12 +116,9 @@ const main = (function () {
     });
   }
 
-
   function showEmailModal(data) {
     const emailModalSect = document.getElementById('emailModalSect');
-    while (emailModalSect.firstChild) {
-      emailModalSect.removeChild(emailModalSect.firstChild);
-    }
+    cmmUtils.clearChildNodes(emailModalSect);
     let html = '';
     if (data) {
       html = '<p>가입하신 Email 계정은 <strong>' + data.loginId + '</strong> 입니다.</p>';
@@ -113,24 +131,71 @@ const main = (function () {
 
   function showPwdModal(tempPwd) {
     const pwdModalSect = document.getElementById('pwdModalSect');
-    while (pwdModalSect.firstChild) {
-      pwdModalSect.removeChild(pwdModalSect.firstChild);
-    }
+    cmmUtils.clearChildNodes(pwdModalSect);
     let html = '';
     if (tempPwd) {
       html = '<p>임시 비밀번호는 ' + tempPwd + ' 입니다. 로그인후 비밀번호를 변경해주세요.</p>';
     } else {
-      html = '<p>등록되어 있지 않은 Email 입니다.</p>';
+      html = '<p>등록되어 있지 않은 Email 또는 비밀번호 힌트의 답이 일치하지 않습니다.</p>';
     }
     pwdModalSect.innerHTML = html;
     cmmUtils.showModal('pwdModal');
   }
 
+  function isEmailPattern() {
+
+    const ipEmail = document.getElementById('ipEmail');
+    const helpEmail = document.getElementById('helpEmail');
+    const icoEmailCheck = document.getElementById('icoEmailCheck');
+    const icoEmailTriangle = document.getElementById('icoEmailTriangle');
+    cmmUtils.clearClasses([ipEmail, helpEmail]);
+
+    if (ipEmail.value) {
+      if ( cmmUtils.isEmail(ipEmail.value) ) {
+        cmmUtils.appendInfoClasses([ipEmail, helpEmail], true);
+        cmmUtils.removeHiddenClass([icoEmailCheck]);
+        cmmUtils.appendHiddenClass([icoEmailTriangle, helpEmail]);
+      } else {
+        cmmUtils.appendInfoClasses([ipEmail, helpEmail], false);
+        cmmUtils.removeHiddenClass([icoEmailTriangle]);
+        cmmUtils.appendHiddenClass([icoEmailCheck]);
+      }
+    } else {
+      cmmUtils.appendHiddenClass([icoEmailCheck, icoEmailTriangle, helpEmail]);
+    }
+  }
+
+  function isUserPhonePattern() {
+
+    const ipUserPhone = document.getElementById('ipUserPhone');
+    const helpUserPhone = document.getElementById('helpUserPhone');
+    const icoUserPhoneCheck = document.getElementById('icoUserPhoneCheck');
+    const icoUserPhoneTriangle = document.getElementById('icoUserPhoneTriangle');
+    cmmUtils.clearClasses([ipUserPhone, helpUserPhone]);
+
+    if (ipUserPhone.value) {
+      if ( cmmUtils.isCellular(ipUserPhone.value) ) {
+        cmmUtils.appendInfoClasses([ipUserPhone, helpUserPhone], true);
+        cmmUtils.removeHiddenClass([icoUserPhoneCheck]);
+        cmmUtils.appendHiddenClass([icoUserPhoneTriangle, helpUserPhone]);
+      } else {
+        cmmUtils.appendInfoClasses([ipUserPhone, helpUserPhone], false);
+        cmmUtils.removeHiddenClass([icoUserPhoneTriangle]);
+        cmmUtils.appendHiddenClass([icoUserPhoneCheck]);
+      }
+    } else {
+      cmmUtils.appendHiddenClass([icoUserPhoneCheck, icoUserPhoneTriangle, helpUserPhone]);
+    }
+  }
+
+
   return {
     init: init,
     changeTab: changeTab,
     findEmail: findEmail,
-    findPassword: findPassword
+    findPassword: findPassword,
+    isEmailPattern: isEmailPattern,
+    isUserPhonePattern: isUserPhonePattern,
   }
 }());
 

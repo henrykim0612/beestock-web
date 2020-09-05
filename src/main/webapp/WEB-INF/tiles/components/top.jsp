@@ -10,10 +10,10 @@
     <input type="hidden" id="loginUserNm" value="<sec:authentication property="principal.userNm"/>"/>
 </sec:authorize>
 
-<nav class="navbar mb-5" role="navigation" aria-label="main navigation">
+<nav class="navbar mb-5 is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <img src="" width="112" height="28">
+        <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">
+            <img src="${pageContext.request.contextPath}/resources/images/logo.png" width="112" height="28">
         </a>
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="topNav">
             <span aria-hidden="true"></span>
@@ -37,6 +37,12 @@
                     <a class="navbar-item">Menu4</a>
                 </div>
             </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">파일 업로드</a>
+                </div>
+            </div>
         </div>
 
         <div class="navbar-end">
@@ -57,18 +63,3 @@
         </div>
     </div>
 </nav>
-
-
-<%--에러 입력관련 모달--%>
-<div id="errModal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">에러</p>
-            <button class="delete" aria-label="close" onclick="main.closeModal('errModal')"></button>
-        </header>
-        <section class="modal-card-body">
-            <h2>서버와 통신도중 문제가 발생했습니다. 다시 진행해주세요.</h2>
-        </section>
-    </div>
-</div>

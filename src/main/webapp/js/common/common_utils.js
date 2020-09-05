@@ -41,8 +41,10 @@ const cmmUtils = (function () {
     }); // parses JSON response into native JavaScript objects
   }
 
-  function showModal(id) {
-    document.getElementById(id).classList.add('is-active');
+  function showModal(eleOrId) {
+    typeof eleOrId === 'object'
+      ? eleOrId.classList.add('is-active')
+      : document.getElementById(eleOrId).classList.add('is-active');
   }
 
   function closeModal(id, fId) {
@@ -53,7 +55,7 @@ const cmmUtils = (function () {
   }
 
   function showErrModal() {
-    showModal(document.getElementById('errModal'));
+    showModal('errModal');
   }
 
   function showLoadingElement(ele) {
@@ -73,6 +75,104 @@ const cmmUtils = (function () {
     form.remove();
   }
 
+  function clearChildNodes(eleArr) {
+    if (typeof eleArr === 'object') {
+      if (eleArr.length) {
+        for (let i = 0; i < eleArr.length; i++) {
+          const ele = eleArr[i];
+          removeChild(ele);
+        }
+      } else {
+        removeChild(eleArr);
+      }
+    } else {
+      // String ID
+      removeChild(document.getElementById(eleArr));
+    }
+    function removeChild(ele) {
+      while(ele.firstChild) {
+        ele.removeChild(ele.firstChild);
+      }
+    }
+  }
+
+  function removeHiddenClass(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.remove('is-hidden');
+    }
+  }
+
+  function appendHiddenClass(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.add('is-hidden');
+    }
+  }
+
+  function appendInfoClasses(eleArr, isSuccess) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.add(isSuccess ? 'is-success' : 'is-danger');
+    }
+  }
+
+  function clearClasses(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.remove('is-hidden');
+      ele.classList.remove('is-success');
+      ele.classList.remove('is-danger');
+    }
+  }
+
+  // 이메일 체크 정규식
+  function isEmail(asValue) {
+    const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    return regExp.test(asValue);
+  }
+
+  // 핸드폰 번호 체크 정규식
+  function isCellular(asValue) {
+    const regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+
+  }
+
+  // 비밀번호 체크 정규식
+  function isJobPassword(asValue) {
+    const regExp = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/; //  8 ~ 16자 영문, 숫자, 특수문자 조합
+    return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+  }
+
+  function showIpModal(text, fId) {
+    const ipModal = document.getElementById('inputModal');
+    const ipModalTitle = document.getElementById('ipModalTitle');
+    const ipModalH2 = document.getElementById('ipModalH2');
+
+    ipModalTitle.innerText = text + ' 입력 오류';
+    ipModalH2.innerText = text + ' 입력값을 확인해주세요.';
+    showModal(ipModal);
+  }
+
+  function createIcon(iconClassArr, attrProps, editing) {
+    const span = document.createElement('span');
+    span.classList.add('icon');
+    for (let i = 0; i < iconClassArr.length; i++) {
+      span.classList.add(iconClassArr[i]);
+    }
+    for (let i = 0; i < attrProps.length; i++) {
+      span.setAttribute(attrProps[i]['attrName'], attrProps[i]['value']);
+    }
+    const italic = document.createElement('i');
+    span.appendChild(italic);
+    if (arguments.length === 3) {
+      editing(span);
+    }
+    return span;
+  }
+
+
   return {
     getData: getData,
     postData: postData,
@@ -81,6 +181,16 @@ const cmmUtils = (function () {
     closeModal: closeModal,
     showModal: showModal,
     showErrModal: showErrModal,
-    goToPage: goToPage
+    goToPage: goToPage,
+    clearChildNodes: clearChildNodes,
+    removeHiddenClass: removeHiddenClass,
+    appendHiddenClass: appendHiddenClass,
+    appendInfoClasses: appendInfoClasses,
+    clearClasses: clearClasses,
+    isEmail: isEmail,
+    isCellular: isCellular,
+    isJobPassword: isJobPassword,
+    showIpModal: showIpModal,
+    createIcon: createIcon
   }
 })();
