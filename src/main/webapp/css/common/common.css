@@ -185,6 +185,9 @@
 	cursor: pointer;
 }
 
+.hover:hover {
+	color: #3298dc;
+}
 
 
 

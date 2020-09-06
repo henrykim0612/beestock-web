@@ -4,6 +4,7 @@
 <html>
     <tiles:insertAttribute name="header" />
     <body>
+        <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
         <tiles:insertAttribute name="content" />
         <tiles:insertAttribute name="modal" />

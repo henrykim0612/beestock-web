@@ -47,8 +47,10 @@ const cmmDataGrid = (function () {
       createTfoot(fragment, props);
       createTbody(fragment, props);
       table.appendChild(fragment);
+      createTableEvents(table, props);
       // Pagination
       createPagination(props);
+
 
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -66,13 +68,11 @@ const cmmDataGrid = (function () {
 
       const col = colModel[i];
       const th = document.createElement('th');
-      const abbr = document.createElement('abbr');
-      abbr.setAttribute('data-ref-id', col['id']);
-      abbr.setAttribute('title', col['name']);
-      abbr.innerText = col['name'];
+      th.setAttribute('data-ref-id', col['id']);
+      th.setAttribute('title', col['name']);
+      th.innerText = col['name'];
       // Sorting 기능 추가
-      createSortingIcons(col, abbr, props);
-      th.appendChild(abbr);
+      createSortingIcons(col, th, props);
       tr.appendChild(th);
     }
 
@@ -88,13 +88,11 @@ const cmmDataGrid = (function () {
       for (let i = 0; i < colModel.length; i++) {
         const col = colModel[i];
         const th = document.createElement('th');
-        const abbr = document.createElement('abbr');
-        abbr.setAttribute('data-ref-id', col['id']);
-        abbr.setAttribute('title', col['name']);
-        abbr.innerText = col['name'];
+        th.setAttribute('data-ref-id', col['id']);
+        th.setAttribute('title', col['name']);
+        th.innerText = col['name'];
         // Sorting 기능 추가
-        createSortingIcons(col, abbr, props);
-        th.appendChild(abbr);
+        createSortingIcons(col, th, props);
         tr.appendChild(th);
       }
       tfoot.appendChild(tr);
@@ -131,6 +129,27 @@ const cmmDataGrid = (function () {
     const tbody = document.createElement('tbody');
     tbody.appendChild(fragment.cloneNode(true));
     parentFragment.appendChild(tbody);
+  }
+
+  function createTableEvents(table, props) {
+    createSelectedEvent();
+
+    function createSelectedEvent() {
+      const tbodyTrArr = table.querySelector('tbody').querySelectorAll('tr');
+      if (tbodyTrArr.length) {
+        // 선택한 Row 는 하이라이트
+        for (let i = 0; i < tbodyTrArr.length; i++) {
+          const tr = tbodyTrArr[i];
+          tr.addEventListener('click', function() { // Tr 클릭시 라이라이트
+            // 선택 초기화
+            for (let j = 0; j < tbodyTrArr.length; j++) {
+              tbodyTrArr[j].classList.remove('is-selected');
+            }
+            this.classList.add('is-selected');
+          });
+        }
+      }
+    }
   }
 
   function createPagination(props) {
@@ -259,75 +278,65 @@ const cmmDataGrid = (function () {
   }
 
   function showAndHideIconAndInit(table, clickedThRefId, props) {
-
-    const tfootAbbrArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
-    const orderBy = [];
-
+    const theadThArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
     // Thead 정렬 아이콘 변경
-    for (let i = 0; i < tfootAbbrArr.length; i++) {
-      changeIconClass(tfootAbbrArr[i], true, orderBy);
+    for (let i = 0; i < theadThArr.length; i++) {
+      changeIconClass(theadThArr[i]);
     }
-
     // Tfoot 이 존재한다면 똑같이 정렬 아이콘 변경
     if (props['isTfoot'] != null && props['isTfoot']) {
-      const tfootAbbrArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
-      for (let i = 0; i < tfootAbbrArr.length; i++) {
-        changeIconClass(tfootAbbrArr[i], false);
+      const tfootThArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
+      for (let i = 0; i < tfootThArr.length; i++) {
+        changeIconClass(tfootThArr[i]);
       }
     }
-
-    // 전송할 정렬값을 변경
-    if (orderBy.length) {
-      _props['body']['orderBy'] = orderBy;
-    } else {
-      delete _props['body']['orderBy'];
-    }
-    // 그리드 재호출
-    // init(_props);
   }
 
-  function changeIconClass(abbr, isThead, orderBy) {
+  function updateOrderByParam(table) {
+    const bodyData = _props['body'];
+    const theadThArr = table.querySelector('thead').querySelectorAll('th');
+    const newOrderBy = [];
+    for (let i = 0; i < theadThArr.length; i++) {
+      const th = theadThArr[i];
+      if (th.hasAttribute('data-sort')) { // 정렬하겠다 선언한 컬럼만
+        const dataSort = th.getAttribute('data-sort');
+        const dataRefId = th.getAttribute('data-ref-id');
+        if (dataSort === '1') { // 오름차순
+          newOrderBy.push({column: dataRefId});
+        }
+        if (dataSort === '2') { // 내림차순
+          newOrderBy.push({column: dataRefId, desc: true});
+        }
+      }
+    }
+    if (newOrderBy.length) {
+      bodyData['orderBy'] = newOrderBy;
+    } else {
+      if (bodyData['orderBy'] != null) {
+        delete bodyData['orderBy'];
+      }
+    }
+  }
 
-    const dataRefId = abbr.getAttribute('data-ref-id');
-    const currentDataSort = abbr.getAttribute('data-sort');
+  function changeIconClass(th) {
+    const currentDataSort = th.getAttribute('data-sort');
     let changedDataSort;
-
     // Sorting 값 변경
     switch (currentDataSort) {
-      case '0':
-        changedDataSort = '1';
-        abbr.setAttribute('data-sort', changedDataSort); //오름차순으로 변경
-        pushOrderBy(orderBy, dataRefId, false, isThead);
-        break;
-      case '1':
-        changedDataSort = '2';
-        abbr.setAttribute('data-sort', changedDataSort); // 내림차순으로 변경
-        pushOrderBy(orderBy, dataRefId, true, isThead);
-        break;
-      default:
-        changedDataSort = '0'
-        abbr.setAttribute('data-sort', changedDataSort); // 정렬없음
-        break;
+      case '0': changedDataSort = '1'; break; //오름차순으로 변경
+      case '1':changedDataSort = '2'; break; // 내림차순으로 변경
+      default: changedDataSort = '0'; break; // 정렬해제
     }
-
+    th.setAttribute('data-sort', changedDataSort);
     // svg 아이콘 클래스 변경
-    const svgArr = abbr.querySelectorAll('svg');
+    const svgArr = th.querySelectorAll('svg');
     for (let j = 0; j < svgArr.length; j++) {
       const svg = svgArr[j];
       changedDataSort === svg.getAttribute('data-sort')
         ? svg.classList.remove('is-hidden')
         : svg.classList.add('is-hidden');
     }
-
-
-    // 정렬값에 Push
-    function pushOrderBy(orderBy, dataRefId, isDesc, isThead) {
-      if (isThead) { // Thead 만, Tfoot 은 있어도 중복되므로 제외
-        isDesc ? orderBy.push({column: dataRefId, desc: true}) : orderBy.push({column: dataRefId});
-      }
-    }
   }
-
 
   function getDefaultDataSort(refId, props) {
     // 정렬값이 존재할 경우만 처리
@@ -347,22 +356,25 @@ const cmmDataGrid = (function () {
     }
   }
 
-  function createSortingIcons(col, abbr, props) {
+  function createSortingIcons(col, th, props) {
     if (col['isSort'] != null && col['isSort']) { // 정렬을 선언한 키값만 추가
+      th.classList.add('hover');
       const defaultDataSort = getDefaultDataSort(col['id'], props);
-      abbr.setAttribute('data-sort', defaultDataSort);
-      abbr.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-up'], [{attrName: 'data-sort', value: '1'}], function(span) {
+      th.setAttribute('data-sort', defaultDataSort);
+      th.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up'], [{attrName: 'data-sort', value: '1'}], function(span) {
+        span.classList.add('has-text-info'); // 파란색
         if (defaultDataSort !== '1') {
           span.classList.add('is-hidden');
         }
       }));
-      abbr.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-down'], [{attrName: 'data-sort', value: '2'}], function(span) {
+      th.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-down'], [{attrName: 'data-sort', value: '2'}], function(span) {
+        span.classList.add('has-text-info'); // 파란색
         if (defaultDataSort !== '2') {
           span.classList.add('is-hidden');
         }
       }));
       // Thead 또는 Tfoot 을 눌렀을경우 정렬 이벤트
-      abbr.addEventListener('click', function() {
+      th.addEventListener('click', function() {
         sortGrid(col['id'], props);
       });
     }
@@ -377,6 +389,8 @@ const cmmDataGrid = (function () {
     const eId = props['eId'];
     const table = document.getElementById(eId);
     showAndHideIconAndInit(table, clickedThRefId, props);
+    updateOrderByParam(table) // 전송데이터에 정렬값을 반영
+    init(_props);
   }
 
   return {

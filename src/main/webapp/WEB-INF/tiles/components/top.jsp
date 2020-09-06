@@ -49,7 +49,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span class="icon has-text-link-dark is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
+                        <span class="icon has-text-warning is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
                           <i class="fas fa-user-alt"></i>
                         </span>
                     </sec:authorize>

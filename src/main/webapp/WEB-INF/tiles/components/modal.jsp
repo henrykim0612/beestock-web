@@ -3,14 +3,11 @@
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">에러</p>
-            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('errModal')"></button>
-        </header>
-        <section class="modal-card-body">
-            <h2>서버와 통신도중 문제가 발생했습니다. 다시 진행해주세요.</h2>
-        </section>
+    <div class="modal-content">
+        <div class="notification is-danger">
+            <button class="delete" onclick="cmmUtils.closeModal('errModal')"></button>
+            죄송합니다. 서버와 통신도중 문제가 발생했습니다. <br/>페이지를 다시 호출합니다.
+        </div>
     </div>
 </div>
 

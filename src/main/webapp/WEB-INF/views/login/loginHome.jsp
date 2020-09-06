@@ -38,6 +38,7 @@
                          <i class="fas fa-lock"></i>
                     </span>
                 </div>
+                <p id="helpPwd" class="help is-info is-hidden">Caps Lock 키가 켜져있습니다.</p>
             </div>
         </div>
     </nav>

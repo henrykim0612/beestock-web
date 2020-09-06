@@ -4,7 +4,7 @@ const main = (function() {
     const props = {
       url: '/api/v1/admin/user-list',
       body: {
-        orderBy: [{column: 'loginId'}, {column: 'uptDate', desc: true}]
+        // orderBy: [{column: 'loginId'}, {column: 'uptDate', desc: true}]
       },
       eId: 'dataGrid',
       pId: 'dataPagination',
