@@ -47,10 +47,10 @@ const cmmDataGrid = (function () {
       createTfoot(fragment, props);
       createTbody(fragment, props);
       table.appendChild(fragment);
-      createTableEvents(table, props);
       // Pagination
       createPagination(props);
-
+      // Events
+      createTableEvents(table, props);
 
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -132,9 +132,11 @@ const cmmDataGrid = (function () {
   }
 
   function createTableEvents(table, props) {
-    createSelectedEvent();
+    selectingTr();
+    changingPageSize();
 
-    function createSelectedEvent() {
+    // Row 클릭시 하이라이트 이벤트
+    function selectingTr() {
       const tbodyTrArr = table.querySelector('tbody').querySelectorAll('tr');
       if (tbodyTrArr.length) {
         // 선택한 Row 는 하이라이트
@@ -150,6 +152,15 @@ const cmmDataGrid = (function () {
         }
       }
     }
+
+    // 페이지 사이즈수 변경 이벤트
+    function changingPageSize() {
+      document.getElementById('selPageSize').addEventListener('change', function() {
+        _props['body']['pageSize'] = this.value;
+        init(_props);
+      })
+    }
+
   }
 
   function createPagination(props) {
@@ -179,7 +190,48 @@ const cmmDataGrid = (function () {
     }
 
     fragment.appendChild(ul);
+    createPagingSelectBox(fragment, props);
     pagination.appendChild(fragment.cloneNode(true));
+  }
+
+  // 페이징 갯수 변경 선택박스
+  function createPagingSelectBox(fragment, props) {
+
+    const selectDiv = document.createElement('div');
+    selectDiv.classList.add('select');
+    selectDiv.classList.add('is-rounded');
+    selectDiv.classList.add('is-small');
+    selectDiv.classList.add('mr-4');
+    const select = document.createElement('select');
+    select.id = 'selPageSize';
+    const sizeArr = ['10', '20', '30', '50', '100'];
+    for (let i = 0; i < sizeArr.length; i++) {
+      const option = document.createElement('option');
+      const optionSize  = sizeArr[i];
+      option.value = optionSize;
+      option.innerText = optionSize;
+      if (props['body']['pageSize'] != null && parseInt(props['body']['pageSize']) === parseInt(optionSize)) {
+        option.setAttribute('selected', 'selected');
+      }
+      select.appendChild(option);
+    }
+    selectDiv.appendChild(select);
+
+    const iconDiv = document.createElement('div');
+    iconDiv.classList.add('icon');
+    iconDiv.classList.add('is-small');
+    iconDiv.classList.add('is-left');
+    const i = document.createElement('i');
+    i.classList.add('fas');
+    i.classList.add('fa-list-ol');
+    iconDiv.appendChild(i);
+
+    const control = document.createElement('div');
+    control.classList.add('control');
+    control.classList.add('has-icons-left');
+    control.appendChild(selectDiv);
+    control.appendChild(iconDiv);
+    fragment.appendChild(control);
   }
 
   function createFirstPage(ul) {
@@ -189,7 +241,6 @@ const cmmDataGrid = (function () {
     endAnchor.innerText = '1';
     endAnchor.classList.add('pagination-link');
     endAnchor.setAttribute('aria-label', 'Goto page 1')
-    endAnchor.href = '#';
     endAnchor.setAttribute('onclick', 'cmmDataGrid.movePages('+ 1 +')');
     const endLi = document.createElement('li');
     endLi.appendChild(endAnchor);
@@ -218,7 +269,6 @@ const cmmDataGrid = (function () {
         a.classList.add('is-current');
         a.setAttribute('aria-current', 'page');
       }
-      a.href = '#';
       a.setAttribute('onclick', 'cmmDataGrid.movePages('+ i +')');
 
       const li = document.createElement('li');
@@ -244,7 +294,6 @@ const cmmDataGrid = (function () {
     endAnchor.innerText = pageCnt;
     endAnchor.classList.add('pagination-link');
     endAnchor.setAttribute('aria-label', 'Goto page' + pageCnt)
-    endAnchor.href = '#';
     endAnchor.setAttribute('onclick', 'cmmDataGrid.movePages('+ pageCnt +')');
     const endLi = document.createElement('li');
     endLi.appendChild(endAnchor);

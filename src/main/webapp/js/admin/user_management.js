@@ -29,4 +29,10 @@ const main = (function() {
 
 document.addEventListener("DOMContentLoaded", function() {
    main.init();
+
+  tippy('#icoExcelDownload', {
+    content: 'Excel Download',
+    placement: 'bottom'
+  });
+
 });
