@@ -12,7 +12,8 @@
 <%--<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>--%>
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/common_datagrid.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/common/bee_components/dataGrid.js" type="text/javascript"></script>
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
 </script>
