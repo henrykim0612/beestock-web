@@ -1,32 +1,41 @@
 /**
  * Bulma.css 기반으로한 그리드 컴포넌트
  * 파라미터정보
-   url: '/api/v1/admin/user-list',
-   body: {},
-   eId: 'dataGrid',
-   pId: 'dataPagination',
-   isNextButton: true,
-   isTfoot: true,
-   colModel: [
-     {id: 'rowNum', name: 'No', isStrong: true},
-     {id: 'loginId', name: '이메일'},
-     {id: 'userNm', name: '사용자/닉네임'},
-     {id: 'userPhone', name: '연락처'},
-     {id: 'regDate', name: '회원가입 일자'},
-     {id: 'uptDate', name: '정보수정 일자'}
-   ],
-   acdCols: ['loginId', 'userNm'],
-   descCols: ['regDate', 'uptDate']
+ url: '/api/v1/admin/user-list',
+ body: {},
+ eId: 'dataGrid',
+ pId: 'dataPagination',
+ isNextButton: true,
+ isTfoot: true,
+ colModel: [
+ {id: 'rowNum', name: 'No', isStrong: true},
+ {id: 'loginId', name: '이메일'},
+ {id: 'userNm', name: '사용자/닉네임'},
+ {id: 'userPhone', name: '연락처'},
+ {id: 'regDate', name: '회원가입 일자'},
+ {id: 'uptDate', name: '정보수정 일자'}
+ ],
+ acdCols: ['loginId', 'userNm'],
+ descCols: ['regDate', 'uptDate']
  *
  *
  */
-const cmmDataGrid = (function () {
+BeeComponents.modules.dataGrid = function(component) {
 
-  let _props;
+  component.DataGrid = function(_props) {
+    this.props = _props;
+    this.init(_props);
+    return {
+      getProps: this.getProps
+    }
+  }
 
-  function init(props) {
+  component.DataGrid.prototype.getProps = function() {
+    return this.props;
+  }
 
-    _props = props;
+  component.DataGrid.prototype.init = function(props) {
+    const me = this;
     const body = props['body'];
     body['curPage'] = body['curPage'] != null ? body['curPage'] : 1;
 
@@ -35,22 +44,23 @@ const cmmDataGrid = (function () {
       body: body
     }).then(function (response) {
 
-      console.log(response);
       props['data'] = response; // 결과값을 추가함
 
       const table = document.getElementById(props['eId']);
+      const paginationBar = document.getElementById(props['pId']);
       cmmUtils.clearChildNodes(table);
 
       // Table
       const fragment = document.createDocumentFragment();
-      createThead(fragment, props);
-      createTfoot(fragment, props);
-      createTbody(fragment, props);
+      me.createThead(fragment, props);
+      me.createTfoot(fragment, props);
+      me.createTbody(fragment, props);
       table.appendChild(fragment);
       // Pagination
-      createPagination(props);
-      // Events
-      createTableEvents(table, props);
+      me.createPagination(props);
+      // Event Listeners
+      me.addTableEventListeners(table, props);
+      me.addPaginationEventListeners(paginationBar, props);
 
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -58,8 +68,7 @@ const cmmDataGrid = (function () {
     });
   }
 
-  function createThead(fragment, props) {
-
+  component.DataGrid.prototype.createThead = function(fragment, props) {
     const colModel = props['colModel'];
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
@@ -72,7 +81,7 @@ const cmmDataGrid = (function () {
       th.setAttribute('title', col['name']);
       th.innerText = col['name'];
       // Sorting 기능 추가
-      createSortingIcons(col, th, props);
+      this.createSortingIcons(col, th, props);
       tr.appendChild(th);
     }
 
@@ -80,7 +89,7 @@ const cmmDataGrid = (function () {
     fragment.appendChild(thead);
   }
 
-  function createTfoot(fragment, props) {
+  component.DataGrid.prototype.createTfoot = function(fragment, props) {
     if ( (props['isTfoot'] == null) || (props['isTfoot'] != null && props['isTfoot']) ) {
       const colModel = props['colModel'];
       const tfoot = document.createElement('tfoot');
@@ -92,7 +101,7 @@ const cmmDataGrid = (function () {
         th.setAttribute('title', col['name']);
         th.innerText = col['name'];
         // Sorting 기능 추가
-        createSortingIcons(col, th, props);
+        this.createSortingIcons(col, th, props);
         tr.appendChild(th);
       }
       tfoot.appendChild(tr);
@@ -100,8 +109,7 @@ const cmmDataGrid = (function () {
     }
   }
 
-  function createTbody(parentFragment, props) {
-
+  component.DataGrid.prototype.createTbody = function(parentFragment, props) {
     const colModel = props['colModel'];
     const rowData = props['data']['rowData'];
 
@@ -131,46 +139,13 @@ const cmmDataGrid = (function () {
     parentFragment.appendChild(tbody);
   }
 
-  function createTableEvents(table, props) {
-    selectingTr();
-    changingPageSize();
-
-    // Row 클릭시 하이라이트 이벤트
-    function selectingTr() {
-      const tbodyTrArr = table.querySelector('tbody').querySelectorAll('tr');
-      if (tbodyTrArr.length) {
-        // 선택한 Row 는 하이라이트
-        for (let i = 0; i < tbodyTrArr.length; i++) {
-          const tr = tbodyTrArr[i];
-          tr.addEventListener('click', function() { // Tr 클릭시 라이라이트
-            // 선택 초기화
-            for (let j = 0; j < tbodyTrArr.length; j++) {
-              tbodyTrArr[j].classList.remove('is-selected');
-            }
-            this.classList.add('is-selected');
-          });
-        }
-      }
-    }
-
-    // 페이지 사이즈수 변경 이벤트
-    function changingPageSize() {
-      document.getElementById('selPageSize').addEventListener('change', function() {
-        _props['body']['pageSize'] = this.value;
-        init(_props);
-      })
-    }
-
-  }
-
-  function createPagination(props) {
-
+  component.DataGrid.prototype.createPagination = function(props) {
     const pagination = document.getElementById(props['pId']);
     cmmUtils.clearChildNodes(pagination);
 
     const fragment = document.createDocumentFragment();
-    createPreviousButton(props, fragment);
-    createNextButton(props, fragment);
+    this.createPreviousButton(props, fragment);
+    this.createNextButton(props, fragment);
 
     const ul = document.createElement('ul');
     ul.classList.add('pagination-list');
@@ -178,33 +153,31 @@ const cmmDataGrid = (function () {
 
     // First of page
     if (1 < data['curRange']) {
-      createFirstPage(ul);
+      this.createFirstPage(ul);
     }
 
     // Current range
-    createCenterPage(ul, data);
+    this.createCenterPage(ul, data);
 
     // End of page
     if (data['startPage'] !== data['pageCnt'] && data['rangeSize'] < data['pageCnt']) {
-      createEndPage(ul, data);
+      this.createEndPage(ul, data);
     }
 
     fragment.appendChild(ul);
-    createPagingSelectBox(fragment, props);
+    this.createPagingSelectBox(fragment, props);
     pagination.appendChild(fragment.cloneNode(true));
   }
 
-  // 페이징 갯수 변경 선택박스
-  function createPagingSelectBox(fragment, props) {
-
+  component.DataGrid.prototype.createPagingSelectBox = function(fragment, props) {
     const selectDiv = document.createElement('div');
     selectDiv.classList.add('select');
     selectDiv.classList.add('is-rounded');
     selectDiv.classList.add('is-small');
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');
-    select.id = 'selPageSize';
-    const sizeArr = ['10', '20', '30', '50', '100'];
+    select.setAttribute('data-tag', 'pageSel');
+    const sizeArr = ['10', '20', '30', '50', '100', '200', '300'];
     for (let i = 0; i < sizeArr.length; i++) {
       const option = document.createElement('option');
       const optionSize  = sizeArr[i];
@@ -234,16 +207,16 @@ const cmmDataGrid = (function () {
     fragment.appendChild(control);
   }
 
-  function createFirstPage(ul) {
-
+  component.DataGrid.prototype.createFirstPage = function(ul) {
     // <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-    const endAnchor = document.createElement('a');
-    endAnchor.innerText = '1';
-    endAnchor.classList.add('pagination-link');
-    endAnchor.setAttribute('aria-label', 'Goto page 1')
-    endAnchor.setAttribute('onclick', 'cmmDataGrid.movePages('+ 1 +')');
+    const anchor = document.createElement('a');
+    anchor.innerText = '1';
+    anchor.classList.add('pagination-link');
+    anchor.setAttribute('aria-label', 'Goto page 1')
+    anchor.setAttribute('data-tag', 'pageAnchor');
+    anchor.setAttribute('data-page', '1');
     const endLi = document.createElement('li');
-    endLi.appendChild(endAnchor);
+    endLi.appendChild(anchor);
     ul.appendChild(endLi);
 
     // <li><span class="pagination-ellipsis">&hellip;</span></li>
@@ -255,32 +228,30 @@ const cmmDataGrid = (function () {
     ul.appendChild(dotLi);
   }
 
-  function createCenterPage(ul, data) {
-
+  component.DataGrid.prototype.createCenterPage = function(ul, data) {
     const startPage = data['startPage'];
     const endPage = data['endPage'];
 
     for (let i = startPage; i <= endPage; i++) {
-      const a = document.createElement('a');
-      a.classList.add('pagination-link');
-      a.innerText = i;
-      a.setAttribute('aria-label', 'Goto page ' + i);
+      const anchor = document.createElement('a');
+      anchor.classList.add('pagination-link');
+      anchor.innerText = i;
+      anchor.setAttribute('aria-label', 'Goto page ' + i);
+      anchor.setAttribute('data-tag', 'pageAnchor');
+      anchor.setAttribute('data-page', i);
       if (data['curPage'] === i) { // 현재페이지 표시
-        a.classList.add('is-current');
-        a.setAttribute('aria-current', 'page');
+        anchor.classList.add('is-current');
+        anchor.setAttribute('aria-current', 'page');
       }
-      a.setAttribute('onclick', 'cmmDataGrid.movePages('+ i +')');
 
       const li = document.createElement('li');
-      li.appendChild(a);
+      li.appendChild(anchor);
       ul.appendChild(li);
     }
   }
 
-  function createEndPage(ul, data) {
-
+  component.DataGrid.prototype.createEndPage = function(ul, data) {
     const pageCnt = data['pageCnt'];
-
     // endPage 를 넘어가는 구간 생성
     // <li><span class="pagination-ellipsis">&hellip;</span></li>
     const dotSpan = document.createElement('span');
@@ -290,59 +261,62 @@ const cmmDataGrid = (function () {
     dotLi.appendChild(dotSpan);
     ul.appendChild(dotLi);
     // <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
-    const endAnchor = document.createElement('a');
-    endAnchor.innerText = pageCnt;
-    endAnchor.classList.add('pagination-link');
-    endAnchor.setAttribute('aria-label', 'Goto page' + pageCnt)
-    endAnchor.setAttribute('onclick', 'cmmDataGrid.movePages('+ pageCnt +')');
+    const anchor = document.createElement('a');
+    anchor.innerText = pageCnt;
+    anchor.classList.add('pagination-link');
+    anchor.setAttribute('aria-label', 'Goto page' + pageCnt)
+    anchor.setAttribute('data-tag', 'pageAnchor');
+    anchor.setAttribute('data-page', pageCnt);
     const endLi = document.createElement('li');
-    endLi.appendChild(endAnchor);
+    endLi.appendChild(anchor);
     ul.appendChild(endLi);
   }
 
-  function createPreviousButton(props, fragment) {
+  component.DataGrid.prototype.createPreviousButton = function(props, fragment) {
     const data = props['data'];
     if ( (props['isNextButton'] == null) || (props['isNextButton'] != null && props['isNextButton']) ) {
       if (data['curPage'] !== 1) {
         const previous = document.createElement('a');
         previous.classList.add('pagination-previous');
         previous.innerText = 'Previous';
-        previous.setAttribute('onclick', 'cmmDataGrid.movePages(' + data['prevPage'] + ')');
+        previous.setAttribute('data-tag', 'pageAnchor');
+        previous.setAttribute('data-page', data['prevPage']);
         fragment.appendChild(previous);
       }
     }
   }
 
-  function createNextButton(props, fragment) {
+  component.DataGrid.prototype.createNextButton = function(props, fragment) {
     const data = props['data'];
     if ( (props['isNextButton'] == null) || (props['isNextButton'] != null && props['isNextButton']) ) {
       if (data['nextPage'] <= data['pageCnt']) {
         const next = document.createElement('a');
         next.classList.add('pagination-next');
         next.innerText = 'Next page';
-        next.setAttribute('onclick', 'cmmDataGrid.movePages(' + data['nextPage'] + ')');
+        next.setAttribute('data-tag', 'pageAnchor');
+        next.setAttribute('data-page', data['nextPage']);
         fragment.appendChild(next);
       }
     }
   }
 
-  function showAndHideIconAndInit(table, clickedThRefId, props) {
+  component.DataGrid.prototype.showAndHideIconAndInit = function(table, clickedThRefId, props) {
     const theadThArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
     // Thead 정렬 아이콘 변경
     for (let i = 0; i < theadThArr.length; i++) {
-      changeIconClass(theadThArr[i]);
+      this.changeIconClass(theadThArr[i]);
     }
     // Tfoot 이 존재한다면 똑같이 정렬 아이콘 변경
     if (props['isTfoot'] != null && props['isTfoot']) {
       const tfootThArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
       for (let i = 0; i < tfootThArr.length; i++) {
-        changeIconClass(tfootThArr[i]);
+        this.changeIconClass(tfootThArr[i]);
       }
     }
   }
 
-  function updateOrderByParam(table) {
-    const bodyData = _props['body'];
+  component.DataGrid.prototype.updateOrderByParam = function(table) {
+    const bodyData = this.props['body'];
     const theadThArr = table.querySelector('thead').querySelectorAll('th');
     const newOrderBy = [];
     for (let i = 0; i < theadThArr.length; i++) {
@@ -367,7 +341,7 @@ const cmmDataGrid = (function () {
     }
   }
 
-  function changeIconClass(th) {
+  component.DataGrid.prototype.changeIconClass = function(th) {
     const currentDataSort = th.getAttribute('data-sort');
     let changedDataSort;
     // Sorting 값 변경
@@ -387,7 +361,7 @@ const cmmDataGrid = (function () {
     }
   }
 
-  function getDefaultDataSort(refId, props) {
+  component.DataGrid.prototype.getDefaultDataSort = function(refId, props) {
     // 정렬값이 존재할 경우만 처리
     if (props['body'] != null && props['body']['orderBy'] != null) {
       const orderBy = props['body']['orderBy'];
@@ -405,10 +379,11 @@ const cmmDataGrid = (function () {
     }
   }
 
-  function createSortingIcons(col, th, props) {
+  component.DataGrid.prototype.createSortingIcons = function(col, th, props) {
     if (col['isSort'] != null && col['isSort']) { // 정렬을 선언한 키값만 추가
+      th.setAttribute('data-tag', 'sortingTh');
       th.classList.add('hover');
-      const defaultDataSort = getDefaultDataSort(col['id'], props);
+      const defaultDataSort = this.getDefaultDataSort(col['id'], props);
       th.setAttribute('data-sort', defaultDataSort);
       th.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up'], [{attrName: 'data-sort', value: '1'}], function(span) {
         span.classList.add('has-text-info'); // 파란색
@@ -422,31 +397,83 @@ const cmmDataGrid = (function () {
           span.classList.add('is-hidden');
         }
       }));
-      // Thead 또는 Tfoot 을 눌렀을경우 정렬 이벤트
-      th.addEventListener('click', function() {
-        sortGrid(col['id'], props);
-      });
     }
   }
 
-  function movePages(page) {
-    _props['body']['curPage'] = page;
-    init(_props);
+  component.DataGrid.prototype.changeGridPage = function(page) {
+    this.props['body']['curPage'] = page;
+    this.init(this.props);
   }
 
-  function sortGrid(clickedThRefId, props) {
-    const eId = props['eId'];
+  component.DataGrid.prototype.sortGrid = function(clickedThRefId) {
+    const eId = this.props['eId'];
     const table = document.getElementById(eId);
-    showAndHideIconAndInit(table, clickedThRefId, props);
-    updateOrderByParam(table) // 전송데이터에 정렬값을 반영
-    init(_props);
+    this.showAndHideIconAndInit(table, clickedThRefId, this.props);
+    this.updateOrderByParam(table) // 전송데이터에 정렬값을 반영
+    this.init(this.props);
   }
 
-  return {
-    init: init,
-    movePages: movePages,
-    getProps: function() {
-      return _props;
+  component.DataGrid.prototype.addTableEventListeners = function(table, props) {
+    const me = this;
+    addSelectingTr();
+    addSortingTh();
+
+    // Row 클릭시 하이라이트 이벤트
+    function addSelectingTr() {
+      const tbodyTrArr = table.querySelector('tbody').querySelectorAll('tr');
+      if (tbodyTrArr.length) {
+        // 선택한 Row 는 하이라이트
+        for (let i = 0; i < tbodyTrArr.length; i++) {
+          const tr = tbodyTrArr[i];
+          tr.addEventListener('click', function() { // Tr 클릭시 라이라이트
+            // 선택 초기화
+            for (let j = 0; j < tbodyTrArr.length; j++) {
+              tbodyTrArr[j].classList.remove('is-selected');
+            }
+            this.classList.add('is-selected');
+          });
+        }
+      }
+    }
+
+    // Thead 또는 Tfoot 을 눌렀을경우 정렬 이벤트
+    function addSortingTh() {
+      const thArr = table.querySelectorAll('th[data-tag=sortingTh]');
+      for (let i = 0; i < thArr.length; i++) {
+        const th = thArr[i];
+        th.addEventListener('click', function() {
+          me.sortGrid(this.getAttribute('data-ref-id'));
+        });
+      }
     }
   }
-})();
+
+  component.DataGrid.prototype.addPaginationEventListeners = function(paginationBar, props) {
+    const me = this;
+    addPageAnchor();
+    addChangingPageSize();
+
+    // 페이지 변경 이벤트
+    function addPageAnchor() {
+      const pageAnchors = paginationBar.querySelectorAll('a[data-tag=pageAnchor]');
+      for (let i = 0; i < pageAnchors.length; i++) {
+        pageAnchors[i].addEventListener('click', function() {
+          me.changeGridPage(this.getAttribute('data-page'));
+        })
+      }
+    }
+
+    // 페이지 사이즈수 변경 이벤트
+    function addChangingPageSize() {
+      const pageSelectBoxes = paginationBar.querySelectorAll('select[data-tag=pageSel]');
+      for (let i = 0; i < pageSelectBoxes.length; i++) {
+        const selectBox = pageSelectBoxes[i];
+        selectBox.addEventListener('change', function() {
+          me.props['body']['pageSize'] = this.value;
+          me.init(me.props);
+        })
+      }
+    }
+  }
+
+}
