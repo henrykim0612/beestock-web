@@ -1,37 +1,35 @@
 /**
  * Bulma.css 기반으로한 그리드 컴포넌트
  * 파라미터정보
- url: '/api/v1/admin/user-list',
- body: {},
- eId: 'dataGrid',
- pId: 'dataPagination',
- isNextButton: true,
- isTfoot: true,
- colModel: [
- {id: 'rowNum', name: 'No', isStrong: true},
- {id: 'loginId', name: '이메일'},
- {id: 'userNm', name: '사용자/닉네임'},
- {id: 'userPhone', name: '연락처'},
- {id: 'regDate', name: '회원가입 일자'},
- {id: 'uptDate', name: '정보수정 일자'}
- ],
- acdCols: ['loginId', 'userNm'],
- descCols: ['regDate', 'uptDate']
+
  *
  *
  */
 BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid = function(_props) {
+    const me = this;
     this.props = _props;
     this.init(_props);
     return {
-      getProps: this.getProps
+      getProps: function() { return me.props; },
+      reload: function (props) {
+        arguments.length === 1 ? me.reload(me, props) : me.reload(me);
+      },
+      init: this.init
     }
   }
 
-  component.DataGrid.prototype.getProps = function() {
-    return this.props;
+  component.DataGrid.prototype.reload = function(me, _props) {
+    const props = me.props;
+    if (arguments.length === 2) {
+      const body = props['body'];
+      for (let key in _props) {
+        body[key] = _props[key];
+      }
+      body['curPage'] = 1; // 1페이지로 초기화
+    }
+    me.init(props);
   }
 
   component.DataGrid.prototype.init = function(props) {
@@ -121,14 +119,22 @@ BeeComponents.modules.dataGrid = function(component) {
       for (let j = 0; j < colModel.length; j++) {
         const col = colModel[j];
         const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
-        if (col['isLink'] != null) { // a태그 존재
-          const a = document.createElement('a');
-          a.href = col['isLink'];
-          a.innerHTML = row[col['id']];
-          thOrTd.appendChild(a);
+        if (col['type'] != null) { // 사용자 커스텀
+          if (col['type'] === 'tag') { // 타입일 경우
+            // 커스텀 함수가 존재할 경우
+            col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + row[col['id']] + '</span>';
+          }
         } else {
-          thOrTd.innerHTML = row[col['id']];
+          if (col['isLink'] != null) { // a태그 존재
+            const a = document.createElement('a');
+            a.href = col['isLink'];
+            a.innerHTML = row[col['id']];
+            thOrTd.appendChild(a);
+          } else {
+            thOrTd.innerHTML = row[col['id']];
+          }
         }
+
         // tr에 추가
         tr.appendChild(thOrTd);
       }

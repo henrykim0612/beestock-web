@@ -18,11 +18,10 @@
                         <i id="icoEmailTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                     </span>
                 </div>
-                <div class="control">
-                    <label class="checkbox">
-                        <input id="rememberMe" name="_spring_security_remember_me" type="checkbox">
-                        Remember me
-                    </label>
+                <div class="control field mt-2">
+                    <input type="checkbox" id="rememberMe" name="_spring_security_remember_me" class="is-checkradio is-primary is-circle">
+                    <label for="rememberMe"><span class="has-tooltip-right" data-tooltip="체크시 2주동안 자동 로그인됩니다.">자동 로그인</span></label>
+<%--                    <label class="has-tooltip-primary has-tooltip-right" data-tooltip="체크시 2주동안 자동 로그인됩니다." for="rememberMe">자동 로그인</label>--%>
                     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                 </div>
             </div>

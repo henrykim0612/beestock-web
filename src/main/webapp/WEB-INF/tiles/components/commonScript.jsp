@@ -8,8 +8,17 @@
 <%--Tippy--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/popper.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/tippy.js" type="text/javascript"></script>
-<%--<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>--%>
-<%--<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>--%>
+
+<%--Bulma-Extensions--%>
+<%--Calendar--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/calendar/bulma-calendar.min.js" type="text/javascript"></script>
+<%--Accordion--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/accordion/bulma-accordion.min.js" type="text/javascript"></script>
+<%--Carousel--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/carousel/bulma-carousel.min.js" type="text/javascript"></script>
+<%--Quick view--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/quick-view/bulma-quickview.min.js" type="text/javascript"></script>
+
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>

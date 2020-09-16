@@ -172,6 +172,13 @@ const cmmUtils = (function () {
     return span;
   }
 
+  function showElement(id) {
+    document.getElementById(id).style.display = '';
+  }
+
+  function hideElement(id) {
+    document.getElementById(id).style.display = 'none';
+  }
 
   return {
     getData: getData,
@@ -191,6 +198,8 @@ const cmmUtils = (function () {
     isCellular: isCellular,
     isJobPassword: isJobPassword,
     showIpModal: showIpModal,
-    createIcon: createIcon
+    createIcon: createIcon,
+    showElement: showElement,
+    hideElement: hideElement
   }
 })();
