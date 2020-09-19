@@ -3,6 +3,7 @@
 
 <script src="${pageContext.request.contextPath}/js/login/login_home.js"></script>
 
+<input type="radio" id="test" value="test">
 <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login/login-proc">
     <nav class="level">
         <div class="level-item has-text-left">
@@ -20,8 +21,7 @@
                 </div>
                 <div class="control field mt-2">
                     <input type="checkbox" id="rememberMe" name="_spring_security_remember_me" class="is-checkradio is-primary is-circle">
-                    <label for="rememberMe"><span class="has-tooltip-right" data-tooltip="체크시 2주동안 자동 로그인됩니다.">자동 로그인</span></label>
-<%--                    <label class="has-tooltip-primary has-tooltip-right" data-tooltip="체크시 2주동안 자동 로그인됩니다." for="rememberMe">자동 로그인</label>--%>
+                    <label id="labelRememberMe" for="rememberMe">자동 로그인</label>
                     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
                 </div>
             </div>

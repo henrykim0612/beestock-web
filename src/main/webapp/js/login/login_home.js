@@ -18,6 +18,13 @@ const main = (function() {
 }());
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    tippy('#labelRememberMe', {
+        content: '체크시 2주동안 자동 로그인 됩니다.',
+        placement: 'right'
+    });
+
     document.getElementById('loginPwd').addEventListener('keyup', main.checkCapsLock)
+
 })
 

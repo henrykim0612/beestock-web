@@ -23,9 +23,14 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.reload = function(me, _props) {
     const props = me.props;
     if (arguments.length === 2) {
-      const body = props['body'];
+      let body = props['body'];
       for (let key in _props) {
-        body[key] = _props[key];
+        const value = _props[key];
+        if (value) {
+          body[key] = _props[key];
+        } else {
+          delete body[key];
+        }
       }
       body['curPage'] = 1; // 1페이지로 초기화
     }
@@ -59,6 +64,10 @@ BeeComponents.modules.dataGrid = function(component) {
       // Event Listeners
       me.addTableEventListeners(table, props);
       me.addPaginationEventListeners(paginationBar, props);
+      // Callback
+      if (props['success'] != null) {
+        props['success'](response, me);
+      }
 
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -122,9 +131,10 @@ BeeComponents.modules.dataGrid = function(component) {
         if (col['type'] != null) { // 사용자 커스텀
           if (col['type'] === 'tag') { // 타입일 경우
             // 커스텀 함수가 존재할 경우
-            col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + row[col['id']] + '</span>';
+            col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + row[col['name']] + '</span>';
           }
         } else {
+          // Link 타입
           if (col['isLink'] != null) { // a태그 존재
             const a = document.createElement('a');
             a.href = col['isLink'];
@@ -134,7 +144,6 @@ BeeComponents.modules.dataGrid = function(component) {
             thOrTd.innerHTML = row[col['id']];
           }
         }
-
         // tr에 추가
         tr.appendChild(thOrTd);
       }
@@ -389,6 +398,7 @@ BeeComponents.modules.dataGrid = function(component) {
     if (col['isSort'] != null && col['isSort']) { // 정렬을 선언한 키값만 추가
       th.setAttribute('data-tag', 'sortingTh');
       th.classList.add('hover');
+      th.classList.add('cursor');
       const defaultDataSort = this.getDefaultDataSort(col['id'], props);
       th.setAttribute('data-sort', defaultDataSort);
       th.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up'], [{attrName: 'data-sort', value: '1'}], function(span) {

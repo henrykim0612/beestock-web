@@ -36,8 +36,8 @@
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">권한을 변경합니다</p>
-            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('authModal')"></button>
+            <p class="modal-card-title">권한 변경</p>
+            <button class="delete" aria-label="close" onclick="main.closeChangeRoleModal('authModal')"></button>
         </header>
         <section class="modal-card-body">
             <div class="level-left mb-4">
@@ -73,7 +73,7 @@
                 </span>
                 <span>변경</span>
             </button>
-            <button onclick="cmmUtils.closeModal('authModal')" class="button is-danger">
+            <button onclick="main.closeChangeRoleModal('authModal')" class="button is-dark">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

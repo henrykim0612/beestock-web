@@ -28,23 +28,25 @@ const main = (function() {
     }
 
     const props = {
-      url: '/api/v1/admin/user-list',
+      url: '/api/v1/admin/paging-user-list',
       body: {
-        // orderBy: [{column: 'loginId'}, {column: 'uptDate', desc: true}]
+        orderBy: [{column: 'uptDate', desc: true}]
       },
       eId: 'dataGrid',
       pId: 'dataPagination',
       isThead: true,
       isTfoot: true,
       colModel: [
-        {id: 'rowNum', name: 'No'},
+        {id: 'rowNum', name: 'No', isSort: true},
         {id: 'loginId', name: '이메일', isSort: true},
         {id: 'userNm', name: '사용자/닉네임', isSort: true},
         {id: 'userPhone', name: '연락처'},
-        {id: 'regDate', name: '회원가입 일자'},
+        {id: 'regDate', name: '회원가입 일자', isSort: true},
+        {id: 'regLoginId', name: '등록자', isSort: true},
         {id: 'uptDate', name: '수정일자', isSort: true},
-        {id: 'expDate', name: '만료일'},
-        {id: 'roleNm', name: '권한', type: 'tag', userCustom: customRoleNm}
+        {id: 'uptLoginId', name: '수정자', isSort: true},
+        {id: 'expDate', name: '만료일', isSort: true},
+        {id: 'roleNm', name: '권한', type: 'tag', userCustom: customRoleNm, isSort: true}
       ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);
@@ -126,6 +128,10 @@ const main = (function() {
     cmmUtils.showModal('authModal');
   }
 
+  function closeChangeRoleModal() {
+    cmmUtils.closeModal('authModal');
+    dataGrid.reload();
+  }
 
   return {
     init: init,
@@ -134,7 +140,8 @@ const main = (function() {
     changeSelSearch: changeSelSearch,
     changeSelAuth: changeSelAuth,
     showAuthModal: showAuthModal,
-    saveAuth: saveAuth
+    saveAuth: saveAuth,
+    closeChangeRoleModal: closeChangeRoleModal
   }
 }());
 

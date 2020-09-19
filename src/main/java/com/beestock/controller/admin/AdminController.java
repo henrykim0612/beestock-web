@@ -23,4 +23,10 @@ public class AdminController {
         return "admin/userManagement";
     }
 
+    @GetMapping("/code-management")
+    public String goToCodeManagement(ModelMap model) {
+        model.addAttribute("title", "코드관리");
+        return "admin/codeManagement";
+    }
+
 }

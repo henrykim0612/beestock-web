@@ -21,6 +21,7 @@
 
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/dataGrid.js" type="text/javascript"></script>
 <script type="text/javascript">

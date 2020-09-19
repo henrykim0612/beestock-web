@@ -40,6 +40,7 @@
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
                 <div class="navbar-dropdown">
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management">시스템 코드관리</a>
                     <a class="navbar-item">파일 업로드</a>
                 </div>
             </div>
@@ -49,7 +50,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span class="icon has-text-warning is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
+                        <span class="icon has-text-info is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
                           <i class="fas fa-user-alt"></i>
                         </span>
                     </sec:authorize>

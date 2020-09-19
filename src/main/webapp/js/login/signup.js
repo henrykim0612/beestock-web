@@ -38,7 +38,7 @@ const main = (function() {
         appendInfoClasses([ipEmail, helpEmail], true);
         removeHiddenClass([icoEmailCheck]);
         appendHiddenClass([icoEmailTriangle, helpEmail]);
-      } else {
+      } else { // 이메일 패턴이 아니라면
         appendInfoClasses([ipEmail, helpEmail], false);
         removeHiddenClass([icoEmailTriangle]);
         appendHiddenClass([icoEmailCheck]);
@@ -254,11 +254,11 @@ const main = (function() {
   function showIpModal(text, fId) {
     const ipModal = document.getElementById('inputModal');
     const ipModalTitle = document.getElementById('ipModalTitle');
-    const ipModalH2 = document.getElementById('ipModalH2');
+    const ipModalContent = document.getElementById('ipModalContent');
     const btnClsIpModal = document.getElementById('btnClsIpModal');
 
     ipModalTitle.innerText = text + ' 입력 오류';
-    ipModalH2.innerText = text + ' 입력값을 확인해주세요.';
+    ipModalContent.innerText = text + ' 입력값을 확인해주세요.';
     btnClsIpModal.setAttribute('onclick', 'main.closeModal(\"inputModal\", \"' + fId + '\")');
     showModal(ipModal);
   }

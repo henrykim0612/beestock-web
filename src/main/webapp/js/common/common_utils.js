@@ -13,7 +13,9 @@ const cmmUtils = (function () {
       redirect: 'follow', // manual, *follow, error
       referrer: 'no-referrer' // no-referrer, *client
     }).then(function (response) {
-      cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      if (props['loading'] != null) {
+        cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      }
       return response.json();
     });
   }
@@ -99,30 +101,49 @@ const cmmUtils = (function () {
   function removeHiddenClass(eleArr) {
     for (let i = 0; i < eleArr.length; i++) {
       const ele = eleArr[i];
-      ele.classList.remove('is-hidden');
+      if (typeof ele === 'string') {
+        document.getElementById(ele).classList.remove('is-hidden');
+      } else {
+        ele.classList.remove('is-hidden');
+      }
     }
   }
 
   function appendHiddenClass(eleArr) {
     for (let i = 0; i < eleArr.length; i++) {
       const ele = eleArr[i];
-      ele.classList.add('is-hidden');
+      if (typeof ele === 'string') {
+        document.getElementById(ele).classList.add('is-hidden');
+      } else {
+        ele.classList.add('is-hidden');
+      }
     }
   }
 
   function appendInfoClasses(eleArr, isSuccess) {
     for (let i = 0; i < eleArr.length; i++) {
       const ele = eleArr[i];
-      ele.classList.add(isSuccess ? 'is-success' : 'is-danger');
+      if (typeof ele === 'string') {
+        document.getElementById(ele).classList.add(isSuccess ? 'is-success' : 'is-danger');
+      } else {
+        ele.classList.add(isSuccess ? 'is-success' : 'is-danger');
+      }
     }
   }
 
   function clearClasses(eleArr) {
     for (let i = 0; i < eleArr.length; i++) {
       const ele = eleArr[i];
-      ele.classList.remove('is-hidden');
-      ele.classList.remove('is-success');
-      ele.classList.remove('is-danger');
+      if (typeof ele === 'string') {
+        const element = document.getElementById(ele);
+        element.classList.remove('is-hidden');
+        element.classList.remove('is-success');
+        element.classList.remove('is-danger');
+      } else {
+        ele.classList.remove('is-hidden');
+        ele.classList.remove('is-success');
+        ele.classList.remove('is-danger');
+      }
     }
   }
 
@@ -145,13 +166,14 @@ const cmmUtils = (function () {
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
   }
 
-  function showIpModal(text, fId) {
+  function showIpModal(text, customText) {
+    const argLen = arguments.length;
     const ipModal = document.getElementById('inputModal');
     const ipModalTitle = document.getElementById('ipModalTitle');
-    const ipModalH2 = document.getElementById('ipModalH2');
+    const ipModalContent = document.getElementById('ipModalContent');
 
     ipModalTitle.innerText = text + ' 입력 오류';
-    ipModalH2.innerText = text + ' 입력값을 확인해주세요.';
+    ipModalContent.innerText = argLen === 2 ? customText : text + ' 입력값을 확인해주세요.';
     showModal(ipModal);
   }
 
@@ -180,6 +202,64 @@ const cmmUtils = (function () {
     document.getElementById(id).style.display = 'none';
   }
 
+  // 데이터를 태그에 바인딩
+  // 필수 옵션: data-bind=true, data-id 필요
+  function bindData(eId, data) {
+    const tags = document.getElementById(eId).querySelectorAll('[data-bind=true]');
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      switch (tag.tagName) {
+        case 'INPUT': setInputTag(tag, data); break;
+        case 'TEXTAREA': setTextareaTag(tag, data); break;
+      }
+    }
+
+    function getValue(tag, data) {
+      return data[tag.getAttribute('data-id')];
+    }
+
+    function setInputTag(tag, data) {
+      switch (tag.type) {
+        case 'text': setText(tag, data); break;
+        case 'checkbox': setCheckbox(tag, data); break;
+        case 'radio': setRadio(tag, data); break;
+        case 'selectbox': setSelectBox(tag, data); break;
+      }
+
+      // TEXT
+      function setText(tag, data) {
+        tag.value = getValue(tag, data);
+      }
+      // CHECKBOX
+      function setCheckbox(tag, data) {
+        tag.checked = tag.value === getValue(tag, data);
+      }
+      // RADIO
+      function setRadio(tag, data) {
+        tag.checked = tag.value === getValue(tag, data);
+      }
+      // SELECT BOX
+      function setSelectBox(tag, data) {
+        for (let i = 0; i < tag.length; i++) {
+          const option = tag[i];
+          option.selected = option.value === getValue(tag, data);
+        }
+      }
+    }
+
+    function setTextareaTag(tag, data) {
+      tag.value = getValue(tag, data);
+    }
+  }
+
+  function removeClassAll(eId) {
+    const ele = document.getElementById(eId);
+    const classList = ele.classList;
+    while (classList.length > 0) {
+      classList.remove(classList.item(0));
+    }
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -200,6 +280,8 @@ const cmmUtils = (function () {
     showIpModal: showIpModal,
     createIcon: createIcon,
     showElement: showElement,
-    hideElement: hideElement
+    hideElement: hideElement,
+    bindData: bindData,
+    removeClassAll: removeClassAll
   }
 })();
