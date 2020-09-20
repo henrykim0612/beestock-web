@@ -81,14 +81,21 @@ BeeComponents.modules.dataGrid = function(component) {
     const tr = document.createElement('tr');
 
     for(let i=0;i<colModel.length;i++) {
-
       const col = colModel[i];
       const th = document.createElement('th');
-      th.setAttribute('data-ref-id', col['id']);
-      th.setAttribute('title', col['name']);
-      th.innerText = col['name'];
+      const div = document.createElement('div');
+      const text = col['name'] != null ? col['name'] : '';
+      div.classList.add('has-text-centered');
+      div.setAttribute('data-ref-id', col['id']);
+      div.setAttribute('title', text);
+      div.innerText = text;
+      // Width
+      if (col['width'] != null) {
+        div.style.width = col['width'];
+      }
       // Sorting 기능 추가
-      this.createSortingIcons(col, th, props);
+      this.createSortingIcons(col, div, props);
+      th.appendChild(div);
       tr.appendChild(th);
     }
 
@@ -104,11 +111,15 @@ BeeComponents.modules.dataGrid = function(component) {
       for (let i = 0; i < colModel.length; i++) {
         const col = colModel[i];
         const th = document.createElement('th');
-        th.setAttribute('data-ref-id', col['id']);
-        th.setAttribute('title', col['name']);
-        th.innerText = col['name'];
+        const div = document.createElement('div');
+        const text = col['name'] != null ? col['name'] : '';
+        div.classList.add('has-text-centered');
+        div.setAttribute('data-ref-id', col['id']);
+        div.setAttribute('title', text);
+        div.innerText = text;
         // Sorting 기능 추가
-        this.createSortingIcons(col, th, props);
+        this.createSortingIcons(col, div, props);
+        th.appendChild(div);
         tr.appendChild(th);
       }
       tfoot.appendChild(tr);
@@ -128,16 +139,32 @@ BeeComponents.modules.dataGrid = function(component) {
       for (let j = 0; j < colModel.length; j++) {
         const col = colModel[j];
         const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
-        if (col['type'] != null) { // 사용자 커스텀
-          if (col['type'] === 'tag') { // 타입일 경우
-            // 커스텀 함수가 존재할 경우
-            col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + row[col['name']] + '</span>';
+        // 텍스트 정렬
+        if (col['align'] != null) {
+          if (col['align'] === 'center') {
+            thOrTd.classList.add('has-text-centered');
+          }
+          if (col['align'] === 'right') {
+            thOrTd.classList.add('has-text-right');
+          }
+        }
+        // 사용자 커스텀
+        if (col['type'] != null) {
+          // 태그타입
+          if (col['type'] === 'custom') {
+            const text = col['name'] != null ? row[col['name']] : '';
+            col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + text + '</span>';
           }
         } else {
           // Link 타입
-          if (col['isLink'] != null) { // a태그 존재
+          if (col['isLink'] != null && col['isLink']) { // a태그 존재
             const a = document.createElement('a');
-            a.href = col['isLink'];
+            if (col['href'] != null) {
+              a.href = col['isLink'];
+            }
+            if (col['userCustom'] != null) {
+              col['userCustom'](a, col, row);
+            }
             a.innerHTML = row[col['id']];
             thOrTd.appendChild(a);
           } else {
@@ -191,7 +218,7 @@ BeeComponents.modules.dataGrid = function(component) {
     selectDiv.classList.add('is-small');
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');
-    select.setAttribute('data-tag', 'pageSel');
+    select.setAttribute('data-custom', 'pageSel');
     const sizeArr = ['10', '20', '30', '50', '100', '200', '300'];
     for (let i = 0; i < sizeArr.length; i++) {
       const option = document.createElement('option');
@@ -228,7 +255,7 @@ BeeComponents.modules.dataGrid = function(component) {
     anchor.innerText = '1';
     anchor.classList.add('pagination-link');
     anchor.setAttribute('aria-label', 'Goto page 1')
-    anchor.setAttribute('data-tag', 'pageAnchor');
+    anchor.setAttribute('data-custom', 'pageAnchor');
     anchor.setAttribute('data-page', '1');
     const endLi = document.createElement('li');
     endLi.appendChild(anchor);
@@ -252,7 +279,7 @@ BeeComponents.modules.dataGrid = function(component) {
       anchor.classList.add('pagination-link');
       anchor.innerText = i;
       anchor.setAttribute('aria-label', 'Goto page ' + i);
-      anchor.setAttribute('data-tag', 'pageAnchor');
+      anchor.setAttribute('data-custom', 'pageAnchor');
       anchor.setAttribute('data-page', i);
       if (data['curPage'] === i) { // 현재페이지 표시
         anchor.classList.add('is-current');
@@ -280,7 +307,7 @@ BeeComponents.modules.dataGrid = function(component) {
     anchor.innerText = pageCnt;
     anchor.classList.add('pagination-link');
     anchor.setAttribute('aria-label', 'Goto page' + pageCnt)
-    anchor.setAttribute('data-tag', 'pageAnchor');
+    anchor.setAttribute('data-custom', 'pageAnchor');
     anchor.setAttribute('data-page', pageCnt);
     const endLi = document.createElement('li');
     endLi.appendChild(anchor);
@@ -294,7 +321,7 @@ BeeComponents.modules.dataGrid = function(component) {
         const previous = document.createElement('a');
         previous.classList.add('pagination-previous');
         previous.innerText = 'Previous';
-        previous.setAttribute('data-tag', 'pageAnchor');
+        previous.setAttribute('data-custom', 'pageAnchor');
         previous.setAttribute('data-page', data['prevPage']);
         fragment.appendChild(previous);
       }
@@ -308,7 +335,7 @@ BeeComponents.modules.dataGrid = function(component) {
         const next = document.createElement('a');
         next.classList.add('pagination-next');
         next.innerText = 'Next page';
-        next.setAttribute('data-tag', 'pageAnchor');
+        next.setAttribute('data-custom', 'pageAnchor');
         next.setAttribute('data-page', data['nextPage']);
         fragment.appendChild(next);
       }
@@ -316,29 +343,29 @@ BeeComponents.modules.dataGrid = function(component) {
   }
 
   component.DataGrid.prototype.showAndHideIconAndInit = function(table, clickedThRefId, props) {
-    const theadThArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
+    const theadDivArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
     // Thead 정렬 아이콘 변경
-    for (let i = 0; i < theadThArr.length; i++) {
-      this.changeIconClass(theadThArr[i]);
+    for (let i = 0; i < theadDivArr.length; i++) {
+      this.changeIconClass(theadDivArr[i]);
     }
     // Tfoot 이 존재한다면 똑같이 정렬 아이콘 변경
     if (props['isTfoot'] != null && props['isTfoot']) {
-      const tfootThArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
-      for (let i = 0; i < tfootThArr.length; i++) {
-        this.changeIconClass(tfootThArr[i]);
+      const tfootDivArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
+      for (let i = 0; i < tfootDivArr.length; i++) {
+        this.changeIconClass(tfootDivArr[i]);
       }
     }
   }
 
   component.DataGrid.prototype.updateOrderByParam = function(table) {
     const bodyData = this.props['body'];
-    const theadThArr = table.querySelector('thead').querySelectorAll('th');
+    const theadDivArr = table.querySelector('thead').querySelectorAll('div');
     const newOrderBy = [];
-    for (let i = 0; i < theadThArr.length; i++) {
-      const th = theadThArr[i];
-      if (th.hasAttribute('data-sort')) { // 정렬하겠다 선언한 컬럼만
-        const dataSort = th.getAttribute('data-sort');
-        const dataRefId = th.getAttribute('data-ref-id');
+    for (let i = 0; i < theadDivArr.length; i++) {
+      const div = theadDivArr[i];
+      if (div.hasAttribute('data-sort')) { // 정렬하겠다 선언한 컬럼만
+        const dataSort = div.getAttribute('data-sort');
+        const dataRefId = div.getAttribute('data-ref-id');
         if (dataSort === '1') { // 오름차순
           newOrderBy.push({column: dataRefId});
         }
@@ -394,20 +421,20 @@ BeeComponents.modules.dataGrid = function(component) {
     }
   }
 
-  component.DataGrid.prototype.createSortingIcons = function(col, th, props) {
+  component.DataGrid.prototype.createSortingIcons = function(col, div, props) {
     if (col['isSort'] != null && col['isSort']) { // 정렬을 선언한 키값만 추가
-      th.setAttribute('data-tag', 'sortingTh');
-      th.classList.add('hover');
-      th.classList.add('cursor');
+      div.setAttribute('data-custom', 'sortingDiv');
+      div.classList.add('hover');
+      div.classList.add('cursor');
       const defaultDataSort = this.getDefaultDataSort(col['id'], props);
-      th.setAttribute('data-sort', defaultDataSort);
-      th.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up'], [{attrName: 'data-sort', value: '1'}], function(span) {
+      div.setAttribute('data-sort', defaultDataSort);
+      div.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up'], [{attrName: 'data-sort', value: '1'}], function(span) {
         span.classList.add('has-text-info'); // 파란색
         if (defaultDataSort !== '1') {
           span.classList.add('is-hidden');
         }
       }));
-      th.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-down'], [{attrName: 'data-sort', value: '2'}], function(span) {
+      div.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-down'], [{attrName: 'data-sort', value: '2'}], function(span) {
         span.classList.add('has-text-info'); // 파란색
         if (defaultDataSort !== '2') {
           span.classList.add('is-hidden');
@@ -432,7 +459,7 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.addTableEventListeners = function(table, props) {
     const me = this;
     addSelectingTr();
-    addSortingTh();
+    addSortingDiv();
 
     // Row 클릭시 하이라이트 이벤트
     function addSelectingTr() {
@@ -453,11 +480,11 @@ BeeComponents.modules.dataGrid = function(component) {
     }
 
     // Thead 또는 Tfoot 을 눌렀을경우 정렬 이벤트
-    function addSortingTh() {
-      const thArr = table.querySelectorAll('th[data-tag=sortingTh]');
-      for (let i = 0; i < thArr.length; i++) {
-        const th = thArr[i];
-        th.addEventListener('click', function() {
+    function addSortingDiv() {
+      const divArr = table.querySelectorAll('div[data-custom=sortingDiv]');
+      for (let i = 0; i < divArr.length; i++) {
+        const div = divArr[i];
+        div.addEventListener('click', function() {
           me.sortGrid(this.getAttribute('data-ref-id'));
         });
       }
@@ -471,7 +498,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
     // 페이지 변경 이벤트
     function addPageAnchor() {
-      const pageAnchors = paginationBar.querySelectorAll('a[data-tag=pageAnchor]');
+      const pageAnchors = paginationBar.querySelectorAll('a[data-custom=pageAnchor]');
       for (let i = 0; i < pageAnchors.length; i++) {
         pageAnchors[i].addEventListener('click', function() {
           me.changeGridPage(this.getAttribute('data-page'));
@@ -481,7 +508,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
     // 페이지 사이즈수 변경 이벤트
     function addChangingPageSize() {
-      const pageSelectBoxes = paginationBar.querySelectorAll('select[data-tag=pageSel]');
+      const pageSelectBoxes = paginationBar.querySelectorAll('select[data-custom=pageSel]');
       for (let i = 0; i < pageSelectBoxes.length; i++) {
         const selectBox = pageSelectBoxes[i];
         selectBox.addEventListener('change', function() {

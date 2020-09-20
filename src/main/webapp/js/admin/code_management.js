@@ -9,12 +9,19 @@ const main = (function() {
 
   function init() {
 
-    const customAddChildCode = function(col, row) {
-      return '<span data-tag="add" data-code-id="' + row['codeId'] + '" data-code-lv="' + row['codeLevel'] + '" class="tag is-primary is-light cursor">하위코드 등록</span>';
+    const test = function(col, row) {
+      const span1 = '<span data-custom="add" data-code-id="' + row['codeId'] + '" data-code-lv="' + row['codeLevel'] + '" class="tag is-primary is-light cursor">하위코드 등록</span>';
+      const span2 = '<span data-custom="mod" data-code-id="' + row['codeId'] + '" class="tag is-danger is-light cursor ml-2">수정</span>';
+      return span1 + span2;
     }
 
-    const customModCode = function(col, row) {
-      return '<span data-tag="mod" data-code-id="' + row['codeId'] + '" class="tag is-danger is-light cursor">수정</span>';
+    // 코드 트리뷰
+    const codeTreeView = function(anchor, col, row) {
+      anchor.setAttribute('data-show', 'quickview');
+      anchor.setAttribute('data-target', 'quickTreeView');
+      anchor.setAttribute('data-custom', 'treeView');
+      anchor.setAttribute('data-code-id', row['codeId']);
+      anchor.setAttribute('data-code-lv', row['codeLevel']);
     }
 
     const props = {
@@ -27,23 +34,23 @@ const main = (function() {
       isThead: true,
       isTfoot: true,
       colModel: [
-        {id: 'rowNum', name: 'No', isSort: true},
-        {id: 'codeId', name: '코드', isSort: true},
-        {id: 'codeNm', name: '코드명', isSort: true},
-        {id: 'description', name: '설명', isSort: true},
-        {id: 'parentCodeId', name: '부모코드', isSort: true},
-        {id: 'codeLevel', name: '코드레벨', isSort: true},
-        {id: 'regDate', name: '등록일', isSort: true},
-        {id: 'regLoginId', name: '등록자', isSort: true},
-        {id: 'uptDate', name: '수정일', isSort: true},
-        {id: 'uptLoginId', name: '수정자', isSort: true},
-        {name: '', type: 'tag', userCustom: customAddChildCode},
-        {name: '', type: 'tag', userCustom: customModCode}
+        {id: 'rowNum', name: 'No', isSort: true, align: 'center'},
+        {id: 'codeId', name: '코드', isSort: true, isLink: true, align: 'center', width: '150px', userCustom: codeTreeView},
+        {type: 'custom', userCustom: test, width: '150px'},
+        {id: 'codeNm', name: '코드명', isSort: true, width: '300px'},
+        {id: 'description', name: '설명', isSort: true, width: '500px'},
+        {id: 'parentCodeId', name: '부모코드', isSort: true, align: 'center', width: '150px'},
+        {id: 'codeLevel', name: '코드레벨', isSort: true, align: 'center', width: '150px'},
+        {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px'},
+        {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px'},
+        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px'},
+        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px'}
       ],
       success: function(data, _this) {
         initQuickView();
         addModCodeEventListener(data, _this);
         addChildCodeEventListener(data, _this);
+        addCodeTreeViewEventListener(data, _this);
       }
     }
     dataGrid = new COMPONENTS.DataGrid(props);
@@ -56,7 +63,7 @@ const main = (function() {
   // 수정버튼 이벤트
   function addModCodeEventListener(data, _this) {
     const tableId = _this.props.eId;
-    const tags = document.getElementById(tableId).querySelectorAll('[data-tag=mod]');
+    const tags = document.getElementById(tableId).querySelectorAll('[data-custom=mod]');
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
       tag.addEventListener('click', function() {
@@ -77,7 +84,7 @@ const main = (function() {
   // 하위코드 생성
   function addChildCodeEventListener(data, _this) {
     const tableId = _this.props.eId;
-    const tags = document.getElementById(tableId).querySelectorAll('[data-tag=add]');
+    const tags = document.getElementById(tableId).querySelectorAll('[data-custom=add]');
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
       tag.addEventListener('click', function() {
@@ -85,6 +92,77 @@ const main = (function() {
         const codeLevel = this.getAttribute('data-code-lv');
         showNewCodeModal(codeId, codeLevel);
       });
+    }
+  }
+
+  // 코드 트리뷰
+  function addCodeTreeViewEventListener(data, _this) {
+    const tableId = _this.props.eId;
+    const tags = document.getElementById(tableId).querySelectorAll('[data-custom=treeView]');
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      tag.addEventListener('click', function() {
+        const codeId = this.getAttribute('data-code-id');
+        const codeLevel = parseInt(this.getAttribute('data-code-lv')) + 1; // 선택한 코드의 다음레벨
+        cmmUtils.getData({
+          url: '/api/v1/code/tree-view/' + codeId,
+        }).then(function (response) {
+          cmmUtils.clearChildNodes('treeViewContent');
+          appendContent(response, codeLevel);
+        }).catch(function (err) {
+          cmmUtils.showErrModal();
+          console.log(err);
+        });
+      });
+    }
+    // 트리구조 생성
+    function appendContent(treeDataArr, codeLevel) {
+      const fragment = document.createDocumentFragment();
+      if (treeDataArr.length) {
+        for (let i = 0; i < treeDataArr.length; i++) {
+          const treeData = treeDataArr[i];
+          if (treeData['codeLevel'] === codeLevel) {
+            const li = document.createElement('li');
+            const span = document.createElement('span');
+            span.innerText = treeData['codeNm'];
+            span.classList.add('tag');
+            span.classList.add('is-primary');
+            span.classList.add('is-light');
+            li.appendChild(span);
+            appendChildNodes(li, treeData['codeId'], treeDataArr);
+            fragment.appendChild(li);
+          }
+        }
+      } else {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        span.innerText = '하위코드 없음';
+        span.classList.add('tag');
+        span.classList.add('is-warning');
+        span.classList.add('is-light');
+        li.appendChild(span);
+        fragment.appendChild(li);
+      }
+      document.getElementById('treeViewContent').appendChild(fragment.cloneNode(true));
+    }
+    // 재귀호출로 하위 노드까지 생성
+    function appendChildNodes(pLi, codeId, treeDataArr) {
+      for (let i = 0; i < treeDataArr.length; i++) {
+        const treeData = treeDataArr[i];
+        if (codeId === treeData['parentCodeId']) {
+          const ul = document.createElement('ul');
+          const cLi = document.createElement('li');
+          const span = document.createElement('span');
+          span.innerText = treeData['codeNm'];
+          span.classList.add('tag');
+          span.classList.add('is-primary');
+          span.classList.add('is-light');
+          cLi.appendChild(span);
+          ul.appendChild(cLi);
+          appendChildNodes(cLi, treeData['codeId'], treeDataArr);
+          pLi.appendChild(ul);
+        }
+      }
     }
   }
 

@@ -82,7 +82,7 @@ const cmmUtils = (function () {
       if (eleArr.length) {
         for (let i = 0; i < eleArr.length; i++) {
           const ele = eleArr[i];
-          removeChild(ele);
+          typeof ele === 'string' ? removeChild(document.getElementById(ele)) : removeChild(ele);
         }
       } else {
         removeChild(eleArr);

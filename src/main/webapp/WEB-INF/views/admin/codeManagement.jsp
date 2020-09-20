@@ -35,25 +35,11 @@
         <i class="fas fa-lg fa-file-download"></i>
     </span>
 </div>
-<table id="dataGrid" class="table is-striped is-hoverable is-fullwidth"></table>
-<nav id="dataPagination" class="pagination is-rounded is-small" role="navigation" aria-label="pagination"></nav>
-
-
-<%--코드추가 퀵뷰--%>
-<div id="quickviewDefault" class="quickview is-primary">
-    <header class="quickview-header">
-        <p class="title">Quickview title</p>
-        <span class="delete" data-dismiss="quickview"></span>
-    </header>
-
-    <div class="quickview-body">
-        <div class="quickview-block">
-            ...
-        </div>
-    </div>
-    <footer class="quickview-footer">
-    </footer>
+<%--테이블 그리드--%>
+<div class="table-container">
+    <table id="dataGrid" class="table is-striped is-hoverable is-fullwidth"></table>
 </div>
+<nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
 <%--코드등록 모달--%>
 <div id="newCodeModal" class="modal is-mobile">
@@ -200,4 +186,20 @@
             </button>
         </footer>
     </div>
+</div>
+
+<%--Tree view--%>
+<div id="quickTreeView" class="quickview">
+    <header class="quickview-header">
+        <p class="title">하위코드 트리</p>
+        <span class="delete" data-dismiss="quickview"></span>
+    </header>
+    <div class="quickview-body">
+        <div class="quickview-block">
+            <ul id="treeViewContent" class="tree ml-5">
+            </ul>
+        </div>
+    </div>
+    <footer class="quickview-footer">
+    </footer>
 </div>
