@@ -31,12 +31,12 @@
     </div>
 </div>
 <div class="level-right">
-    <span id="icoExcelDownload" class="icon is-small has-text-success cursor">
+    <span id="icoExcelDownload" class="icon is-small has-text-success cursor" onclick="main.downloadExcel()">
         <i class="fas fa-lg fa-file-download"></i>
     </span>
 </div>
 <%--테이블 그리드--%>
-<div class="table-container">
+<div class="table-container mt-3">
     <table id="dataGrid" class="table is-striped is-hoverable is-fullwidth"></table>
 </div>
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>

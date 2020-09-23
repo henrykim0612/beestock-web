@@ -260,6 +260,10 @@ const cmmUtils = (function () {
     }
   }
 
+  function nvl(value) {
+    return value == null || false || value === 'null' ? '' : value;
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -282,6 +286,7 @@ const cmmUtils = (function () {
     showElement: showElement,
     hideElement: hideElement,
     bindData: bindData,
-    removeClassAll: removeClassAll
+    removeClassAll: removeClassAll,
+    nvl: nvl
   }
 })();

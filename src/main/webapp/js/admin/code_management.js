@@ -31,20 +31,21 @@ const main = (function() {
       },
       eId: 'dataGrid',
       pId: 'dataPagination',
+      fileName: '코드리스트',
       isThead: true,
       isTfoot: true,
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center'},
-        {id: 'codeId', name: '코드', isSort: true, isLink: true, align: 'center', width: '150px', userCustom: codeTreeView},
+        {id: 'codeId', name: '코드', isSort: true, isLink: true, align: 'center', width: '150px', userCustom: codeTreeView, isExcel: true},
         {type: 'custom', userCustom: test, width: '150px'},
-        {id: 'codeNm', name: '코드명', isSort: true, width: '300px'},
-        {id: 'description', name: '설명', isSort: true, width: '500px'},
-        {id: 'parentCodeId', name: '부모코드', isSort: true, align: 'center', width: '150px'},
-        {id: 'codeLevel', name: '코드레벨', isSort: true, align: 'center', width: '150px'},
-        {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px'},
-        {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px'},
-        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px'},
-        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px'}
+        {id: 'codeNm', name: '코드명', isSort: true, width: '300px', isExcel: true},
+        {id: 'description', name: '설명', isSort: true, width: '500px', isExcel: true},
+        {id: 'parentCodeId', name: '부모코드', isSort: true, align: 'center', width: '150px', isExcel: true},
+        {id: 'codeLevel', name: '코드레벨', isSort: true, align: 'center', width: '150px', isExcel: true},
+        {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
+        {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
+        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
+        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}
       ],
       success: function(data, _this) {
         initQuickView();
@@ -339,6 +340,10 @@ const main = (function() {
     }
   }
 
+  function downloadExcel() {
+    dataGrid.downloadExcel();
+  }
+
   return {
     init: init,
     showNewCodeModal: showNewCodeModal,
@@ -350,11 +355,18 @@ const main = (function() {
     closeModCodeModal: closeModCodeModal,
     changeSelSearch: changeSelSearch,
     findCode: findCode,
+    downloadExcel: downloadExcel
   }
 }());
 
 document.addEventListener("DOMContentLoaded", function() {
+
   main.init();
+
+  tippy('#icoExcelDownload', {
+    content: '엑셀 다운로드',
+    placement: 'top'
+  });
 
   // 검색조건 셀렉트박스 변경 이벤트
   document.getElementById('selSearch').addEventListener('change', main.changeSelSearch)

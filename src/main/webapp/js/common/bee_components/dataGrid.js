@@ -9,14 +9,15 @@ BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid = function(_props) {
     const me = this;
-    this.props = _props;
-    this.init(_props);
+    me.props = _props;
+    me.init(_props);
     return {
       getProps: function() { return me.props; },
       reload: function (props) {
         arguments.length === 1 ? me.reload(me, props) : me.reload(me);
       },
-      init: this.init
+      downloadExcel: function() { me.downloadExcel(me.props); },
+      init: me.init
     }
   }
 
@@ -86,12 +87,19 @@ BeeComponents.modules.dataGrid = function(component) {
       const div = document.createElement('div');
       const text = col['name'] != null ? col['name'] : '';
       div.classList.add('has-text-centered');
-      div.setAttribute('data-ref-id', col['id']);
+      if (col['id'] != null) {
+        div.setAttribute('data-ref-id', col['id']);
+      }
       div.setAttribute('title', text);
       div.innerText = text;
       // Width
       if (col['width'] != null) {
         div.style.width = col['width'];
+      }
+      // Excel
+      if (col['isExcel'] != null && col['isExcel']) {
+        div.setAttribute('data-excel-header', 'true');
+        div.setAttribute('data-excel-value', col['name']);
       }
       // Sorting 기능 추가
       this.createSortingIcons(col, div, props);
@@ -135,10 +143,14 @@ BeeComponents.modules.dataGrid = function(component) {
     for (let i = 0; i < rowData.length; i++) {
       const row = rowData[i];
       const tr = document.createElement('tr');
-      // Thead 순서로 생성
       for (let j = 0; j < colModel.length; j++) {
         const col = colModel[j];
         const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
+        // Excel
+        if (col['isExcel'] != null && col['isExcel']) {
+          thOrTd.setAttribute('data-excel-body', 'true');
+          thOrTd.setAttribute('data-excel-value', row[col['id']]);
+        }
         // 텍스트 정렬
         if (col['align'] != null) {
           if (col['align'] === 'center') {
@@ -219,7 +231,7 @@ BeeComponents.modules.dataGrid = function(component) {
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');
     select.setAttribute('data-custom', 'pageSel');
-    const sizeArr = ['10', '20', '30', '50', '100', '200', '300'];
+    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500'];
     for (let i = 0; i < sizeArr.length; i++) {
       const option = document.createElement('option');
       const optionSize  = sizeArr[i];
@@ -516,6 +528,45 @@ BeeComponents.modules.dataGrid = function(component) {
           me.init(me.props);
         })
       }
+    }
+  }
+
+  // 엑셀 다운로드
+  component.DataGrid.prototype.downloadExcel = function(props) {
+
+    const table = document.getElementById(props['eId']);
+    const form = document.createElement('form');
+    form.action = CONTEXT_PATH + '/common/excel';
+    form.method = 'POST';
+
+    // Excel header
+    const header = table.querySelector('thead').querySelectorAll('[data-excel-header]');
+    for (let i = 0; i < header.length; i++) {
+      appendInputTag('header', header[i].getAttribute('data-excel-value'), form);
+    }
+    // Excel body
+    const bodyTr = table.querySelector('tbody').querySelectorAll('tr');
+    for (let i = 0; i < bodyTr.length; i++) {
+      const row = bodyTr[i];
+      const excelCols = row.querySelectorAll('[data-excel-body=true]');
+      for (let j = 0; j < excelCols.length; j++) {
+        const name = 'body[' + i + ']';
+        appendInputTag(name, cmmUtils.nvl(excelCols[j].getAttribute('data-excel-value')), form);
+      }
+    }
+    // 파일명
+    appendInputTag('fileName', props['fileName'], form);
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+
+    function appendInputTag(name, value, form) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
     }
   }
 

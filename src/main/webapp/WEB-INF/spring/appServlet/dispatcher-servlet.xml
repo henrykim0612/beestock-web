@@ -40,6 +40,11 @@
 <!--        </mvc:interceptor>-->
 <!--    </mvc:interceptors>-->
 
+    <!--POI 기능을 위해 추가-->
+    <beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <beans:property name="order" value="0"/>
+    </beans:bean>
+
     <!-- Tiles -->
     <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <beans:property name="definitions">
@@ -59,6 +64,10 @@
         <beans:property name="suffix" value=".jsp" />
         <beans:property name="order" value="2" />
     </beans:bean>
+
+    <beans:bean id="excelDownloadView" class="com.beestock.common.ExcelDownloadView"/>
+    <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/js/**" location="/js/" />
