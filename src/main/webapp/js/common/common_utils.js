@@ -211,24 +211,29 @@ const cmmUtils = (function () {
       switch (tag.tagName) {
         case 'INPUT': setInputTag(tag, data); break;
         case 'TEXTAREA': setTextareaTag(tag, data); break;
+        case 'P': setParagraphTag(tag, data); break;
       }
     }
 
     function getValue(tag, data) {
-      return data[tag.getAttribute('data-id')];
+      return nvl(String(data[tag.getAttribute('data-id')]));
     }
 
     function setInputTag(tag, data) {
-      switch (tag.type) {
-        case 'text': setText(tag, data); break;
-        case 'checkbox': setCheckbox(tag, data); break;
-        case 'radio': setRadio(tag, data); break;
-        case 'selectbox': setSelectBox(tag, data); break;
+      switch (tag.type.toUpperCase()) {
+        case 'TEXT': setText(tag, data); break;
+        case 'CHECKBOX': setCheckbox(tag, data); break;
+        case 'RADIO': setRadio(tag, data); break;
+        case 'SELECTBOX': setSelectBox(tag, data); break;
       }
 
       // TEXT
       function setText(tag, data) {
-        tag.value = getValue(tag, data);
+        if (tag.getAttribute('data-type') === 'date') { // Date
+          tag.bulmaCalendar.value(getValue(tag, data));
+        } else { // Default
+          tag.value = getValue(tag, data);
+        }
       }
       // CHECKBOX
       function setCheckbox(tag, data) {
@@ -250,6 +255,10 @@ const cmmUtils = (function () {
     function setTextareaTag(tag, data) {
       tag.value = getValue(tag, data);
     }
+
+    function setParagraphTag(tag, data) {
+      tag.innerText = getValue(tag, data);
+    }
   }
 
   function removeClassAll(eId) {
@@ -262,6 +271,22 @@ const cmmUtils = (function () {
 
   function nvl(value) {
     return value == null || false || value === 'null' ? '' : value;
+  }
+
+  function isEmpty(value) {
+    return value == null || value === '' || value === undefined;
+  }
+
+  function getCheckedValues(name) {
+    let arr = [];
+    const tags = document.getElementsByName(name);
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      if (tag.checked) {
+        arr.push(tag.value);
+      }
+    }
+    return arr;
   }
 
   return {
@@ -287,6 +312,9 @@ const cmmUtils = (function () {
     hideElement: hideElement,
     bindData: bindData,
     removeClassAll: removeClassAll,
-    nvl: nvl
+    nvl: nvl,
+    isEmpty: isEmpty,
+    getCheckedValues: getCheckedValues
+
   }
 })();

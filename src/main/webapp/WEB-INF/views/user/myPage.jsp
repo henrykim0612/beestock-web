@@ -52,7 +52,7 @@
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <a class="button is-warning is-small" onclick="main.goToModProfile()"><strong>Confirm</strong></a>
+                <a class="button is-warning is-small" onclick="main.goToModProfile()"><strong>확인</strong></a>
             </div>
         </footer>
     </div>

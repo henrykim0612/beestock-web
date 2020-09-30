@@ -3,7 +3,6 @@
 
 <script src="${pageContext.request.contextPath}/js/login/login_home.js"></script>
 
-<input type="radio" id="test" value="test">
 <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login/login-proc">
     <nav class="level">
         <div class="level-item has-text-left">

@@ -1,7 +1,23 @@
 /**
  * Bulma.css 기반으로한 그리드 컴포넌트
  * 파라미터정보
-
+ *
+ *
+   url: '/api/v1/code/paging-code-list',
+   body: {
+    orderBy: [{column: 'uptDate', desc: true}]
+   },
+   eId: 'dataGrid',
+   pId: 'dataPagination',
+   fileName: '코드리스트',
+   isThead: true,
+   isTfoot: false,
+   colModel: [
+   {id: 'rowNum', name: 'No', isSort: true, align: 'center'}...
+   ],
+   success: function(data, _this) {
+     addCodeTreeViewEventListener(data, _this); ...
+   }
  *
  *
  */
@@ -112,7 +128,7 @@ BeeComponents.modules.dataGrid = function(component) {
   }
 
   component.DataGrid.prototype.createTfoot = function(fragment, props) {
-    if ( (props['isTfoot'] == null) || (props['isTfoot'] != null && props['isTfoot']) ) {
+    if ( props['isTfoot'] != null && props['isTfoot'] ) {
       const colModel = props['colModel'];
       const tfoot = document.createElement('tfoot');
       const tr = document.createElement('tr');
@@ -135,57 +151,79 @@ BeeComponents.modules.dataGrid = function(component) {
     }
   }
 
+  /**
+   * Options
+    isStrong: true // 강조
+    isExcel: true // 엑셀컬럼
+    align: 'center', 'right', 'left' // 텍스트 정렬
+    type:
+      - 'custom': function(col, row)
+    isLink: true
+      - href: 'xxx'
+      - userCustom: function(anchor, col, row)
+    isSort: true // 오름차순, 내림차순 기능
+   */
   component.DataGrid.prototype.createTbody = function(parentFragment, props) {
     const colModel = props['colModel'];
     const rowData = props['data']['rowData'];
 
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < rowData.length; i++) {
-      const row = rowData[i];
-      const tr = document.createElement('tr');
-      for (let j = 0; j < colModel.length; j++) {
-        const col = colModel[j];
-        const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
-        // Excel
-        if (col['isExcel'] != null && col['isExcel']) {
-          thOrTd.setAttribute('data-excel-body', 'true');
-          thOrTd.setAttribute('data-excel-value', row[col['id']]);
-        }
-        // 텍스트 정렬
-        if (col['align'] != null) {
-          if (col['align'] === 'center') {
-            thOrTd.classList.add('has-text-centered');
+    if (rowData.length) {
+      for (let i = 0; i < rowData.length; i++) {
+        const row = rowData[i];
+        const tr = document.createElement('tr');
+        for (let j = 0; j < colModel.length; j++) {
+          const col = colModel[j];
+          const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
+          // Excel
+          if (col['isExcel'] != null && col['isExcel']) {
+            thOrTd.setAttribute('data-excel-body', 'true');
+            thOrTd.setAttribute('data-excel-value', row[col['id']]);
           }
-          if (col['align'] === 'right') {
-            thOrTd.classList.add('has-text-right');
-          }
-        }
-        // 사용자 커스텀
-        if (col['type'] != null) {
-          // 태그타입
-          if (col['type'] === 'custom') {
-            const text = col['name'] != null ? row[col['name']] : '';
-            col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + text + '</span>';
-          }
-        } else {
-          // Link 타입
-          if (col['isLink'] != null && col['isLink']) { // a태그 존재
-            const a = document.createElement('a');
-            if (col['href'] != null) {
-              a.href = col['isLink'];
+          // 텍스트 정렬
+          if (col['align'] != null) {
+            if (col['align'] === 'center') {
+              thOrTd.classList.add('has-text-centered');
             }
-            if (col['userCustom'] != null) {
-              col['userCustom'](a, col, row);
+            if (col['align'] === 'right') {
+              thOrTd.classList.add('has-text-right');
             }
-            a.innerHTML = row[col['id']];
-            thOrTd.appendChild(a);
+          }
+          // 사용자 커스텀
+          if (col['type'] != null) {
+            // 태그타입
+            if (col['type'] === 'custom') {
+              const text = col['name'] != null ? row[col['name']] : '';
+              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + text + '</span>';
+            }
           } else {
-            thOrTd.innerHTML = row[col['id']];
+            // Link 타입
+            if (col['isLink'] != null && col['isLink']) { // a태그 존재
+              const a = document.createElement('a');
+              if (col['href'] != null) {
+                a.href = col['href'];
+              }
+              if (col['userCustom'] != null) {
+                col['userCustom'](a, col, row);
+              }
+              a.innerHTML = row[col['id']];
+              thOrTd.appendChild(a);
+            } else {
+              thOrTd.innerHTML = row[col['id']];
+            }
           }
+          // tr에 추가
+          tr.appendChild(thOrTd);
         }
-        // tr에 추가
-        tr.appendChild(thOrTd);
+        fragment.appendChild(tr);
       }
+    } else {
+      // 조회 결과가 없을경우
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.innerText = '조회 결과가 없습니다.';
+      th.colSpan = colModel.length;
+      tr.append(th);
       fragment.appendChild(tr);
     }
     const tbody = document.createElement('tbody');
@@ -555,7 +593,9 @@ BeeComponents.modules.dataGrid = function(component) {
       }
     }
     // 파일명
-    appendInputTag('fileName', props['fileName'], form);
+    if (props['fileName'] != null) {
+      appendInputTag('fileName', props['fileName'], form);
+    }
 
     document.body.appendChild(form);
     form.submit();

@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping("/admin1")
-    public String goToDashboard(ModelMap model) {
-        model.addAttribute("title", "Admin1");
-        return "admin/admin1";
-    }
-
     @GetMapping("/user-management")
     public String goToUserManagement(ModelMap model) {
         model.addAttribute("title", "사용자관리");
@@ -25,7 +19,7 @@ public class AdminController {
 
     @GetMapping("/code-management")
     public String goToCodeManagement(ModelMap model) {
-        model.addAttribute("title", "코드관리");
+        model.addAttribute("title", "시스템 코드관리");
         return "admin/codeManagement";
     }
 

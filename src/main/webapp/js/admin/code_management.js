@@ -9,7 +9,7 @@ const main = (function() {
 
   function init() {
 
-    const test = function(col, row) {
+    const modSpans = function(col, row) {
       const span1 = '<span data-custom="add" data-code-id="' + row['codeId'] + '" data-code-lv="' + row['codeLevel'] + '" class="tag is-primary is-light cursor">하위코드 등록</span>';
       const span2 = '<span data-custom="mod" data-code-id="' + row['codeId'] + '" class="tag is-danger is-light cursor ml-2">수정</span>';
       return span1 + span2;
@@ -33,11 +33,11 @@ const main = (function() {
       pId: 'dataPagination',
       fileName: '코드리스트',
       isThead: true,
-      isTfoot: true,
+      isTfoot: false,
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center'},
         {id: 'codeId', name: '코드', isSort: true, isLink: true, align: 'center', width: '150px', userCustom: codeTreeView, isExcel: true},
-        {type: 'custom', userCustom: test, width: '150px'},
+        {type: 'custom', userCustom: modSpans, width: '150px'},
         {id: 'codeNm', name: '코드명', isSort: true, width: '300px', isExcel: true},
         {id: 'description', name: '설명', isSort: true, width: '500px', isExcel: true},
         {id: 'parentCodeId', name: '부모코드', isSort: true, align: 'center', width: '150px', isExcel: true},

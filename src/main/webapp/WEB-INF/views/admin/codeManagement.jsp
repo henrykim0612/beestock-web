@@ -57,7 +57,7 @@
                     <div class="mr-3 width-15-p">
                         <label id="labelCodeId" class="label" for="newCodeId">코드 아이디</label>
                     </div>
-                    <div class="control has-icons-left width-85-p">
+                    <div class="control width-85-p">
                         <div class="field">
                             <div class="control has-icons-left has-icons-right">
                                 <input id="newCodeId" class="input" type="text" placeholder="5자리 입력" onblur="main.checkCodeId(this)" maxlength="5">
@@ -78,7 +78,7 @@
                     <div class="mr-3 width-15-p">
                         <label id="labelCodeNm" class="label" for="newCodeNm">코드명</label>
                     </div>
-                    <div class="control has-icons-left width-85-p">
+                    <div class="control width-85-p">
                         <div class="control has-icons-left has-icons-right">
                             <input id="newCodeNm" class="input" type="text" maxlength="50" placeholder="최대 50자리 입력">
                             <span class="icon is-small is-left">
@@ -116,7 +116,7 @@
 </div>
 
 <%--코드 수정 모달--%>
-<div id="modCodeModal" class="modal is-mobile">
+<div id="modCodeModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
@@ -129,7 +129,7 @@
                     <div class="mr-3 width-15-p">
                         <label id="labelModCodeId" class="label" for="modCodeId">코드 아이디</label>
                     </div>
-                    <div class="control has-icons-left width-85-p">
+                    <div class="control width-85-p">
                         <div class="field">
                             <div class="control has-icons-left has-icons-right">
                                 <input disabled id="modCodeId" class="input" type="text" data-bind="true" data-id="codeId">

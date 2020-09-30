@@ -59,7 +59,7 @@
             </div>
             <div id="divExpDate" class="level-left">
                 <div class="mr-3">
-                    <label class="label" for="modalSelAuth">만료일 선택</label>
+                    <label class="label" for="expDate">만료일 선택</label>
                 </div>
                 <div class="control input-single-date">
                     <input id="expDate" type="date">

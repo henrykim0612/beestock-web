@@ -8,9 +8,10 @@
     <input type="hidden" id="accountNonExpired" value="<sec:authentication property="principal.accountNonExpired"/>"/>
     <input type="hidden" id="loginId" value="<sec:authentication property="principal.username"/>"/>
     <input type="hidden" id="loginUserNm" value="<sec:authentication property="principal.userNm"/>"/>
+    <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
 </sec:authorize>
 
-<nav class="navbar mb-5 is-dark" role="navigation" aria-label="main navigation">
+<nav class="navbar is-dark mb-1" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">
             <img src="${pageContext.request.contextPath}/resources/images/logo.png" width="112" height="28">
@@ -28,9 +29,9 @@
             <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation">Documentation</a>
 
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="${pageContext.request.contextPath}/login/login-home">Others</a>
+                <a class="navbar-link" href="${pageContext.request.contextPath}/bbs/qa">공지사항</a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item">Menu1</a>
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa">Q&A</a>
                     <a class="navbar-item">Menu2</a>
                     <a class="navbar-item">Menu3</a>
                     <hr class="navbar-divider">
@@ -55,7 +56,7 @@
                         </span>
                     </sec:authorize>
                     <a class="button is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
-                    <a id="aLogin" class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>
+                    <a id="aLogin" class="button is-info is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>
                     <sec:authorize access="isAuthenticated()">
                         <a class="button is-danger is-small" href="${pageContext.request.contextPath}/login/logout"><strong>로그아웃</strong></a>
                     </sec:authorize>
@@ -64,3 +65,11 @@
         </div>
     </div>
 </nav>
+
+<section class="hero is-light is-small mb-5">
+    <div class="hero-head">
+        <h2 class="subtitle ml-6">
+            ${title}
+        </h2>
+    </div>
+</section>

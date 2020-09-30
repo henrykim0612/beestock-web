@@ -11,6 +11,31 @@
     </div>
 </div>
 
+<%--저장 모달--%>
+<div id="saveModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <article class="message is-success">
+            <div class="message-header">
+                <p>완료</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('saveModal')"></button>
+            </div>
+            <div class="message-body">
+                <div class="is-left mb-5">
+                    저장 되었습니다.
+                </div>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="buttons">
+                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('saveModal')">확인</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </article>
+    </div>
+</div>
+
 <%--텍스트 입력관련 모달--%>
 <div id="inputModal" class="modal">
     <div class="modal-background"></div>
