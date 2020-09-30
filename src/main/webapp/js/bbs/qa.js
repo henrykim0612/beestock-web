@@ -7,9 +7,32 @@ const main = (function() {
     let dataGrid;
 
     function init() {
-
         initCalendar();
+        createBreadCrumb();
+        initGrid();
+    }
 
+    function createBreadCrumb() {
+        const breadCrumbNav = document.getElementById('breadCrumbNav');
+        let html = '';
+        html += '<ul>';
+        html += '  <li>';
+        html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+        html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
+        html += '      <span>BeeStock</span>';
+        html += '    </a>';
+        html += '  </li>';
+        html += '  <li class="is-active">';
+        html += '    <a aria-current="page">';
+        html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+        html += '      <span>Q&A</span>';
+        html += '    </a>';
+        html += '  </li>';
+        html += '</ul>';
+        breadCrumbNav.innerHTML = html;
+    }
+
+    function initGrid() {
         const questionMark = function(col, row) {
             return '<span class="icon is-dark"><i class="fab fa-quora"></i>' + row['rowNum'] + '</span>';
         }
@@ -92,10 +115,11 @@ const main = (function() {
 
                 const isSecret =  this.getAttribute('data-secret') === 'true';
                 const owner = this.getAttribute('data-owner');
-                const loginId = document.getElementById('loginId').value;
+                const loginId = cmmUtils.nvl(document.getElementById('loginId'));
+
                 global['selectedQaId'] = this.getAttribute('data-qa-id');
 
-                if (document.getElementById('authority').value === '[ROLE_ADMIN]') {
+                if (cmmUtils.nvl(document.getElementById('authority')) === '[ROLE_ADMIN]') {
                     // 관리자는 통과
                     goToDetails();
                 } else {

@@ -29,22 +29,23 @@
             <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation">Documentation</a>
 
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="${pageContext.request.contextPath}/bbs/qa">공지사항</a>
+                <a class="navbar-link" href="${pageContext.request.contextPath}/bbs/notice">공지사항</a>
                 <div class="navbar-dropdown">
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice">공지사항</a>
                     <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa">Q&A</a>
-                    <a class="navbar-item">Menu2</a>
-                    <a class="navbar-item">Menu3</a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">Menu4</a>
                 </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
-                <div class="navbar-dropdown">
-                    <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management">시스템 코드관리</a>
-                    <a class="navbar-item">파일 업로드</a>
+            <%--관리자만 가능--%>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management">시스템 코드관리</a>
+                        <a class="navbar-item">파일 업로드</a>
+                    </div>
                 </div>
-            </div>
+            </sec:authorize>
         </div>
 
         <div class="navbar-end">
@@ -66,10 +67,5 @@
     </div>
 </nav>
 
-<section class="hero is-light is-small mb-5">
-    <div class="hero-head">
-        <h2 class="subtitle ml-6">
-            ${title}
-        </h2>
-    </div>
-</section>
+<nav id="breadCrumbNav" class="ml-6 breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+</nav>

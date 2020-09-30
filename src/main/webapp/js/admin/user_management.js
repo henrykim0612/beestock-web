@@ -7,9 +7,43 @@ const main = (function() {
   }
 
   function init() {
-
     initCalendar();
+    createBreadCrumb();
+    initGrid()
+  }
 
+  function createBreadCrumb() {
+    const breadCrumbNav = document.getElementById('breadCrumbNav');
+    let html = '';
+    html += '<ul>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
+    html += '      <span>BeeStock</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li class="is-active">';
+    html += '    <a aria-current="page">';
+    html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+    html += '      <span>사용자관리</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '</ul>';
+    breadCrumbNav.innerHTML = html;
+  }
+
+  function initCalendar() {
+    bulmaCalendar.attach('[type="date"]', {
+      type: 'date',
+      color: 'info',
+      dateFormat: 'YYYY-MM-DD',
+      displayMode: 'dialog',
+      showHeader: false,
+      showClearButton: false
+    });
+  }
+
+  function initGrid() {
     const customRoleNm = function(col, row) {
       const roleNm = row['roleNm'];
       let innerHtml = '';
@@ -52,17 +86,6 @@ const main = (function() {
     dataGrid = new COMPONENTS.DataGrid(props);
   }
 
-  function initCalendar() {
-    bulmaCalendar.attach('[type="date"]', {
-      type: 'date',
-      color: 'info',
-      dateFormat: 'YYYY-MM-DD',
-      displayMode: 'dialog',
-      showHeader: false,
-      showClearButton: false
-    });
-  }
-
   function getDataGrid() {
     return dataGrid;
   }
@@ -99,7 +122,7 @@ const main = (function() {
       },
       loading: 'btnSaveAuth'
     }).then(function (response) {
-      console.log(response);
+      if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
       cmmUtils.closeModal('authModal');
       dataGrid.reload();
     }).catch(function (err) {
@@ -146,6 +169,7 @@ const main = (function() {
 }());
 
 document.addEventListener("DOMContentLoaded", function() {
+
    main.init();
 
   tippy('#icoExcelDownload', {

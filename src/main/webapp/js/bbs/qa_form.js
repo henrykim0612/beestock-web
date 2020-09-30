@@ -1,5 +1,35 @@
 const main = (function() {
 
+  function init() {
+    createBreadCrumb();
+  }
+
+  function createBreadCrumb() {
+    const breadCrumbNav = document.getElementById('breadCrumbNav');
+    let html = '';
+    html += '<ul>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
+    html += '      <span>BeeStock</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/bbs/qa">';
+    html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece"></i></span>';
+    html += '      <span>Q&A</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li class="is-active">';
+    html += '    <a aria-current="page">';
+    html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+    html += '      <span>Q&A 등록</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '</ul>';
+    breadCrumbNav.innerHTML = html;
+  }
+
   function insertNewQa() {
     if (verifyInputValues()) {
       cmmUtils.postData({
@@ -7,6 +37,7 @@ const main = (function() {
         body: getParameters(),
         loading: 'btnIns'
       }).then(function (response) {
+        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
         goToQa();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnIns'));
@@ -40,7 +71,12 @@ const main = (function() {
   }
 
   return {
+    init: init,
     goToQa: goToQa,
     insertNewQa: insertNewQa
   }
 })();
+
+document.addEventListener("DOMContentLoaded", function() {
+  main.init();
+});

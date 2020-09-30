@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/bbs/qa.js"></script>
 
 <div class="level-left mr-3">
@@ -21,11 +22,13 @@
             </span>
         </p>
     </div>
-    <div class="control ml-4">
-        <div class="buttons">
-            <button class="button is-primary is-small" onclick="main.goToQaForm()">게시글 등록</button>
+    <sec:authorize access="isAuthenticated()">
+        <div class="control ml-4">
+            <div class="buttons">
+                <button class="button is-primary is-small" onclick="main.goToQaForm()">Q&A 등록</button>
+            </div>
         </div>
-    </div>
+    </sec:authorize>
 </div>
 <%--테이블 그리드--%>
 <div class="table-container mt-3">

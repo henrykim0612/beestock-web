@@ -77,6 +77,15 @@ const cmmUtils = (function () {
     form.remove();
   }
 
+  function goToLoginHome() {
+    const form = document.createElement('form');
+    form.method = 'get';
+    form.action = CONTEXT_PATH + '/login/login-home';
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
   function clearChildNodes(eleArr) {
     if (typeof eleArr === 'object') {
       if (eleArr.length) {
@@ -269,8 +278,16 @@ const cmmUtils = (function () {
     }
   }
 
-  function nvl(value) {
-    return value == null || false || value === 'null' ? '' : value;
+  function nvl(v) {
+    if (typeof v === 'object') {
+      if (v == null) {
+        return '';
+      } else {
+        return v.value == null || false || v === 'null' ? '' : v.value;
+      }
+    } else {
+      return v == null || false || v === 'null' ? '' : v;
+    }
   }
 
   function isEmpty(value) {
@@ -298,6 +315,7 @@ const cmmUtils = (function () {
     showModal: showModal,
     showErrModal: showErrModal,
     goToPage: goToPage,
+    goToLoginHome: goToLoginHome,
     clearChildNodes: clearChildNodes,
     removeHiddenClass: removeHiddenClass,
     appendHiddenClass: appendHiddenClass,

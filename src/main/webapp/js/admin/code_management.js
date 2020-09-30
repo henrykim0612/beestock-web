@@ -8,7 +8,31 @@ const main = (function() {
   }
 
   function init() {
+    createBreadCrumb();
+    initGrid();
+  }
 
+  function createBreadCrumb() {
+    const breadCrumbNav = document.getElementById('breadCrumbNav');
+    let html = '';
+    html += '<ul>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
+    html += '      <span>BeeStock</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li class="is-active">';
+    html += '    <a aria-current="page">';
+    html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+    html += '      <span>시스템 코드관리</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '</ul>';
+    breadCrumbNav.innerHTML = html;
+  }
+
+  function initGrid() {
     const modSpans = function(col, row) {
       const span1 = '<span data-custom="add" data-code-id="' + row['codeId'] + '" data-code-lv="' + row['codeLevel'] + '" class="tag is-primary is-light cursor">하위코드 등록</span>';
       const span2 = '<span data-custom="mod" data-code-id="' + row['codeId'] + '" class="tag is-danger is-light cursor ml-2">수정</span>';
@@ -236,10 +260,11 @@ const main = (function() {
         body['codeLevel'] = parseInt(hidParentCodeLevel.value) + 1; // 부모코드의 다음 레벨로
       }
       cmmUtils.postData({
-        url: '/api/v1/code/insert-new-code',
+        url: '/api/v1/code/insert',
         body: body,
         loading: 'btnNewCode'
       }).then(function (response) {
+        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
         response ? closeNewCodeModal() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
@@ -261,6 +286,7 @@ const main = (function() {
         },
         loading: 'btnNewCode'
       }).then(function (response) {
+        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
         closeModCodeModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
@@ -281,6 +307,7 @@ const main = (function() {
         },
         loading: 'btnModCode'
       }).then(function (response) {
+        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
         0 < response ? closeModCodeModal() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnModCode'));

@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/bbs")
 public class BbsController {
 
+    // 공지사항 메인
+    @GetMapping("/notice")
+    public String goToNotice(ModelMap model) {
+        model.addAttribute("title", "공지사항");
+        return "bbs/notice";
+    }
+
     // Q&A 메인
     @GetMapping("/qa")
     public String goToQa(ModelMap model) {

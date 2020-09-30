@@ -1,13 +1,41 @@
 const main = (function() {
 
   let global = {
-    isAdmin: document.getElementById('authority').value === '[ROLE_ADMIN]',
-    loginId: document.getElementById('loginId').value
+    isAdmin: cmmUtils.nvl(document.getElementById('authority')) === '[ROLE_ADMIN]',
+    loginId: cmmUtils.nvl(document.getElementById('loginId'))
   }
 
   function init() {
+    createBreadCrumb();
     drawDetails();
   }
+
+  function createBreadCrumb() {
+    const breadCrumbNav = document.getElementById('breadCrumbNav');
+    let html = '';
+    html += '<ul>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
+    html += '      <span>BeeStock</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/bbs/qa">';
+    html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece"></i></span>';
+    html += '      <span>Q&A</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li class="is-active">';
+    html += '    <a aria-current="page">';
+    html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+    html += '      <span>Q&A 상세보기</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '</ul>';
+    breadCrumbNav.innerHTML = html;
+  }
+
 
   function drawDetails() {
     const qaId = document.getElementById('qaId').value;
@@ -54,11 +82,13 @@ const main = (function() {
           body: getParameters(),
           loading: 'btnMod'
         }).then(function (response) {
+          if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
           cmmUtils.showModal('saveModal');
           if (0 < response) {
             init();
           }
         }).catch(function (err) {
+          console.log(err);
           cmmUtils.hideLoadingElement(document.getElementById('btnMod'));
           cmmUtils.showErrModal();
           console.log(err);
@@ -75,6 +105,7 @@ const main = (function() {
         url: url,
         loading: 'btnRm'
       }).then(function (response) {
+        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
         0 < response ? goToQa() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnRm'));
@@ -92,7 +123,6 @@ const main = (function() {
     }
     return true;
   }
-
 
   function getParameters() {
     const props = {
