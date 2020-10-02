@@ -222,3 +222,17 @@
 .mainContent {
 	height: 1000px;
 }
+
+/*CKEditor Heading*/
+.fancy1 {
+	font-size: 2em;
+	font-weight: bolder;
+}
+.fancy2 {
+	font-size: 1.5em;
+	font-weight: bolder;
+}
+.fancy3 {
+	font-size: 1.17em;
+	font-weight: bolder;
+}

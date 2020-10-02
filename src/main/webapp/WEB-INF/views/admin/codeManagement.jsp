@@ -18,7 +18,7 @@
     </div>
     <div>
         <p class="control has-icons-left">
-            <input id="inputSearch" class="input input-search is-small" type="text" placeholder="이름 검색">
+            <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
             <span class="icon is-left">
                 <i class="fas fa-search" aria-hidden="true"></i>
             </span>

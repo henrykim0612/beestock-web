@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/bbs/qa_details.js"></script>
+<script src="${pageContext.request.contextPath}/js/bbs/qa/qa_details.js"></script>
 
 <input type="hidden" id="qaId" value="${qaId}"/>
 <form id="qaDetailForm">
@@ -16,7 +16,7 @@
             <label id="labelCont" class="label" for="qaCont">내용</label>
         </div>
         <div class="control has-icons-left width-85-p">
-            <textarea id="qaCont" class="textarea is-info" data-bind="true" data-id="qaCont" placeholder="1000자 내외로 작성" maxlength="1000"></textarea>
+            <div id="qaCont"></div>
         </div>
     </div>
     <div class="level-left mb-4">
@@ -24,7 +24,7 @@
             <label id="labelAnswer" class="label" for="qaAnswer">답변</label>
         </div>
         <div class="control has-icons-left width-85-p">
-            <textarea disabled id="qaAnswer" class="textarea is-success" data-bind="true" data-id="qaAnswer"></textarea>
+            <div id="qaAnswer"></div>
         </div>
     </div>
     <div class="level-left mb-4">

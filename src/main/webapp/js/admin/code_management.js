@@ -352,12 +352,6 @@ const main = (function() {
     return true;
   }
 
-  function changeSelSearch() {
-    const inputSearch = document.getElementById('inputSearch');
-    const placeholder = this.value + ' 검색';
-    inputSearch.setAttribute('placeholder', placeholder);
-  }
-
   function findCode(e) {
     if (e.key === 'Enter') {
       const key = document.getElementById('selSearch').value;
@@ -380,7 +374,6 @@ const main = (function() {
     removeCode: removeCode,
     closeNewCodeModal: closeNewCodeModal,
     closeModCodeModal: closeModCodeModal,
-    changeSelSearch: changeSelSearch,
     findCode: findCode,
     downloadExcel: downloadExcel
   }
@@ -395,8 +388,6 @@ document.addEventListener("DOMContentLoaded", function() {
     placement: 'top'
   });
 
-  // 검색조건 셀렉트박스 변경 이벤트
-  document.getElementById('selSearch').addEventListener('change', main.changeSelSearch)
   // 사용자 검색 이벤트 리스너
   document.getElementById('inputSearch').addEventListener('keyup', main.findCode)
 });

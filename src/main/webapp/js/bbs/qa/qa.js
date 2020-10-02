@@ -7,7 +7,6 @@ const main = (function() {
     let dataGrid;
 
     function init() {
-        initCalendar();
         createBreadCrumb();
         initGrid();
     }
@@ -90,23 +89,6 @@ const main = (function() {
         }
     }
 
-    function changeSelSearch() {
-        const inputSearch = document.getElementById('inputSearch');
-        const placeholder = this.value + ' 검색';
-        inputSearch.setAttribute('placeholder', placeholder);
-    }
-
-    function initCalendar() {
-        bulmaCalendar.attach('[type="date"]', {
-            type: 'date',
-            color: 'info',
-            dateFormat: 'YYYY-MM-DD',
-            displayMode: 'dialog',
-            showHeader: false,
-            showClearButton: false
-        });
-    }
-
     function addTitleAnchorEvent(data, _this) {
         const eId = _this.props.eId;
         const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
@@ -175,7 +157,6 @@ const main = (function() {
 
     return {
         init: init,
-        changeSelSearch: changeSelSearch,
         findQa: findQa,
         keyupIpPwd: keyupIpPwd,
         closeModQaModal: closeModQaModal,
@@ -187,8 +168,6 @@ const main = (function() {
 
 document.addEventListener("DOMContentLoaded", function() {
     main.init();
-    // 검색조건 셀렉트박스 변경 이벤트
-    document.getElementById('selSearch').addEventListener('change', main.changeSelSearch);
     // 사용자 검색 이벤트 리스너
     document.getElementById('inputSearch').addEventListener('keyup', main.findQa);
     // 패스워드 확인 엔터키 이벤트

@@ -7,8 +7,8 @@ const main = (function() {
   }
 
   function init() {
-    initCalendar();
     createBreadCrumb();
+    cmmUtils.initCalendar();
     initGrid()
   }
 
@@ -30,17 +30,6 @@ const main = (function() {
     html += '  </li>';
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
-  }
-
-  function initCalendar() {
-    bulmaCalendar.attach('[type="date"]', {
-      type: 'date',
-      color: 'info',
-      dateFormat: 'YYYY-MM-DD',
-      displayMode: 'dialog',
-      showHeader: false,
-      showClearButton: false
-    });
   }
 
   function initGrid() {
@@ -99,12 +88,6 @@ const main = (function() {
     }
   }
 
-  function changeSelSearch() {
-    const inputSearch = document.getElementById('inputSearch');
-    const placeholder = this.value + ' 검색';
-    inputSearch.setAttribute('placeholder', placeholder);
-  }
-
   function changeSelAuth() {
     this.value === 'ROLE_SUBC' ? cmmUtils.showElement('divExpDate') : cmmUtils.hideElement('divExpDate');
   }
@@ -160,7 +143,6 @@ const main = (function() {
     init: init,
     getDataGrid: getDataGrid,
     findUser: findUser,
-    changeSelSearch: changeSelSearch,
     changeSelAuth: changeSelAuth,
     showAuthModal: showAuthModal,
     saveAuth: saveAuth,
@@ -177,8 +159,6 @@ document.addEventListener("DOMContentLoaded", function() {
     placement: 'bottom'
   });
 
-  // 검색조건 셀렉트박스 변경 이벤트
-  document.getElementById('selSearch').addEventListener('change', main.changeSelSearch)
   // 권한변경 셀렉트박스 이벤트
   document.getElementById('modalSelAuth').addEventListener('change', main.changeSelAuth)
   // 사용자 검색 이벤트 리스너

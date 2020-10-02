@@ -306,6 +306,114 @@ const cmmUtils = (function () {
     return arr;
   }
 
+  function createCKEditor(selector, callback) {
+    ClassicEditor
+      .create(document.querySelector(selector), {
+        toolbar: [
+          'heading',
+          'bold',
+          'italic',
+          'link',
+          'blockQuote',
+          'fontColor',
+          'fontSize',
+          'alignment',
+          'highlight',
+          'code',
+          'underline',
+          'superscript',
+          'subscript',
+          'strikethrough',
+          'undo',
+          'redo'
+        ],
+        language: 'ko',
+        heading: {
+          options: [
+            {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+            {
+              model: 'headingFancy1',
+              view: {
+                name: 'h1',
+                classes: 'fancy1'
+              },
+              title: 'Heading 1',
+              class: 'ck-heading_heading1',
+              // It needs to be converted before the standard 'heading2'.
+              converterPriority: 'high'
+            },
+            {
+              model: 'headingFancy2',
+              view: {
+                name: 'h2',
+                classes: 'fancy2'
+              },
+              title: 'Heading 2',
+              class: 'ck-heading_heading2',
+              // It needs to be converted before the standard 'heading2'.
+              converterPriority: 'high'
+            },
+            {
+              model: 'headingFancy3',
+              view: {
+                name: 'h3',
+                classes: 'fancy3'
+              },
+              title: 'Heading 3',
+              class: 'ck-heading_heading3',
+              // It needs to be converted before the standard 'heading2'.
+              converterPriority: 'high'
+            }
+          ]
+        }
+      })
+      .then(function(editor) {
+        callback(editor);
+        //console.log(Array.from(editor.ui.componentFactory.names())); // 이용가능한 Toolbar 아이템})
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  function setCKEditor(editorArr, response) {
+    for (let i = 0; i < editorArr.length; i++) {
+      const obj = editorArr[i];
+      obj.editor.setData(response[obj.key]);
+    }
+  }
+
+  function initCalendar(options) {
+    const arg = arguments.length;
+    bulmaCalendar.attach('[type="date"]', arg === 1 ? options : {
+      type: 'date',
+      color: 'info',
+      dateFormat: 'YYYY-MM-DD',
+      displayMode: 'dialog',
+      showHeader: false,
+      showClearButton: false
+    });
+  }
+
+  function getCalendarValue(id) {
+    return document.getElementById(id).bulmaCalendar.value();
+  }
+
+  function setCalendarValue(id, value) {
+    document.getElementById(id).bulmaCalendar.value(value);
+  }
+
+  // 시작 날짜가 종료 날짜보다 작은지 검증한다
+  function isValidDateRange(sId, eId) {
+    const stDate = document.getElementById(sId).bulmaCalendar.value();
+    const edDate = document.getElementById(eId).bulmaCalendar.value();
+    const splitStDate = stDate.split('-');
+    const splitEdDate = edDate.split('-');
+    const d1 = new Date(parseInt(splitStDate[0]), parseInt(splitStDate[1]), parseInt(splitStDate[2]));
+    const d2 = new Date(parseInt(splitEdDate[0]), parseInt(splitEdDate[1]), parseInt(splitEdDate[2]));
+    return d1 < d2;
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -332,7 +440,12 @@ const cmmUtils = (function () {
     removeClassAll: removeClassAll,
     nvl: nvl,
     isEmpty: isEmpty,
-    getCheckedValues: getCheckedValues
-
+    getCheckedValues: getCheckedValues,
+    createCKEditor: createCKEditor,
+    setCKEditor: setCKEditor,
+    initCalendar: initCalendar,
+    setCalendarValue: setCalendarValue,
+    getCalendarValue: getCalendarValue,
+    isValidDateRange: isValidDateRange
   }
 })();

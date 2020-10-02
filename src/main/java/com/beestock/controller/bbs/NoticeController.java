@@ -1,0 +1,25 @@
+package com.beestock.controller.bbs;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/bbs")
+public class NoticeController {
+    // 공지사항 메인
+    @GetMapping("/notice")
+    public String goToNotice(ModelMap model) {
+        model.addAttribute("title", "공지사항");
+        return "bbs/notice/notice";
+    }
+    // 공지사항 상세보기
+    @GetMapping("/notice/{noticeId}")
+    public String goToQaDetails(ModelMap model, @PathVariable String noticeId) {
+        model.addAttribute("title", "공지사항 상세보기");
+        model.addAttribute("noticeId", noticeId);
+        return "bbs/notice/noticeDetails";
+    }
+}

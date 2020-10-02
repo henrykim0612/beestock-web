@@ -1,7 +1,18 @@
 const main = (function() {
 
+  let global = {
+    ckEditQaCont: undefined
+  }
+
   function init() {
     createBreadCrumb();
+    initCKEditor();
+  }
+
+  function initCKEditor() {
+    cmmUtils.createCKEditor('#qaCont', function(editor) {
+      global['ckEditQaCont'] = editor;
+    });
   }
 
   function createBreadCrumb() {
@@ -59,7 +70,7 @@ const main = (function() {
   function getParameters() {
     return {
       qaTitle: document.getElementById('qaTitle').value,
-      qaCont: document.getElementById('qaCont').value,
+      qaCont: global['ckEditQaCont'].getData(),
       ckSecret: cmmUtils.getCheckedValues('ckSecret')[0]
     };
   }

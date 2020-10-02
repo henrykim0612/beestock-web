@@ -2,11 +2,14 @@ const main = (function() {
 
   let global = {
     isAdmin: cmmUtils.nvl(document.getElementById('authority')) === '[ROLE_ADMIN]',
-    loginId: cmmUtils.nvl(document.getElementById('loginId'))
+    loginId: cmmUtils.nvl(document.getElementById('loginId')),
+    ckEditQaCont: undefined,
+    ckEditQaAnswer: undefined
   }
 
   function init() {
     createBreadCrumb();
+    initCKEditor();
     drawDetails();
   }
 
@@ -36,6 +39,18 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
+  function initCKEditor() {
+    if (!global['ckEditQaCont']) {
+      cmmUtils.createCKEditor('#qaCont', function(editor) {
+        global['ckEditQaCont'] = editor;
+      });
+    }
+    if (!global['ckEditQaCont']) {
+      cmmUtils.createCKEditor('#qaAnswer', function(editor) {
+        global['ckEditQaAnswer'] = editor;
+      });
+    }
+  }
 
   function drawDetails() {
     const qaId = document.getElementById('qaId').value;
@@ -44,6 +59,7 @@ const main = (function() {
       url: url,
     }).then(function (response) {
       cmmUtils.bindData('qaDetailForm', response);
+      cmmUtils.setCKEditor([{key: 'qaCont', editor: global['ckEditQaCont']}, {key: 'qaAnswer', editor: global['ckEditQaAnswer']}], response);
       checkViewOnly(response);
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -53,19 +69,22 @@ const main = (function() {
 
   function checkViewOnly(response) {
 
-    document.getElementById('qaAnswer').disabled = !global['isAdmin']; // 관리자는 답변 활성화
-    if (!global['isAdmin'] && response['regLoginId'] !== global['loginId']) { // 관리자가 아니고 본인의 글이 아니라면
+    // 관리자는 답변 활성화
+    global['ckEditQaAnswer'].isReadOnly = !global['isAdmin'];
+
+    // 관리자가 아니고 본인의 글이 아니라면
+    if (!global['isAdmin'] && response['regLoginId'] !== global['loginId']) {
       setViewOnly();
     } else {
+      // 답변이 완료된 글은 수정할 수 없음
       if (!global['isAdmin'] && cmmUtils.nvl(response['qaAnswer']) !== '') {
-        // 답변이 완료된 글은 수정할 수 없음
         setViewOnly();
       }
     }
 
     function setViewOnly() {
       document.getElementById('qaTitle').disabled = true;
-      document.getElementById('qaCont').disabled = true;
+      global['ckEditQaCont'].isReadOnly = true;
       document.getElementById('ckSecret1').disabled = true;
       document.getElementById('ckSecret2').disabled = true;
       document.getElementById('uptDiv').remove();
@@ -128,11 +147,11 @@ const main = (function() {
     const props = {
       qaId: document.getElementById('qaId').value,
       qaTitle: document.getElementById('qaTitle').value,
-      qaCont: document.getElementById('qaCont').value,
+      qaCont: global['ckEditQaCont'].getData(),
       ckSecret: cmmUtils.getCheckedValues('ckSecret')[0]
     }
     if (global['isAdmin']) {
-      props['qaAnswer'] = document.getElementById('qaAnswer').value;
+      props['qaAnswer'] = global['ckEditQaAnswer'].getData();
     }
     return props;
   }
@@ -145,6 +164,9 @@ const main = (function() {
 
   return {
     init: init,
+    getGlobal: function() {
+      return global;
+    },
     goToQa: goToQa,
     modifyQa: modifyQa,
     removeQa: removeQa

@@ -19,6 +19,9 @@
 <%--Quick view--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/quick-view/bulma-quickview.min.js" type="text/javascript"></script>
 
+<%--CKEditor--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/ckeditor5/build/ckeditor.js" type="text/javascript"></script>
+
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
