@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/user1")
-    public String goToDashboard(ModelMap model) {
-        model.addAttribute("title", "User1");
-        return "user/user1";
-    }
-
     @GetMapping("/my-page")
     public String goToMyPage(ModelMap model) {
         model.addAttribute("title", "MyPage");

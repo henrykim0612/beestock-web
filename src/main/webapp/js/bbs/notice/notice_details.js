@@ -129,7 +129,7 @@ const main = (function() {
       cmmUtils.showIpModal('공지 종료일');
       return false;
     }
-    if (!cmmUtils.isValidDateRange('alarmStDate', 'alarmEdDate')) {
+    if ((stDate && edDate) && (!cmmUtils.isValidDateRange('alarmStDate', 'alarmEdDate'))) {
       cmmUtils.showIpModal('공지기간', '공지 종료일은 공지 시작일보다 빠를 수 없습니다.');
       return false;
     }
@@ -141,6 +141,8 @@ const main = (function() {
       noticeId: document.getElementById('noticeId').value,
       noticeTitle: document.getElementById('noticeTitle').value,
       noticeCont: global['ckEditNoticeCont'].getData(),
+      alarmStDate: cmmUtils.getCalendarValue('alarmStDate'),
+      alarmEdDate: cmmUtils.getCalendarValue('alarmEdDate'),
       ckPinnedNotice: cmmUtils.getCheckedValues('ckPinnedNotice')[0]
     };
   }

@@ -22,4 +22,10 @@ public class NoticeController {
         model.addAttribute("noticeId", noticeId);
         return "bbs/notice/noticeDetails";
     }
+    // 공지사항 등록창
+    @GetMapping("/notice-form")
+    public String goToNoticeForm(ModelMap model) {
+        model.addAttribute("title", "공지사항 등록");
+        return "bbs/notice/noticeForm";
+    }
 }

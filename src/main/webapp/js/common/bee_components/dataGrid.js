@@ -24,6 +24,8 @@
 BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid = function(_props) {
+    // Set default properties
+    if (_props['body'] == null) _props['body'] = {};
     const me = this;
     me.props = _props;
     me.init(_props);
@@ -173,12 +175,15 @@ BeeComponents.modules.dataGrid = function(component) {
         const row = rowData[i];
         const tr = document.createElement('tr');
         for (let j = 0; j < colModel.length; j++) {
+
           const col = colModel[j];
           const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
+          const value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
+
           // Excel
           if (col['isExcel'] != null && col['isExcel']) {
             thOrTd.setAttribute('data-excel-body', 'true');
-            thOrTd.setAttribute('data-excel-value', row[col['id']]);
+            thOrTd.setAttribute('data-excel-value', value);
           }
           // 텍스트 정렬
           if (col['align'] != null) {
@@ -206,10 +211,10 @@ BeeComponents.modules.dataGrid = function(component) {
               if (col['userCustom'] != null) {
                 col['userCustom'](a, col, row);
               }
-              a.innerHTML = row[col['id']];
+              a.innerHTML = value;
               thOrTd.appendChild(a);
             } else {
-              thOrTd.innerHTML = row[col['id']];
+              thOrTd.innerHTML = value;
             }
           }
           // tr에 추가
@@ -269,7 +274,7 @@ BeeComponents.modules.dataGrid = function(component) {
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');
     select.setAttribute('data-custom', 'pageSel');
-    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500'];
+    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500', '1000', '2000', '3000'];
     for (let i = 0; i < sizeArr.length; i++) {
       const option = document.createElement('option');
       const optionSize  = sizeArr[i];
@@ -593,9 +598,7 @@ BeeComponents.modules.dataGrid = function(component) {
       }
     }
     // 파일명
-    if (props['fileName'] != null) {
-      appendInputTag('fileName', props['fileName'], form);
-    }
+    appendInputTag('fileName', props['fileName'] != null ? props['fileName'] + '_' + cmmUtils.getToday() : cmmUtils.getToday(), form);
 
     document.body.appendChild(form);
     form.submit();

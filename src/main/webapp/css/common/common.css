@@ -236,3 +236,13 @@
 	font-size: 1.17em;
 	font-weight: bolder;
 }
+
+/*CKEditor 기본 높이*/
+.ck-editor__editable {
+	min-height: 300px;
+}
+
+.limited-width [id^="datetimePicker"] {
+	max-width: 220px;
+	margin: auto;
+}

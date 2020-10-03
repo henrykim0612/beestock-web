@@ -21,6 +21,12 @@ const main = (function() {
         html += '      <span>BeeStock</span>';
         html += '    </a>';
         html += '  </li>';
+        html += '  <li>';
+        html += '    <a href="' + CONTEXT_PATH + '/bbs/qa">';
+        html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece" aria-hidden="true"></i></span>';
+        html += '      <span>고객센터</span>';
+        html += '    </a>';
+        html += '  </li>';
         html += '  <li class="is-active">';
         html += '    <a aria-current="page">';
         html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
@@ -94,7 +100,7 @@ const main = (function() {
     }
 
     function goToNoticeForm() {
-
+        cmmUtils.goToPage('/bbs/notice-form')
     }
 
     function findNotice(e) {

@@ -9,6 +9,7 @@ const main = (function() {
   function init() {
     createBreadCrumb();
     cmmUtils.initCalendar();
+    cmmUtils.setExcelTippy(['#icoExcelDownload']);
     initGrid()
   }
 
@@ -20,6 +21,12 @@ const main = (function() {
     html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/admin/user-management">';
+    html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece" aria-hidden="true"></i></span>';
+    html += '      <span>시스템관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
@@ -57,6 +64,7 @@ const main = (function() {
       },
       eId: 'dataGrid',
       pId: 'dataPagination',
+      fileName: '사용자리스트',
       isThead: true,
       isTfoot: false,
       colModel: [
@@ -69,7 +77,7 @@ const main = (function() {
         {id: 'uptDate', name: '수정일자', isSort: true, isExcel: true},
         {id: 'uptLoginId', name: '수정자', isSort: true, isExcel: true},
         {id: 'expDate', name: '만료일', isSort: true, isExcel: true},
-        {id: 'roleNm', name: '권한', type: 'custom', userCustom: customRoleNm, isSort: true, isExcel: true}
+        {id: 'roleNm', name: '권한', type: 'custom', userCustom: customRoleNm, isExcel: true}
       ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);
@@ -139,6 +147,10 @@ const main = (function() {
     dataGrid.reload();
   }
 
+  function downloadExcel() {
+    dataGrid.downloadExcel();
+  }
+
   return {
     init: init,
     getDataGrid: getDataGrid,
@@ -146,18 +158,14 @@ const main = (function() {
     changeSelAuth: changeSelAuth,
     showAuthModal: showAuthModal,
     saveAuth: saveAuth,
-    closeChangeRoleModal: closeChangeRoleModal
+    closeChangeRoleModal: closeChangeRoleModal,
+    downloadExcel: downloadExcel
   }
 }());
 
 document.addEventListener("DOMContentLoaded", function() {
 
    main.init();
-
-  tippy('#icoExcelDownload', {
-    content: 'Excel Download',
-    placement: 'bottom'
-  });
 
   // 권한변경 셀렉트박스 이벤트
   document.getElementById('modalSelAuth').addEventListener('change', main.changeSelAuth)

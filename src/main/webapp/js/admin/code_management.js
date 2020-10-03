@@ -9,6 +9,7 @@ const main = (function() {
 
   function init() {
     createBreadCrumb();
+    cmmUtils.setExcelTippy(['#icoExcelDownload']);
     initGrid();
   }
 
@@ -20,6 +21,12 @@ const main = (function() {
     html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
+    html += '    </a>';
+    html += '  </li>';
+    html += '  <li>';
+    html += '    <a href="' + CONTEXT_PATH + '/admin/code-management">';
+    html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece" aria-hidden="true"></i></span>';
+    html += '      <span>시스템관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
@@ -380,14 +387,7 @@ const main = (function() {
 }());
 
 document.addEventListener("DOMContentLoaded", function() {
-
   main.init();
-
-  tippy('#icoExcelDownload', {
-    content: '엑셀 다운로드',
-    placement: 'top'
-  });
-
   // 사용자 검색 이벤트 리스너
   document.getElementById('inputSearch').addEventListener('keyup', main.findCode)
 });

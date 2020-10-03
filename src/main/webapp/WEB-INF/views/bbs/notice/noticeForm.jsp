@@ -1,46 +1,69 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
 <script src="${pageContext.request.contextPath}/js/bbs/notice/notice_form.js"></script>
 
-<form id="qaForm">
+<form id="noticeForm">
     <div class="level-left mb-4">
         <div class="mr-3 width-7-p">
-            <label id="labelTitle" class="label" for="qaTitle">제목</label>
+            <label id="labelTitle" class="label" for="noticeTitle">제목</label>
         </div>
         <div class="control width-85-p">
-            <input id="qaTitle" class="input is-info" type="text" maxlength="100" placeholder="최대 100자리 입력">
+            <input id="noticeTitle" class="input is-info" type="text" maxlength="100" placeholder="최대 100자리 입력">
         </div>
     </div>
     <div class="level-left mb-4">
         <div class="mr-3 width-7-p">
-            <label id="labelCont" class="label" for="qaCont">내용</label>
+            <label id="labelCont" class="label" for="noticeCont">내용</label>
         </div>
         <div class="control has-icons-left width-85-p">
-            <div id="qaCont"></div>
+            <div id="noticeCont"></div>
         </div>
     </div>
     <div class="level-left mb-4">
         <div class="mr-3 width-7-p">
-            <label id="labelSecret" class="label">비밀글</label>
+            <label id="labelAlarmStDate" class="label" for="alarmStDate">공지 시작일</label>
+        </div>
+        <div class="control has-icons-left width-85-p">
+            <div class="control input-single-date">
+                <input id="alarmStDate" type="date">
+            </div>
+        </div>
+    </div>
+    <div class="level-left mb-4">
+        <div class="mr-3 width-7-p">
+            <label id="labelAlarmEdDate" class="label" for="alarmEdDate">공지 종료일</label>
+        </div>
+        <div class="control has-icons-left width-85-p">
+            <div class="control input-single-date">
+                <input id="alarmEdDate" type="date">
+            </div>
+        </div>
+    </div>
+    <div class="level-left mb-4">
+        <div class="mr-3 width-7-p">
+            <label id="labelSecret" class="label">공지글 고정</label>
         </div>
         <div class="field">
-            <input type="radio" class="is-checkradio is-primary is-circle" id="ckSecret1" name="ckSecret" value="0" checked="checked">
-            <label for="ckSecret1">공개</label>
-            <input type="radio" class="is-checkradio is-primary is-circle" id="ckSecret2" name="ckSecret" value="1">
-            <label for="ckSecret2">비공개</label>
+            <input checked type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice1" name="ckPinnedNotice" value="0">
+            <label for="ckPinnedNotice1">미고정</label>
+            <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice2" name="ckPinnedNotice" value="1">
+            <label for="ckPinnedNotice2">고정</label>
         </div>
     </div>
 </form>
 <div class="flex-row justify-content-center mt-6">
-    <div id="uptDiv">
-        <button id="btnIns" onclick="main.insertNewQa()" class="button is-success">
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <div>
+            <button id="btnIns" onclick="main.insertNotice()" class="button is-success">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
-            <span>등록</span>
-        </button>
-    </div>
+                <span>등록</span>
+            </button>
+        </div>
+    </sec:authorize>
     <div class="ml-3">
-        <button onclick="main.goToQa()" class="button is-dark">
+        <button onclick="main.goToNotice()" class="button is-dark">
                 <span class="icon is-small">
                   <i class="fas fa-arrow-alt-circle-left"></i>
                 </span>

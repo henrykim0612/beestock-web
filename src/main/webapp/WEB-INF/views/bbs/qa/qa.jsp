@@ -2,9 +2,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/bbs/qa/qa.js"></script>
 
-<div class="level-left mr-3">
+<div class="level-left mr-3 mb-5">
     <div class="control has-icons-left mr-3">
-        <div class="select is-rounded is-small">
+        <div class="select is-rounded">
             <select id="selSearch">
                 <option value="qaTitle" selected>제목</option>
                 <option value="qaCont">내용</option>
@@ -16,7 +16,7 @@
     </div>
     <div>
         <p class="control has-icons-left">
-            <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
+            <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
             <span class="icon is-left">
                 <i class="fas fa-search" aria-hidden="true"></i>
             </span>
@@ -25,7 +25,7 @@
     <sec:authorize access="isAuthenticated()">
         <div class="control ml-4">
             <div class="buttons">
-                <button class="button is-primary is-small" onclick="main.goToQaForm()">Q&A 등록</button>
+                <button class="button is-primary" onclick="main.goToQaForm()">Q&A 등록</button>
             </div>
         </div>
     </sec:authorize>

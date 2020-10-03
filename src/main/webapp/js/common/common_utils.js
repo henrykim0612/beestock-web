@@ -390,6 +390,8 @@ const cmmUtils = (function () {
       color: 'info',
       dateFormat: 'YYYY-MM-DD',
       displayMode: 'dialog',
+      todayButton: true,
+      clearButton: true,
       showHeader: false,
       showClearButton: false
     });
@@ -412,6 +414,23 @@ const cmmUtils = (function () {
     const d1 = new Date(parseInt(splitStDate[0]), parseInt(splitStDate[1]), parseInt(splitStDate[2]));
     const d2 = new Date(parseInt(splitEdDate[0]), parseInt(splitEdDate[1]), parseInt(splitEdDate[2]));
     return d1 < d2;
+  }
+
+  function setExcelTippy(selectorArr) {
+    for (let i = 0; i < selectorArr.length; i++) {
+      tippy(selectorArr[i], {
+        content: '엑셀 다운로드',
+        placement: 'top'
+      });
+    }
+  }
+
+  function getToday(){
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ("0" + (1 + date.getMonth())).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    return year + "-" + month + "-" + day;
   }
 
   return {
@@ -446,6 +465,8 @@ const cmmUtils = (function () {
     initCalendar: initCalendar,
     setCalendarValue: setCalendarValue,
     getCalendarValue: getCalendarValue,
-    isValidDateRange: isValidDateRange
+    isValidDateRange: isValidDateRange,
+    setExcelTippy: setExcelTippy,
+    getToday: getToday
   }
 })();

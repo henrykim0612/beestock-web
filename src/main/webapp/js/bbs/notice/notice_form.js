@@ -1,18 +1,23 @@
 const main = (function() {
 
   let global = {
-    ckEditQaCont: undefined
+    isAdmin: cmmUtils.nvl(document.getElementById('authority')) === '[ROLE_ADMIN]',
+    loginId: cmmUtils.nvl(document.getElementById('loginId')),
+    ckEditNoticeCont: undefined,
   }
 
   function init() {
     createBreadCrumb();
+    cmmUtils.initCalendar();
     initCKEditor();
   }
 
   function initCKEditor() {
-    cmmUtils.createCKEditor('#qaCont', function(editor) {
-      global['ckEditQaCont'] = editor;
-    });
+    if (!global['ckEditNoticeCont']) {
+      cmmUtils.createCKEditor('#noticeCont', function(editor) {
+        global['ckEditNoticeCont'] = editor;
+      });
+    }
   }
 
   function createBreadCrumb() {
@@ -41,15 +46,15 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function insertNewQa() {
+  function insertNotice() {
     if (verifyInputValues()) {
       cmmUtils.postData({
-        url: '/api/v1/bbs/qa/insert',
+        url: '/api/v1/bbs/notice/insert',
         body: getParameters(),
         loading: 'btnIns'
       }).then(function (response) {
         if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
-        goToQa();
+        goToNotice();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnIns'));
         cmmUtils.showErrModal();
@@ -59,9 +64,23 @@ const main = (function() {
   }
 
   function verifyInputValues() {
-    const qaTitle = document.getElementById('qaTitle').value;
-    if (!qaTitle) {
+    const noticeTitle = document.getElementById('noticeTitle').value;
+    const stDate = cmmUtils.getCalendarValue('alarmStDate');
+    const edDate = cmmUtils.getCalendarValue('alarmEdDate');
+    if (!noticeTitle) {
       cmmUtils.showIpModal('제목');
+      return false;
+    }
+    if (!stDate && edDate) {
+      cmmUtils.showIpModal('공지 시작일');
+      return false;
+    }
+    if (stDate && !edDate) {
+      cmmUtils.showIpModal('공지 종료일');
+      return false;
+    }
+    if ((stDate && edDate) && (!cmmUtils.isValidDateRange('alarmStDate', 'alarmEdDate'))) {
+      cmmUtils.showIpModal('공지기간', '공지 종료일은 공지 시작일보다 빠를 수 없습니다.');
       return false;
     }
     return true;
@@ -69,22 +88,23 @@ const main = (function() {
 
   function getParameters() {
     return {
-      qaTitle: document.getElementById('qaTitle').value,
-      qaCont: global['ckEditQaCont'].getData(),
-      ckSecret: cmmUtils.getCheckedValues('ckSecret')[0]
+      noticeTitle: document.getElementById('noticeTitle').value,
+      noticeCont: global['ckEditNoticeCont'].getData(),
+      alarmStDate: cmmUtils.getCalendarValue('alarmStDate'),
+      alarmEdDate: cmmUtils.getCalendarValue('alarmEdDate'),
+      ckPinnedNotice: cmmUtils.getCheckedValues('ckPinnedNotice')[0]
     };
   }
 
-
   // 목록으로 돌아가기
-  function goToQa() {
-    cmmUtils.goToPage('/bbs/qa');
+  function goToNotice() {
+    cmmUtils.goToPage('/bbs/notice');
   }
 
   return {
     init: init,
-    goToQa: goToQa,
-    insertNewQa: insertNewQa
+    goToNotice: goToNotice,
+    insertNotice: insertNotice
   }
 })();
 
