@@ -24,8 +24,18 @@ const main = (function() {
         });
     }
 
+    function keyupIpPwd(e) {
+        if (e.key === 'Enter') {
+            goToModProfile();
+        }
+    }
+
     return {
-        goToModProfile: goToModProfile
+        goToModProfile: goToModProfile,
+        keyupIpPwd: keyupIpPwd
     }
 }());
 
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('ipPwd').addEventListener('keyup', main.keyupIpPwd);
+});

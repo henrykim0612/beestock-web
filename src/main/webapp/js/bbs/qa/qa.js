@@ -66,7 +66,7 @@ const main = (function() {
             isThead: true,
             isTfoot: false,
             colModel: [
-                {type: 'custom', userCustom: questionMark, width: '50px', align: 'center'},
+                {type: 'custom', userCustom: questionMark, width: '50px', align: 'center', isStrong: true},
                 {type: 'custom', userCustom: locker, width: '30px', align: 'center'},
                 {id: 'qaTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor},
                 {name: '답변상태', type: 'custom', userCustom: answerMark, width: '80px', align: 'center'},

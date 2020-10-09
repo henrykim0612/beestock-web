@@ -80,7 +80,7 @@ const main = (function() {
           body: getParameters(),
           loading: 'btnMod'
         }).then(function (response) {
-          if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+          if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
           cmmUtils.showModal('saveModal');
           if (0 < response) {
             init();
@@ -103,7 +103,7 @@ const main = (function() {
         url: url,
         loading: 'btnRm'
       }).then(function (response) {
-        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         0 < response ? goToNotice() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnRm'));

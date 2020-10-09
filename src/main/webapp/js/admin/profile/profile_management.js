@@ -32,7 +32,7 @@ const main = (function() {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
-    html += '      <span>시스템 코드관리</span>';
+    html += '      <span>프로파일 관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
@@ -66,7 +66,7 @@ const main = (function() {
       isThead: true,
       isTfoot: false,
       colModel: [
-        {id: 'rowNum', name: 'No', isSort: true, align: 'center'},
+        {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'codeId', name: '코드', isSort: true, isLink: true, align: 'center', width: '150px', userCustom: codeTreeView, isExcel: true},
         {type: 'custom', userCustom: modSpans, width: '150px'},
         {id: 'codeNm', name: '코드명', isSort: true, width: '300px', isExcel: true},
@@ -271,7 +271,7 @@ const main = (function() {
         body: body,
         loading: 'btnNewCode'
       }).then(function (response) {
-        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         response ? closeNewCodeModal() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
@@ -293,7 +293,7 @@ const main = (function() {
         },
         loading: 'btnNewCode'
       }).then(function (response) {
-        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         closeModCodeModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
@@ -314,7 +314,7 @@ const main = (function() {
         },
         loading: 'btnModCode'
       }).then(function (response) {
-        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         0 < response ? closeModCodeModal() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnModCode'));

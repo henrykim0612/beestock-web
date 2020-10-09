@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/admin/user_management.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/user/user_management.js"></script>
 
 <div class="level-left mr-3 mb-5">
     <div class="control has-icons-left mr-3">

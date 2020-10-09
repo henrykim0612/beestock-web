@@ -101,7 +101,7 @@ const main = (function() {
           body: getParameters(),
           loading: 'btnMod'
         }).then(function (response) {
-          if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+          if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
           cmmUtils.showModal('saveModal');
           if (0 < response) {
             init();
@@ -119,12 +119,12 @@ const main = (function() {
   function removeQa() {
     const msg = '해당글을 삭제합니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      const url = '/api/v1/bbs/qa/delete/' + document.getElementById('qaId').value;
-      cmmUtils.getData({
-        url: url,
+      cmmUtils.postData({
+        url: '/api/v1/bbs/qa/delete',
+        body: getParameters(),
         loading: 'btnRm'
       }).then(function (response) {
-        if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         0 < response ? goToQa() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnRm'));
@@ -148,7 +148,8 @@ const main = (function() {
       qaId: document.getElementById('qaId').value,
       qaTitle: document.getElementById('qaTitle').value,
       qaCont: global['ckEditQaCont'].getData(),
-      ckSecret: cmmUtils.getCheckedValues('ckSecret')[0]
+      ckSecret: cmmUtils.getCheckedValues('ckSecret')[0],
+      regLoginId: document.getElementById('modUptLoginId').value
     }
     if (global['isAdmin']) {
       props['qaAnswer'] = global['ckEditQaAnswer'].getData();

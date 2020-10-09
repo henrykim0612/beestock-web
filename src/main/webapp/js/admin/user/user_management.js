@@ -68,7 +68,7 @@ const main = (function() {
       isThead: true,
       isTfoot: false,
       colModel: [
-        {id: 'rowNum', name: 'No', isSort: true},
+        {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
         {id: 'loginId', name: '이메일', isSort: true, isExcel: true},
         {id: 'userNm', name: '사용자/닉네임', isSort: true, isExcel: true},
         {id: 'userPhone', name: '연락처', isExcel: true},
@@ -113,7 +113,7 @@ const main = (function() {
       },
       loading: 'btnSaveAuth'
     }).then(function (response) {
-      if (response === -401) cmmUtils.goToLoginHome(); // 세션 끊어짐
+      if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
       cmmUtils.closeModal('authModal');
       dataGrid.reload();
     }).catch(function (err) {

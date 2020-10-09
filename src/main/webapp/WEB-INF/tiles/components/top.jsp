@@ -11,7 +11,7 @@
     <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
 </sec:authorize>
 
-<nav class="navbar is-dark mb-1" role="navigation" aria-label="main navigation">
+<nav class="is-fixed-top navbar is-dark mb-1" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">
             <img src="${pageContext.request.contextPath}/resources/images/logo.png" width="112" height="28">
@@ -32,7 +32,7 @@
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link" href="${pageContext.request.contextPath}/premium/stock-item">BeeStock 프리미엄</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/stock-item">종목코드 현황</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/stock-item">국내 종목코드 현황</a>
                     </div>
                 </div>
             </sec:authorize>
@@ -50,6 +50,7 @@
                     <div class="navbar-dropdown">
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management">시스템 코드관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management">프로필 관리</a>
                     </div>
                 </div>
             </sec:authorize>

@@ -66,7 +66,7 @@ const main = (function() {
             isThead: true,
             isTfoot: false,
             colModel: [
-                {id: 'rowNum', name: 'No', isSort: true},
+                {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
                 {type: 'custom', userCustom: pinned, width: '40px', align: 'center'},
                 {type: 'custom', userCustom: dday, width: '50px', align: 'center'},
                 {id: 'noticeTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor},

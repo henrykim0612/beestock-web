@@ -4,6 +4,9 @@ const cmmUtils = (function () {
     if (props['loading'] != null) {
       cmmUtils.showLoadingElement(document.getElementById(props['loading']));
     }
+    if (props['isPageLoader'] != null && props['isPageLoader']) {
+      cmmUtils.showPageLoader();
+    }
     return fetch(CONTEXT_PATH + props['url'], {
       method: 'GET',
       mode: 'cors', // no-cors, cors, *same-origin
@@ -16,11 +19,18 @@ const cmmUtils = (function () {
       if (props['loading'] != null) {
         cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
       }
+      if (props['isPageLoader'] != null && props['isPageLoader']) {
+        cmmUtils.hidePageLoader();
+      }
       return response.json();
     });
   }
 
   function postData(props) {
+
+    if (props['isPageLoader'] != null && props['isPageLoader']) {
+      cmmUtils.showPageLoader();
+    }
 
     if (props['loading'] != null) {
       cmmUtils.showLoadingElement(document.getElementById(props['loading']));
@@ -34,10 +44,15 @@ const cmmUtils = (function () {
       headers: props['headers'] != null ? props['headers'] : {'Content-Type': 'application/json'},
       redirect: 'follow', // manual, *follow, error
       referrer: 'no-referrer', // no-referrer, *client
-      body: props['body'] != null ? JSON.stringify(props['body']) : '{}'
+      body: props['isMultipartFile'] != null && props['isMultipartFile']
+        ? props['body']
+        : props['body'] != null ? JSON.stringify(props['body']) : '{}'
     }).then(function (response) {
       if (props['loading'] != null) {
         cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      }
+      if (props['isPageLoader'] != null && props['isPageLoader']) {
+        cmmUtils.hidePageLoader();
       }
       return response.json();
     }); // parses JSON response into native JavaScript objects
@@ -47,6 +62,12 @@ const cmmUtils = (function () {
     typeof eleOrId === 'object'
       ? eleOrId.classList.add('is-active')
       : document.getElementById(eleOrId).classList.add('is-active');
+  }
+
+  function showWarningModal(title, cont) {
+    document.getElementById('warningModalTitle').innerHTML = title;
+    document.getElementById('warningModalCont').innerHTML = cont;
+    showModal('warningModal');
   }
 
   function closeModal(id, fId) {
@@ -379,7 +400,7 @@ const cmmUtils = (function () {
   function setCKEditor(editorArr, response) {
     for (let i = 0; i < editorArr.length; i++) {
       const obj = editorArr[i];
-      obj.editor.setData(response[obj.key]);
+      obj.editor.setData(response[obj.key] != null ? response[obj.key] : '');
     }
   }
 
@@ -433,13 +454,28 @@ const cmmUtils = (function () {
     return year + "-" + month + "-" + day;
   }
 
+  // 파일 확장자 체크
+  function checkExcelExtension(fileName) {
+    // return /\.(xls|png|gif)$/i.test(fileName);
+    return /\.(xlsx)$/i.test(fileName);
+  }
+
+  function showPageLoader() {
+    document.getElementById('pageLoader').classList.add('is-active');
+  }
+
+  function hidePageLoader() {
+    document.getElementById('pageLoader').classList.remove('is-active');
+  }
+
   return {
     getData: getData,
     postData: postData,
     showLoadingElement: showLoadingElement,
     hideLoadingElement: hideLoadingElement,
-    closeModal: closeModal,
     showModal: showModal,
+    showWarningModal: showWarningModal,
+    closeModal: closeModal,
     showErrModal: showErrModal,
     goToPage: goToPage,
     goToLoginHome: goToLoginHome,
@@ -467,6 +503,9 @@ const cmmUtils = (function () {
     getCalendarValue: getCalendarValue,
     isValidDateRange: isValidDateRange,
     setExcelTippy: setExcelTippy,
-    getToday: getToday
+    getToday: getToday,
+    checkExcelExtension: checkExcelExtension,
+    showPageLoader: showPageLoader,
+    hidePageLoader: hidePageLoader
   }
 })();

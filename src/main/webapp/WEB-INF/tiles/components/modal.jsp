@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%--페이지 로더--%>
+<div id="pageLoader" class="pageloader is-primary"><span class="title">잠시만 기다려 주세요..</span></div>
+
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">
     <div class="modal-background"></div>
@@ -77,6 +80,29 @@
                         <div class="buttons">
                             <button class="button is-dark is-small" onclick="cmmConfirm.confirm()">확인</button>
                             <button class="button is-dark is-small" onclick="cmmConfirm.closeModal()">취소</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </article>
+    </div>
+</div>
+
+<div id="warningModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <article class="message is-warning">
+            <div class="message-header">
+                <p id="warningModalTitle"></p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('warningModal')"></button>
+            </div>
+            <div class="message-body">
+                <div id="warningModalCont" class="is-left mb-5">
+                </div>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="buttons">
+                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('warningModal')">확인</button>
                         </div>
                     </div>
                 </nav>

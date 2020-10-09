@@ -65,9 +65,13 @@
         <beans:property name="order" value="2" />
     </beans:bean>
 
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000" />
+        <property name="maxInMemorySize" value="100000000" />
+    </beans:bean>
+
     <beans:bean id="excelDownloadView" class="com.beestock.common.ExcelDownloadView"/>
     <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
-    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/js/**" location="/js/" />

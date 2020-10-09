@@ -2,8 +2,11 @@ const main = (function() {
 
   function init() {
     // 비밀번호 힌트 리스트 생성
-    cmmUtils.getData({
-      url: '/api/v1/code/Q0000',
+    cmmUtils.postData({
+      url: '/api/v1/code/list',
+      body: {
+        parentCodeId: 'Q0000'
+      },
       loading: 'selHintCode'
     }).then(function (response) {
       appendHintOptions(response);
@@ -60,16 +63,13 @@ const main = (function() {
     cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
     cmmUtils.postData({
       url: '/api/v1/login/update',
-      body: body
+      body: body,
+      loading: 'btnSubmit'
     }).then(function(response) {
-      const data = JSON.stringify(response);
-      cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
-      if (data) {
-        cmmUtils.goToPage('/user/my-page');
-      } else {
-        showErrModal();
-      }
+      if (response === -401) return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
+      cmmUtils.goToPage('/user/my-page');
     }).catch(function(err) {
+      cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
       showErrModal();
       console.log(err);
     });

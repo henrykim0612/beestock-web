@@ -31,27 +31,20 @@ BeeComponents.modules.dataGrid = function(component) {
     me.init(_props);
     return {
       getProps: function() { return me.props; },
-      reload: function (props) {
-        arguments.length === 1 ? me.reload(me, props) : me.reload(me);
+      reload: function (body) {
+        arguments.length === 1 ? me.reload(me, body) : me.reload(me);
       },
       downloadExcel: function() { me.downloadExcel(me.props); },
       init: me.init
     }
   }
 
-  component.DataGrid.prototype.reload = function(me, _props) {
+  component.DataGrid.prototype.reload = function(me, body) {
+    const argLen = arguments.length;
     const props = me.props;
-    if (arguments.length === 2) {
-      let body = props['body'];
-      for (let key in _props) {
-        const value = _props[key];
-        if (value) {
-          body[key] = _props[key];
-        } else {
-          delete body[key];
-        }
-      }
-      body['curPage'] = 1; // 1페이지로 초기화
+    if (argLen === 2) {
+      props.body = body
+      props.curPage = 1; // 1페이지로 초기화
     }
     me.init(props);
   }
@@ -373,12 +366,23 @@ BeeComponents.modules.dataGrid = function(component) {
     const data = props['data'];
     if ( (props['isNextButton'] == null) || (props['isNextButton'] != null && props['isNextButton']) ) {
       if (data['curPage'] !== 1) {
-        const previous = document.createElement('a');
-        previous.classList.add('pagination-previous');
-        previous.innerText = 'Previous';
-        previous.setAttribute('data-custom', 'pageAnchor');
-        previous.setAttribute('data-page', data['prevPage']);
-        fragment.appendChild(previous);
+        const button = document.createElement('button');
+        button.classList.add('button');
+        button.classList.add('pagination-previous');
+        button.setAttribute('data-custom', 'pageAnchor');
+        button.setAttribute('data-page', data['prevPage']);
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('icon');
+        iconSpan.classList.add('is-small');
+        const i = document.createElement('i');
+        i.classList.add('fas');
+        i.classList.add('fa-arrow-alt-circle-left');
+        iconSpan.appendChild(i);
+        const textSpan = document.createElement('span');
+        textSpan.innerText = '이전';
+        button.appendChild(iconSpan);
+        button.appendChild(textSpan);
+        fragment.appendChild(button);
       }
     }
   }
@@ -387,12 +391,23 @@ BeeComponents.modules.dataGrid = function(component) {
     const data = props['data'];
     if ( (props['isNextButton'] == null) || (props['isNextButton'] != null && props['isNextButton']) ) {
       if (data['nextPage'] <= data['pageCnt']) {
-        const next = document.createElement('a');
-        next.classList.add('pagination-next');
-        next.innerText = 'Next page';
-        next.setAttribute('data-custom', 'pageAnchor');
-        next.setAttribute('data-page', data['nextPage']);
-        fragment.appendChild(next);
+        const button = document.createElement('button');
+        button.classList.add('button');
+        button.classList.add('pagination-next');
+        button.setAttribute('data-custom', 'pageAnchor');
+        button.setAttribute('data-page', data['nextPage']);
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('icon');
+        iconSpan.classList.add('is-small');
+        const i = document.createElement('i');
+        i.classList.add('fas');
+        i.classList.add('fa-arrow-alt-circle-right');
+        iconSpan.appendChild(i);
+        const textSpan = document.createElement('span');
+        textSpan.innerText = '다음';
+        button.appendChild(iconSpan);
+        button.appendChild(textSpan);
+        fragment.appendChild(button);
       }
     }
   }
@@ -553,7 +568,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
     // 페이지 변경 이벤트
     function addPageAnchor() {
-      const pageAnchors = paginationBar.querySelectorAll('a[data-custom=pageAnchor]');
+      const pageAnchors = paginationBar.querySelectorAll('button[data-custom=pageAnchor]');
       for (let i = 0; i < pageAnchors.length; i++) {
         pageAnchors[i].addEventListener('click', function() {
           me.changeGridPage(this.getAttribute('data-page'));
