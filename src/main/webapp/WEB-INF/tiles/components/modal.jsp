@@ -43,7 +43,7 @@
 <div id="inputModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-danger">
+        <article class="message is-warning">
             <div class="message-header">
                 <p id="ipModalTitle"></p>
                 <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('inputModal')"></button>
@@ -68,7 +68,7 @@
     <div class="modal-content">
         <article id="confirmArticle" class="message is-warning">
             <div class="message-header">
-                <p>경고</p>
+                <p><span class="icon has-text-dark"><i class="fas fa-exclamation-triangle"></i></span>알림</p>
                 <button class="delete" aria-label="delete" onclick="cmmConfirm.closeModal()"></button>
             </div>
             <div class="message-body">

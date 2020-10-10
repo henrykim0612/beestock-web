@@ -30,7 +30,7 @@ const main = (function() {
     }
   }
 
-  function updateProfile() {
+  function modifyAccount() {
     const loginId = document.getElementById('ipEmail');
     const loginPwd = document.getElementById('ipPwd');
     const cfPwd = document.getElementById('ipCfPwd');
@@ -62,12 +62,12 @@ const main = (function() {
   function updateProc(body) {
     cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
     cmmUtils.postData({
-      url: '/api/v1/login/update',
+      url: '/api/v1/login/update-user',
       body: body,
       loading: 'btnSubmit'
     }).then(function(response) {
       if (response === -401) return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
-      cmmUtils.goToPage('/user/my-page');
+      goToMyPage();
     }).catch(function(err) {
       cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
       showErrModal();
@@ -242,12 +242,17 @@ const main = (function() {
     }
   }
 
+  function goToMyPage() {
+    cmmUtils.goToPage('/user/my-page');
+  }
+
   return {
     init: init,
     isPwdPattern: isPwdPattern,
     isSamePassword: isSamePassword,
     isUserPhonePattern: isUserPhonePattern,
-    updateProfile: updateProfile,
+    modifyAccount: modifyAccount,
+    goToMyPage: goToMyPage,
     closeModal: closeModal
   }
 }());

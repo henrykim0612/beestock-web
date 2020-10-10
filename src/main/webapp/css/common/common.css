@@ -77,105 +77,11 @@
 /* 
 	Margin 
 */
-.mr-5 {
-	margin-right: 5px;
-}
-
-.mr-10 {
-	margin-right: 10px;
-}
-
-.mr-15 {
-	margin-right: 15px;
-}
-
-.mr-20 {
-	margin-right: 20px;
-}
-
-.mr-25 {
-	margin-right: 25px;
-}
-
-.mr-30 {
-	margin-right: 30px;
+.cmm-mt-60 {
+	margin-top: 60px;
 }
 
 
-
-.ml-5 {
-	margin-left: 5px;
-}
-
-.ml-10 {
-	margin-left: 10px;
-}
-
-.ml-15 {
-	margin-left: 15px;
-}
-
-.ml-20 {
-	margin-left: 20px;
-}
-
-.ml-25 {
-	margin-left: 25px;
-}
-
-.ml-30 {
-	margin-left: 30px;
-}
-
-
-.mt-5 {
-	margin-top: 5px;
-}
-
-.mt-10 {
-	margin-top: 10px;
-}
-
-.mt-15 {
-	margin-top: 15px;
-}
-
-.mt-20 {
-	margin-top: 20px;
-}
-
-.mt-25 {
-	margin-top: 25px;
-}
-
-.mt-30 {
-	margin-top: 30px;
-}
-
-
-.mb-5 {
-	margin-bottom: 5px;
-}
-
-.mb-10 {
-	margin-bottom: 10px;
-}
-
-.mb-15 {
-	margin-bottom: 15px;
-}
-
-.mb-20 {
-	margin-bottom: 20px;
-}
-
-.mb-25 {
-	margin-bottom: 25px;
-}
-
-.mb-30 {
-	margin-bottom: 30px;
-}
 
 .loginField{
 	width: 400px;
@@ -220,7 +126,7 @@
 .width-100-p {width: 100%;}
 
 .mainContent {
-	height: 1000px;
+	height: 1200px;
 }
 
 /*CKEditor Heading*/
@@ -245,56 +151,4 @@
 .limited-width [id^="datetimePicker"] {
 	max-width: 220px;
 	margin: auto;
-}
-
-.is-tall {
-	display: flex;
-	min-height: 100vh;
-	flex-direction: column;
-}
-
-.is-tall-container {
-	flex: 1;
-}
-
-
-th {
-	position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-	z-index: 2;
-}
-
-th[scope=row] {
-	position: -webkit-sticky;
-	position: sticky;
-	left: 0;
-	z-index: 1;
-}
-
-th[scope=row] {
-	vertical-align: top;
-	color: inherit;
-	background-color: inherit;
-	background: linear-gradient(90deg, transparent 0%, transparent calc(100% - .05em), #d6d6d6 calc(100% - .05em), #d6d6d6 100%);
-}
-
-table:nth-of-type(2) th:not([scope=row]):first-child {
-	left: 0;
-	z-index: 3;
-	background: linear-gradient(90deg, #666 0%, #666 calc(100% - .05em), #ccc calc(100% - .05em), #ccc 100%);
-}
-
-/* Strictly for making the scrolling happen. */
-
-th[scope=row] + td {
-	min-width: 24em;
-}
-
-th[scope=row] {
-	min-width: 20em;
-}
-
-body {
-	padding-bottom: 90vh;
 }

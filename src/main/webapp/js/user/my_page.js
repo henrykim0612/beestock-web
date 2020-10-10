@@ -13,7 +13,7 @@ const main = (function() {
             if (response) {
                 const form = document.createElement('form');
                 form.method = 'get';
-                form.action = CONTEXT_PATH + '/user/mod/profile';
+                form.action = CONTEXT_PATH + '/user/mod-account';
                 document.body.appendChild(form);
                 form.submit();
                 form.remove();

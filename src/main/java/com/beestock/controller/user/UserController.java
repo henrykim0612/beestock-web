@@ -13,14 +13,14 @@ public class UserController {
 
     @GetMapping("/my-page")
     public String goToMyPage(ModelMap model) {
-        model.addAttribute("title", "MyPage");
+        model.addAttribute("title", "마이페이지");
         return "user/myPage";
     }
 
-    @GetMapping("/mod/profile")
+    @GetMapping("/mod-account")
     public String goToModProfile(ModelMap model) {
-        model.addAttribute("title", "MyPage");
-        return "mod/profile";
+        model.addAttribute("title", "마이페이지 수정");
+        return "user/modAccount";
     }
 
 }

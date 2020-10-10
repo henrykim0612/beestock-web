@@ -241,7 +241,8 @@ const cmmUtils = (function () {
       switch (tag.tagName) {
         case 'INPUT': setInputTag(tag, data); break;
         case 'TEXTAREA': setTextareaTag(tag, data); break;
-        case 'P': setParagraphTag(tag, data); break;
+        case 'A': setAnchorTag(tag, data); break;
+        default: setInnerHtml(tag, data); break;
       }
     }
 
@@ -286,8 +287,13 @@ const cmmUtils = (function () {
       tag.value = getValue(tag, data);
     }
 
-    function setParagraphTag(tag, data) {
-      tag.innerText = getValue(tag, data);
+    function setAnchorTag(tag, data) {
+      tag.innerHTML = getValue(tag, data);
+      tag.setAttribute('data-link-value', nvl(String(data[tag.getAttribute('data-link-id')])));
+    }
+
+    function setInnerHtml(tag, data) {
+      tag.innerHTML = getValue(tag, data);
     }
   }
 
@@ -454,10 +460,16 @@ const cmmUtils = (function () {
     return year + "-" + month + "-" + day;
   }
 
-  // 파일 확장자 체크
+  // 엑셀 확장자 체크
   function checkExcelExtension(fileName) {
     // return /\.(xls|png|gif)$/i.test(fileName);
     return /\.(xlsx)$/i.test(fileName);
+  }
+
+  // 이미지 확장자 체크
+  function checkImageExtension(fileName) {
+    // return /\.(xls|png|gif)$/i.test(fileName);
+    return /\.(jpg|jpeg|bmp|png)$/i.test(fileName);
   }
 
   function showPageLoader() {
@@ -505,6 +517,7 @@ const cmmUtils = (function () {
     setExcelTippy: setExcelTippy,
     getToday: getToday,
     checkExcelExtension: checkExcelExtension,
+    checkImageExtension: checkImageExtension,
     showPageLoader: showPageLoader,
     hidePageLoader: hidePageLoader
   }

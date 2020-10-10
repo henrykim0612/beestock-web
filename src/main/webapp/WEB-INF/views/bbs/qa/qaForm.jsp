@@ -2,31 +2,37 @@
 <script src="${pageContext.request.contextPath}/js/bbs/qa/qa_form.js"></script>
 
 <form id="qaForm">
-    <div class="level-left mb-4">
-        <div class="mr-3 width-7-p">
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label id="labelTitle" class="label" for="qaTitle">제목</label>
         </div>
-        <div class="control width-85-p">
-            <input id="qaTitle" class="input is-info" type="text" maxlength="100" placeholder="최대 100자리 입력">
+        <div class="column">
+            <div class="control">
+                <input id="qaTitle" class="input is-info" type="text" maxlength="100" placeholder="최대 100자리 입력">
+            </div>
         </div>
     </div>
-    <div class="level-left mb-4">
-        <div class="mr-3 width-7-p">
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label id="labelCont" class="label" for="qaCont">내용</label>
         </div>
-        <div class="control has-icons-left width-85-p">
-            <div id="qaCont"></div>
+        <div class="column">
+            <div class="control has-icons-left">
+                <div id="qaCont"></div>
+            </div>
         </div>
     </div>
-    <div class="level-left mb-4">
-        <div class="mr-3 width-7-p">
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label id="labelSecret" class="label">비밀글</label>
         </div>
-        <div class="field">
-            <input type="radio" class="is-checkradio is-primary is-circle" id="ckSecret1" name="ckSecret" value="0" checked="checked">
-            <label for="ckSecret1">공개</label>
-            <input type="radio" class="is-checkradio is-primary is-circle" id="ckSecret2" name="ckSecret" value="1">
-            <label for="ckSecret2">비공개</label>
+        <div class="column">
+            <div class="field">
+                <input type="radio" class="is-checkradio is-primary is-circle" id="ckSecret1" name="ckSecret" value="0" checked="checked">
+                <label for="ckSecret1">공개</label>
+                <input type="radio" class="is-checkradio is-primary is-circle" id="ckSecret2" name="ckSecret" value="1">
+                <label for="ckSecret2">비공개</label>
+            </div>
         </div>
     </div>
 </form>

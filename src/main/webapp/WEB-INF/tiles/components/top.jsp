@@ -11,7 +11,7 @@
     <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
 </sec:authorize>
 
-<nav class="is-fixed-top navbar is-dark mb-1" role="navigation" aria-label="main navigation">
+<nav class="is-fixed-top navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">
             <img src="${pageContext.request.contextPath}/resources/images/logo.png" width="112" height="28">
@@ -60,7 +60,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span class="icon has-text-info is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
+                        <span class="icon has-text-warning is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
                           <i class="fas fa-user-alt"></i>
                         </span>
                     </sec:authorize>
@@ -75,5 +75,5 @@
     </div>
 </nav>
 
-<nav id="breadCrumbNav" class="ml-5 breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+<nav id="breadCrumbNav" class="cmm-mt-60 ml-5 breadcrumb has-arrow-separator" aria-label="breadcrumbs">
 </nav>

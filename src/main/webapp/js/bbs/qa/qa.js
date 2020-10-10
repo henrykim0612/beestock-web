@@ -47,7 +47,8 @@ const main = (function() {
         }
 
         const answerMark = function(col, row) {
-            return !cmmUtils.isEmpty(row['qaAnswer']) ? '<span class="tag is-info is-light">답변완료</span>' : '<span class="tag is-warning is-light">미답변</span>';        }
+            return !cmmUtils.isEmpty(row['qaAnswer']) ? '<span class="tag is-info is-light">답변완료</span>' : '<span class="tag is-warning is-light">미답변</span>';
+        }
 
         const titleAnchor = function(anchor, col, row) {
             anchor.setAttribute('data-custom', 'titleAnchor');

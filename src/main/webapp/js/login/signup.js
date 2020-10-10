@@ -228,7 +228,7 @@ const main = (function() {
   function insertProc(body) {
     cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
     cmmUtils.postData({
-      url: '/api/v1/login/insert',
+      url: '/api/v1/login/insert-user',
       body: body
     }).then(function(response) {
       const data = JSON.stringify(response);

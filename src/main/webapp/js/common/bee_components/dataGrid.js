@@ -568,7 +568,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
     // 페이지 변경 이벤트
     function addPageAnchor() {
-      const pageAnchors = paginationBar.querySelectorAll('button[data-custom=pageAnchor]');
+      const pageAnchors = paginationBar.querySelectorAll('[data-custom=pageAnchor]');
       for (let i = 0; i < pageAnchors.length; i++) {
         pageAnchors[i].addEventListener('click', function() {
           me.changeGridPage(this.getAttribute('data-page'));
@@ -594,7 +594,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
     const table = document.getElementById(props['eId']);
     const form = document.createElement('form');
-    form.action = CONTEXT_PATH + '/common/excel';
+    form.action = CONTEXT_PATH + '/common/download-excel';
     form.method = 'POST';
 
     // Excel header

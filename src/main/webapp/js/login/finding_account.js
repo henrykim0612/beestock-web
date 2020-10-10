@@ -56,7 +56,7 @@ const main = (function () {
     }
 
     cmmUtils.postData({
-      url: '/api/v1/login/user',
+      url: '/api/v1/login/find-email',
       body: {
         userNm: upUserName.value,
         userPhone: ipUserPhone.value
@@ -84,7 +84,7 @@ const main = (function () {
     }
 
     cmmUtils.postData({
-      url: '/api/v1/login/user',
+      url: '/api/v1/login/find-email',
       body: {
         loginId: ipEmail.value,
         hintCode: selHintCode.value,

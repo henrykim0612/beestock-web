@@ -49,7 +49,7 @@ const main = (function() {
   }
 
   function addSchDateEvent() {
-    const element = document.querySelector('#schRegDate');
+    const element = document.getElementById('schRegDate');
     if (element) {
       element.bulmaCalendar.on('select', function(datepicker) {
         const value = datepicker.data.value();
@@ -64,7 +64,7 @@ const main = (function() {
   function initGrid() {
 
     const props = {
-      url: '/api/v1/stock/premium/paging-stock-item-list',
+      url: '/api/v1/premium/stock/paging-stock-item-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
       body: {

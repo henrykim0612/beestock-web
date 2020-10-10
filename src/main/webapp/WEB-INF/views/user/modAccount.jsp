@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/mod/profile.js"></script>
+<script src="${pageContext.request.contextPath}/js/user/mod_account.js"></script>
 
 <input type="hidden" id="hiddenHintCode" value="<sec:authentication property="principal.hintCode"/>"/>
 
@@ -117,9 +117,22 @@
     <div class="level-item has-text-centered">
         <div class="field loginField is-grouped is-grouped-centered">
             <div class="control">
-                <button id="btnSubmit" class="button is-link" onclick="main.updateProfile()"><strong>Update</strong></button>
+                <button id="btnSubmit" onclick="main.modifyAccount()" class="button is-success">
+                    <span class="icon is-small">
+                      <i class="fas fa-edit"></i>
+                    </span>
+                    <span>수정</span>
+                </button>
+                <button onclick="main.goToMyPage()" class="button is-dark">
+                    <span class="icon is-small">
+                      <i class="fas fa-arrow-alt-circle-left"></i>
+                    </span>
+                    <span>목록으로</span>
+                </button>
             </div>
         </div>
     </div>
 </nav>
+
+
 
