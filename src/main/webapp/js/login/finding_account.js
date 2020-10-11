@@ -3,7 +3,7 @@ const main = (function () {
   function init() {
     // 비밀번호 힌트 리스트 생성
     cmmUtils.getData({
-      url: '/api/v1/code/Q0000',
+      url: '/api/v1/code/children/Q0000',
       loading: 'selHintCode'
     }).then(function (response) {
       appendHintOptions(response);
@@ -99,9 +99,12 @@ const main = (function () {
           url: '/api/v1/login/gen-pwd',
           body: {
             loginId: ipEmail.value,
+            hintCode: selHintCode.value,
+            hintAnswer: ipHintAnswer.value
           },
           loading: 'btnPwd'
         }).then(function (response) {
+          if (response.data === '401') return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
           showPwdModal(response.data);
         }).catch(function (err) {
           cmmUtils.hideLoadingElement(document.getElementById('btnPwd'));

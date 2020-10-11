@@ -271,7 +271,6 @@ const main = (function() {
         body: body,
         loading: 'btnNewCode'
       }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         response ? closeNewCodeModal() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
@@ -293,7 +292,6 @@ const main = (function() {
         },
         loading: 'btnNewCode'
       }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         closeModCodeModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
@@ -314,7 +312,6 @@ const main = (function() {
         },
         loading: 'btnModCode'
       }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         0 < response ? closeModCodeModal() : cmmUtils.showErrModal();
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnModCode'));

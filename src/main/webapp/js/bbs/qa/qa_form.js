@@ -10,7 +10,7 @@ const main = (function() {
   }
 
   function initCKEditor() {
-    cmmUtils.createCKEditor('#qaCont', function(editor) {
+    cmmUtils.createCKEditor({selector: '#qaCont'}, function(editor) {
       global['ckEditQaCont'] = editor;
     });
   }

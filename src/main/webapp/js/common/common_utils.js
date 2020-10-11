@@ -333,68 +333,61 @@ const cmmUtils = (function () {
     return arr;
   }
 
-  function createCKEditor(selector, callback) {
+  function createCKEditor(props, callback) {
+    const toolbar = props['isReadOnly'] != null && props['isReadOnly']
+      ? []
+      : ['heading', 'bold', 'italic', 'link', 'blockQuote', 'fontColor', 'fontSize', 'alignment', 'highlight', 'code', 'underline', 'superscript', 'subscript', 'strikethrough', 'undo', 'redo'];
+    const options = props['isReadOnly'] != null && props['isReadOnly']
+      ? []
+      : [
+        {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+        {
+          model: 'headingFancy1',
+          view: {
+            name: 'h1',
+            classes: 'fancy1'
+          },
+          title: 'Heading 1',
+          class: 'ck-heading_heading1',
+          // It needs to be converted before the standard 'heading2'.
+          converterPriority: 'high'
+        },
+        {
+          model: 'headingFancy2',
+          view: {
+            name: 'h2',
+            classes: 'fancy2'
+          },
+          title: 'Heading 2',
+          class: 'ck-heading_heading2',
+          // It needs to be converted before the standard 'heading2'.
+          converterPriority: 'high'
+        },
+        {
+          model: 'headingFancy3',
+          view: {
+            name: 'h3',
+            classes: 'fancy3'
+          },
+          title: 'Heading 3',
+          class: 'ck-heading_heading3',
+          // It needs to be converted before the standard 'heading2'.
+          converterPriority: 'high'
+        }
+      ];
+
     ClassicEditor
-      .create(document.querySelector(selector), {
-        toolbar: [
-          'heading',
-          'bold',
-          'italic',
-          'link',
-          'blockQuote',
-          'fontColor',
-          'fontSize',
-          'alignment',
-          'highlight',
-          'code',
-          'underline',
-          'superscript',
-          'subscript',
-          'strikethrough',
-          'undo',
-          'redo'
-        ],
+      .create(document.querySelector(props['selector']), {
+        toolbar: toolbar,
         language: 'ko',
         heading: {
-          options: [
-            {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
-            {
-              model: 'headingFancy1',
-              view: {
-                name: 'h1',
-                classes: 'fancy1'
-              },
-              title: 'Heading 1',
-              class: 'ck-heading_heading1',
-              // It needs to be converted before the standard 'heading2'.
-              converterPriority: 'high'
-            },
-            {
-              model: 'headingFancy2',
-              view: {
-                name: 'h2',
-                classes: 'fancy2'
-              },
-              title: 'Heading 2',
-              class: 'ck-heading_heading2',
-              // It needs to be converted before the standard 'heading2'.
-              converterPriority: 'high'
-            },
-            {
-              model: 'headingFancy3',
-              view: {
-                name: 'h3',
-                classes: 'fancy3'
-              },
-              title: 'Heading 3',
-              class: 'ck-heading_heading3',
-              // It needs to be converted before the standard 'heading2'.
-              converterPriority: 'high'
-            }
-          ]
+          options: options
         }
       })
       .then(function(editor) {
+        if (props['data'] != null) {
+          editor.setData(props['data']);
+        }
         callback(editor);
         //console.log(Array.from(editor.ui.componentFactory.names())); // 이용가능한 Toolbar 아이템})
       })

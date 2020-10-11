@@ -9,7 +9,6 @@ const main = (function() {
   function init() {
     global['profileId'] = document.getElementById('profileId').value;
     createBreadCrumb();
-    initCKEditor();
     drawDetails();
   }
 
@@ -39,14 +38,6 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function initCKEditor() {
-    if (!global['ckEditProfileInfo']) {
-      cmmUtils.createCKEditor('#profileInfo', function(editor) {
-        global['ckEditProfileInfo'] = editor;
-      });
-    }
-  }
-
   function drawDetails() {
     const profileId = global['profileId'];
     const url = '/api/v1/admin/profile/' + profileId;
@@ -54,12 +45,20 @@ const main = (function() {
       url: url,
     }).then(function (response) {
       cmmUtils.bindData('profileDetailForm', response);
-      cmmUtils.setCKEditor([{key: 'profileInfo', editor: global['ckEditProfileInfo']}], response);
+      initCKEditor(response);
       setPreviewModal(response);
     }).catch(function (err) {
       cmmUtils.showErrModal();
       console.log(err);
     });
+  }
+
+  function initCKEditor(response) {
+    if (!global['ckEditProfileInfo']) {
+      cmmUtils.createCKEditor({selector: '#profileInfo', data: response['profileInfo']}, function(editor) {
+        global['ckEditProfileInfo'] = editor;
+      });
+    }
   }
 
   function setPreviewModal(response) {

@@ -25,8 +25,8 @@
 
     <div id="topNav" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">Home</a>
-            <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation">Documentation</a>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">홈</a>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation">BeeStock 가이드</a>
             <%--구독자, 관리자 전용--%>
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUBC')">
                 <div class="navbar-item has-dropdown is-hoverable">

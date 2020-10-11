@@ -14,7 +14,7 @@ const main = (function() {
 
   function initCKEditor() {
     if (!global['ckEditNoticeCont']) {
-      cmmUtils.createCKEditor('#noticeCont', function(editor) {
+      cmmUtils.createCKEditor({selector: '#noticeCont'}, function(editor) {
         global['ckEditNoticeCont'] = editor;
       });
     }

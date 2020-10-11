@@ -9,7 +9,6 @@ const main = (function() {
   function init() {
     createBreadCrumb();
     cmmUtils.initCalendar();
-    initCKEditor();
     drawDetails();
   }
 
@@ -39,14 +38,6 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function initCKEditor() {
-    if (!global['ckEditNoticeCont']) {
-      cmmUtils.createCKEditor('#noticeCont', function(editor) {
-        global['ckEditNoticeCont'] = editor;
-      });
-    }
-  }
-
   function drawDetails() {
     const noticeId = document.getElementById('noticeId').value;
     const url = '/api/v1/bbs/notice/' + noticeId;
@@ -54,7 +45,7 @@ const main = (function() {
       url: url,
     }).then(function (response) {
       cmmUtils.bindData('noticeDetailForm', response);
-      cmmUtils.setCKEditor([{key: 'noticeCont', editor: global['ckEditNoticeCont']}], response);
+      initCKEditor(response);
       checkViewOnly();
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -62,12 +53,21 @@ const main = (function() {
     });
   }
 
+  function initCKEditor(response) {
+    if (!global['ckEditNoticeCont']) {
+      const isReadOnly = !global['isAdmin'];
+      cmmUtils.createCKEditor({selector: '#noticeCont', isReadOnly: isReadOnly, data: response['noticeCont']}, function(editor) {
+        global['ckEditNoticeCont'] = editor;
+        editor.isReadOnly = isReadOnly;
+      });
+    }
+  }
+
   function checkViewOnly() {
     if (!global['isAdmin']) { // 관리자가 아니면 비활성화
       const noticeTitle = document.getElementById('noticeTitle');
       noticeTitle.disabled = true;
       noticeTitle.classList.remove('is-info');
-      global['ckEditNoticeCont'].isReadOnly = true;
       document.getElementById('ckPinnedNotice1').disabled = true;
       document.getElementById('ckPinnedNotice2').disabled = true;
     }
@@ -100,9 +100,11 @@ const main = (function() {
   function removeNotice() {
     const msg = '해당글을 삭제합니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      const url = '/api/v1/bbs/notice/delete/' + document.getElementById('noticeId').value;
-      cmmUtils.getData({
-        url: url,
+      cmmUtils.postData({
+        url: '/api/v1/bbs/notice/delete',
+        body: {
+          noticeId: document.getElementById('noticeId').value,
+        },
         loading: 'btnRm'
       }).then(function (response) {
         if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심

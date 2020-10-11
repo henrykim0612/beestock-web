@@ -11,7 +11,7 @@ const main = (function() {
   }
 
   function initCKEditor() {
-    cmmUtils.createCKEditor('#profileInfo', function(editor) {
+    cmmUtils.createCKEditor({selector: '#profileInfo'}, function(editor) {
       global['ckEditProfileInfo'] = editor;
     });
   }

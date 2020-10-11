@@ -60,18 +60,20 @@ const main = (function() {
   }
 
   function updateProc(body) {
-    cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
-    cmmUtils.postData({
-      url: '/api/v1/login/update-user',
-      body: body,
-      loading: 'btnSubmit'
-    }).then(function(response) {
-      if (response === -401) return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
-      goToMyPage();
-    }).catch(function(err) {
-      cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
-      showErrModal();
-      console.log(err);
+    cmmConfirm.show({msg: '계정을 수정합니다. 오타가 없는지 확인하세요.', color: 'is-warning'}, function() {
+      cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
+      cmmUtils.postData({
+        url: '/api/v1/login/update-user',
+        body: body,
+        loading: 'btnSubmit'
+      }).then(function(response) {
+        if (response === -401) return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
+        goToMyPage();
+      }).catch(function(err) {
+        cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
+        showErrModal();
+        console.log(err);
+      });
     });
   }
 

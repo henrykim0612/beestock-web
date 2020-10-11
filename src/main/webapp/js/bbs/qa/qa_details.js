@@ -38,25 +38,6 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function initCKEditor(response) {
-
-    // 관리자가 아니고 본인이 작성한 글이 아니라면 Edit Toolbar 제거
-    if (!global['isAdmin'] && response['regLoginId'] !== global['loginId']) {
-      
-    }
-
-    if (!global['ckEditQaCont']) {
-      cmmUtils.createCKEditor('#qaCont', function(editor) {
-        global['ckEditQaCont'] = editor;
-      });
-    }
-    if (!global['ckEditQaCont']) {
-      cmmUtils.createCKEditor('#qaAnswer', function(editor) {
-        global['ckEditQaAnswer'] = editor;
-      });
-    }
-  }
-
   function drawDetails() {
     const qaId = document.getElementById('qaId').value;
     const url = '/api/v1/bbs/qa/' + qaId;
@@ -64,8 +45,7 @@ const main = (function() {
       url: url,
     }).then(function (response) {
       cmmUtils.bindData('qaDetailForm', response);
-      cmmUtils.setCKEditor([{key: 'qaCont', editor: global['ckEditQaCont']}, {key: 'qaAnswer', editor: global['ckEditQaAnswer']}], response);
-      initCKEditor(response);
+      initCKEditor(response)
       checkViewOnly(response);
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -73,17 +53,32 @@ const main = (function() {
     });
   }
 
+  function initCKEditor(response) {
+    // 관리자가 아니고 본인의 글이 아니라면 ReadOnly
+    if (!global['ckEditQaCont']) {
+      const isReadOnly = cmmUtils.nvl(response['qaAnswer']) !== '' || response['regLoginId'] !== global['loginId'];
+      cmmUtils.createCKEditor({selector: '#qaCont', isReadOnly: isReadOnly, data: response['qaTitle']}, function(editor) {
+        global['ckEditQaCont'] = editor;
+        editor.isReadOnly = isReadOnly;
+      });
+    }
+    if (!global['ckEditQaCont']) {
+      // 관리자는 답변 활성화
+      const isReadOnly = !global['isAdmin'];
+      cmmUtils.createCKEditor({selector: '#qaAnswer', isReadOnly: isReadOnly, data: cmmUtils.nvl(response['qaAnswer'])}, function(editor) {
+        global['ckEditQaAnswer'] = editor;
+        editor.isReadOnly = isReadOnly;
+      });
+    }
+  }
+
   function checkViewOnly(response) {
-
-    // 관리자는 답변 활성화
-    global['ckEditQaAnswer'].isReadOnly = !global['isAdmin'];
-
     // 관리자가 아니고 본인의 글이 아니라면
-    if (!global['isAdmin'] && response['regLoginId'] !== global['loginId']) {
+    if (response['regLoginId'] !== global['loginId']) {
       setViewOnly();
     } else {
       // 답변이 완료된 글은 수정할 수 없음
-      if (!global['isAdmin'] && cmmUtils.nvl(response['qaAnswer']) !== '') {
+      if (cmmUtils.nvl(response['qaAnswer']) !== '') {
         setViewOnly();
       }
     }
@@ -92,11 +87,12 @@ const main = (function() {
       const qaTitle = document.getElementById('qaTitle')
       qaTitle.disabled = true;
       qaTitle.classList.remove('is-info');
-      global['ckEditQaCont'].isReadOnly = true;
       document.getElementById('ckSecret1').disabled = true;
       document.getElementById('ckSecret2').disabled = true;
-      document.getElementById('uptDiv').remove();
-      document.getElementById('removeDiv').remove();
+      if (!global['isAdmin']) {
+        document.getElementById('uptDiv').remove();
+        document.getElementById('removeDiv').remove();
+      }
     }
   }
 
