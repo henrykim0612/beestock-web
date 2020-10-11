@@ -64,7 +64,9 @@ const main = (function() {
 
   function checkViewOnly() {
     if (!global['isAdmin']) { // 관리자가 아니면 비활성화
-      document.getElementById('noticeTitle').disabled = true;
+      const noticeTitle = document.getElementById('noticeTitle');
+      noticeTitle.disabled = true;
+      noticeTitle.classList.remove('is-info');
       global['ckEditNoticeCont'].isReadOnly = true;
       document.getElementById('ckPinnedNotice1').disabled = true;
       document.getElementById('ckPinnedNotice2').disabled = true;

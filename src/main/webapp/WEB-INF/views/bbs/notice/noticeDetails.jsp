@@ -30,25 +30,45 @@
         <div class="column is-1 is-vertical-center">
             <label id="labelAlarmStDate" class="label" for="alarmStDate">공지 시작일</label>
         </div>
-        <div class="column">
-            <div class="control has-icons-left">
-                <div class="control input-single-date">
-                    <input id="alarmStDate" type="date" data-bind="true" data-id="alarmStDate" data-type="date">
+        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SUBC')">
+            <div class="column">
+                <div class="control has-icons-left">
+                    <input disabled class="input" type="text" data-bind="true" data-id="alarmStDate">
+                    <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
                 </div>
             </div>
-        </div>
+        </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <div class="column">
+                <div class="control has-icons-left">
+                    <div class="control input-single-date">
+                        <input id="alarmStDate" type="date" data-bind="true" data-id="alarmStDate" data-type="date">
+                    </div>
+                </div>
+            </div>
+        </sec:authorize>
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
             <label id="labelAlarmEdDate" class="label" for="alarmEdDate">공지 종료일</label>
         </div>
-        <div class="column">
-            <div class="control has-icons-left">
-                <div class="control input-single-date">
-                    <input id="alarmEdDate" type="date" data-bind="true" data-id="alarmEdDate" data-type="date">
+        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SUBC')">
+            <div class="column">
+                <div class="control has-icons-left">
+                    <input disabled class="input" type="text" data-bind="true" data-id="alarmEdDate">
+                    <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
                 </div>
             </div>
-        </div>
+        </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <div class="column">
+                <div class="control has-icons-left">
+                    <div class="control input-single-date">
+                        <input id="alarmEdDate" type="date" data-bind="true" data-id="alarmEdDate" data-type="date">
+                    </div>
+                </div>
+            </div>
+        </sec:authorize>
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">

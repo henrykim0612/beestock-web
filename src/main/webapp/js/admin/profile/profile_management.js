@@ -43,7 +43,7 @@ const main = (function() {
 
     const customProfileType = function(col, row) {
       // 1: 국내, 2: 해외
-      return row['profileType'] === 1 ? '<span class="tag is-primary is-light">국내</span>' : '<span class="tag is-info is-light">해외</span>';
+      return row['profileType'] === 1 ? '<span class="tag is-success is-light">국내</span>' : '<span class="tag is-warning is-light">해외</span>';
     }
 
     const titleAnchor = function(anchor, col, row) {

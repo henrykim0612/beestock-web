@@ -9,7 +9,6 @@ const main = (function() {
 
   function init() {
     createBreadCrumb();
-    initCKEditor();
     drawDetails();
   }
 
@@ -39,7 +38,13 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function initCKEditor() {
+  function initCKEditor(response) {
+
+    // 관리자가 아니고 본인이 작성한 글이 아니라면 Edit Toolbar 제거
+    if (!global['isAdmin'] && response['regLoginId'] !== global['loginId']) {
+      
+    }
+
     if (!global['ckEditQaCont']) {
       cmmUtils.createCKEditor('#qaCont', function(editor) {
         global['ckEditQaCont'] = editor;
@@ -60,6 +65,7 @@ const main = (function() {
     }).then(function (response) {
       cmmUtils.bindData('qaDetailForm', response);
       cmmUtils.setCKEditor([{key: 'qaCont', editor: global['ckEditQaCont']}, {key: 'qaAnswer', editor: global['ckEditQaAnswer']}], response);
+      initCKEditor(response);
       checkViewOnly(response);
     }).catch(function (err) {
       cmmUtils.showErrModal();
@@ -83,7 +89,9 @@ const main = (function() {
     }
 
     function setViewOnly() {
-      document.getElementById('qaTitle').disabled = true;
+      const qaTitle = document.getElementById('qaTitle')
+      qaTitle.disabled = true;
+      qaTitle.classList.remove('is-info');
       global['ckEditQaCont'].isReadOnly = true;
       document.getElementById('ckSecret1').disabled = true;
       document.getElementById('ckSecret2').disabled = true;

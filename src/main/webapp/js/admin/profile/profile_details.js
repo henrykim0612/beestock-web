@@ -55,10 +55,19 @@ const main = (function() {
     }).then(function (response) {
       cmmUtils.bindData('profileDetailForm', response);
       cmmUtils.setCKEditor([{key: 'profileInfo', editor: global['ckEditProfileInfo']}], response);
+      setPreviewModal(response);
     }).catch(function (err) {
       cmmUtils.showErrModal();
       console.log(err);
     });
+  }
+
+  function setPreviewModal(response) {
+    const previewImg = document.getElementById('previewImg');
+    const src = CONTEXT_PATH + '/common/image/' + response['fileId'];
+    previewImg.setAttribute('src', src);
+    document.getElementById('previewTitle').innerText = cmmUtils.nvl(response['profileTitle']);
+    document.getElementById('previewSubtitle').innerText = cmmUtils.nvl(response['profileSubtitle']);
   }
 
   // 목록으로 돌아가기

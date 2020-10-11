@@ -39,7 +39,7 @@
     <div class="level-right">
         <div class="control ml-4">
             <div class="buttons">
-                <button class="button is-primary" onclick="main.goToProfileForm()">프로파일 등록</button>
+                <button class="button is-primary" onclick="main.goToProfileForm()">프로필 등록</button>
             </div>
         </div>
     </div>

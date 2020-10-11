@@ -52,8 +52,14 @@
             <label id="labelFileName" class="label" for="originalFileName">대표사진</label>
         </div>
         <div class="column">
-            <div class="control has-icons-left">
+            <div class="control">
                 <a id="originalFileName" data-bind="true" data-id="originalFileName" data-link-id="fileId" onclick="main.downloadImg(this)"></a>
+                <a onclick="cmmUtils.showModal('previewModal')" class="ml-3 button is-warning is-light is-small">
+                <span class="icon is-small">
+                  <i class="fas fa-eye"></i>
+                </span>
+                    <span>미리보기</span>
+                </a>
             </div>
         </div>
     </div>
@@ -125,4 +131,30 @@
             <span>목록으로</span>
         </button>
     </div>
+</div>
+
+<div id="previewModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="card profile-card">
+            <div class="card-image">
+                <figure class="image is-2by1">
+                    <img id="previewImg" src="" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                    </div>
+                    <div class="media-content has-text-centered">
+                        <p id="previewTitle" class="title is-4"></p>
+                        <p id="previewSubtitle" class="subtitle is-6"></p>
+                    </div>
+                </div>
+                <div class="content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="cmmUtils.closeModal('previewModal')"></button>
 </div>
