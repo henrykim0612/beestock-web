@@ -28,7 +28,10 @@
     <div class="level-right">
         <div class="control ml-4">
             <div class="buttons">
-                <button class="button is-primary" onclick="main.showNewCodeModal()">최상위 코드 등록</button>
+                <button class="button is-primary" onclick="main.showNewCodeModal()">
+                    <span class="icon is-small"><i class="fas fa-plus-circle"></i></span>
+                    <span>최상위 코드 등록</span>
+                </button>
             </div>
         </div>
     </div>

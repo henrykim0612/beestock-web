@@ -27,14 +27,14 @@ const main = (function() {
     html += '    </a>';
     html += '  </li>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/premium/stock-item">';
-    html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece" aria-hidden="true"></i></span>';
+    html += '    <a href="' + CONTEXT_PATH + '/premium/in-stock-item">';
+    html += '      <span class="icon is-small"><i class="fas fa-search-dollar" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock 프리미엄</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
-    html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+    html += '      <span class="icon is-small"><i class="fas fa-dollar-sign"></i></span>';
     html += '      <span>국내 종목코드 현황</span>';
     html += '    </a>';
     html += '  </li>';
@@ -64,7 +64,7 @@ const main = (function() {
   function initGrid() {
 
     const props = {
-      url: '/api/v1/premium/stock/paging-stock-item-list',
+      url: '/api/v1/premium/stock/paging-in-stock-item-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
       body: {
@@ -136,7 +136,7 @@ const main = (function() {
           formData.append('file', document.getElementById('stockItemFile').files[0]);
 
           cmmUtils.postData({
-            url: '/api/v1/stock/premium/upload-stock-item',
+            url: '/api/v1/premium/stock/upload-in-stock-item',
             headers: {},
             isMultipartFile: true,
             body: formData,
@@ -144,6 +144,7 @@ const main = (function() {
           }).then(function (response) {
             if (response === 1) {
               hideUploadModal();
+              cmmUtils.showToast({message: '업로드 되었습니다.'});
             } else {
               cmmUtils.showWarningModal('비정상적인 저장 데이터', '엑셀에 들어있는 행과 저장된 행이 일치하지 않았습니다.<br/>관리자에게 문의하세요.');
             }

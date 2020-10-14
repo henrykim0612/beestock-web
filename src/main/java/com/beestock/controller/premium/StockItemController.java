@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/premium")
 public class StockItemController {
 
-    @GetMapping("/stock-item")
+    @GetMapping("/in-stock-item")
     public String goToStockItemManagement(ModelMap model) {
-        model.addAttribute("title", "종목코드 현황");
-        return "premium/stockItem";
+        model.addAttribute("title", "국내 종목코드 현황");
+        return "/premium/inStockItem";
     }
 
 }

@@ -3,7 +3,7 @@
 <footer class="footer mt-6">
     <div class="content has-text-centered">
         <p>
-            Copyright(c)2020 <strong>BeeStock</strong> All rights reserved.
+            Copyright © 2020 <strong>BeeStock</strong> All rights reserved.
         </p>
     </div>
 </footer>

@@ -25,13 +25,13 @@ const main = (function() {
     html += '  </li>';
     html += '  <li>';
     html += '    <a href="' + CONTEXT_PATH + '/admin/code-management">';
-    html += '      <span class="icon is-small"><i class="fas fa-puzzle-piece" aria-hidden="true"></i></span>';
+    html += '      <span class="icon is-small"><i class="fas fa-cogs" aria-hidden="true"></i></span>';
     html += '      <span>시스템관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
-    html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
+    html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
     html += '      <span>프로파일 관리</span>';
     html += '    </a>';
     html += '  </li>';

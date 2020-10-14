@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/premium/stock_item.js"></script>
+<script src="${pageContext.request.contextPath}/js/premium/in_stock_item.js"></script>
 
 <div class="level mr-3 mb-5">
     <div class="level-left">
@@ -33,7 +33,10 @@
         <div class="level-right">
             <div class="control ml-4">
                 <div class="buttons">
-                    <button class="button is-primary" onclick="main.showUploadModal()">종목코드 업로드</button>
+                    <button class="button is-primary" onclick="main.showUploadModal()">
+                        <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
+                        <span>종목코드 업로드</span>
+                    </button>
                 </div>
             </div>
         </div>

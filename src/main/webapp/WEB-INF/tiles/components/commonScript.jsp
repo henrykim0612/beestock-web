@@ -18,6 +18,8 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/carousel/bulma-carousel.min.js" type="text/javascript"></script>
 <%--Quick view--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/quick-view/bulma-quickview.min.js" type="text/javascript"></script>
+<%--Toast--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/toast/bulma-toast.min.js" type="text/javascript"></script>
 
 <%--CKEditor--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/ckeditor5/build/ckeditor.js" type="text/javascript"></script>

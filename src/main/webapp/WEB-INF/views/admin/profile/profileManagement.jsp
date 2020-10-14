@@ -39,7 +39,10 @@
     <div class="level-right">
         <div class="control ml-4">
             <div class="buttons">
-                <button class="button is-primary" onclick="main.goToProfileForm()">프로필 등록</button>
+                <button class="button is-primary" onclick="main.goToProfileForm()">
+                    <span class="icon is-small"><i class="fas fa-plus-circle"></i></span>
+                    <span>프로필 등록</span>
+                </button>
             </div>
         </div>
     </div>

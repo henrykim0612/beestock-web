@@ -139,7 +139,7 @@
         <div class="card profile-card">
             <div class="card-image">
                 <figure class="image is-2by1">
-                    <img id="previewImg" src="" alt="Placeholder image">
+                    <img id="previewImg" src="" alt="No image">
                 </figure>
             </div>
             <div class="card-content">

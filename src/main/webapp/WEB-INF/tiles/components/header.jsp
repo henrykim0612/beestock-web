@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/pricing-table/bulma-pricingtable.min.css" type="text/css">
     <%--Quick view--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/quick-view/bulma-quickview.min.css" type="text/css">
+    <%--Toast--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/toast/animate.min.css" type="text/css">
 
     <%--Common CSS--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/common.css" type="text/css">

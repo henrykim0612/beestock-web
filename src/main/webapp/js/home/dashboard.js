@@ -1,57 +1,33 @@
 const main = (function() {
 
     function init() {
-        createBreadCrumb();
+        addTabListener();
     }
 
-    function createBreadCrumb() {
-        const breadCrumbNav = document.getElementById('breadCrumbNav');
-        let html = '';
-        html += '<ul>';
-        html += '  <li>';
-        html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
-        html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
-        html += '      <span>BeeStock</span>';
-        html += '    </a>';
-        html += '  </li>';
-        html += '  <li class="is-active">';
-        html += '    <a aria-current="page">';
-        html += '      <span class="icon is-small"><i class="fas fa-hand-point-right"></i></span>';
-        html += '      <span>Home</span>';
-        html += '    </a>';
-        html += '  </li>';
-        html += '</ul>';
-        breadCrumbNav.innerHTML = html;
+    function addTabListener() {
+        const tabs = document.getElementsByName('tabs');
+        for (let i = 0; i < tabs.length; i++) {
+            const tab = tabs[i];
+            tab.addEventListener('click', function() {
+                resetTabs();
+                this.classList.add('is-active');
+                document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
+            })
+        }
     }
 
-
-    function goToUser1() {
-        const frm = document.createElement('form');
-        frm.action = CONTEXT_PATH + '/user/user1';
-        document.body.appendChild(frm);
-        frm.submit();
+    function resetTabs() {
+        const tabs = document.getElementsByName('tabs');
+        for (let i = 0; i < tabs.length; i++) {
+            const tab = tabs[i];
+            tab.classList.remove('is-active');
+            document.getElementById(tab.getAttribute('data-cont-id')).classList.add('is-hidden');
+        }
     }
 
-    function goToSubc1() {
-        const frm = document.createElement('form');
-        frm.action = CONTEXT_PATH + '/subc/subc1';
-        document.body.appendChild(frm);
-        frm.submit();
-    }
-
-
-    function goToAdmin1() {
-        const frm = document.createElement('form');
-        frm.action = CONTEXT_PATH + '/admin/admin1';
-        document.body.appendChild(frm);
-        frm.submit();
-    }
 
     return {
-        init: init,
-        goToUser1: goToUser1,
-        goToSubc1: goToSubc1,
-        goToAdmin1: goToAdmin1
+        init: init
     }
 
 }());

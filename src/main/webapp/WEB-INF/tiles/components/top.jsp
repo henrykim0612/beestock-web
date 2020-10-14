@@ -25,32 +25,32 @@
 
     <div id="topNav" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">홈</a>
-            <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation">BeeStock 가이드</a>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard"><span class="icon has-text-warning mr-1"><i class="fas fa-home"></i></span>홈</a>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation"><span class="icon has-text-warning mr-1"><i class="fas fa-book"></i></span>BeeStock 가이드</a>
             <%--구독자, 관리자 전용--%>
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUBC')">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" href="${pageContext.request.contextPath}/premium/stock-item">BeeStock 프리미엄</a>
+                    <a class="navbar-link" href="${pageContext.request.contextPath}/premium/in-stock-item"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BeeStock 프리미엄</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/stock-item">국내 종목코드 현황</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/in-stock-item"><span class="icon has-text-primary mr-1"><i class="fas fa-dollar-sign"></i></span>국내 종목코드 현황</a>
                     </div>
                 </div>
             </sec:authorize>
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="${pageContext.request.contextPath}/bbs/notice">고객센터</a>
+                <a class="navbar-link" href="${pageContext.request.contextPath}/bbs/notice"><span class="icon has-text-warning mr-1"><i class="fas fa-info"></i></span>고객센터</a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice">공지사항</a>
-                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa">Q&A</a>
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice"><span class="icon has-text-primary mr-1"><i class="fas fa-flag"></i></span>공지사항</a>
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa"><span class="icon has-text-primary mr-1"><i class="fas fa-question-circle"></i></span>Q&A</a>
                 </div>
             </div>
             <%--관리자만 가능--%>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management">시스템관리</a>
+                    <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management"><span class="icon has-text-warning mr-1"><i class="fas fa-cogs"></i></span>시스템관리</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management">사용자관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management">시스템 코드관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management">프로필 관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management"><span class="icon has-text-primary mr-1"><i class="fas fa-address-card"></i></span>프로필 관리</a>
                     </div>
                 </div>
             </sec:authorize>

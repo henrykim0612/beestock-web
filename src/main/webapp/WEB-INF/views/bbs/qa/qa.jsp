@@ -28,7 +28,10 @@
         <div class="level-right">
             <div class="control ml-4">
                 <div class="buttons">
-                    <button class="button is-primary" onclick="main.goToQaForm()">Q&A 등록</button>
+                    <button class="button is-primary" onclick="main.goToQaForm()">
+                        <span class="icon is-small"><i class="fas fa-plus-circle"></i></span>
+                        <span>Q&A 등록</span>
+                    </button>
                 </div>
             </div>
         </div>

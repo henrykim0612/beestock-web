@@ -473,6 +473,28 @@ const cmmUtils = (function () {
     document.getElementById('pageLoader').classList.remove('is-active');
   }
 
+  function showToast(props) {
+    if (arguments.length === 0) {
+      bulmaToast.toast({
+        message: '저장되었습니다.',
+        type: 'is-success',
+        duration: 3000,
+        position: 'bottom-right',
+        dismissible: false,
+        animate: { in: 'fadeIn', out: 'fadeOut' }
+      });
+    } else {
+      bulmaToast.toast({
+        message: props['message'] != null ? props['message'] : '저장되었습니다.',
+        type: props['type'] != null ? props['type'] : 'is-success',
+        duration: props['duration'] != null ? props['duration'] : 3000,
+        position: props['position'] != null ? props['position'] : 'bottom-right',
+        dismissible: props['dismissible'] != null ? props['dismissible'] : false,
+        animate: { in: 'fadeIn', out: 'fadeOut' }
+      });
+    }
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -512,6 +534,7 @@ const cmmUtils = (function () {
     checkExcelExtension: checkExcelExtension,
     checkImageExtension: checkImageExtension,
     showPageLoader: showPageLoader,
-    hidePageLoader: hidePageLoader
+    hidePageLoader: hidePageLoader,
+    showToast: showToast
   }
 })();
