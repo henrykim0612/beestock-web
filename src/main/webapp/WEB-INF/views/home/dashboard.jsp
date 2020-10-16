@@ -7,56 +7,18 @@
     <ul>
         <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">
             <a>
-                <span class="icon is-small"><i class="fas fa-globe-asia" aria-hidden="true"></i></span>
+                <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
                 <span>국내</span>
             </a>
         </li>
         <li id="tabOut" name="tabs" data-cont-id="contOut">
             <a>
-                <span class="icon is-small"><i class="fas fa-globe" aria-hidden="true"></i></span>
+                <span class="icon is-small"><i class="fas fa-globe"></i></span>
                 <span>국외</span>
             </a>
         </li>
     </ul>
 </div>
 
-<div id="contIn">
-    <div class="columns">
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-    </div>
-</div>
-<div id="contOut" class="is-hidden">
-    <div class="columns">
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-        <div class="column">
-            <div class="box"></div>
-        </div>
-    </div>
-</div>
-
-
+<div id="contIn"></div>
+<div id="contOut" class="is-hidden"></div>

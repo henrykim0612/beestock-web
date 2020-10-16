@@ -64,6 +64,19 @@
             </div>
         </div>
     </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
+            <label id="labelFreeProfile" class="label">프로필 공개</label>
+        </div>
+        <div class="column">
+            <div class="field">
+                <input type="radio" class="is-checkradio is-primary is-circle" id="isFree1" name="isFree" value="1" data-bind="true" data-id="isFree" checked="checked">
+                <label for="isFree1">유료</label>
+                <input type="radio" class="is-checkradio is-primary is-circle" id="isFree2" name="isFree" value="2" data-bind="true" data-id="isFree">
+                <label for="isFree2">무료</label>
+            </div>
+        </div>
+    </div>
 </form>
 <div class="flex-row justify-content-center mt-6">
     <div id="uptDiv">
