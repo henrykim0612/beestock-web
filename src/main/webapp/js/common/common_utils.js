@@ -465,6 +465,12 @@ const cmmUtils = (function () {
     return /\.(jpg|jpeg|bmp|png)$/i.test(fileName);
   }
 
+  // 분기 형식 체크(2020-1, 2020-4..)
+  function checkQuarterPattern(quarter) {
+    const dayRegExp = /^(19|20)\d{2}-([1-4])\.(xlsx)$/;
+    return dayRegExp.test(quarter);
+  }
+
   function showPageLoader() {
     document.getElementById('pageLoader').classList.add('is-active');
   }
@@ -533,6 +539,7 @@ const cmmUtils = (function () {
     getToday: getToday,
     checkExcelExtension: checkExcelExtension,
     checkImageExtension: checkImageExtension,
+    checkQuarterPattern: checkQuarterPattern,
     showPageLoader: showPageLoader,
     hidePageLoader: hidePageLoader,
     showToast: showToast

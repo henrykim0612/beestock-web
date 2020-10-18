@@ -158,7 +158,7 @@ const main = (function() {
   }
 
   function removeProfile() {
-    const msg = '해당 프로필을 삭제합니다. 삭제 후 복구할 수 없습니다.';
+    const msg = '해당 프로필을 삭제합니다. 프로필의 분기 데이터까지 모두 제거됩니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
       cmmUtils.postData({
         url: '/api/v1/admin/profile/delete-profile',

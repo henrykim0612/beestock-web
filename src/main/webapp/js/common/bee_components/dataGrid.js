@@ -62,20 +62,22 @@ BeeComponents.modules.dataGrid = function(component) {
       props['data'] = response; // 결과값을 추가함
 
       const table = document.getElementById(props['eId']);
-      const paginationBar = document.getElementById(props['pId']);
       cmmUtils.clearChildNodes(table);
-
       // Table
       const fragment = document.createDocumentFragment();
       me.createThead(fragment, props);
       me.createTfoot(fragment, props);
       me.createTbody(fragment, props);
       table.appendChild(fragment);
-      // Pagination
-      me.createPagination(props);
-      // Event Listeners
       me.addTableEventListeners(table, props);
-      me.addPaginationEventListeners(paginationBar, props);
+
+      // Pagination
+      const paginationBar = document.getElementById(props['pId']);
+      if (props['pId'] != null) {
+        me.createPagination(props);
+        me.addPaginationEventListeners(paginationBar, props);
+      }
+
       // Callback
       if (props['success'] != null) {
         props['success'](response, me);
@@ -94,28 +96,30 @@ BeeComponents.modules.dataGrid = function(component) {
 
     for(let i=0;i<colModel.length;i++) {
       const col = colModel[i];
-      const th = document.createElement('th');
-      const div = document.createElement('div');
-      const text = col['name'] != null ? col['name'] : '';
-      div.classList.add('has-text-centered');
-      if (col['id'] != null) {
-        div.setAttribute('data-ref-id', col['id']);
+      if (col['isHidden'] == null || !col['isHidden']) {
+        const th = document.createElement('th');
+        const div = document.createElement('div');
+        const text = col['name'] != null ? col['name'] : '';
+        div.classList.add('has-text-centered');
+        if (col['id'] != null) {
+          div.setAttribute('data-ref-id', col['id']);
+        }
+        div.setAttribute('title', text);
+        div.innerText = text;
+        // Width
+        if (col['width'] != null) {
+          div.style.width = col['width'];
+        }
+        // Excel
+        if (col['isExcel'] != null && col['isExcel']) {
+          div.setAttribute('data-excel-header', 'true');
+          div.setAttribute('data-excel-value', col['name']);
+        }
+        // Sorting 기능 추가
+        this.createSortingIcons(col, div, props);
+        th.appendChild(div);
+        tr.appendChild(th);
       }
-      div.setAttribute('title', text);
-      div.innerText = text;
-      // Width
-      if (col['width'] != null) {
-        div.style.width = col['width'];
-      }
-      // Excel
-      if (col['isExcel'] != null && col['isExcel']) {
-        div.setAttribute('data-excel-header', 'true');
-        div.setAttribute('data-excel-value', col['name']);
-      }
-      // Sorting 기능 추가
-      this.createSortingIcons(col, div, props);
-      th.appendChild(div);
-      tr.appendChild(th);
     }
 
     thead.appendChild(tr);
@@ -129,17 +133,19 @@ BeeComponents.modules.dataGrid = function(component) {
       const tr = document.createElement('tr');
       for (let i = 0; i < colModel.length; i++) {
         const col = colModel[i];
-        const th = document.createElement('th');
-        const div = document.createElement('div');
-        const text = col['name'] != null ? col['name'] : '';
-        div.classList.add('has-text-centered');
-        div.setAttribute('data-ref-id', col['id']);
-        div.setAttribute('title', text);
-        div.innerText = text;
-        // Sorting 기능 추가
-        this.createSortingIcons(col, div, props);
-        th.appendChild(div);
-        tr.appendChild(th);
+        if (col['isHidden'] == null || !col['isHidden']) {
+          const th = document.createElement('th');
+          const div = document.createElement('div');
+          const text = col['name'] != null ? col['name'] : '';
+          div.classList.add('has-text-centered');
+          div.setAttribute('data-ref-id', col['id']);
+          div.setAttribute('title', text);
+          div.innerText = text;
+          // Sorting 기능 추가
+          this.createSortingIcons(col, div, props);
+          th.appendChild(div);
+          tr.appendChild(th);
+        }
       }
       tfoot.appendChild(tr);
       fragment.appendChild(tfoot);
@@ -160,7 +166,7 @@ BeeComponents.modules.dataGrid = function(component) {
    */
   component.DataGrid.prototype.createTbody = function(parentFragment, props) {
     const colModel = props['colModel'];
-    const rowData = props['data']['rowData'];
+    const rowData = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
 
     const fragment = document.createDocumentFragment();
     if (rowData.length) {
@@ -172,7 +178,18 @@ BeeComponents.modules.dataGrid = function(component) {
           const col = colModel[j];
           const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
           const value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
-
+          // Hidden cell
+          if (col['isHidden'] != null || col['isHidden']) {
+            thOrTd.classList.add('is-hidden');
+            thOrTd.setAttribute('data-key', row[col['id']]);
+            if (col['attributes'] != null) {
+              const attributes = col['attributes'];
+              for (const name in attributes) {
+                const attrName = 'data-' + name;
+                thOrTd.setAttribute(attrName, row[attributes[name]]);
+              }
+            }
+          }
           // Excel
           if (col['isExcel'] != null && col['isExcel']) {
             thOrTd.setAttribute('data-excel-body', 'true');
@@ -219,6 +236,7 @@ BeeComponents.modules.dataGrid = function(component) {
       // 조회 결과가 없을경우
       const tr = document.createElement('tr');
       const th = document.createElement('th');
+      th.classList.add('has-text-centered');
       th.innerText = '조회 결과가 없습니다.';
       th.colSpan = colModel.length;
       tr.append(th);
@@ -613,7 +631,7 @@ BeeComponents.modules.dataGrid = function(component) {
       }
     }
     // 파일명
-    appendInputTag('fileName', props['fileName'] != null ? props['fileName'] + '_' + cmmUtils.getToday() : cmmUtils.getToday(), form);
+    appendInputTag('fileName', props['fileName'] != null ? props['fileName'] : '엑셀파일', form);
 
     document.body.appendChild(form);
     form.submit();

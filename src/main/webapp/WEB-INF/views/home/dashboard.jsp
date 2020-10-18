@@ -3,6 +3,19 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/home/dashboard.js"></script>
 
+<div class="level mr-3 mb-3">
+    <div class="level-left">
+        <div>
+            <p class="control has-icons-left is-rounded">
+                <input id="inputSearch" class="input input-search is-rounded" type="text" placeHolder="프로필 검색">
+                <span class="icon is-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
 <div class="tabs is-centered">
     <ul>
         <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">

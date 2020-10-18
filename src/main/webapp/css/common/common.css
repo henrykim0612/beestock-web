@@ -1,4 +1,4 @@
-/* 
+/*
 	Flex 
 */
 .flex-container {
@@ -151,4 +151,11 @@
 .limited-width [id^="datetimePicker"] {
 	max-width: 220px;
 	margin: auto;
+}
+
+.width800px {
+	width: 800px;
+}
+.width900px {
+	width: 900px;
 }
