@@ -223,6 +223,14 @@ BeeComponents.modules.dataGrid = function(component) {
               }
               a.innerHTML = value;
               thOrTd.appendChild(a);
+              if (col['hasBadge'] != null && row[col['hasBadge']]) {
+                const span = document.createElement('span');
+                span.setAttribute('data-badge', col['hasBadgeText'] != null ? col['hasBadgeText'] : '확인필요');
+                span.classList.add('ml-5');
+                span.classList.add('has-badge-rounded');
+                span.classList.add('has-badge-danger');
+                thOrTd.appendChild(span);
+              }
             } else {
               thOrTd.innerHTML = value;
             }

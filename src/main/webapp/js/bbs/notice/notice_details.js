@@ -10,6 +10,7 @@ const main = (function() {
     createBreadCrumb();
     cmmUtils.initCalendar();
     drawDetails();
+    insertAlarm();
   }
 
   function createBreadCrumb() {
@@ -53,6 +54,22 @@ const main = (function() {
       cmmUtils.bindData('noticeDetailForm', response);
       initCKEditor(response);
       checkViewOnly();
+    }).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+  }
+
+  // 수신 상태로 변경
+  function insertAlarm() {
+    const noticeId = document.getElementById('noticeId').value;
+    cmmUtils.postData({
+      url: '/api/v1/bbs/notice/insert-alarm',
+      body: {
+        noticeId: noticeId,
+      }
+    }).then(function (response) {
+
     }).catch(function (err) {
       cmmUtils.showErrModal();
       console.log(err);

@@ -37,9 +37,15 @@
                 </div>
             </sec:authorize>
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" href="${pageContext.request.contextPath}/bbs/notice"><span class="icon has-text-warning mr-1"><i class="fas fa-info"></i></span>고객센터</a>
+                <a id="aServiceCenter" class="navbar-link" href="${pageContext.request.contextPath}/bbs/notice">
+                    <span class="icon has-text-warning mr-1"><i class="fas fa-info"></i></span>
+                    <span id="spanServiceCenter">고객센터</span>
+                </a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice"><span class="icon has-text-primary mr-1"><i class="fas fa-flag"></i></span>공지사항</a>
+                    <a id="aNotice" class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice">
+                        <span class="icon has-text-primary mr-1"><i class="fas fa-flag"></i></span>
+                        <span id="spanNotice">공지사항</span>
+                    </a>
                     <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa"><span class="icon has-text-primary mr-1"><i class="fas fa-question-circle"></i></span>Q&A</a>
                 </div>
             </div>
