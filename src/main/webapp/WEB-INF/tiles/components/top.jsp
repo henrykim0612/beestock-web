@@ -49,6 +49,7 @@
                     <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa"><span class="icon has-text-primary mr-1"><i class="fas fa-question-circle"></i></span>Q&A</a>
                 </div>
             </div>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/pricing-table"><span class="icon has-text-warning mr-1"><i class="fas fa-book-reader"></i></span>구독</a>
             <%--관리자만 가능--%>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="navbar-item has-dropdown is-hoverable">

@@ -143,8 +143,8 @@ const main = (function() {
             isPageLoader: true
           }).then(function (response) {
             if (response === 1) {
-              hideUploadModal();
               cmmUtils.showToast({message: '업로드 되었습니다.'});
+              hideUploadModal();
             } else {
               cmmUtils.showWarningModal('비정상적인 저장 데이터', '엑셀에 들어있는 행과 저장된 행이 일치하지 않았습니다.<br/>관리자에게 문의하세요.');
             }

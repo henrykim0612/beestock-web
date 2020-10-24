@@ -43,7 +43,10 @@ const main = (function () {
     cmmUtils.postData({
       url: '/api/v1/dashboard/profile-list',
       body: body,
-    }).then(appendCards).catch(function (err) {
+    }).then(function(response) {
+      appendCards(response);
+      addCardEventListener();
+    }).catch(function (err) {
       cmmUtils.showErrModal();
       console.log(err);
     });
@@ -70,6 +73,19 @@ const main = (function () {
     content.appendChild(fragment.cloneNode(true));
   }
 
+  function addCardEventListener() {
+    const profileCard = document.getElementsByName('profileCard');
+    for (let i = 0; i < profileCard.length; i++) {
+      const card = profileCard[i];
+      // 프로필 카드 클릭 이벤트
+      card.addEventListener('click', function() {
+        const profileId = this.getAttribute('data-profile-id');
+        const url = '/analysis/profile/' + profileId;
+        cmmUtils.goToPage(url);
+      })
+    }
+  }
+
   // 묶음을 컬럼 생성
   function createColumns() {
     const columns = document.createElement('div');
@@ -89,6 +105,10 @@ const main = (function () {
   function createCard(data) {
     const card = document.createElement('div');
     card.classList.add('card');
+    card.classList.add('cursor');
+    card.setAttribute('name', 'profileCard');
+    card.setAttribute('data-profile-id', data['profileId']);
+    card.setAttribute('data-free', data['isFree']);
     // 카드 이미지
     const cardImage = document.createElement('div');
     cardImage.classList.add('card-image');
@@ -111,6 +131,10 @@ const main = (function () {
     const title = document.createElement('p');
     title.classList.add('title');
     title.classList.add('is-4');
+    // 오늘 읽었으면 색상 변경(1:읽음, 2:읽지않음)
+    if (data['isRead'] === 1) {
+      title.classList.add('has-text-grey-light');
+    }
     title.innerText = data['profileTitle'];
     // 무료 프로필은 뱃지 추가
     if (data['isFree'] === 2) {

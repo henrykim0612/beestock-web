@@ -5,12 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @Slf4j
-@SessionAttributes("loginSession")
-public class MainController {
+//@SessionAttributes("loginSession")
+public class LoginController {
 
     @RequestMapping(value={"/", "/index"}, method = RequestMethod.GET)
     public String goToIndex(ModelMap model) {

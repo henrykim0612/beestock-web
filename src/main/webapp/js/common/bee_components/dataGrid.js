@@ -223,11 +223,18 @@ BeeComponents.modules.dataGrid = function(component) {
               }
               a.innerHTML = value;
               thOrTd.appendChild(a);
-              if (col['hasBadge'] != null && row[col['hasBadge']]) {
+              if (col['hasBadge'] != null && row[col['hasBadge']]) { // row[col['hasBadge']] 컬럼의 값이 1이 되면 뱃지 생성
                 const span = document.createElement('span');
                 span.setAttribute('data-badge', col['hasBadgeText'] != null ? col['hasBadgeText'] : '확인필요');
                 span.classList.add('ml-5');
                 span.classList.add('has-badge-rounded');
+                span.classList.add('has-badge-small');
+                if (col['hasBadgeInline'] != null && col['hasBadgeInline']) {
+                  span.classList.add('has-badge-inline');
+                }
+                if (col['hasBadgeOutlined'] != null && col['hasBadgeOutlined']) {
+                  span.classList.add('has-badge-outlined');
+                }
                 span.classList.add('has-badge-danger');
                 thOrTd.appendChild(span);
               }
