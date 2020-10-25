@@ -159,3 +159,15 @@
 .width900px {
 	width: 900px;
 }
+
+.height300px {
+	height: 300px;
+}
+
+.height500px {
+	height: 500px;
+}
+
+.vh160 {
+	height: 160vh;
+}

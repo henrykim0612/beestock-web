@@ -68,9 +68,15 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span class="icon has-text-warning is-medium ml-2 mb-1 cursor" onclick="topMain.goToMyPage()">
-                          <i class="fas fa-user-alt"></i>
-                        </span>
+                        <sec:authorize access="hasRole('ROLE_USER')">
+                            <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(일반사용자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_SUBC')">
+                            <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(구독자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(관리자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                        </sec:authorize>
                     </sec:authorize>
                     <a class="button is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
                     <a id="aLogin" class="button is-info is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>

@@ -39,16 +39,6 @@ BeeComponents.modules.dataGrid = function(component) {
     }
   }
 
-  component.DataGrid.prototype.reload = function(me, body) {
-    const argLen = arguments.length;
-    const props = me.props;
-    if (argLen === 2) {
-      props.body = body
-      props.curPage = 1; // 1페이지로 초기화
-    }
-    me.init(props);
-  }
-
   component.DataGrid.prototype.init = function(props) {
     const me = this;
     const body = props['body'];
@@ -87,6 +77,16 @@ BeeComponents.modules.dataGrid = function(component) {
       cmmUtils.showErrModal();
       console.log(err);
     });
+  }
+
+  component.DataGrid.prototype.reload = function(me, body) {
+    const argLen = arguments.length;
+    const props = me.props;
+    if (argLen === 2) {
+      props.body = body
+      props.curPage = 1; // 1페이지로 초기화
+    }
+    me.init(props);
   }
 
   component.DataGrid.prototype.createThead = function(fragment, props) {
@@ -251,7 +251,7 @@ BeeComponents.modules.dataGrid = function(component) {
       // 조회 결과가 없을경우
       const tr = document.createElement('tr');
       const th = document.createElement('th');
-      th.classList.add('has-text-centered');
+      // th.classList.add('has-text-centered');
       th.innerText = '조회 결과가 없습니다.';
       th.colSpan = colModel.length;
       tr.append(th);

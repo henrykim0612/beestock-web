@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<script src="${pageContext.request.contextPath}/js/common/common_profile_card.js"></script>
 <script src="${pageContext.request.contextPath}/js/user/my_page.js"></script>
 
 <div class="tile is-ancestor">
@@ -75,6 +76,24 @@
     <div class="tile is-parent">
         <div class="tile is-child box">
             <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-star"></i></span>즐겨찾기한 프로필</p>
+            <div class="tabs is-centered">
+                <ul>
+                    <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
+                            <span>국내</span>
+                        </a>
+                    </li>
+                    <li id="tabOut" name="tabs" data-cont-id="contOut">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-globe"></i></span>
+                            <span>국외</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="contIn"></div>
+            <div id="contOut" class="is-hidden"></div>
         </div>
     </div>
 </div>

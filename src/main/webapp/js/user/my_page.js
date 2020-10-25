@@ -1,8 +1,15 @@
 const main = (function() {
 
+    let global = {
+        selectedTab: 'contIn', // 기본은 국내
+        splitNum: 4
+    }
+
     function init() {
         createBreadCrumb();
         initMyImage();
+        addTabListener();
+        initFavoriteProfiles();
     }
 
     function createBreadCrumb() {
@@ -35,6 +42,44 @@ const main = (function() {
             const myImgFile = document.getElementById('myImage');
             myImgFile.setAttribute('src', src);
         }).catch(function (err) {
+            console.log(err);
+        });
+    }
+
+    function addTabListener() {
+        const tabs = document.getElementsByName('tabs');
+        for (let i = 0; i < tabs.length; i++) {
+            const tab = tabs[i];
+            tab.addEventListener('click', function () {
+                resetTabs();
+                this.classList.add('is-active');
+                const contId = this.getAttribute('data-cont-id');
+                global['selectedTab'] = contId;
+                document.getElementById(contId).classList.remove('is-hidden');
+                initFavoriteProfiles();
+            })
+        }
+    }
+
+    function resetTabs() {
+        const tabs = document.getElementsByName('tabs');
+        for (let i = 0; i < tabs.length; i++) {
+            const tab = tabs[i];
+            tab.classList.remove('is-active');
+            document.getElementById(tab.getAttribute('data-cont-id')).classList.add('is-hidden');
+        }
+    }
+
+    function initFavoriteProfiles() {
+        cmmUtils.postData({
+            url: '/api/v1/login/favorite-profile',
+            body: {
+                profileType: global['selectedTab'] === 'contIn' ? 1 : 2 // 1: 국내, 2: 해외
+            }
+        }).then(function (response) {
+            cmmProfileCard.appendCards(response, global['selectedTab']);
+        }).catch(function (err) {
+            cmmUtils.showErrModal();
             console.log(err);
         });
     }

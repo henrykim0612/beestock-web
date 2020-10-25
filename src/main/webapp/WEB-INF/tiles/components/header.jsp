@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.0/css/bulma.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.0/bulma-sass.css" type="text/css">
+    <%--Bulma Main--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.1/css/bulma.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.1/bulma-sass.css" type="text/css">
     <%--Bulma-Extensions--%>
     <%--Calendar--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/calendar/bulma-calendar.min.css" type="text/css">
@@ -32,7 +33,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/toast/animate.min.css" type="text/css">
     <%--Icon picker--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/icon-picker/bulma-iconpicker.min.css" type="text/css">
-
+    <%--Bulma Dashboard--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/bulma-dashboard/bulma-dashboard.min.css" type="text/css">
     <%--Common CSS--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/common.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/treeview.css" type="text/css">

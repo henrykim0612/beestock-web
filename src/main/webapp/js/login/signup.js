@@ -3,7 +3,7 @@ const main = (function() {
   function init() {
     // 비밀번호 힌트 리스트 생성
     cmmUtils.getData({
-      url: '/api/v1/code/Q0000',
+      url: '/api/v1/code/children/Q0000',
       loading: 'selHintCode'
     }).then(function (response) {
       appendHintOptions(response);
