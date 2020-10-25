@@ -15,8 +15,6 @@ const main = (function() {
 
   function createBreadCrumb() {
     const breadCrumbNav = document.getElementById('breadCrumbNav');
-
-
     let html = '';
     html += '<ul>';
     html += '  <li>';
