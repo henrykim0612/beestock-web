@@ -202,8 +202,8 @@ const cmmUtils = (function () {
     const ipModalTitle = document.getElementById('ipModalTitle');
     const ipModalContent = document.getElementById('ipModalContent');
 
-    ipModalTitle.innerText = text + ' 입력 오류';
-    ipModalContent.innerText = argLen === 2 ? customText : text + ' 입력값을 확인해주세요.';
+    ipModalTitle.innerText = text + ' 입력 확인필요';
+    ipModalContent.innerText = argLen === 2 ? customText : text + ' 입력값은 필수 입력항목 입니다.';
     showModal(ipModal);
   }
 

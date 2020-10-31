@@ -1,7 +1,7 @@
 const cmmProfileCard = (function () {
 
   let global = {
-    splitNum: 5
+    splitNum: 4
   }
 
   function appendCards(response, eId) {
@@ -67,7 +67,7 @@ const cmmProfileCard = (function () {
     cardImage.classList.add('card-image');
     const figure = document.createElement('figure');
     figure.classList.add('image');
-    figure.classList.add('is-4by3');
+    figure.classList.add('is-square');
     const img = document.createElement('img');
     img.alt = 'Placeholder image';
     img.src = CONTEXT_PATH + '/common/image/' + data['fileId'];

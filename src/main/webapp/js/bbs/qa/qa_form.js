@@ -70,6 +70,10 @@ const main = (function() {
       cmmUtils.showIpModal('제목');
       return false;
     }
+    if (!global.ckEditQaCont.getData()) {
+      cmmUtils.showIpModal('내용');
+      return false;
+    }
     return true;
   }
 
@@ -81,7 +85,6 @@ const main = (function() {
     };
   }
 
-
   // 목록으로 돌아가기
   function goToQa() {
     cmmUtils.goToPage('/bbs/qa');
@@ -90,7 +93,8 @@ const main = (function() {
   return {
     init: init,
     goToQa: goToQa,
-    insertNewQa: insertNewQa
+    insertNewQa: insertNewQa,
+    test: function() { return global.ckEditQaCont;}
   }
 })();
 

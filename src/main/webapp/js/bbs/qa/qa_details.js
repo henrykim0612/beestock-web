@@ -63,7 +63,7 @@ const main = (function() {
     // 관리자가 아니고 본인의 글이 아니라면 ReadOnly
     if (!global['ckEditQaCont']) {
       const isReadOnly = cmmUtils.nvl(response['qaAnswer']) !== '' || response['regLoginId'] !== global['loginId'];
-      cmmUtils.createCKEditor({selector: '#qaCont', isReadOnly: isReadOnly, data: response['qaTitle']}, function(editor) {
+      cmmUtils.createCKEditor({selector: '#qaCont', isReadOnly: isReadOnly, data: response['qaCont']}, function(editor) {
         global['ckEditQaCont'] = editor;
         editor.isReadOnly = isReadOnly;
       });
@@ -148,6 +148,10 @@ const main = (function() {
     const qaTitle = document.getElementById('qaTitle').value;
     if (!qaTitle) {
       cmmUtils.showIpModal('제목');
+      return false;
+    }
+    if (!global.ckEditQaCont.getData()) {
+      cmmUtils.showIpModal('내용');
       return false;
     }
     return true;

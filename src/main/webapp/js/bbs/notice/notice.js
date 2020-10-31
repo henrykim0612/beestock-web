@@ -69,7 +69,7 @@ const main = (function() {
                 {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
                 {type: 'custom', userCustom: pinned, width: '40px', align: 'center'},
                 {type: 'custom', userCustom: dday, width: '50px', align: 'center'},
-                {id: 'noticeTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: '읽지않음'},
+                {id: 'noticeTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'},
                 {id: 'alarmStDate', name: '공지 시작일', isSort: true, align: 'center', width: '200px', isExcel: true},
                 {id: 'alarmEdDate', name: '공지 종료일', isSort: true, align: 'center', width: '200px', isExcel: true},
                 {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '200px', isExcel: true},

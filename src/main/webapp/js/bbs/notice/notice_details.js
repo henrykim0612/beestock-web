@@ -147,6 +147,10 @@ const main = (function() {
       cmmUtils.showIpModal('제목');
       return false;
     }
+    if (!global.ckEditNoticeCont.getData()) {
+      cmmUtils.showIpModal('내용');
+      return false;
+    }
     if (!stDate && edDate) {
       cmmUtils.showIpModal('공지 시작일');
       return false;
