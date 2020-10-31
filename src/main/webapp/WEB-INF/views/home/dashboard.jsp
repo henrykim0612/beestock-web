@@ -8,7 +8,7 @@
     <div class="level-left">
         <div>
             <p class="control has-icons-left is-rounded">
-                <input id="inputSearch" class="input input-search is-rounded" type="text" placeHolder="프로필 검색">
+                <input id="inputSearch" class="input input-search is-rounded" type="text" placeHolder="프로필 검색"/>
                 <span class="icon is-left">
                     <i class="fas fa-search" aria-hidden="true"></i>
                 </span>

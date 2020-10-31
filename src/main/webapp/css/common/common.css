@@ -160,6 +160,22 @@
 	width: 900px;
 }
 
+.width1200px {
+	width: 1200px;
+}
+
+.height200px {
+	height: 200px;
+}
+
+.height200px {
+	height: 200px;
+}
+
+.height215px {
+	height: 215px;
+}
+
 .height300px {
 	height: 300px;
 }
@@ -171,3 +187,4 @@
 .vh160 {
 	height: 160vh;
 }
+

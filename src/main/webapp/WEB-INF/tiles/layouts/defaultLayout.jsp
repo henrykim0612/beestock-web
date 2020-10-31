@@ -6,8 +6,8 @@
     <body>
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
-        <div class="container mainContent mt-6">
-            <tiles:insertAttribute name="content" />
+        <div class="container mt-6">
+            <tiles:insertAttribute name="content"/>
         </div>
         <tiles:insertAttribute name="modal" />
         <tiles:insertAttribute name="footer" />

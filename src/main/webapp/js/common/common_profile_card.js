@@ -1,7 +1,7 @@
 const cmmProfileCard = (function () {
 
   let global = {
-    splitNum: 4
+    splitNum: 5
   }
 
   function appendCards(response, eId) {

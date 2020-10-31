@@ -69,7 +69,6 @@ const main = (function() {
         noticeId: noticeId,
       }
     }).then(function (response) {
-
     }).catch(function (err) {
       cmmUtils.showErrModal();
       console.log(err);

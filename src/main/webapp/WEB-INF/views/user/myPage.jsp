@@ -97,8 +97,17 @@
         </div>
     </div>
 </div>
-
-
+<div class="tile is-ancestor">
+    <div class="tile is-parent">
+        <div class="tile is-child box">
+            <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-lightbulb"></i></span>투자 아이디어 목록</p>
+            <div class="table-container mt-3">
+                <table id="ideaGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+            </div>
+            <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+        </div>
+    </div>
+</div>
 
 <div id="confirmPwdModal" class="modal is-small">
     <div class="modal-background"></div>
@@ -131,6 +140,76 @@
             <div class="buttons">
                 <a class="button is-warning is-small" onclick="main.goToModProfile()"><strong>확인</strong></a>
             </div>
+        </footer>
+    </div>
+</div>
+
+<%--아이디어 수정모달--%>
+<div id="modIdeaModal" class="modal is-mobile">
+    <div class="modal-background"></div>
+    <div class="modal-card width1200px">
+        <header class="modal-card-head">
+            <p class="modal-card-title" id="modCardTitle">투자 아이디어</p>
+            <button class="delete" aria-label="close" onclick="main.closeModIdeaModal()"></button>
+        </header>
+        <section class="modal-card-body">
+            <form id="modIdeaForm">
+                <div class="columns">
+                    <div class="column is-1 is-vertical-center">
+                        <label class="label" for="modIdeaTitle">제목</label>
+                    </div>
+                    <div class="column">
+                        <div class="control">
+                            <input id="modIdeaTitle" class="input is-info" type="text" maxlength="30" placeholder="최대 30자리 입력" data-bind="true" data-id="ideaTitle">
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-1 is-vertical-center">
+                        <label class="label" for="modIdeaCont">내용</label>
+                    </div>
+                    <div class="column">
+                        <div class="control has-icons-left">
+                            <div id="modIdeaCont"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-1 is-vertical-center">
+                        <div class="field" id="modFileField">
+                            <div class="file is-white">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" multiple id="modIdeaFile">
+                                    <span class="file-cta">
+                                    <span class="file-icon"><i class="fas fa-file-signature"></i></span>
+                                    <span class="file-label">첨부</span>
+                                </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="columns">
+                            <div class="column" id="modIdeaFileDiv">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot justify-content-center">
+            <button id="btnModIdea" onclick="main.modifyIdea()" class="button is-success">
+                <span class="icon is-small">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span>수정</span>
+            </button>
+            <button onclick="main.closeModIdeaModal()" class="button is-dark">
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+                <span>취소</span>
+            </button>
         </footer>
     </div>
 </div>

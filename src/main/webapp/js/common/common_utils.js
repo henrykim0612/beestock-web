@@ -501,6 +501,50 @@ const cmmUtils = (function () {
     }
   }
 
+  function getUUID() {
+    function s4() {
+      return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+    }
+    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  }
+
+  function verifyFileSize(fileArr, defaultSize) {
+    const sizeLimit = 10485760; // 파일별 사이즈는 10MB 제한.
+    const sizeOfAllFiles = 52428800; // 모든 파일의 사이즈는 50MB 넘을 수 없음.
+    let size = arguments.length === 2 ? defaultSize : 0; // 수정모드에서는 기존에 등록된 파일사이즈를 기본값으로 사용.
+    let rtnObj = {status: true, msg: null};
+    for (let i = 0; i < fileArr.length; i++) {
+      const file = fileArr[i].file != null ? fileArr[i].file : fileArr[i];
+      if (!file.isRemoved) {
+        size = size + file.size;
+        if (sizeLimit < file.size) {
+          rtnObj.status = false;
+          rtnObj.msg = file.name + '은 10MB를 초과합니다(파일당 10MB 사이즈 제한).';
+          break;
+        }
+      }
+    }
+    if (sizeOfAllFiles < size) {
+      rtnObj.status = false;
+      rtnObj.msg = '업로드 최대 사이즈는 50MB 입니다(현재:' + (size/1048576).toFixed(1) + 'MB). 파일 사이즈를 확인해주세요.';
+    }
+    return rtnObj;
+  }
+
+  function downloadFile(fileId) {
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = CONTEXT_PATH + '/common/download-file';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'fileId';
+    input.value = fileId;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -542,6 +586,9 @@ const cmmUtils = (function () {
     checkQuarterPattern: checkQuarterPattern,
     showPageLoader: showPageLoader,
     hidePageLoader: hidePageLoader,
-    showToast: showToast
+    showToast: showToast,
+    getUUID: getUUID,
+    verifyFileSize: verifyFileSize,
+    downloadFile: downloadFile
   }
 })();
