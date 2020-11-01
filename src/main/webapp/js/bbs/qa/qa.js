@@ -66,6 +66,7 @@ const main = (function () {
       pId: 'dataPagination',
       isThead: true,
       isTfoot: false,
+      loading: 'btnSearch',
       colModel: [
         {type: 'custom', userCustom: questionMark, width: '50px', align: 'center', isStrong: true},
         {type: 'custom', userCustom: locker, width: '30px', align: 'center'},
@@ -83,11 +84,15 @@ const main = (function () {
 
   function findQa(e) {
     if (e.key === 'Enter') {
-      const key = document.getElementById('selSearch').value;
-      const props = {};
-      props[key] = this.value;
-      dataGrid.reload(props);
+      reloadGrid();
     }
+  }
+
+  function reloadGrid() {
+    const key = document.getElementById('selSearch').value;
+    const props = {};
+    props[key] = document.getElementById('inputSearch').value;
+    dataGrid.reload(props);
   }
 
   function keyupIpPwd(e) {
@@ -165,6 +170,7 @@ const main = (function () {
   return {
     init: init,
     findQa: findQa,
+    reloadGrid: reloadGrid,
     keyupIpPwd: keyupIpPwd,
     closeModQaModal: closeModQaModal,
     checkPwd: checkPwd,

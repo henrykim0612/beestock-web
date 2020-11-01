@@ -2,31 +2,33 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/premium/in_stock_item.js"></script>
 
+<%--검색조건--%>
 <div class="level mr-3 mb-5">
     <div class="level-left">
-        <div class="control has-icons-left mr-3">
-            <div class="select is-rounded">
-                <select id="selSearch">
-                    <option value="itemCode" selected>종목코드</option>
-                    <option value="itemName">종목명</option>
-                </select>
-            </div>
-            <div class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-            </div>
-        </div>
-        <div class="mr-3">
+        <div class="field has-addons">
             <p class="control has-icons-left">
-                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
-                <span class="icon is-left">
-                <i class="fas fa-search" aria-hidden="true"></i>
-            </span>
+                <span class="select">
+                        <select id="selSearch">
+                            <option value="itemCode" selected>종목코드</option>
+                            <option value="itemName">종목명</option>
+                        </select>
+                    </span>
+                <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
             </p>
-        </div>
-        <div class="control has-icons-left">
+            <p class="control">
+                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
+            </p>
+            <p class="control has-icons-left">
             <div class="control input-single-date">
                 <input id="schRegDate" type="date">
             </div>
+            </p>
+            <p class="control">
+                <button id="btnSearch" class="button is-dark" onclick="main.reloadGrid()">
+                    <span class="icon is-small"><i class="fas fa-search"></i></span>
+                    <span>검색</span>
+                </button>
+            </p>
         </div>
     </div>
     <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -43,11 +45,13 @@
     </sec:authorize>
 </div>
 
+<%--엑셀 다운로드--%>
 <div class="has-text-right">
     <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadExcel()">
         <i class="fas fa-lg fa-file-download"></i>
     </span>
 </div>
+
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
     <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>

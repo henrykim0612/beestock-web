@@ -8,7 +8,9 @@ const main = (function() {
     ckEditNewIdeaCont: undefined,
     ckEditModIdeaCont: undefined,
     newFileArr: [], // uuid, file, isRemoved
-    modFileArr: [] // uuid, fileId, fileSize, isRemoved
+    modFileArr: [], // uuid, fileId, fileSize, isRemoved
+    quarterId: null,
+    tabView: 'grid' // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
   };
   let ideaGrid = undefined;
 
@@ -16,10 +18,12 @@ const main = (function() {
     createBreadCrumb();
     global.profileId = document.getElementById('profileId').value;
     getProfileDetails();
+    initQuarterSlider();
     addSpanStarEvent();
     initInvestIdea();
     initTooltips();
     addFileEventListener();
+    addTabEventListener();
   }
 
   function createBreadCrumb() {
@@ -50,6 +54,130 @@ const main = (function() {
       cmmUtils.showErrModal();
       console.log(err);
     });
+  }
+
+  // 분기 슬라이더 생성
+  function initQuarterSlider() {
+    const url = '/api/v1/analysis/profile/quarter-all/' + global.profileId;
+    cmmUtils.getData({
+      url: url,
+    }).then(function(response) {
+      clearQuarterCont();
+      createQuarterSlider(response);
+    }).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+  }
+
+  function clearQuarterCont() {
+    const quarterCont = document.getElementById('quarterCont');
+    cmmUtils.clearChildNodes(quarterCont);
+  }
+
+  function createQuarterSlider(response) {
+    // <div class="swiper-slide"><button class="button is-link is-inverted is-small"><span class="icon"><i class="fas fa-clock"></i></span><span>2020-2분기</span></button></div>
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < response.length; i++) {
+      const quarter = response[i];
+      // 슬라이드 생성
+      const slide = document.createElement('div');
+      slide.classList.add('swiper-slide');
+      const button = document.createElement('button');
+      button.classList.add('button');
+      button.classList.add('is-small');
+      button.classList.add('is-link');
+      button.classList.add('is-inverted');
+      button.setAttribute('data-button', 'slide');
+      button.setAttribute('data-key', quarter['quarterId']);
+      const iconSpan = document.createElement('span');
+      iconSpan.classList.add('icon');
+      const icon = document.createElement('i');
+      icon.classList.add('fas');
+      icon.classList.add('fa-clock');
+      iconSpan.appendChild(icon);
+      const textSpan = document.createElement('span');
+      textSpan.innerText = quarter['quarterDate'];
+      button.append(iconSpan);
+      button.append(textSpan);
+      slide.appendChild(button);
+      fragment.appendChild(slide);
+    }
+    const quarterCont = document.getElementById('quarterCont');
+    quarterCont.appendChild(fragment.cloneNode(true));
+    addSlideButtonEvents(quarterCont);
+    initSwiper();
+  }
+
+  function initSwiper() {
+    const slider = new Swiper('#quarterSlider', {
+      slidesPerView: 7,
+      centeredSlides: false,
+      spaceBetween: 0,
+      loop: false,
+      grabCursor: true,
+      navigation: {
+        nextEl: '#quarterNext',
+        prevEl: '#quarterPrev'
+      },
+      pagination: {
+        el: '#quarterPagination',
+        clickable: true
+      }
+    });
+  }
+
+  // 분기 버튼 이벤트 생성
+  function addSlideButtonEvents(el) {
+    const slideButtons = el.querySelectorAll('[data-button=slide]');
+    if (slideButtons.length) {
+      for (let i = 0; i < slideButtons.length; i++) {
+        // 선택한 분기 클릭 이벤트
+        slideButtons[i].addEventListener('click', function() {
+          resetButtons(slideButtons);
+          activeButton(this);
+          global.quarterId = this.getAttribute('data-key');
+          showTab();
+        });
+      }
+      // 기본 1분기 전 데이터를 보여줌
+      slideButtons[1].click();
+    }
+
+    // Clear button css
+    function resetButtons(el) {
+      for (let i = 0; i < el.length; i++) {
+        el[i].classList.add('is-inverted');
+      }
+    }
+    // Active button
+    function activeButton(el) {
+      el.classList.remove('is-inverted');
+    }
+  }
+
+  function showTab() {
+    switch (global.tabView) {
+      // case 'grid': initGrid(); break;
+      case 'barChart': initBarChart(); break;
+    }
+  }
+
+  function initGrid() {
+    const url = '/api/v1/analysis/profile/quarter-grid';
+    cmmUtils.postData({
+      url: url,
+      body: {quarterId: global.quarterId}
+    }).then(function (response) {
+
+    }).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+  }
+
+  function initBarChart() {
+    console.log('차트');
   }
 
   // 프로필 헤더 생성
@@ -121,6 +249,7 @@ const main = (function() {
           {id: 'ideaTitle', name: '아이디어 제목', width: '800px', isSort: true, isLink: true, userCustom: ideaAnchor},
           {id: 'uptDate', name: '최근 수정일', width: '150px', isSort: true, align: 'center'}
         ],
+        emptyRowMsg: '아이디어가 없습니다.',
         success: function (data, _this) {
           addTitleAnchorEvent(data, _this);
         }
@@ -230,7 +359,7 @@ const main = (function() {
           fragment.appendChild(appendFileTag({uuid: uuid, name: file.name}));
         }
         newIdeaFileDiv.appendChild(fragment.cloneNode(true));
-        this.value = ''; // 리셋
+        //this.value = ''; // 리셋
       }
     })
     // 수정모달 첨부파일
@@ -248,6 +377,34 @@ const main = (function() {
         this.value = ''; // 리셋
       }
     })
+  }
+
+  // 탭 이벤트
+  function addTabEventListener() {
+    const tabs = document.getElementById('tabDiv').querySelectorAll('[name=tabs]');
+    for (let i = 0; i < tabs.length; i++) {
+      // 탭 클릭 이벤트
+      tabs[i].addEventListener('click', function() {
+        resetActiveTab(tabs);
+        // 선택 탭 활성화
+        this.classList.add('is-active');
+        document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
+        setActiveTabInfo(this);
+        showTab();
+      })
+    }
+    // 탭 초기화
+    function resetActiveTab(tabs) {
+      for (let i = 0; i < tabs.length; i++) {
+        const tab = tabs[i];
+        tab.classList.remove('is-active');
+        document.getElementById(tab.getAttribute('data-cont-id')).classList.add('is-hidden');
+      }
+    }
+  }
+
+  function setActiveTabInfo(el) {
+    global.tabView = el.getAttribute('data-view');
   }
 
   function appendModIdeaFiles(response) {
@@ -450,8 +607,6 @@ const main = (function() {
 
   return {
     getChart: function() { return global.chart; },
-    getNewFiles: function() { return global.newFileArr; },
-    getModFiles: function() { return global.modFileArr; },
     init: init,
     showIdeaModal: showNewIdeaModal,
     closeNewIdeaModal: closeNewIdeaModal,

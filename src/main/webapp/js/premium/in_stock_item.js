@@ -55,7 +55,7 @@ const main = (function() {
         const value = datepicker.data.value();
         if (global['selectedSchDate'] !== value) {
           global['selectedSchDate'] = value;
-          reloadGrid();
+          // reloadGrid();
         }
       });
     }
@@ -74,6 +74,7 @@ const main = (function() {
       fileName: '종목코드 리스트',
       isThead: true,
       isTfoot: false,
+      loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'itemCode', name: '종목코드', isSort: true, width: '150px', isExcel: true, align: 'center'},
@@ -182,7 +183,8 @@ const main = (function() {
     downloadExcel: downloadExcel,
     showUploadModal: showUploadModal,
     uploadStockItem: uploadStockItem,
-    changeFileInput: changeFileInput
+    changeFileInput: changeFileInput,
+    reloadGrid: reloadGrid
   }
 }());
 

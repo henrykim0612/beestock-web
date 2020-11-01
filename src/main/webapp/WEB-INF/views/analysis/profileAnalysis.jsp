@@ -9,7 +9,7 @@
         <div class="tile is-child">
             <div class="card">
                 <div class="card-image">
-                    <figure class="image is-4by3">
+                    <figure class="image is-square">
                         <img id="profileImg" src="" alt="Placeholder image">
                     </figure>
                 </div>
@@ -64,6 +64,56 @@
         </div>
     </div>
 </div>
+
+<%--분기 슬라이더--%>
+<div id="quarterSlider" class="swiper-container mt-3">
+    <div id="quarterCont" class="swiper-wrapper height120px"></div>
+    <!-- Add Arrows -->
+    <div id="quarterNext" class="swiper-button-next"></div>
+    <div id="quarterPrev" class="swiper-button-prev"></div>
+    <!-- Add Pagination -->
+    <div id="quarterPagination" class="swiper-pagination"></div>
+</div>
+
+<%--분석탭--%>
+<div id="tabDiv" class="tabs mt-5">
+    <ul>
+        <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
+            <a>
+                <span class="icon is-small"><i class="fas fa-table"></i></span>
+                <span>그리드</span>
+            </a>
+        </li>
+        <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
+            <a>
+                <span class="icon is-small"><i class="far fa-chart-bar"></i></span>
+                <span>막대차트</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div id="gridCont">
+    <div class="control has-icons-left mr-3">
+        <div class="select">
+            <select id="selQuarter">
+                <option value="itemCode" selected>1분기전</option>
+                <option value="itemName">2분기전</option>
+                <option value="itemName">3분기전</option>
+                <option value="itemName">4분기전</option>
+            </select>
+        </div>
+        <div class="icon is-small is-left">
+            <i class="fas fa-history"></i>
+        </div>
+    </div>
+    <div class="table-container mt-3">
+        <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    </div>
+    <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+</div>
+<div id="barCont" class="is-hidden"></div>
+
 
 <%--아이디어 등록 모달--%>
 <div id="newIdeaModal" class="modal is-mobile">

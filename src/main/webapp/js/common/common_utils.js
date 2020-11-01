@@ -509,8 +509,8 @@ const cmmUtils = (function () {
   }
 
   function verifyFileSize(fileArr, defaultSize) {
-    const sizeLimit = 10485760; // 파일별 사이즈는 10MB 제한.
-    const sizeOfAllFiles = 52428800; // 모든 파일의 사이즈는 50MB 넘을 수 없음.
+    const sizeLimit = 1048578 * 10; // 파일별 사이즈는 10MB 제한.
+    const sizeOfAllFiles = 1048578 * 50; // 모든 파일의 사이즈는 50MB 넘을 수 없음.
     let size = arguments.length === 2 ? defaultSize : 0; // 수정모드에서는 기존에 등록된 파일사이즈를 기본값으로 사용.
     let rtnObj = {status: true, msg: null};
     for (let i = 0; i < fileArr.length; i++) {
@@ -527,6 +527,16 @@ const cmmUtils = (function () {
     if (sizeOfAllFiles < size) {
       rtnObj.status = false;
       rtnObj.msg = '업로드 최대 사이즈는 50MB 입니다(현재:' + (size/1048576).toFixed(1) + 'MB). 파일 사이즈를 확인해주세요.';
+    }
+    return rtnObj;
+  }
+
+  function verifySingleFileSize(file) {
+    let rtnObj = {status: true, msg: null};
+    const sizeLimit = 1048578 * 10; // 파일별 사이즈는 10MB 제한.
+    if (sizeLimit < file.size) {
+      rtnObj.status = false;
+      rtnObj.msg = file.name + '은 10MB를 초과합니다(10MB 사이즈 제한).';
     }
     return rtnObj;
   }
@@ -589,6 +599,7 @@ const cmmUtils = (function () {
     showToast: showToast,
     getUUID: getUUID,
     verifyFileSize: verifyFileSize,
+    verifySingleFileSize: verifySingleFileSize,
     downloadFile: downloadFile
   }
 })();

@@ -65,6 +65,7 @@ const main = (function() {
       fileName: '코드리스트',
       isThead: true,
       isTfoot: false,
+      loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'codeId', name: '코드', isSort: true, isLink: true, align: 'center', width: '150px', userCustom: codeTreeView, isExcel: true},
@@ -358,11 +359,15 @@ const main = (function() {
 
   function findCode(e) {
     if (e.key === 'Enter') {
-      const key = document.getElementById('selSearch').value;
-      const props = {};
-      props[key] = this.value;
-      dataGrid.reload(props);
+     reloadGrid();
     }
+  }
+
+  function reloadGrid() {
+    const key = document.getElementById('selSearch').value;
+    const props = {};
+    props[key] = document.getElementById('inputSearch').value;
+    dataGrid.reload(props);
   }
 
   function downloadExcel() {
@@ -379,6 +384,7 @@ const main = (function() {
     closeNewCodeModal: closeNewCodeModal,
     closeModCodeModal: closeModCodeModal,
     findCode: findCode,
+    reloadGrid: reloadGrid,
     downloadExcel: downloadExcel
   }
 }());

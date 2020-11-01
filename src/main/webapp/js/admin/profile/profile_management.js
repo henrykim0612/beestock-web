@@ -63,6 +63,7 @@ const main = (function() {
       fileName: '프로필 리스트',
       isThead: true,
       isTfoot: false,
+      loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'profileTitle', name: '프로필명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
@@ -103,7 +104,7 @@ const main = (function() {
 
   function changeSelType(_this) {
     global['selectedSelType'] = _this.value;
-    reloadGrid();
+    // reloadGrid();
   }
 
   function reloadGrid() {
@@ -125,6 +126,7 @@ const main = (function() {
     goToProfileForm: goToProfileForm,
     changeSelType: changeSelType,
     findProfile: findProfile,
+    reloadGrid: reloadGrid
   }
 }());
 

@@ -3,36 +3,35 @@
 
 <div class="level mr-3 mb-5">
     <div class="level-left">
-        <div class="control has-icons-left mr-3">
-            <div class="select is-rounded">
-                <select id="selType" onchange="main.changeSelType(this)">
-                    <option value="" selected>전체</option>
-                    <option value="1">국내</option>
-                    <option value="2">해외</option>
-                </select>
-            </div>
-            <div class="icon is-small is-left">
-                <i class="fas fa-globe-asia"></i>
-            </div>
-        </div>
-        <div class="control has-icons-left mr-3">
-            <div class="select is-rounded">
-                <select id="selSearch">
-                    <option value="profileTitle" selected>프로필명</option>
-                    <option value="profileSubtitle">보조명</option>
-                    <option value="profileInfo">설명</option>
-                </select>
-            </div>
-            <div class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-            </div>
-        </div>
-        <div>
+        <div class="field has-addons">
             <p class="control has-icons-left">
+                <span class="select">
+                    <select id="selType" onchange="main.changeSelType(this)">
+                        <option value="" selected>전체</option>
+                        <option value="1">국내</option>
+                        <option value="2">해외</option>
+                    </select>
+                </span>
+                <span class="icon is-left"><i class="fas fa-globe-asia" aria-hidden="true"></i></span>
+            </p>
+            <p class="control has-icons-left">
+                <span class="select">
+                    <select id="selSearch">
+                        <option value="profileTitle" selected>프로필명</option>
+                        <option value="profileSubtitle">보조명</option>
+                        <option value="profileInfo">설명</option>
+                    </select>
+                </span>
+                <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
+            </p>
+            <p class="control">
                 <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
-                <span class="icon is-left">
-                <i class="fas fa-search" aria-hidden="true"></i>
-            </span>
+            </p>
+            <p class="control">
+                <button id="btnSearch" class="button is-dark" onclick="main.reloadGrid()">
+                    <span class="icon is-small"><i class="fas fa-search"></i></span>
+                    <span>검색</span>
+                </button>
             </p>
         </div>
     </div>

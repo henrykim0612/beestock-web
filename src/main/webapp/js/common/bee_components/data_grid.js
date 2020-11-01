@@ -44,10 +44,20 @@ BeeComponents.modules.dataGrid = function(component) {
     const body = props['body'];
     body['curPage'] = body['curPage'] != null ? body['curPage'] : 1;
 
+    if (props['loading'] != null) {
+      cmmUtils.showLoadingElement(document.getElementById(props['loading']));
+    }
+    if (props['isPageLoader'] != null && props['isPageLoader']) {
+      cmmUtils.showPageLoader();
+    }
+
     cmmUtils.postData({
       url: props['url'],
       body: body
     }).then(function (response) {
+
+      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
 
       props['data'] = response; // 결과값을 추가함
 
@@ -74,6 +84,8 @@ BeeComponents.modules.dataGrid = function(component) {
       }
 
     }).catch(function (err) {
+      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
       cmmUtils.showErrModal();
       console.log(err);
     });
@@ -252,7 +264,7 @@ BeeComponents.modules.dataGrid = function(component) {
       const tr = document.createElement('tr');
       const th = document.createElement('th');
       // th.classList.add('has-text-centered');
-      th.innerText = '조회 결과가 없습니다.';
+      th.innerText = props['emptyRowMsg'] != null ? props['emptyRowMsg'] : '조회 결과가 없습니다.';
       th.colSpan = colModel.length;
       tr.append(th);
       fragment.appendChild(tr);
@@ -295,7 +307,6 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.createPagingSelectBox = function(fragment, props) {
     const selectDiv = document.createElement('div');
     selectDiv.classList.add('select');
-    selectDiv.classList.add('is-rounded');
     selectDiv.classList.add('is-small');
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');

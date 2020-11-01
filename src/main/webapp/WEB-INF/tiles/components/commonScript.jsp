@@ -26,12 +26,14 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/ckeditor5/build/ckeditor.js" type="text/javascript"></script>
 <%--ECharts--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/echarts/echarts-en.min.js" type="text/javascript"></script>
+<%--Swiper--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.js" type="text/javascript"></script>
 
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/bee_components/dataGrid.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/common/bee_components/data_grid.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";

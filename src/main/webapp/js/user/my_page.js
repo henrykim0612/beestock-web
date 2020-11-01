@@ -282,26 +282,30 @@ const main = (function() {
         const fileName = fis.value.substring(str.lastIndexOf("\\")+1);
         if (fileName) {
             if (cmmUtils.checkImageExtension(fileName)) {
-
-                const formData = new FormData();
-                formData.append('myImgFile', document.getElementById('myImgFile').files[0]);
-
-                cmmUtils.postData({
-                    url: '/api/v1/login/update-my-image',
-                    isMultipartFile: true,
-                    headers: {},
-                    body: formData,
-                }).then(function (response) {
-                    if (response.status === 'OK') {
-                        const myImage = document.getElementById('myImage');
-                        const src = CONTEXT_PATH + '/common/image/' + response['data'];
-                        myImage.setAttribute('src', src);
-                    }
-                }).catch(function (err) {
-                    cmmUtils.showErrModal();
-                    console.log(err);
-                });
-
+                const file = document.getElementById('myImgFile').files[0];
+                const checkedFiles = cmmUtils.verifySingleFileSize(file);
+                if (checkedFiles.status) {
+                    const formData = new FormData();
+                    formData.append('myImgFile', file);
+                    cmmUtils.postData({
+                        url: '/api/v1/login/update-my-image',
+                        isMultipartFile: true,
+                        headers: {},
+                        body: formData,
+                    }).then(function (response) {
+                        if (response.status === 'OK') {
+                            const myImage = document.getElementById('myImage');
+                            const src = CONTEXT_PATH + '/common/image/' + response['data'];
+                            myImage.setAttribute('src', src);
+                        }
+                    }).catch(function (err) {
+                        cmmUtils.showErrModal();
+                        console.log(err);
+                    });
+                } else {
+                    cmmUtils.showIpModal('파일', checkedFiles.msg);
+                    return false;
+                }
             } else {
                 cmmUtils.showIpModal('파일 확장자', '이미지형식(.jpg, .jpeg, .bmp, .png) 파일 형식만 가능합니다.');
             }

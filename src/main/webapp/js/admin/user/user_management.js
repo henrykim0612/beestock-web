@@ -67,6 +67,7 @@ const main = (function() {
       fileName: '사용자리스트',
       isThead: true,
       isTfoot: false,
+      loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
         {id: 'loginId', name: '이메일', isSort: true, isExcel: true},
@@ -89,11 +90,15 @@ const main = (function() {
 
   function findUser(e) {
     if (e.key === 'Enter') {
-      const key = document.getElementById('selSearch').value;
-      const props = {};
-      props[key] = this.value;
-      dataGrid.reload(props);
+      reloadGrid();
     }
+  }
+
+  function reloadGrid() {
+    const key = document.getElementById('selSearch').value;
+    const props = {};
+    props[key] = document.getElementById('inputSearch').value;
+    dataGrid.reload(props);
   }
 
   function changeSelAuth() {
@@ -155,6 +160,7 @@ const main = (function() {
     init: init,
     getDataGrid: getDataGrid,
     findUser: findUser,
+    reloadGrid: reloadGrid,
     changeSelAuth: changeSelAuth,
     showAuthModal: showAuthModal,
     saveAuth: saveAuth,
@@ -164,9 +170,7 @@ const main = (function() {
 }());
 
 document.addEventListener("DOMContentLoaded", function() {
-
    main.init();
-
   // 권한변경 셀렉트박스 이벤트
   document.getElementById('modalSelAuth').addEventListener('change', main.changeSelAuth)
   // 사용자 검색 이벤트 리스너

@@ -46,9 +46,13 @@ const main = (function() {
         }
 
         const dday = function(col, row) {
-            return 0 < row['dday']
-              ? '<span class="tag is-danger is-light">D-' + row['dday'] + '</span>'
-              : '';
+            if (row['dday'] === 99999) {
+                return '<span class="tag is-success is-light">공지중</span>';
+            } else {
+                return 0 < row['dday']
+                  ? '<span class="tag is-danger is-light">D-' + row['dday'] + '</span>'
+                  : '<span class="tag is-danger is-light">기간만료</span>';
+            }
         }
 
         const titleAnchor = function(anchor, col, row) {
@@ -65,10 +69,11 @@ const main = (function() {
             pId: 'dataPagination',
             isThead: true,
             isTfoot: false,
+            loading: 'btnSearch',
             colModel: [
                 {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
-                {type: 'custom', userCustom: pinned, width: '40px', align: 'center'},
-                {type: 'custom', userCustom: dday, width: '50px', align: 'center'},
+                {name: '핀고정', type: 'custom', userCustom: pinned, width: '60px', align: 'center'},
+                {name:'상태', type: 'custom', userCustom: dday, width: '70px', align: 'center'},
                 {id: 'noticeTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'},
                 {id: 'alarmStDate', name: '공지 시작일', isSort: true, align: 'center', width: '200px', isExcel: true},
                 {id: 'alarmEdDate', name: '공지 종료일', isSort: true, align: 'center', width: '200px', isExcel: true},
@@ -105,16 +110,21 @@ const main = (function() {
 
     function findNotice(e) {
         if (e.key === 'Enter') {
-            const key = document.getElementById('selSearch').value;
-            const props = {};
-            props[key] = this.value;
-            dataGrid.reload(props);
+            reloadGrid();
         }
+    }
+
+    function reloadGrid() {
+        const key = document.getElementById('selSearch').value;
+        const props = {};
+        props[key] = document.getElementById('inputSearch').value;
+        dataGrid.reload(props);
     }
 
     return {
         init: init,
         findNotice: findNotice,
+        reloadGrid: reloadGrid,
         goToNoticeForm: goToNoticeForm
     }
 

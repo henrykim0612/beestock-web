@@ -76,6 +76,7 @@ const main = (function() {
       isThead: true,
       isTfoot: false,
       isSelectable: true,
+      loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'profileId', isHidden: true, attributes: {title: 'profileTitle'}},
@@ -145,6 +146,7 @@ const main = (function() {
       fileName: '프로필 분기 리스트',
       isThead: true,
       isTfoot: false,
+      emptyRowMsg: '등록된 분기 정보가 없습니다.',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'quarterDate', name: '분기', isSort: true, align: 'center', isLink: true, userCustom: titleAnchor},
@@ -182,7 +184,7 @@ const main = (function() {
       isTfoot: false,
       colModel: [
         {id: 'itemCode', name: '종목코드', isSort: true, align: 'center', isExcel: true},
-        {id: 'itemName', name: '종목명', isSort: true, align: 'center', isExcel: true},
+        {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true},
         {id: 'quantity', name: '수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'acqPrice', name: '취득가액', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'marketPrice', name: '시가평가액', isSort: true, align: 'right', isCurrency: true, isExcel: true}
@@ -214,7 +216,7 @@ const main = (function() {
 
   function changeSelType(_this) {
     global['selectedSelType'] = _this.value;
-    reloadGrid();
+    // reloadGrid();
   }
 
   function reloadGrid() {
@@ -301,6 +303,7 @@ const main = (function() {
     goToProfileForm: goToProfileForm,
     changeSelType: changeSelType,
     findProfile: findProfile,
+    reloadGrid: reloadGrid,
     changeFileInput: changeFileInput,
     uploadQuarter: uploadQuarter,
     downloadProfileExcel: downloadProfileExcel,

@@ -7,7 +7,7 @@
 <div class="level mr-3 mb-3">
     <div class="level-left">
         <div>
-            <p class="control has-icons-left is-rounded">
+            <p class="control has-icons-left">
                 <input id="inputSearch" class="input input-search is-rounded" type="text" placeHolder="프로필 검색"/>
                 <span class="icon is-left">
                     <i class="fas fa-search" aria-hidden="true"></i>

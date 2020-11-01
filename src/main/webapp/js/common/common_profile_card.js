@@ -102,7 +102,7 @@ const cmmProfileCard = (function () {
     subTitle.innerText = data['profileSubtitle'];
 
     mediaContent.appendChild(title);
-    // mediaContent.appendChild(subTitle);
+    mediaContent.appendChild(subTitle);
     media.appendChild(mediaContent);
     cardContent.appendChild(media);
     card.appendChild(cardImage);
