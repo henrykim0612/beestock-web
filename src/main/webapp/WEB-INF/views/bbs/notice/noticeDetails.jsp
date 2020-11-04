@@ -26,19 +26,11 @@
             </div>
         </div>
     </div>
-    <div class="columns">
-        <div class="column is-1 is-vertical-center">
-            <label id="labelAlarmStDate" class="label" for="alarmStDate">공지 시작일</label>
-        </div>
-        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SUBC')">
-            <div class="column">
-                <div class="control has-icons-left">
-                    <input disabled class="input" type="text" data-bind="true" data-id="alarmStDate">
-                    <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
-                </div>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <div class="columns">
+            <div class="column is-1 is-vertical-center">
+                <label id="labelAlarmStDate" class="label" for="alarmStDate">공지 시작일</label>
             </div>
-        </sec:authorize>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
             <div class="column">
                 <div class="control has-icons-left">
                     <div class="control input-single-date">
@@ -46,21 +38,11 @@
                     </div>
                 </div>
             </div>
-        </sec:authorize>
-    </div>
-    <div class="columns">
-        <div class="column is-1 is-vertical-center">
-            <label id="labelAlarmEdDate" class="label" for="alarmEdDate">공지 종료일</label>
         </div>
-        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_SUBC')">
-            <div class="column">
-                <div class="control has-icons-left">
-                    <input disabled class="input" type="text" data-bind="true" data-id="alarmEdDate">
-                    <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
-                </div>
+        <div class="columns">
+            <div class="column is-1 is-vertical-center">
+                <label id="labelAlarmEdDate" class="label" for="alarmEdDate">공지 종료일</label>
             </div>
-        </sec:authorize>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
             <div class="column">
                 <div class="control has-icons-left">
                     <div class="control input-single-date">
@@ -68,32 +50,33 @@
                     </div>
                 </div>
             </div>
-        </sec:authorize>
-    </div>
-    <div class="columns">
-        <div class="column is-1 is-vertical-center">
-            <label id="labelModUptDate" class="label" for="modUptDate">최근 수정일</label>
         </div>
-        <div class="column">
-            <div class="control has-icons-left">
-                <input disabled id="modUptDate" class="input" type="text" data-bind="true" data-id="uptDate">
-                <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
+
+        <div class="columns">
+            <div class="column is-1 is-vertical-center">
+                <label id="labelModUptDate" class="label" for="modUptDate">최근 수정일</label>
+            </div>
+            <div class="column">
+                <div class="control has-icons-left">
+                    <input disabled id="modUptDate" class="input" type="text" data-bind="true" data-id="uptDate">
+                    <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="columns">
-        <div class="column is-1 is-vertical-center">
-            <label id="labelSecret" class="label">공지글 고정</label>
-        </div>
-        <div class="column">
-            <div class="field">
-                <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice1" name="ckPinnedNotice" data-bind="true" data-id="ckPinnedNotice" value="0">
-                <label for="ckPinnedNotice1">미고정</label>
-                <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice2" name="ckPinnedNotice" data-bind="true" data-id="ckPinnedNotice" value="1">
-                <label for="ckPinnedNotice2">고정</label>
+        <div class="columns">
+            <div class="column is-1 is-vertical-center">
+                <label id="labelSecret" class="label">공지글 고정</label>
+            </div>
+            <div class="column">
+                <div class="field">
+                    <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice1" name="ckPinnedNotice" data-bind="true" data-id="ckPinnedNotice" value="0">
+                    <label for="ckPinnedNotice1">미고정</label>
+                    <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice2" name="ckPinnedNotice" data-bind="true" data-id="ckPinnedNotice" value="1">
+                    <label for="ckPinnedNotice2">고정</label>
+                </div>
             </div>
         </div>
-    </div>
+    </sec:authorize>
 </form>
 <div class="flex-row justify-content-center mt-6">
     <sec:authorize access="hasRole('ROLE_ADMIN')">

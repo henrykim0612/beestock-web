@@ -75,6 +75,19 @@
     <div id="quarterPagination" class="swiper-pagination"></div>
 </div>
 
+<%--Input Spinner--%>
+<div class="is-flex is-flex-direction-row is-justify-content-flex-end">
+    <div class='ctrl'>
+        <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
+        <div class='ctrl__counter'>
+            <input class='ctrl__counter-input' maxlength='10' type='text' value='1'>
+            <div class='ctrl__counter-num'>1</div>
+        </div>
+        <div class='ctrl__button ctrl__button--increment'>+</div>
+        <p class="ml-3 subtitle">분기 전</p>
+    </div>
+</div>
+
 <%--분석탭--%>
 <div id="tabDiv" class="tabs mt-5">
     <ul>
@@ -93,25 +106,15 @@
     </ul>
 </div>
 
+<%--그리드 탭--%>
 <div id="gridCont">
-    <div class="control has-icons-left mr-3">
-        <div class="select">
-            <select id="selQuarter">
-                <option value="itemCode" selected>1분기전</option>
-                <option value="itemName">2분기전</option>
-                <option value="itemName">3분기전</option>
-                <option value="itemName">4분기전</option>
-            </select>
-        </div>
-        <div class="icon is-small is-left">
-            <i class="fas fa-history"></i>
-        </div>
-    </div>
     <div class="table-container mt-3">
         <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
     </div>
     <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
+
+<%--차트 탭--%>
 <div id="barCont" class="is-hidden"></div>
 
 

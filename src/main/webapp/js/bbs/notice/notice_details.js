@@ -90,8 +90,8 @@ const main = (function() {
       const noticeTitle = document.getElementById('noticeTitle');
       noticeTitle.disabled = true;
       noticeTitle.classList.remove('is-info');
-      document.getElementById('ckPinnedNotice1').disabled = true;
-      document.getElementById('ckPinnedNotice2').disabled = true;
+      // document.getElementById('ckPinnedNotice1').disabled = true;
+      // document.getElementById('ckPinnedNotice2').disabled = true;
     }
   }
 

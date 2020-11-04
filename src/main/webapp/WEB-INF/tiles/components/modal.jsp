@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%--페이지 로더--%>
-<div id="pageLoader" class="pageloader is-primary"><span class="title">잠시만 기다려 주세요..</span></div>
+<div id="pageLoader" class="pageloader is-dark"><span class="title">잠시만 기다려 주세요..</span></div>
 
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">

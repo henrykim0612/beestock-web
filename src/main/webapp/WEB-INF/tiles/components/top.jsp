@@ -68,6 +68,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
+                        <span id="spanAlarm" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-show="quickview" data-target="alarmQuickView" data-tooltip="알림확인" onclick="topMain.showAlarmQuickView()"><i class="fas fa-bell"></i></span>
                         <sec:authorize access="hasRole('ROLE_USER')">
                             <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(일반사용자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
                         </sec:authorize>
@@ -78,7 +79,7 @@
                             <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(관리자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
                         </sec:authorize>
                     </sec:authorize>
-                    <a class="button is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
+                    <a class="button ml-2 is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
                     <a id="aLogin" class="button is-info is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>
                     <sec:authorize access="isAuthenticated()">
                         <a class="button is-danger is-small" href="${pageContext.request.contextPath}/login/logout"><strong>로그아웃</strong></a>
@@ -91,3 +92,17 @@
 
 <nav id="breadCrumbNav" class="cmm-mt-60 ml-5 breadcrumb has-arrow-separator" aria-label="breadcrumbs">
 </nav>
+
+<%--Tree view--%>
+<div id="alarmQuickView" class="quickview">
+    <header class="quickview-header is-dark">
+        <p class="title"><span class="icon has-text-warning mr-3"><i class="fas fa-bell"></i></span>알림</p>
+        <span class="delete" data-dismiss="quickview" onclick="topMain.initAlarmQuickView()"></span>
+    </header>
+    <div class="quickview-body">
+        <div class="quickview-block mt-5" id="userAlarmBody">
+        </div>
+    </div>
+    <footer class="quickview-footer">
+    </footer>
+</div>

@@ -17,6 +17,7 @@ const main = (function() {
   function init() {
     createBreadCrumb();
     global.profileId = document.getElementById('profileId').value;
+    initSpinner();
     getProfileDetails();
     initQuarterSlider();
     addSpanStarEvent();
@@ -401,6 +402,13 @@ const main = (function() {
         document.getElementById(tab.getAttribute('data-cont-id')).classList.add('is-hidden');
       }
     }
+  }
+
+  function initSpinner() {
+    const callback = function(counter) {
+
+    }
+    cmmUtils.initInputSpinner({counter: 1, limitCounter: 1, callback: callback});
   }
 
   function setActiveTabInfo(el) {

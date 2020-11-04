@@ -288,7 +288,7 @@ const main = (function() {
         url: '/api/v1/code/update',
         body: {
           codeId: global['selectedCodeId'],
-          codeNm: document.getElementById('labelModCodeNm').value,
+          codeNm: document.getElementById('modCodeNm').value,
           description: document.getElementById('modDescription').value
         },
         loading: 'btnNewCode'

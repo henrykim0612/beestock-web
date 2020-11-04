@@ -555,6 +555,25 @@ const cmmUtils = (function () {
     form.remove();
   }
 
+  function initInputSpinner(props) {
+    const controls = new InputSpinner();
+    controls.ready(props);
+  }
+
+  function goToAlarmPage(linkCode, linkId) {
+    switch (linkCode) {
+      case 'M0001': // 공지사항
+        goToPage('/bbs/notice/' + linkId);
+        break;
+      case 'M0002': // Q&A
+        goToPage('/bbs/qa/' + linkId);
+        break;
+      case 'M0003': // 프로필
+        goToPage('/analysis/profile/' + linkId);
+        break;
+    }
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -600,6 +619,8 @@ const cmmUtils = (function () {
     getUUID: getUUID,
     verifyFileSize: verifyFileSize,
     verifySingleFileSize: verifySingleFileSize,
-    downloadFile: downloadFile
+    downloadFile: downloadFile,
+    initInputSpinner: initInputSpinner,
+    goToAlarmPage: goToAlarmPage
   }
 })();

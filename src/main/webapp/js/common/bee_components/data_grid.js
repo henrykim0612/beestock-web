@@ -247,7 +247,7 @@ BeeComponents.modules.dataGrid = function(component) {
                 if (col['hasBadgeOutlined'] != null && col['hasBadgeOutlined']) {
                   span.classList.add('has-badge-outlined');
                 }
-                span.classList.add('has-badge-danger');
+                span.classList.add('has-badge-primary');
                 thOrTd.appendChild(span);
               }
             } else {

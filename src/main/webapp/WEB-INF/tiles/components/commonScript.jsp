@@ -30,6 +30,7 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.js" type="text/javascript"></script>
 
 <%--common--%>
+<script src="${pageContext.request.contextPath}/js/common/common_input_spinner.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>
