@@ -81,19 +81,6 @@
     <div id="quarterPagination" class="swiper-pagination"></div>
 </div>
 
-<%--Input Spinner--%>
-<div class="is-flex is-flex-direction-row is-justify-content-flex-end">
-    <div class='ctrl'>
-        <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
-        <div class='ctrl__counter'>
-            <input class='ctrl__counter-input' maxlength='10' type='text' value='1'>
-            <div class='ctrl__counter-num'>1</div>
-        </div>
-        <div class='ctrl__button ctrl__button--increment'>+</div>
-        <p class="ml-3 subtitle">분기 전</p>
-    </div>
-</div>
-
 <%--분석탭--%>
 <div id="tabDiv" class="tabs mt-5">
     <ul>
@@ -114,17 +101,61 @@
 
 <%--그리드 탭--%>
 <div id="gridCont">
-    <%--엑셀 다운로드--%>
-    <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
-        <div class="has-text-right">
-            <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadProfileGrid()"><i class="fas fa-lg fa-file-download"></i></span>
+    <div class="flex-row">
+        <div class="flex-row width-50per">
+            <%--Input Spinner--%>
+            <div class="flex-row justify-content-start">
+                <div class='ctrl'>
+                    <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
+                    <div class='ctrl__counter'>
+                        <input class='ctrl__counter-input' maxlength='10' type='text' value='1'>
+                        <div class='ctrl__counter-num'>1</div>
+                    </div>
+                    <div class='ctrl__button ctrl__button--increment'>+</div>
+                    <p class="ml-3 subtitle">분기 전</p>
+                </div>
+            </div>
         </div>
-    </sec:authorize>
+        <div class="flex-row width-50per justify-content-end">
+            <%--엑셀 다운로드--%>
+            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+                <div class="flex-col justify-content-end">
+                    <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadProfileGrid()"><i class="fas fa-lg fa-file-download"></i></span>
+                </div>
+            </sec:authorize>
+        </div>
+    </div>
     <table id="profileGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--차트 탭--%>
-<div id="barCont" class="is-hidden"></div>
+<div id="barCont" class="is-hidden">
+    <div class="flex-row">
+        <div class="field">
+            <div class="control has-icons-left">
+                <div class="select is-small">
+                    <select id="selBarChartRank">
+                        <option value="" selected>전체</option>
+                        <option value="10">상위 10</option>
+                        <option value="20">상위 20</option>
+                        <option value="30">상위 30</option>
+                        <option value="40">상위 40</option>
+                        <option value="50">상위 50</option>
+                        <option value="60">상위 60</option>
+                        <option value="70">상위 70</option>
+                        <option value="80">상위 80</option>
+                        <option value="90">상위 90</option>
+                        <option value="100">상위 100</option>
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-flag-checkered"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="profileBarChart" class="is-fullwidth"></div>
+</div>
 
 
 <%--아이디어 등록 모달--%>

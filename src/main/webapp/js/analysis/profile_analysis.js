@@ -12,10 +12,12 @@ const main = (function() {
     quarterId: null,
     comparisonQuarter: 1, // 기본은 1분기전
     selectedQuarterDate: null,
+    sortedDataArr: [],
     tabView: 'grid' // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
+  let profileBarChart = undefined;
 
   function init() {
     createBreadCrumb();
@@ -28,6 +30,7 @@ const main = (function() {
     initTooltips();
     addFileEventListener();
     addTabEventListener();
+    addBarChartSelectBoxListener();
     if (document.getElementById('icoExcelDownload')) cmmUtils.setExcelTippy(['#icoExcelDownload']);
   }
 
@@ -206,7 +209,7 @@ const main = (function() {
       return html;
     }
     const props = {
-      url: '/api/v1/analysis/profile/quarter-grid',
+      url: '/api/v1/analysis/profile/quarter-info',
       body: {
         quarterId: global.quarterId,
         profileId: global.profileId,
@@ -232,8 +235,126 @@ const main = (function() {
     profileGrid = new COMPONENTS.DataGrid(props);
   }
 
+  // 프로필 차트
   function initBarChart() {
-    console.log('차트');
+    cmmUtils.postData({
+      url: '/api/v1/analysis/profile/quarter-info',
+      body: {
+        quarterId: global.quarterId,
+        profileId: global.profileId,
+        comparisonQuarter: global.comparisonQuarter,
+        selectedQuarterDate: global.selectedQuarterDate
+      }
+    }).then(function (response) {
+      const chartData = createData(response);
+      const props = {
+        eId: 'profileBarChart',
+        options: {
+          toolbox: {
+            show: true,
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none'
+              },
+              magicType: {type: ['line', 'bar']},
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '2%',
+            right: '3%',
+            bottom: '1%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.1]
+          },
+          yAxis: {
+            type: 'category',
+            data: chartData['xAxis']
+          },
+          series: [
+            {
+              type: 'bar',
+              barWidth: '20px',
+              color: '#276cda',
+              label: {
+                show: true,
+                position: 'right',
+                color: '#2f2f2f'
+              },
+              data: chartData['yAxis']
+            }
+          ]
+        }
+      }
+      if (!!profileBarChart) {
+        reloadBarChart(props.options);
+      } else {
+        profileBarChart = new COMPONENTS.Chart(props);
+      }
+    }).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+
+    // 데이터 가공
+    function createData(dataArr) {
+      const sortedDataArr = _.orderBy(dataArr, ['marketPrice'], ['asc']);
+      global['sortedDataArr'] = sortedDataArr;
+      let result = {xAxis: [], yAxis: []};
+      const rank = document.getElementById('selBarChartRank').value;
+      if (rank) {
+        pushBarChartData(result, sortedDataArr, rank);
+      } else {
+        pushBarChartData(result, sortedDataArr)
+      }
+      return result;
+    }
+  }
+
+  function pushBarChartData(result, data, limitSize) {
+    const argLen = arguments.length;
+    const dataLen = data.length;
+    for (let i = argLen === 3 ? (dataLen - limitSize) : 0; i < dataLen; i++) {
+      const row = data[i];
+      result['xAxis'].push(row['itemName']);
+      result['yAxis'].push(row['marketPrice']);
+    }
+    setBarChartSize(argLen === 3 ? limitSize : dataLen);
+  }
+
+  function setBarChartSize(size) {
+    document.getElementById('profileBarChart').style.height = (35 * size) + 'px';
+  }
+
+  // Bar 차트 순위 사이즈
+  function addBarChartSelectBoxListener() {
+    document.getElementById('selBarChartRank').addEventListener('change', function() {
+      let chartData = {xAxis: [], yAxis: []};
+      if (this.value) {
+        pushBarChartData(chartData, global['sortedDataArr'], parseInt(this.value));
+      } else {
+        pushBarChartData(chartData, global['sortedDataArr']);
+      }
+      reloadBarChart({
+        yAxis: {data: chartData['xAxis']},
+        series: [{data: chartData['yAxis']}]
+      })
+    });
+  }
+
+  function reloadBarChart (options) {
+    profileBarChart.resize();
+    profileBarChart.setOption(options);
   }
 
   // 프로필 헤더 생성

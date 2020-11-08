@@ -188,6 +188,22 @@
 	height: 500px;
 }
 
+.height800px {
+	height: 800px;
+}
+
+.height1000px {
+	height: 1000px;
+}
+
+.height1500px {
+	height: 1500px;
+}
+
+.height2000px {
+	height: 2000px;
+}
+
 .vh160 {
 	height: 160vh;
 }
@@ -437,6 +453,3 @@ increment-next {  from {
 .analysis-plus {
 	background-color: #3273dc;
 }
-
-/*프로필 분석 퍼센트 막대*/
-
