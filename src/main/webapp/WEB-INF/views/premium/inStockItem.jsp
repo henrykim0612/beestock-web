@@ -46,11 +46,11 @@
 </div>
 
 <%--엑셀 다운로드--%>
-<div class="has-text-right">
-    <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadExcel()">
-        <i class="fas fa-lg fa-file-download"></i>
-    </span>
-</div>
+<sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+    <div class="has-text-right">
+        <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadExcel()"><i class="fas fa-lg fa-file-download"></i></span>
+    </div>
+</sec:authorize>
 
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
@@ -65,7 +65,7 @@
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">종목코드 업로드</p>
-                <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('uploadModal');"></button>
+                <button class="delete" aria-label="close" onclick="main.hideUploadModal()"></button>
             </header>
             <section class="modal-card-body">
                 <form method="post" enctype="multipart/form-data" id="fileUploadForm">
@@ -98,7 +98,7 @@
                 </span>
                     <span>업로드</span>
                 </button>
-                <button onclick="cmmUtils.closeModal('uploadModal');" class="button is-dark">
+                <button onclick="main.hideUploadModal()" class="button is-dark">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

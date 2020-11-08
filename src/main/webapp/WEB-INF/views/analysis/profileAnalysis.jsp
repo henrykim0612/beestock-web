@@ -4,6 +4,12 @@
 <script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js"></script>
 <input type="hidden" id="profileId" value="${profileId}"/>
 
+<div class="is-flex is-flex-direction-row is-justify-content-center">
+    <div class="column"></div>
+    <div class="is-flex is-justify-content-end"></div>
+    <div class="is-flex is-justify-content-start"></div>
+</div>
+
 <div class="tile is-ancestor">
     <div class="tile is-3 is-vertical is-parent">
         <div class="tile is-child">
@@ -108,10 +114,13 @@
 
 <%--그리드 탭--%>
 <div id="gridCont">
-    <div class="table-container mt-3">
-        <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
-    </div>
-    <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+    <%--엑셀 다운로드--%>
+    <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+        <div class="has-text-right">
+            <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadProfileGrid()"><i class="fas fa-lg fa-file-download"></i></span>
+        </div>
+    </sec:authorize>
+    <table id="profileGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--차트 탭--%>

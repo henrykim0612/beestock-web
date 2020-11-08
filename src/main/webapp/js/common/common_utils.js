@@ -574,6 +574,88 @@ const cmmUtils = (function () {
     }
   }
 
+  // 프로필 분석막대 생성
+  function createAnalysisBar(value) {
+    if (Math.abs(value) === 100) value = Math.floor(value); // 100 이면 소수점 제거
+    const mainDiv = document.createElement('div');
+    mainDiv.classList.add('flex-row');
+    if (value === 0) {
+      appendZeroBar(mainDiv, value);
+    } else {
+      appendBar(mainDiv, value);
+    }
+    return mainDiv;
+
+    function appendBar(mainDiv, value) {
+      if (value < 0) {
+        // 적자 막대 생성
+        const leftDiv = document.createElement('div');
+        leftDiv.classList.add('flex-row');
+        leftDiv.classList.add('justify-content-end');
+        leftDiv.classList.add('width-50per');
+        const minusDiv = document.createElement('div');
+        minusDiv.classList.add('flex-row');
+        minusDiv.classList.add('justify-content-end');
+        minusDiv.classList.add('analysis-bar');
+        minusDiv.classList.add('analysis-minus');
+        minusDiv.style.width = Math.abs(value) + '%';
+        const contDiv = document.createElement('div');
+        contDiv.classList.add('flex-col');
+        contDiv.classList.add('justify-content-center');
+        const leftStrong = document.createElement('strong');
+        leftStrong.innerText = value + '%';
+        contDiv.appendChild(leftStrong);
+        minusDiv.appendChild(contDiv);
+        leftDiv.appendChild(minusDiv);
+        mainDiv.appendChild(leftDiv);
+
+        const rightDiv = document.createElement('div');
+        leftDiv.classList.add('flex-row');
+        leftDiv.classList.add('justify-content-start');
+        leftDiv.classList.add('width-50per');
+        mainDiv.appendChild(rightDiv);
+      } else {
+        // 흑자 막대 생성
+        const leftDiv = document.createElement('div');
+        leftDiv.classList.add('flex-row');
+        leftDiv.classList.add('justify-content-end');
+        leftDiv.classList.add('width-50per');
+        mainDiv.appendChild(leftDiv);
+
+        const rightDiv = document.createElement('div');
+        rightDiv.classList.add('flex-row');
+        rightDiv.classList.add('justify-content-start');
+        rightDiv.classList.add('width-50per');
+        const contDiv = document.createElement('div');
+        contDiv.classList.add('flex-col');
+        contDiv.classList.add('justify-content-center');
+        contDiv.classList.add('analysis-bar');
+        contDiv.classList.add('analysis-plus');
+        contDiv.style.width = value + '%';
+        const strong = document.createElement('strong');
+        strong.innerText = value + '%';
+        contDiv.appendChild(strong);
+        rightDiv.appendChild(contDiv);
+        mainDiv.appendChild(rightDiv);
+      }
+    }
+
+    function appendZeroBar(mainDiv, value) {
+      mainDiv.classList.add('flex-row');
+      mainDiv.classList.add('justify-content-center');
+      mainDiv.classList.add('width-100per');
+      const strong = document.createElement('strong');
+      strong.innerText = value + '%';
+      mainDiv.appendChild(strong);
+    }
+  }
+
+  function getRandomValue(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //최댓값도 포함, 최솟값도 포함
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -621,6 +703,8 @@ const cmmUtils = (function () {
     verifySingleFileSize: verifySingleFileSize,
     downloadFile: downloadFile,
     initInputSpinner: initInputSpinner,
-    goToAlarmPage: goToAlarmPage
+    goToAlarmPage: goToAlarmPage,
+    createAnalysisBar: createAnalysisBar,
+    getRandomValue: getRandomValue
   }
 })();

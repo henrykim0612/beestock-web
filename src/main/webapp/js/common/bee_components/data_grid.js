@@ -179,7 +179,6 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.createTbody = function(parentFragment, props) {
     const colModel = props['colModel'];
     const rowData = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
-
     const fragment = document.createDocumentFragment();
     if (rowData.length) {
       for (let i = 0; i < rowData.length; i++) {
@@ -189,7 +188,10 @@ BeeComponents.modules.dataGrid = function(component) {
 
           const col = colModel[j];
           const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
-          const value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
+          let value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
+          value = col['prefixText'] != null ? value + col['prefixText'] : value;
+          row['excelText'] = null; // 엑센전용으로 변경할 경우 사용
+
           // Hidden cell
           if (col['isHidden'] != null || col['isHidden']) {
             thOrTd.classList.add('is-hidden');
@@ -201,11 +203,6 @@ BeeComponents.modules.dataGrid = function(component) {
                 thOrTd.setAttribute(attrName, row[attributes[name]]);
               }
             }
-          }
-          // Excel
-          if (col['isExcel'] != null && col['isExcel']) {
-            thOrTd.setAttribute('data-excel-body', 'true');
-            thOrTd.setAttribute('data-excel-value', value);
           }
           // 텍스트 정렬
           if (col['align'] != null) {
@@ -220,8 +217,10 @@ BeeComponents.modules.dataGrid = function(component) {
           if (col['type'] != null) {
             // 태그타입
             if (col['type'] === 'custom') {
-              const text = col['name'] != null ? row[col['name']] : '';
-              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + text + '</span>';
+              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + value + '</span>';
+            }
+            if (col['type'] === 'node') {
+              col['userCustom'] != null ? thOrTd.appendChild(col['userCustom'](col, row)) : '<span class="tag is-dark">' + value + '</span>';
             }
           } else {
             // Link 타입
@@ -253,6 +252,11 @@ BeeComponents.modules.dataGrid = function(component) {
             } else {
               thOrTd.innerHTML = value;
             }
+          }
+          // Excel
+          if (col['isExcel'] != null && col['isExcel']) {
+            thOrTd.setAttribute('data-excel-body', 'true');
+            thOrTd.setAttribute('data-excel-value', row['excelText'] ? row['excelText'] : value);
           }
           // tr에 추가
           tr.appendChild(thOrTd);

@@ -10,9 +10,12 @@ const main = (function() {
     newFileArr: [], // uuid, file, isRemoved
     modFileArr: [], // uuid, fileId, fileSize, isRemoved
     quarterId: null,
+    comparisonQuarter: 1, // 기본은 1분기전
+    selectedQuarterDate: null,
     tabView: 'grid' // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
   };
   let ideaGrid = undefined;
+  let profileGrid = undefined;
 
   function init() {
     createBreadCrumb();
@@ -25,6 +28,7 @@ const main = (function() {
     initTooltips();
     addFileEventListener();
     addTabEventListener();
+    if (document.getElementById('icoExcelDownload')) cmmUtils.setExcelTippy(['#icoExcelDownload']);
   }
 
   function createBreadCrumb() {
@@ -91,6 +95,7 @@ const main = (function() {
       button.classList.add('is-inverted');
       button.setAttribute('data-button', 'slide');
       button.setAttribute('data-key', quarter['quarterId']);
+      button.setAttribute('data-quarter', quarter['quarterDate']);
       const iconSpan = document.createElement('span');
       iconSpan.classList.add('icon');
       const icon = document.createElement('i');
@@ -138,6 +143,7 @@ const main = (function() {
           resetButtons(slideButtons);
           activeButton(this);
           global.quarterId = this.getAttribute('data-key');
+          global.selectedQuarterDate = this.getAttribute('data-quarter');
           showTab();
         });
       }
@@ -159,22 +165,71 @@ const main = (function() {
 
   function showTab() {
     switch (global.tabView) {
-      // case 'grid': initGrid(); break;
+      case 'grid': initProfileGrid(); break;
       case 'barChart': initBarChart(); break;
     }
   }
 
-  function initGrid() {
-    const url = '/api/v1/analysis/profile/quarter-grid';
-    cmmUtils.postData({
-      url: url,
-      body: {quarterId: global.quarterId}
-    }).then(function (response) {
-
-    }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
-    });
+  // 프로필 그리드
+  function initProfileGrid() {
+    const comparisonQuarter = global.comparisonQuarter;
+    const lastColName = comparisonQuarter + '분기전 대비 보유수량 증감률';
+    // 수익률 막대 표
+    const earnRate = function(col, row) {
+      row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
+      return cmmUtils.createAnalysisBar(row['earnRate']);
+    }
+    // 증감율
+    const incsRate = function(col, row) {
+      let html = '';
+      let text = '';
+      if (row['prevQuarterCnt'] === 0 ) {
+        text = comparisonQuarter + ' 분기 전 데이터 없음';
+        html = '<span class="tag is-warning"><strong>' + text + '</strong></span>'
+      } else if (row['incsRate'] === -99999) {
+        text = '신규편입';
+        html = '<span class="tag is-success">' + text + '</span>'
+      } else {
+        let rate = row['incsRate'];
+        if (rate === 0 ) {
+          text = '0%';
+          html = '<span class="is-dark">' + text + '</span>'
+        } else if (0 < rate) {
+          text = rate + '%';
+          html = '<span class="has-text-link">' + text + '</span>'
+        } else {
+          text = rate + '%';
+          html = '<span class="has-text-danger">' + text + '</span>'
+        }
+      }
+      row['excelText'] = text;
+      return html;
+    }
+    const props = {
+      url: '/api/v1/analysis/profile/quarter-grid',
+      body: {
+        quarterId: global.quarterId,
+        profileId: global.profileId,
+        comparisonQuarter: comparisonQuarter,
+        selectedQuarterDate: global.selectedQuarterDate
+      },
+      eId: 'profileGrid',
+      isThead: true,
+      isTfoot: false,
+      isPageLoader: false,
+      fileName: global.selectedQuarterDate,
+      colModel: [
+        {id: 'itemCode', isHidden: true},
+        {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true},
+        {id: 'weight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
+        {id: 'quantity', name: '보유수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'buyingPrice', name: '매수가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'currPrice', name: '현재가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'earnRate', name: '수익률', isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true},
+        {id: 'incsRate', name: lastColName, isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
+      ]
+    }
+    profileGrid = new COMPONENTS.DataGrid(props);
   }
 
   function initBarChart() {
@@ -406,7 +461,9 @@ const main = (function() {
 
   function initSpinner() {
     const callback = function(counter) {
-
+      global['comparisonQuarter'] = counter;
+      // 그리드 다시 로드
+      initProfileGrid();
     }
     cmmUtils.initInputSpinner({counter: 1, limitCounter: 1, callback: callback});
   }
@@ -613,12 +670,17 @@ const main = (function() {
     return size;
   }
 
+  function downloadProfileGrid() {
+    profileGrid.downloadExcel();
+  }
+
   return {
     getChart: function() { return global.chart; },
     init: init,
     showIdeaModal: showNewIdeaModal,
     closeNewIdeaModal: closeNewIdeaModal,
     closeModIdeaModal: closeModIdeaModal,
+    downloadProfileGrid: downloadProfileGrid,
     removeFileTag: removeFileTag,
     saveIdea: saveIdea,
     modifyIdea: modifyIdea

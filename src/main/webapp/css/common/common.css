@@ -417,3 +417,26 @@ increment-next {  from {
 	transform: translateY(50px);
 }
 }
+
+.width-100per {
+	width: 100%;
+}
+
+.width-50per {
+	width: 50%;
+}
+
+.analysis-bar {
+	height: 20px;
+}
+
+.analysis-minus {
+	background-color: #f14668;
+}
+
+.analysis-plus {
+	background-color: #3273dc;
+}
+
+/*프로필 분석 퍼센트 막대*/
+

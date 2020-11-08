@@ -75,7 +75,7 @@
                                       <span class="file-icon"><i class="fas fa-upload"></i></span>
                                       <span class="file-label">엑셀파일 선택</span>
                                 </span>
-                                <span class="file-name" id="spanFileName">Screen Shot 2017-07-29 at 15.54.25.png</span>
+                                <span class="file-name" id="spanFileName"></span>
                             </label>
                         </div>
                     </div>

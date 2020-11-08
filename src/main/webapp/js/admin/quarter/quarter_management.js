@@ -198,15 +198,19 @@ const main = (function() {
   }
 
   function showUploadModal() {
-    document.getElementById('spanFileName').innerText = '';
-    document.getElementById('quarterFile').value = '';
     cmmUtils.showModal('uploadModal');
+    resetUploadModal();
   }
 
   function showQuarterInfoModal() {
     document.getElementById('qiTitle').innerText = global['selectedProfileTitle'] + ' ' + global['selectedQuarterDate'];
     cmmUtils.showModal('quarterInfoModal');
     initQuarterInfoGrid();
+  }
+
+  function resetUploadModal() {
+    document.getElementById('spanFileName').innerText = '';
+    document.getElementById('quarterFile').value = '';
   }
 
   function hideUploadModal() {
@@ -261,7 +265,7 @@ const main = (function() {
           }).then(function (response) {
             if (response === 1) {
               cmmUtils.showToast({message: '업로드 되었습니다.'});
-              hideUploadModal();
+              resetUploadModal();
             } else {
               cmmUtils.showWarningModal('비정상적인 저장 데이터', '엑셀에 들어있는 행과 저장된 행이 일치하지 않았습니다.<br/>관리자에게 문의하세요.');
             }
