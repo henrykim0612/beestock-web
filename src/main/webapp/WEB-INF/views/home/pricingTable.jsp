@@ -17,9 +17,8 @@
             <div class="plan-item">국내 프로필</div>
             <div class="plan-item">해외 프로필</div>
             <div class="plan-item">자료 엑셀 다운로드</div>
-            <div class="plan-item">프로필별 개인 아이디어 노트</div>
-            <div class="plan-item">국내 일별 종목 정보</div>
-            <div class="plan-item">해외 일별 종목 정보</div>
+            <div class="plan-item">프로필별 개인 저장공간</div>
+            <div class="plan-item">프리미엄 전용 화면</div>
         </div>
         <div class="plan-footer">
 
@@ -34,7 +33,6 @@
             <div class="plan-item has-text-danger" data-feature="Bandwidth">이용 불가</div>
             <div class="plan-item has-text-danger" data-feature="Bandwidth">이용 불가</div>
             <div class="plan-item has-text-danger" data-feature="Bandwidth">비공개</div>
-            <div class="plan-item has-text-danger" data-feature="Email Boxes">비공개</div>
         </div>
         <div class="plan-footer">
         </div>
@@ -48,7 +46,6 @@
             <div class="plan-item" data-feature="Domains">이용 가능</div>
             <div class="plan-item" data-feature="Domains">이용 가능</div>
             <div class="plan-item" data-feature="Bandwidth">모두 공개</div>
-            <div class="plan-item" data-feature="Email Boxes">모두 공개</div>
         </div>
         <div class="plan-footer">
             <button class="button is-fullwidth">1달 구독</button>
@@ -63,7 +60,6 @@
             <div class="plan-item" data-feature="Domains">이용 가능</div>
             <div class="plan-item" data-feature="Domains">이용 가능</div>
             <div class="plan-item" data-feature="Bandwidth">모두 공개</div>
-            <div class="plan-item" data-feature="Email Boxes">모두 공개</div>
         </div>
         <div class="plan-footer">
             <button class="button is-fullwidth">1년 구독</button>

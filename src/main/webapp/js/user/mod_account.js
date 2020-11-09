@@ -80,43 +80,31 @@ const main = (function() {
   function verifyInputData(params) {
 
     if (!params.loginPwd.value || params.loginPwd.classList.contains('is-danger')) {
-      showIpModal('비밀번호', 'ipPwd');
+      cmmUtils.showIpModal('비밀번호');
       return false;
     }
 
     if (!params.cfPwd.value || params.cfPwd.classList.contains('is-danger')) {
-      showIpModal('비밀번호 확인', 'cfPwd');
+      cmmUtils.showIpModal('비밀번호 확인');
       return false;
     }
 
     if (!params.userNm.value) {
-      showIpModal('이름', 'ipUserName');
+      cmmUtils.showIpModal('이름');
       return false;
     }
 
     if (!params.userPhone.value || params.userPhone.classList.contains('is-danger')) {
-      showIpModal('핸드폰 번호', 'ipUserPhone');
+      cmmUtils.showIpModal('핸드폰 번호');
       return false;
     }
 
     if (!params.ipHintAnswer.value) {
-      showIpModal('비밀번호 힌트 답변', 'ipHintAnswer');
+      cmmUtils.showIpModal('비밀번호 힌트 답변');
       return false;
     }
 
     return true;
-  }
-
-  function showIpModal(text, fId) {
-    const ipModal = document.getElementById('inputModal');
-    const ipModalTitle = document.getElementById('ipModalTitle');
-    const ipModalContent = document.getElementById('ipModalContent');
-    const btnClsIpModal = document.getElementById('btnClsIpModal');
-
-    ipModalTitle.innerText = text + ' 입력 오류';
-    ipModalContent.innerHTML = text + ' 입력값을 확인해주세요.';
-    btnClsIpModal.setAttribute('onclick', 'main.closeModal(\"inputModal\", \"' + fId + '\")');
-    showModal(ipModal);
   }
 
   function showModal(ele) {

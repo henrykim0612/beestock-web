@@ -12,6 +12,8 @@ const main = (function() {
     quarterId: null,
     comparisonQuarter: 1, // 기본은 1분기전
     selectedQuarterDate: null,
+    selectedBarChartFilter: 'marketPrice',
+    selectedBarChartFilterText: '시가평가액',
     sortedDataArr: [],
     tabView: 'grid' // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
   };
@@ -268,13 +270,16 @@ const main = (function() {
             }
           },
           grid: {
-            left: '2%',
-            right: '3%',
+            left: '3%',
+            right: '5%',
             bottom: '1%',
             containLabel: true
           },
           xAxis: {
             type: 'value',
+            name: global['selectedBarChartFilterText'],
+            nameLocation: 'middle',
+            nameGap: 30,
             boundaryGap: [0, 0.1]
           },
           yAxis: {
@@ -308,7 +313,7 @@ const main = (function() {
 
     // 데이터 가공
     function createData(dataArr) {
-      const sortedDataArr = _.orderBy(dataArr, ['marketPrice'], ['asc']);
+      const sortedDataArr = _.orderBy(dataArr, [global.selectedBarChartFilter], ['asc']);
       global['sortedDataArr'] = sortedDataArr;
       let result = {xAxis: [], yAxis: []};
       const rank = document.getElementById('selBarChartRank').value;
@@ -327,7 +332,7 @@ const main = (function() {
     for (let i = argLen === 3 ? (dataLen - limitSize) : 0; i < dataLen; i++) {
       const row = data[i];
       result['xAxis'].push(row['itemName']);
-      result['yAxis'].push(row['marketPrice']);
+      result['yAxis'].push(row[global.selectedBarChartFilter]);
     }
     setBarChartSize(argLen === 3 ? limitSize : dataLen);
   }
@@ -336,8 +341,9 @@ const main = (function() {
     document.getElementById('profileBarChart').style.height = (35 * size) + 'px';
   }
 
-  // Bar 차트 순위 사이즈
+  // Bar 필터 이벤트
   function addBarChartSelectBoxListener() {
+
     document.getElementById('selBarChartRank').addEventListener('change', function() {
       let chartData = {xAxis: [], yAxis: []};
       if (this.value) {
@@ -350,6 +356,12 @@ const main = (function() {
         series: [{data: chartData['yAxis']}]
       })
     });
+
+    document.getElementById('selBarChartFilter').addEventListener('change', function() {
+      global['selectedBarChartFilter'] = this.value;
+      global['selectedBarChartFilterText'] = this.options[this.selectedIndex].text;
+      initBarChart();
+    })
   }
 
   function reloadBarChart (options) {

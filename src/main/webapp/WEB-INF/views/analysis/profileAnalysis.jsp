@@ -112,7 +112,7 @@
                         <div class='ctrl__counter-num'>1</div>
                     </div>
                     <div class='ctrl__button ctrl__button--increment'>+</div>
-                    <p class="ml-3 subtitle">분기 전</p>
+                    <p class="ml-3">분기 전</p>
                 </div>
             </div>
         </div>
@@ -150,6 +150,20 @@
                 </div>
                 <div class="icon is-small is-left">
                     <i class="fas fa-flag-checkered"></i>
+                </div>
+            </div>
+        </div>
+        <div class="field ml-3">
+            <div class="control has-icons-left">
+                <div class="select is-small">
+                    <select id="selBarChartFilter">
+                        <option value="marketPrice" selected>시가평가액</option>
+                        <option value="weight">비중</option>
+                        <option value="quantity">보유수량</option>
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-filter"></i>
                 </div>
             </div>
         </div>

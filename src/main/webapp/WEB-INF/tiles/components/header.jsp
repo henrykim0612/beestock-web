@@ -33,8 +33,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/toast/animate.min.css" type="text/css">
     <%--Icon picker--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/icon-picker/bulma-iconpicker.min.css" type="text/css">
-    <%--Bulma Dashboard--%>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/bulma-dashboard/bulma-dashboard.min.css" type="text/css">
     <%--Swiper--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.css" type="text/css">
 

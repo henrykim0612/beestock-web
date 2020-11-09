@@ -71,14 +71,10 @@ const main = (function() {
             isTfoot: false,
             loading: 'btnSearch',
             colModel: [
-                {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
+                {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
                 {name: '핀고정', type: 'custom', userCustom: pinned, width: '60px', align: 'center'},
                 {name:'상태', type: 'custom', userCustom: dday, width: '70px', align: 'center'},
-                {id: 'noticeTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'},
-                {id: 'alarmStDate', name: '공지 시작일', isSort: true, align: 'center', width: '200px', isExcel: true},
-                {id: 'alarmEdDate', name: '공지 종료일', isSort: true, align: 'center', width: '200px', isExcel: true},
-                {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '200px', isExcel: true},
-                {id: 'uptDate', name: '최근 수정일', isSort: true, align: 'center', width: '150px', isExcel: true}
+                {id: 'noticeTitle', name: '제목', isSort: true, width: '1100px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'}
             ],
             success: function(data, _this) {
                 addTitleAnchorEvent(data, _this);

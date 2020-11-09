@@ -297,8 +297,8 @@
 
 /*decrement and increment buttons.*/
 .ctrl__button {
-	width: 30px;
-	line-height: 30px;
+	width: 20px;
+	line-height: 20px;
 	text-align: center;
 	color: #fff;
 	cursor: pointer;
@@ -452,4 +452,22 @@ increment-next {  from {
 
 .analysis-plus {
 	background-color: #3273dc;
+}
+
+
+
+.mt-7 {
+	margin-top: 4rem !important;
+}
+
+.mt-8 {
+	margin-top: 5rem !important;
+}
+
+.mt-9 {
+	margin-top: 6rem !important;
+}
+
+.mt-10 {
+	margin-top: 7rem !important;
 }

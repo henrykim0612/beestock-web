@@ -1,6 +1,15 @@
 const main = (function() {
 
+  let global = {
+    isAgreed: false
+  }
+
   function init() {
+    getHintList();
+    addEventListeners();
+  }
+
+  function getHintList() {
     // 비밀번호 힌트 리스트 생성
     cmmUtils.getData({
       url: '/api/v1/code/children/Q0000',
@@ -12,6 +21,18 @@ const main = (function() {
       cmmUtils.showErrModal();
       console.log(err);
     });
+  }
+
+  function addEventListeners() {
+    document.getElementById('chkAgreement').addEventListener('click', function() {
+      global['isAgreed'] = this.checked;
+      if (this.checked) {
+        cmmUtils.closeModal('agreeModal');
+        document.getElementById('btnSubmit').disabled = false;
+      } else {
+        document.getElementById('btnSubmit').disabled = true;
+      }
+    })
   }
 
   function appendHintOptions(data) {
@@ -147,33 +168,38 @@ const main = (function() {
 
   function verifyInputData(params) {
 
+    if (!global['isAgreed']) {
+      cmmUtils.showIpModal('이용약관', '이용약관 확인을 체크해주세요.');
+      return false;
+    }
+
     if (!params.loginId.value || params.loginId.classList.contains('is-danger')) {
-      showIpModal('이메일', 'ipEmail');
+      cmmUtils.showIpModal('이메일');
       return false;
     }
 
     if (!params.loginPwd.value || params.loginPwd.classList.contains('is-danger')) {
-      showIpModal('비밀번호', 'ipPwd');
+      cmmUtils.showIpModal('비밀번호');
       return false;
     }
 
     if (!params.cfPwd.value || params.cfPwd.classList.contains('is-danger')) {
-      showIpModal('비밀번호 확인', 'cfPwd');
+      cmmUtils.showIpModal('비밀번호 확인');
       return false;
     }
 
     if (!params.userNm.value) {
-      showIpModal('이름', 'ipUserName');
+      cmmUtils.showIpModal('이름');
       return false;
     }
 
     if (!params.userPhone.value || params.userPhone.classList.contains('is-danger')) {
-      showIpModal('핸드폰 번호', 'ipUserPhone');
+      cmmUtils.showIpModal('핸드폰 번호');
       return false;
     }
 
     if (!params.ipHintAnswer.value) {
-      showIpModal('비밀번호 힌트 답변', 'ipHintAnswer');
+      cmmUtils.showIpModal('비밀번호 힌트 답변');
       return false;
     }
 
@@ -251,18 +277,6 @@ const main = (function() {
     showModal(document.getElementById('errModal'));
   }
 
-  function showIpModal(text, fId) {
-    const ipModal = document.getElementById('inputModal');
-    const ipModalTitle = document.getElementById('ipModalTitle');
-    const ipModalContent = document.getElementById('ipModalContent');
-    const btnClsIpModal = document.getElementById('btnClsIpModal');
-
-    ipModalTitle.innerText = text + ' 입력 오류';
-    ipModalContent.innerText = text + ' 입력값을 확인해주세요.';
-    btnClsIpModal.setAttribute('onclick', 'main.closeModal(\"inputModal\", \"' + fId + '\")');
-    showModal(ipModal);
-  }
-
   function showModal(ele) {
     ele.classList.add('is-active');
   }
@@ -300,6 +314,10 @@ const main = (function() {
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
   }
 
+  function showAgreeModal() {
+    cmmUtils.showModal('agreeModal');
+  }
+
   return {
     init: init,
     isEmailPattern: isEmailPattern,
@@ -308,6 +326,7 @@ const main = (function() {
     isUserPhonePattern: isUserPhonePattern,
     signup: signup,
     closeModal: closeModal,
+    showAgreeModal: showAgreeModal,
     focusIpEmail: focusIpEmail
   }
 
@@ -315,4 +334,5 @@ const main = (function() {
 
 document.addEventListener('DOMContentLoaded', function() {
   main.init();
+  main.showAgreeModal();
 })
