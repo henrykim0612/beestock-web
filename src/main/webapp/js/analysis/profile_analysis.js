@@ -172,6 +172,7 @@ const main = (function() {
     switch (global.tabView) {
       case 'grid': initProfileGrid(); break;
       case 'barChart': initBarChart(); break;
+      case 'radarChart': initRadarChart(); break;
     }
   }
 
@@ -213,6 +214,7 @@ const main = (function() {
     const props = {
       url: '/api/v1/analysis/profile/quarter-info',
       body: {
+        orderBy: [{column: 'weight', desc: true}],
         quarterId: global.quarterId,
         profileId: global.profileId,
         comparisonQuarter: comparisonQuarter,
@@ -225,6 +227,7 @@ const main = (function() {
       fileName: global.selectedQuarterDate,
       colModel: [
         {id: 'itemCode', isHidden: true},
+        {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true},
         {id: 'weight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
         {id: 'quantity', name: '보유수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
@@ -237,8 +240,7 @@ const main = (function() {
     profileGrid = new COMPONENTS.DataGrid(props);
   }
 
-  // 프로필 차트
-  function initBarChart() {
+  function getQuarterInfo(callback) {
     cmmUtils.postData({
       url: '/api/v1/analysis/profile/quarter-info',
       body: {
@@ -247,7 +249,15 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate
       }
-    }).then(function (response) {
+    }).then(callback).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+  }
+
+  // 프로필 차트
+  function initBarChart() {
+    getQuarterInfo(function(response) {
       const chartData = createData(response);
       const props = {
         eId: 'profileBarChart',
@@ -306,10 +316,7 @@ const main = (function() {
       } else {
         profileBarChart = new COMPONENTS.Chart(props);
       }
-    }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
-    });
+    })
 
     // 데이터 가공
     function createData(dataArr) {
@@ -324,6 +331,12 @@ const main = (function() {
       }
       return result;
     }
+  }
+
+  function initRadarChart() {
+    getQuarterInfo(function(response) {
+
+    })
   }
 
   function pushBarChartData(result, data, limitSize) {

@@ -14,7 +14,7 @@
 <nav class="is-fixed-top navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">
-            <img src="${pageContext.request.contextPath}/resources/images/logo.png" width="112" height="28">
+            <img src="${pageContext.request.contextPath}/resources/images/logo/app/logo-a-h-01.png">
         </a>
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="topNav">
             <span aria-hidden="true"></span>

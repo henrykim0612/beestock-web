@@ -96,6 +96,12 @@
                 <span>막대차트</span>
             </a>
         </li>
+        <li id="radarTab" name="tabs" data-view="radarChart" data-cont-id="radarCont">
+            <a>
+                <span class="icon is-small"><i class="far fa-chart-bar"></i></span>
+                <span>레이더차트</span>
+            </a>
+        </li>
     </ul>
 </div>
 
@@ -171,6 +177,10 @@
     <div id="profileBarChart" class="is-fullwidth"></div>
 </div>
 
+<%--레이더 차트--%>
+<div id="radarCont" class="is-hidden">
+    <div id="profileRadarChart" class="is-fullwidth"></div>
+</div>
 
 <%--아이디어 등록 모달--%>
 <div id="newIdeaModal" class="modal is-mobile">
