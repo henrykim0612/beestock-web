@@ -1,7 +1,7 @@
 const cmmProfileCard = (function () {
 
   let global = {
-    splitNum: 4
+    splitNum: 6
   }
 
   function appendCards(response, eId) {
@@ -50,7 +50,7 @@ const cmmProfileCard = (function () {
     const column = document.createElement('column');
     column.style.display = 'relative';
     column.classList.add('column');
-    column.classList.add('is-3');
+    column.classList.add('is-2');
     return column;
   }
 
@@ -83,7 +83,7 @@ const cmmProfileCard = (function () {
     mediaContent.classList.add('has-text-centered');
     const title = document.createElement('p');
     title.classList.add('title');
-    title.classList.add('is-4');
+    title.classList.add('is-6');
     // 오늘 읽었으면 색상 변경(1:읽음, 2:읽지않음)
     if (data['isRead'] === 1) {
       title.classList.add('has-text-grey-light');
@@ -98,7 +98,7 @@ const cmmProfileCard = (function () {
     // 보조명칭
     const subTitle = document.createElement('p');
     subTitle.classList.add('subtitle');
-    subTitle.classList.add('is-6');
+    subTitle.classList.add('is-7');
     subTitle.innerText = data['profileSubtitle'];
 
     mediaContent.appendChild(title);

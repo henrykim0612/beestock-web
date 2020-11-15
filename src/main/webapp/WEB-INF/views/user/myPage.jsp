@@ -145,7 +145,7 @@
 </div>
 
 <%--아이디어 수정모달--%>
-<div id="modIdeaModal" class="modal is-mobile">
+<div id="modIdeaModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card width1200px">
         <header class="modal-card-head">

@@ -3,6 +3,7 @@ const main = (function() {
 
   let global = {
     profileId: null,
+    profileTitle: null,
     selectedIdeaId: null,
     chart: undefined,
     ckEditNewIdeaCont: undefined,
@@ -14,17 +15,23 @@ const main = (function() {
     selectedQuarterDate: null,
     selectedBarChartFilter: 'marketPrice',
     selectedBarChartFilterText: '시가평가액',
+    selectedItemName: null,
+    selectedItemCode: null,
+    itemCodeStackChartData: undefined,
+    itemCodeLineChartData: undefined,
     sortedDataArr: [],
-    tabView: 'grid' // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
+    tabView: 'grid', // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
+    isInitiatedSpinner: false,
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
   let profileBarChart = undefined;
+  let itemCodeStackChart = undefined;
+  let itemCodeLineChart = undefined;
 
   function init() {
     createBreadCrumb();
     global.profileId = document.getElementById('profileId').value;
-    initSpinner();
     getProfileDetails();
     initQuarterSlider();
     addSpanStarEvent();
@@ -33,6 +40,7 @@ const main = (function() {
     addFileEventListener();
     addTabEventListener();
     addBarChartSelectBoxListener();
+    addStackChartSelectBoxListener();
     if (document.getElementById('icoExcelDownload')) cmmUtils.setExcelTippy(['#icoExcelDownload']);
   }
 
@@ -172,52 +180,87 @@ const main = (function() {
     switch (global.tabView) {
       case 'grid': initProfileGrid(); break;
       case 'barChart': initBarChart(); break;
-      case 'radarChart': initRadarChart(); break;
     }
   }
 
   // 프로필 그리드
   function initProfileGrid() {
-    const comparisonQuarter = global.comparisonQuarter;
-    const lastColName = comparisonQuarter + '분기전 대비 보유수량 증감률';
+
     // 수익률 막대 표
     const earnRate = function(col, row) {
       row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
       return cmmUtils.createAnalysisBar(row['earnRate']);
     }
+
+    // xx 분기전 대비 보유수량 증감률 앞 추가 요소
+    const addingFrontHeader = function(col, props) {
+      const div = document.createElement('div');
+      div.classList.add('flex-row');
+      div.classList.add('justify-content-center');
+      div.classList.add('mr-3');
+      let html = '';
+      html = html + "<div class='ctrl'>";
+      html = html + "  <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>";
+      html = html + "  <div class='ctrl__counter'>";
+      html = html + "    <input class='ctrl__counter-input' maxlength='10' type='text' value='1'>";
+      html = html + "      <div class='ctrl__counter-num'>1</div>";
+      html = html + "  </div>";
+      html = html + "  <div class='ctrl__button ctrl__button--increment'>+</div>";
+      html = html + "</div>";
+      div.innerHTML = html;
+      return div;
+    }
+
     // 증감율
     const incsRate = function(col, row) {
       let html = '';
       let text = '';
-      if (row['prevQuarterCnt'] === 0 ) {
-        text = comparisonQuarter + ' 분기 전 데이터 없음';
-        html = '<span class="tag is-warning"><strong>' + text + '</strong></span>'
-      } else if (row['incsRate'] === -99999) {
-        text = '신규편입';
-        html = '<span class="tag is-success">' + text + '</span>'
+      if (row['prevQuarterCnt'] === 0) {
+        text = global.comparisonQuarter + ' 분기 전 데이터 없음';
+        html = '<span class="tag is-warning is-light"><strong>' + text + '</strong></span>'
       } else {
-        let rate = row['incsRate'];
-        if (rate === 0 ) {
-          text = '0%';
-          html = '<span class="is-dark">' + text + '</span>'
-        } else if (0 < rate) {
-          text = rate + '%';
-          html = '<span class="has-text-link">' + text + '</span>'
-        } else {
-          text = rate + '%';
-          html = '<span class="has-text-danger">' + text + '</span>'
+        if (row['itemStatus']) { // 전량매도 또는 신규편입
+          if (row['itemStatus'] === 1) {
+            html = '<span class="tag is-success is-light">신규편입</span>'
+          }
+          if (row['itemStatus'] === 2) {
+            html = '<span class="tag is-danger is-light">전량매도</span>'
+          }
+        } else { // 해당없음~
+          let rate = row['incsRate'];
+          if (rate === 0 ) {
+            text = '0%';
+            html = '<span class="is-dark">' + text + '</span>'
+          } else if (0 < rate) {
+            text = rate + '%';
+            html = '<span class="has-text-link">' + text + '</span>'
+          } else {
+            text = rate + '%';
+            html = '<span class="has-text-danger">' + text + '</span>'
+          }
+          // 차트 아이콘
+          html = html + '<span class="icon cursor ml-3" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\')"><i class="fas fa-chart-line"></i></span>';
         }
       }
+
       row['excelText'] = text;
       return html;
     }
+
+    // 종목명
+    const titleAnchor = function(anchor, col, row) {
+      anchor.setAttribute('data-custom', 'titleAnchor');
+      anchor.setAttribute('data-key', row['itemCode']);
+      anchor.setAttribute('data-name', row['itemName']);
+    }
+
     const props = {
       url: '/api/v1/analysis/profile/quarter-info',
       body: {
-        orderBy: [{column: 'weight', desc: true}],
+        orderBy: [{column: 'viewWeight', desc: true}],
         quarterId: global.quarterId,
         profileId: global.profileId,
-        comparisonQuarter: comparisonQuarter,
+        comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate
       },
       eId: 'profileGrid',
@@ -228,18 +271,237 @@ const main = (function() {
       colModel: [
         {id: 'itemCode', isHidden: true},
         {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
-        {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true},
-        {id: 'weight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
+        {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true, isLink: true, userCustom: titleAnchor},
+        {id: 'viewWeight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
         {id: 'quantity', name: '보유수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'buyingPrice', name: '매수가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'currPrice', name: '현재가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
-        {id: 'earnRate', name: '수익률', isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true},
-        {id: 'incsRate', name: lastColName, isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
-      ]
+        {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
+        {id: 'incsRate', name: '분기전 대비 보유수량 증감률', isSort: true, align: 'center', addingFrontHeader: addingFrontHeader, type: 'custom', userCustom: incsRate, isExcel: true}
+      ],
+      success: function (data, _this) {
+        if (!global['isInitiatedSpinner']) { // 최초에만 한번 초기화
+          initSpinner();
+        }
+        itemNameAnchorEvent(data, _this);
+      }
     }
     profileGrid = new COMPONENTS.DataGrid(props);
   }
 
+  // 종목명 클릭시
+  function itemNameAnchorEvent(data, _this) {
+    const eId = _this.props.eId;
+    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
+    for (let i = 0; i < tags.length; i++) {
+      tags[i].addEventListener('click', function() {
+        global['selectedItemName'] = this.getAttribute('data-name');
+        global['selectedItemCode'] = this.getAttribute('data-key');
+        showStackChartModal();
+      })
+    }
+  }
+
+  function showStackChartModal() {
+    document.getElementById('stackChartModalTitle').innerText = global['selectedItemName'] + ' 보유수량 비교';
+    cmmUtils.showModal('stackChartModal');
+    initItemCodeStackChart();
+  }
+
+  function initItemCodeStackChart() {
+    getItemCodeStackChartInfo(function(response) {
+      global['itemCodeStackChartData'] = response;
+      const props = {
+        eId: 'itemCodeChart',
+        options: {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              crossStyle: {
+                color: '#999'
+              }
+            }
+          },
+          toolbox: {
+            show: true,
+            left: '85%',
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none'
+              },
+              magicType: {type: ['line', 'bar']},
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            left: '2%',
+            right: '15%',
+            containLabel: true
+          },
+          legend: {
+            type: 'scroll',
+            orient: 'vertical',
+            left: '86%',
+            right: '1%',
+            top: '9%',
+            bottom: '5%',
+            data: cmmUtils.isEmpty(response['legend']) ? [] : response['legend']
+          },
+          xAxis:  {
+            type: 'category',
+            data: cmmUtils.isEmpty(response['categories']) ? [global.selectedQuarterDate + '이전데이터 없음'] : response['categories'],
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          yAxis:  {
+            type: 'value',
+          },
+          series: cmmUtils.isEmpty(response['seriesList']) ? [] : createSeriesArr(response['seriesList'])
+        }
+      };
+
+      if (!!itemCodeStackChart) {
+        itemCodeStackChart.dispose();
+        itemCodeStackChart = new COMPONENTS.Chart(props);
+      } else {
+        itemCodeStackChart = new COMPONENTS.Chart(props);
+      }
+    })
+
+    function createSeriesArr(dataArr) {
+      let series = [];
+      let lineData = [];
+      for (let i = 0; i < dataArr[0].data.length; i++) {
+        lineData[i] = 0; //초기화
+      }
+      for (let i = 0; i < dataArr.length; i++) {
+        const seriesData = dataArr[i];
+        series.push({
+          name: seriesData.name,
+          type: 'bar',
+          stack: 'stack',
+          barWidth: '20px',
+          label: {
+            show: true,
+            position: 'insideRight'
+          },
+          data: seriesData.data
+        })
+
+        // 라인차트 데이터
+        for (let j = 0; j < lineData.length; j++) {
+          lineData[j] = lineData[j] + seriesData.data[j] // 누적
+        }
+      }
+      // 라인차트 추가
+      series.push({
+        name: '합계',
+        type: 'line',
+        lineStyle: {
+          type: 'dashed' // 'dotted', 'solid'
+        },
+        data: lineData
+      })
+      return series;
+    }
+  }
+
+  function showColLineChartModal(itemCode) {
+    cmmUtils.showModal('colLineChartModal');
+    global.selectedItemCode = itemCode;
+    initItemCodeLineChart();
+  }
+
+  function initItemCodeLineChart() {
+    getItemCodeLineChartInfo(function(response) {
+      global['itemCodeLineChartData'] = response;
+      const props = {
+        eId: 'itemCodeLineChart',
+        options: {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              crossStyle: {
+                color: '#999'
+              }
+            }
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              dataZoom: {
+                yAxisIndex: 'none'
+              },
+              magicType: {type: ['line', 'bar']},
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            containLabel: true
+          },
+          xAxis:  {
+            type: 'category',
+            data: response['categories'],
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          yAxis:  {
+            type: 'value',
+          },
+          series: createSeriesArr(response['seriesList'])
+        }
+      };
+      if (!!itemCodeLineChart) {
+        itemCodeLineChart.dispose();
+        itemCodeLineChart = new COMPONENTS.Chart(props);
+      } else {
+        itemCodeLineChart = new COMPONENTS.Chart(props);
+      }
+    })
+
+    function createSeriesArr(data) {
+      let series = [];
+      for (let i = 0; i < data.length; i++) {
+        const row = data[i];
+        series.push({
+          type: 'line',
+          symbolSize: 7,
+          name: row.name,
+          data: row.data
+        })
+      }
+      return series;
+    }
+  }
+
+
+
+  function closeStackChartModal() {
+    document.getElementById('selStackChartFilter')[0].selected = true;
+    cmmUtils.closeModal('stackChartModal');
+  }
+
+  function closeColLineChartModal() {
+    document.getElementById('selLineChartFilter')[0].selected = true;
+    cmmUtils.closeModal('colLineChartModal');
+  }
+
+  function getSelectedStackChartFilter() {
+    return parseInt(document.getElementById('selStackChartFilter').value);
+  }
+
+  function getSelectedLineChartFilter() {
+    return parseInt(document.getElementById('selLineChartFilter').value);
+  }
+  
+
+  // 분기 분석 정보 반환
   function getQuarterInfo(callback) {
     cmmUtils.postData({
       url: '/api/v1/analysis/profile/quarter-info',
@@ -248,6 +510,37 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate
+      }
+    }).then(callback).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+  }
+
+  // 종목코드 스택차트 데이터 반환
+  function getItemCodeStackChartInfo(callback) {
+    cmmUtils.postData({
+      url: '/api/v1/analysis/profile/stack-chart/item-code',
+      body: {
+        selectedQuarterDate: global.selectedQuarterDate,
+        itemCode: global.selectedItemCode,
+        profileTitle: global.profileTitle,
+        filterNum: getSelectedStackChartFilter(),
+      }
+    }).then(callback).catch(function (err) {
+      cmmUtils.showErrModal();
+      console.log(err);
+    });
+  }
+  
+  function getItemCodeLineChartInfo(callback) {
+    cmmUtils.postData({
+      url: '/api/v1/analysis/profile/line-chart/item-code',
+      body: {
+        selectedQuarterDate: global.selectedQuarterDate,
+        profileId: global.profileId,
+        itemCode: global.selectedItemCode,
+        filterNum: getSelectedLineChartFilter(),
       }
     }).then(callback).catch(function (err) {
       cmmUtils.showErrModal();
@@ -280,9 +573,9 @@ const main = (function() {
             }
           },
           grid: {
-            left: '3%',
-            right: '5%',
-            bottom: '1%',
+            left: '1%',
+            // right: '5%',
+            // bottom: '1%',
             containLabel: true
           },
           xAxis: {
@@ -377,6 +670,10 @@ const main = (function() {
     })
   }
 
+  function addStackChartSelectBoxListener() {
+    document.getElementById('selStackChartFilter').addEventListener('change', initItemCodeStackChart);
+  }
+
   function reloadBarChart (options) {
     profileBarChart.resize();
     profileBarChart.setOption(options);
@@ -388,7 +685,11 @@ const main = (function() {
     const profileImg = document.getElementById('profileImg');
     profileImg.src = CONTEXT_PATH + '/common/image/' + data['fileId'];
     // 타이틀
-    document.getElementById('profileTitle').innerText = data['profileTitle'];
+    const profileTitle = data['profileTitle'];
+    document.getElementById('profileTitle').innerText = profileTitle;
+    document.getElementById('selStackChartFilter')[2].innerText = profileTitle;
+    global['profileTitle'] = profileTitle;
+
     // Information
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
 
@@ -612,6 +913,7 @@ const main = (function() {
       initProfileGrid();
     }
     cmmUtils.initInputSpinner({counter: 1, limitCounter: 1, callback: callback});
+    global['isInitiatedSpinner'] = true;
   }
 
   function setActiveTabInfo(el) {
@@ -824,8 +1126,11 @@ const main = (function() {
     getChart: function() { return global.chart; },
     init: init,
     showIdeaModal: showNewIdeaModal,
+    showColLineChartModal: showColLineChartModal,
     closeNewIdeaModal: closeNewIdeaModal,
     closeModIdeaModal: closeModIdeaModal,
+    closeStackChartModal: closeStackChartModal,
+    closeColLineChartModal: closeColLineChartModal,
     downloadProfileGrid: downloadProfileGrid,
     removeFileTag: removeFileTag,
     saveIdea: saveIdea,

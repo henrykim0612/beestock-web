@@ -86,20 +86,12 @@
     <ul>
         <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
             <a>
-                <span class="icon is-small"><i class="fas fa-table"></i></span>
-                <span>그리드</span>
+                <span class="icon is-medium"><i class="fas fa-lg fa-table"></i></span>
             </a>
         </li>
         <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
             <a>
-                <span class="icon is-small"><i class="far fa-chart-bar"></i></span>
-                <span>막대차트</span>
-            </a>
-        </li>
-        <li id="radarTab" name="tabs" data-view="radarChart" data-cont-id="radarCont">
-            <a>
-                <span class="icon is-small"><i class="far fa-chart-bar"></i></span>
-                <span>레이더차트</span>
+                <span class="icon is-medium"><i class="far fa-lg fa-chart-bar"></i></span>
             </a>
         </li>
     </ul>
@@ -108,21 +100,7 @@
 <%--그리드 탭--%>
 <div id="gridCont">
     <div class="flex-row">
-        <div class="flex-row width-50per">
-            <%--Input Spinner--%>
-            <div class="flex-row justify-content-start">
-                <div class='ctrl'>
-                    <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
-                    <div class='ctrl__counter'>
-                        <input class='ctrl__counter-input' maxlength='10' type='text' value='1'>
-                        <div class='ctrl__counter-num'>1</div>
-                    </div>
-                    <div class='ctrl__button ctrl__button--increment'>+</div>
-                    <p class="ml-3">분기 전</p>
-                </div>
-            </div>
-        </div>
-        <div class="flex-row width-50per justify-content-end">
+        <div class="flex-row width-100per justify-content-end">
             <%--엑셀 다운로드--%>
             <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
                 <div class="flex-col justify-content-end">
@@ -174,16 +152,13 @@
             </div>
         </div>
     </div>
-    <div id="profileBarChart" class="is-fullwidth"></div>
-</div>
-
-<%--레이더 차트--%>
-<div id="radarCont" class="is-hidden">
-    <div id="profileRadarChart" class="is-fullwidth"></div>
+    <div class="flex-row justify-content-start">
+        <div id="profileBarChart" class="is-fullwidth" style="width: 1400px;"></div>
+    </div>
 </div>
 
 <%--아이디어 등록 모달--%>
-<div id="newIdeaModal" class="modal is-mobile">
+<div id="newIdeaModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card width1200px">
         <header class="modal-card-head">
@@ -251,7 +226,7 @@
 </div>
 
 <%--아이디어 수정모달--%>
-<div id="modIdeaModal" class="modal is-mobile">
+<div id="modIdeaModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card width1200px">
         <header class="modal-card-head">
@@ -317,5 +292,67 @@
                 <span>취소</span>
             </button>
         </footer>
+    </div>
+</div>
+
+<%--라인차트 모달--%>
+<div id="stackChartModal" class="modal">
+    <div class="modal-background" onclick="main.closeStackChartModal()"></div>
+    <div class="modal-content width1200px">
+        <header class="modal-card-head">
+            <p class="modal-card-title" id="stackChartModalTitle"></p>
+            <button class="delete" aria-label="close" onclick="main.closeStackChartModal()"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="flex-col justify-content-start">
+                <div class="flex-row justify-content-start">
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select is-small">
+                                <select id="selStackChartFilter">
+                                    <option value="0" selected>전체</option>
+                                    <option value="1">즐겨찾기한 프로필</option>
+                                    <option value="2"></option>
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-row justify-content-center">
+                    <div id="itemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<%--증감률 열의 차트 모달--%>
+<div id="colLineChartModal" class="modal">
+    <div class="modal-background" onclick="main.closeColLineChartModal()"></div>
+    <div class="modal-content width1200px">
+        <section class="modal-card-body">
+            <div class="flex-col justify-content-start">
+                <div class="flex-row justify-content-start">
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <div class="select is-small">
+                                <select id="selLineChartFilter">
+                                    <option value="0" selected>보유수량</option>
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-row justify-content-center">
+                    <div id="itemCodeLineChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>

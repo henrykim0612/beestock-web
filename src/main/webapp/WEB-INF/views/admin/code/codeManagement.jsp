@@ -52,7 +52,7 @@
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
 <%--코드등록 모달--%>
-<div id="newCodeModal" class="modal is-mobile">
+<div id="newCodeModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">

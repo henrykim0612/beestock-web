@@ -141,6 +141,7 @@ const main = (function() {
       eId: 'quarterGrid',
       pId: 'quarterPagination',
       body: {
+        orderBy: [{column: 'quarterDate', desc: true}],
         profileId: rowId
       },
       fileName: '프로필 분기 리스트',

@@ -24,11 +24,13 @@
 BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid = function(_props) {
+
     // Set default properties
     if (_props['body'] == null) _props['body'] = {};
     const me = this;
     me.props = _props;
     me.init(_props);
+
     return {
       getProps: function() { return me.props; },
       reload: function (body) {
@@ -62,14 +64,18 @@ BeeComponents.modules.dataGrid = function(component) {
       props['data'] = response; // 결과값을 추가함
 
       const table = document.getElementById(props['eId']);
-      cmmUtils.clearChildNodes(table);
+      const tbody = table.querySelector('tbody');
+      cmmUtils.clearChildNodes(tbody ? tbody : table);
+
       // Table
       const fragment = document.createDocumentFragment();
-      me.createThead(fragment, props);
-      me.createTfoot(fragment, props);
-      me.createTbody(fragment, props);
+      if (!tbody) {
+        me.createThead(fragment, props);
+        me.createTfoot(fragment, props);
+      }
+      me.createTbody(fragment, props, tbody);
       table.appendChild(fragment);
-      me.addTableEventListeners(table, props);
+      me.addTableEventListeners(table, props, tbody);
 
       // Pagination
       const paginationBar = document.getElementById(props['pId']);
@@ -118,10 +124,7 @@ BeeComponents.modules.dataGrid = function(component) {
         }
         div.setAttribute('title', text);
         div.innerText = text;
-        // Width
-        if (col['width'] != null) {
-          div.style.width = col['width'];
-        }
+
         // Excel
         if (col['isExcel'] != null && col['isExcel']) {
           div.setAttribute('data-excel-header', 'true');
@@ -129,7 +132,17 @@ BeeComponents.modules.dataGrid = function(component) {
         }
         // Sorting 기능 추가
         this.createSortingIcons(col, div, props);
-        th.appendChild(div);
+        // 앞에 추가적인 커스텀 요소가 있을 경우
+        if (col['addingFrontHeader'] != null) {
+          const parentDiv = document.createElement('div');
+          parentDiv.classList.add('flex-row');
+          parentDiv.classList.add('justify-content-center');
+          parentDiv.appendChild(col['addingFrontHeader'](col, props));
+          parentDiv.appendChild(div);
+          th.appendChild(parentDiv);
+        } else {
+          th.appendChild(div);
+        }
         tr.appendChild(th);
       }
     }
@@ -176,7 +189,7 @@ BeeComponents.modules.dataGrid = function(component) {
       - userCustom: function(anchor, col, row)
     isSort: true // 오름차순, 내림차순 기능
    */
-  component.DataGrid.prototype.createTbody = function(parentFragment, props) {
+  component.DataGrid.prototype.createTbody = function(parentFragment, props, tbody) {
     const colModel = props['colModel'];
     const rowData = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
     const fragment = document.createDocumentFragment();
@@ -191,6 +204,11 @@ BeeComponents.modules.dataGrid = function(component) {
           let value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
           value = col['prefixText'] != null ? value + col['prefixText'] : value;
           row['excelText'] = null; // 엑센전용으로 변경할 경우 사용
+
+          // Width
+          if (col['width'] != null) {
+            thOrTd.style.width = col['width'];
+          }
 
           // Hidden cell
           if (col['isHidden'] != null || col['isHidden']) {
@@ -273,9 +291,14 @@ BeeComponents.modules.dataGrid = function(component) {
       tr.append(th);
       fragment.appendChild(tr);
     }
-    const tbody = document.createElement('tbody');
-    tbody.appendChild(fragment.cloneNode(true));
-    parentFragment.appendChild(tbody);
+    if (!tbody) {
+      const newTbody = document.createElement('tbody');
+      newTbody.appendChild(fragment.cloneNode(true));
+      parentFragment.appendChild(newTbody);
+    } else {
+      tbody.appendChild(fragment.cloneNode(true));
+      parentFragment.appendChild(tbody);
+    }
   }
 
   component.DataGrid.prototype.createPagination = function(props) {
@@ -574,10 +597,12 @@ BeeComponents.modules.dataGrid = function(component) {
     this.init(this.props);
   }
 
-  component.DataGrid.prototype.addTableEventListeners = function(table, props) {
+  component.DataGrid.prototype.addTableEventListeners = function(table, props, tbody) {
     const me = this;
     addSelectingTr();
-    addSortingDiv();
+    if (!tbody) {
+      addSortingDiv();
+    }
 
     // Row 클릭시 하이라이트 이벤트
     function addSelectingTr() {

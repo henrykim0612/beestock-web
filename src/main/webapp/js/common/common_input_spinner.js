@@ -1,4 +1,3 @@
-'use strict';
 function InputSpinner() {
   var _this = this;
 

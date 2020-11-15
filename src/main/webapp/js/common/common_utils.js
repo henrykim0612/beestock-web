@@ -556,8 +556,8 @@ const cmmUtils = (function () {
   }
 
   function initInputSpinner(props) {
-    const controls = new InputSpinner();
-    controls.ready(props);
+    const spinner = new InputSpinner();
+    spinner.ready(props);
   }
 
   function goToAlarmPage(linkCode, linkId) {
