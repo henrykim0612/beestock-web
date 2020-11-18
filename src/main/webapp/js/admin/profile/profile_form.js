@@ -1,20 +1,13 @@
 const main = (function() {
 
   let global = {
-    ckEditProfileInfo: undefined,
     selectedFileName: null
   }
 
   function init() {
     createBreadCrumb();
-    initCKEditor();
   }
 
-  function initCKEditor() {
-    cmmUtils.createCKEditor({selector: '#profileInfo'}, function(editor) {
-      global['ckEditProfileInfo'] = editor;
-    });
-  }
 
   function createBreadCrumb() {
     const breadCrumbNav = document.getElementById('breadCrumbNav');
@@ -86,6 +79,16 @@ const main = (function() {
       cmmUtils.showIpModal('대표사진', '대표사진을 선택해주세요.');
       return false;
     }
+    // 링크 검증
+    const linkUrls = document.getElementsByName('linkUrl');
+    if (linkUrls.length) {
+      for (let i = 0; i < linkUrls.length; i++) {
+        if (!linkUrls[i].value) {
+          cmmUtils.showIpModal('링크 URL', 'URL을 입력해주세요.');
+          return false;
+        }
+      }
+    }
     return true;
   }
 
@@ -94,10 +97,28 @@ const main = (function() {
     formData.append('imgRefId', document.getElementById('imgRefId').files[0]);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
-    formData.append('profileInfo', global['ckEditProfileInfo'].getData());
+    formData.append('profileInfo', document.getElementById('profileInfo').value);
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
     formData.append('isFree', cmmUtils.getCheckedValues('isFree')[0]);
+    createLinkStr(formData);
     return formData;
+  }
+
+  // 프로필 참고링크 String 생성
+  function createLinkStr(formData) {
+    const linkTypes = document.getElementsByName('linkType');
+    const linkUrls = document.getElementsByName('linkUrl');
+    let resultArr = [];
+    if (linkTypes.length) {
+      for (let i = 0; i < linkTypes.length; i++) {
+        const linkType = linkTypes[i].value;
+        const linkUrl = linkUrls[i].value;
+        resultArr.push(linkType + '^' + linkUrl); // 구분자는 ^
+      }
+    }
+    if (resultArr.length) {
+      formData.append('profileLink', resultArr.join(','));
+    }
   }
 
   // 목록으로 돌아가기
@@ -112,11 +133,49 @@ const main = (function() {
     document.getElementById('spanFileName').innerText = fileName;
   }
 
+  // 링크 추가
+  function appendLinkColumn() {
+    const uuid = cmmUtils.getUUID();
+    let html = '';
+    html = html + '<div class="columns">';
+    html = html + '  <div class="column has-text-right is-3">';
+    html = html + '    <button type="button" class="button ml-3" onclick="main.removeLinkColumn(\'' + uuid + '\')">';
+    html = html + '      <span class="icon is-small has-text-danger"><i class="fas fa-minus"></i></span>';
+    html = html + '      <span>링크 삭제</span>';
+    html = html + '    </button>';
+    html = html + '    <div class="select">';
+    html = html + '      <select name="linkType">';
+    html = html + '        <option value="1" selected>유튜브</option>';
+    html = html + '        <option value="2">일반영상</option>';
+    html = html + '        <option value="3">기사</option>';
+    html = html + '      </select>';
+    html = html + '    </div>';
+    html = html + '  </div>';
+    html = html + '  <div class="column is-fullwidth">';
+    html = html + '    <div class="control">';
+    html = html + '      <input class="input is-info" type="text" name="linkUrl" placeholder="URL 입력">';
+    html = html + '    </div>';
+    html = html + '  </div>';
+    html = html + '</div>';
+    const div = document.createElement('div');
+    div.id = uuid;
+    div.innerHTML = html;
+    document.getElementById('linkDiv').appendChild(div);
+  }
+
+  // 링크 삭제
+  function removeLinkColumn(uuid) {
+    document.getElementById(uuid).remove();
+  }
+
   return {
     init: init,
     goToProfile: goToProfile,
     insertProfile: insertProfile,
-    changeFileInput: changeFileInput
+    changeFileInput: changeFileInput,
+    appendLinkColumn: appendLinkColumn,
+    removeLinkColumn: removeLinkColumn
+
   }
 })();
 

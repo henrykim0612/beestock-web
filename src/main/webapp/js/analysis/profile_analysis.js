@@ -103,7 +103,7 @@ const main = (function() {
       slide.classList.add('swiper-slide');
       const button = document.createElement('button');
       button.classList.add('button');
-      button.classList.add('is-small');
+      // button.classList.add('is-small');
       button.classList.add('is-link');
       button.classList.add('is-inverted');
       button.setAttribute('data-button', 'slide');
@@ -692,9 +692,15 @@ const main = (function() {
 
     // Information
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
+    initProfileInfo(data);
 
     createStar(data['isFavorite']);
   }
+
+  // 프로필 소개
+  function initProfileInfo(data) {
+  }
+
 
   // 즐겨찾기 클릭 이벤트
   function addSpanStarEvent() {
@@ -979,7 +985,7 @@ const main = (function() {
       }
     }
     removeNewFileArrIdx(uuid);
-    if (global['modFileArr'].length) removeModFileArrInx(uuid);
+    if (global['modFileArr'].length) removeModFileArrIdx(uuid);
   }
 
   function removeNewFileArrIdx(uuid) {
@@ -991,7 +997,7 @@ const main = (function() {
     }
   }
 
-  function removeModFileArrInx(uuid) {
+  function removeModFileArrIdx(uuid) {
     for (let i = 0; i < global.modFileArr.length; i++) {
       const obj = global.modFileArr[i];
       if (uuid === obj.uuid) {
@@ -1023,7 +1029,7 @@ const main = (function() {
           cmmUtils.showToast({message: '저장 되었습니다.'});
           closeNewIdeaModal();
         } else {
-          cmmUtils.showWarningModal('비정상적인 저장 데이터', '아이디어가 정상적으로 저장되지 않았습니다.<br/>관리자에게 문의하세요.');
+          cmmUtils.showErrModal();
         }
       }).catch(function (err) {
         cmmUtils.hideLoadingElement(document.getElementById('btnNewIdea'));
@@ -1069,7 +1075,7 @@ const main = (function() {
             cmmUtils.showToast({message: '수정 되었습니다.'});
             closeModIdeaModal();
           } else {
-            cmmUtils.showWarningModal('비정상적인 저장 데이터', '아이디어가 정상적으로 저장되지 않았습니다.<br/>관리자에게 문의하세요.');
+            cmmUtils.showErrModal();
           }
         }).catch(function (err) {
           cmmUtils.hideLoadingElement(document.getElementById('btnModIdea'));

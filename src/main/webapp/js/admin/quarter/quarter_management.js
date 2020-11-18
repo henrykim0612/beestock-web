@@ -11,13 +11,15 @@ const main = (function() {
     selectedQuarterId: null,
     selectedQuarterDate: null,
     selectedSelType: null,
-    selectedFileName: null
+    selectedFileName: null,
+    fileArr: [], // uuid, fileId, fileSize, isRemoved
   }
 
   function init() {
     createBreadCrumb();
     initGrid();
     initExcelTooltips();
+    addFileEventListener();
   }
 
   function initExcelTooltips() {
@@ -210,8 +212,9 @@ const main = (function() {
   }
 
   function resetUploadModal() {
-    document.getElementById('spanFileName').innerText = '';
     document.getElementById('quarterFile').value = '';
+    cmmUtils.clearChildNodes(document.getElementById('quarterFileDiv'));
+    global.fileArr = [];
   }
 
   function hideUploadModal() {
@@ -238,58 +241,115 @@ const main = (function() {
     }
   }
 
-  function changeFileInput(fis) {
-    const str = fis.value;
-    const fileName = fis.value.substring(str.lastIndexOf("\\")+1);
-    global['selectedFileName'] = fileName
-    document.getElementById('spanFileName').innerText = fileName;
+  function addFileEventListener() {
+    document.getElementById('quarterFile').addEventListener('change', function() {
+      if (this.files.length) {
+        const quarterFileDiv = document.getElementById('quarterFileDiv');
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < this.files.length; i++) {
+          const file = this.files[i];
+          const uuid = cmmUtils.getUUID();
+          global.fileArr.push({uuid: uuid, file: file});
+          fragment.appendChild(appendFileTag({uuid: uuid, name: file.name}));
+        }
+        quarterFileDiv.appendChild(fragment.cloneNode(true));
+      }
+    })
   }
 
-  function uploadQuarter() {
-    const fileName = global['selectedFileName'];
-    if (verifyUploadForm()) {
-      if (cmmUtils.checkExcelExtension(fileName)) {
-        const msg = '업로드를 시작합니다. 동일한 분기가 있다면 삭제되고 새롭게 저장됩니다.'
-        cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
+  function appendFileTag(data, hasLink) {
+    const button = document.createElement('button');
+    button.classList.add('delete');
+    button.classList.add('is-small');
+    button.setAttribute('onclick', 'main.removeFileTag(\'' + data.uuid + '\')');
+    const span = document.createElement('span');
+    span.classList.add('tag');
+    span.classList.add('is-warning');
+    span.classList.add('is-light');
+    span.classList.add('mr-3');
+    span.setAttribute('data-key', data.uuid);
+    if (hasLink) {
+      const a = document.createElement('a');
+      a.classList.add('is-link');
+      a.innerText = data.name;
+      a.setAttribute('data-anchor', 'ideaFile');
+      a.setAttribute('data-file-id', data['fileId']);
+      span.appendChild(a);
+    } else {
+      span.innerText = data.name;
+    }
+    span.appendChild(button);
+    return span;
+  }
 
-          const formData = new FormData();
-          formData.append('file', document.getElementById('quarterFile').files[0]);
-          formData.append('fileName', global['selectedFileName']);
-          formData.append('profileId', global['selectedProfileId']);
+  function removeFileTag(uuid) {
+    const fileDiv = document.getElementById('quarterFileDiv');
+    const spanTags = fileDiv.querySelectorAll('span');
+    for (let i = 0; i < spanTags.length; i++) {
+      const span = spanTags[i];
+      if (span.getAttribute('data-key') === uuid) {
+        span.remove();
+      }
+    }
+    removeFileArrIdx(uuid);
+  }
 
-          cmmUtils.postData({
-            url: '/api/v1/admin/quarter/upload-quarter',
-            headers: {},
-            isMultipartFile: true,
-            body: formData,
-            isPageLoader: true
-          }).then(function (response) {
-            if (response === 1) {
-              cmmUtils.showToast({message: '업로드 되었습니다.'});
-              resetUploadModal();
-            } else {
-              cmmUtils.showWarningModal('비정상적인 저장 데이터', '엑셀에 들어있는 행과 저장된 행이 일치하지 않았습니다.<br/>관리자에게 문의하세요.');
-            }
-          }).catch(function (err) {
-            cmmUtils.showErrModal();
-            console.log(err);
-          });
-        });
-      } else {
-        cmmUtils.showIpModal('파일 확장자', '엑셀 형식(.xlsx) 파일 형식만 가능합니다.');
+  function removeFileArrIdx(uuid) {
+    for (let i = 0; i < global.fileArr.length; i++) {
+      const obj = global.fileArr[i];
+      if (uuid === obj.uuid) {
+        obj.isRemoved = true;
       }
     }
   }
 
+  function uploadQuarter() {
+    if (verifyUploadForm()) {
+      const msg = '업로드를 시작합니다. 동일한 분기가 있다면 새롭게 저장됩니다.'
+      cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
+        const formData = new FormData();
+        formData.append('profileId', global['selectedProfileId']);
+        for (let i = 0; i < global.fileArr.length; i++) {
+          const fileObj = global.fileArr[i];
+          if (fileObj.isRemoved == null || !fileObj.isRemoved) {
+            formData.append('file' + i, fileObj.file);
+          }
+        }
+        cmmUtils.postData({
+          url: '/api/v1/admin/quarter/upload-quarter',
+          headers: {},
+          isMultipartFile: true,
+          body: formData,
+          isPageLoader: true
+        }).then(function (response) {
+          if (response === 1) {
+            cmmUtils.showToast({message: '업로드 되었습니다.'});
+            resetUploadModal();
+          } else {
+            cmmUtils.showErrModal();
+          }
+        }).catch(function (err) {
+          cmmUtils.showErrModal();
+          console.log(err);
+        });
+      });
+    }
+  }
+
   function verifyUploadForm() {
-    const spanFileName = document.getElementById('spanFileName').innerText;
-    if (!spanFileName) {
+    if (!global.fileArr.length) {
       cmmUtils.showIpModal('파일', '파일을 선택해주세요.');
       return false;
     }
-    if (!cmmUtils.checkQuarterPattern(spanFileName)) {
-      cmmUtils.showIpModal('파일명', '분기 형식이 잘못되었습니다.(예시: 2020-[1~4] 4분기까지 가능');
-      return false;
+    for (let i = 0; i < global.fileArr.length; i++) {
+      const fileObj = global.fileArr[i];
+      if (fileObj.isRemoved == null || !fileObj.isRemoved) {
+        const fileName = fileObj.file.name;
+        if (!cmmUtils.checkQuarterPattern(fileName)) {
+          cmmUtils.showIpModal('파일명', fileName + '파일은 업로드 파일 형식이 아닙니다.(예시: 2020-[1~4].xlsx');
+          return false;
+        }
+      }
     }
     return true;
   }
@@ -309,10 +369,11 @@ const main = (function() {
     changeSelType: changeSelType,
     findProfile: findProfile,
     reloadGrid: reloadGrid,
-    changeFileInput: changeFileInput,
     uploadQuarter: uploadQuarter,
     downloadProfileExcel: downloadProfileExcel,
-    downloadQuarterInfoExcel: downloadQuarterInfoExcel
+    downloadQuarterInfoExcel: downloadQuarterInfoExcel,
+    removeFileTag: removeFileTag,
+    hideUploadModal: hideUploadModal
   }
 }());
 

@@ -471,6 +471,38 @@ const cmmUtils = (function () {
     return dayRegExp.test(quarter);
   }
 
+  // yyyy-MM-dd 체크
+  function checkYYYYMMDDPattern(value) {
+    const dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
+    if (dayRegExp.test(value)) {
+      return isValidDate(value)
+    } else {
+      return false;
+    }
+  }
+
+  function isValidDate(date) {
+    const splitDate = date.split('-');
+    const year = Number(splitDate[0]);
+    const month = Number(splitDate[1]);
+    const day = Number(splitDate[2]);
+
+    if( month<1 || month>12 ) {
+      return false;
+    }
+
+    const maxDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let maxDay = maxDaysInMonth[month-1];
+
+    // 윤년 체크
+    if (month === 2 && (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0)) {
+      maxDay = 29;
+    }
+
+    return !(day <= 0 || day > maxDay);
+  }
+
+
   function showPageLoader() {
     document.getElementById('pageLoader').classList.add('is-active');
   }
@@ -483,7 +515,7 @@ const cmmUtils = (function () {
     if (arguments.length === 0) {
       bulmaToast.toast({
         message: '저장되었습니다.',
-        type: 'is-success',
+        type: 'is-success is-light',
         duration: 3000,
         position: 'bottom-right',
         dismissible: false,
@@ -492,7 +524,7 @@ const cmmUtils = (function () {
     } else {
       bulmaToast.toast({
         message: props['message'] != null ? props['message'] : '저장되었습니다.',
-        type: props['type'] != null ? props['type'] : 'is-success',
+        type: props['type'] != null ? props['type'] : 'is-success is-light',
         duration: props['duration'] != null ? props['duration'] : 3000,
         position: props['position'] != null ? props['position'] : 'bottom-right',
         dismissible: props['dismissible'] != null ? props['dismissible'] : false,
@@ -695,6 +727,7 @@ const cmmUtils = (function () {
     checkExcelExtension: checkExcelExtension,
     checkImageExtension: checkImageExtension,
     checkQuarterPattern: checkQuarterPattern,
+    checkYYYYMMDDPattern: checkYYYYMMDDPattern,
     showPageLoader: showPageLoader,
     hidePageLoader: hidePageLoader,
     showToast: showToast,

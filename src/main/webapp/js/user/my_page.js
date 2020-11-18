@@ -297,6 +297,8 @@ const main = (function() {
                             const myImage = document.getElementById('myImage');
                             const src = CONTEXT_PATH + '/common/image/' + response['data'];
                             myImage.setAttribute('src', src);
+                        } else {
+                            cmmUtils.showErrModal();
                         }
                     }).catch(function (err) {
                         cmmUtils.showErrModal();
@@ -381,7 +383,7 @@ const main = (function() {
                         cmmUtils.showToast({message: '수정 되었습니다.'});
                         closeModIdeaModal();
                     } else {
-                        cmmUtils.showWarningModal('비정상적인 저장 데이터', '아이디어가 정상적으로 저장되지 않았습니다.<br/>관리자에게 문의하세요.');
+                        cmmUtils.showErrModal();
                     }
                 }).catch(function (err) {
                     cmmUtils.hideLoadingElement(document.getElementById('btnModIdea'));

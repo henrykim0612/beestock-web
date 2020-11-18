@@ -116,6 +116,12 @@ BeeComponents.modules.dataGrid = function(component) {
       const col = colModel[i];
       if (col['isHidden'] == null || !col['isHidden']) {
         const th = document.createElement('th');
+
+        // Width
+        // if (col['width'] != null) {
+        //   th.style.width = col['width'];
+        // }
+
         const div = document.createElement('div');
         const text = col['name'] != null ? col['name'] : '';
         div.classList.add('has-text-centered');

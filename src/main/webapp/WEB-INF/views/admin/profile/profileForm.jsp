@@ -27,8 +27,20 @@
             <label id="labelCont" class="label" for="profileInfo">설명</label>
         </div>
         <div class="column">
-            <div class="control has-icons-left">
-                <div id="profileInfo"></div>
+            <div class="control">
+                <textarea id="profileInfo" class="textarea is-info" placeholder="간략히 기술"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
+            <button type="button" class="button" onclick="main.appendLinkColumn()">
+                <span class="icon is-small has-text-success"><i class="fas fa-plus"></i></span>
+                <span>링크 추가</span>
+            </button>
+        </div>
+        <div class="column is-fullwidth">
+            <div id="linkDiv" class="flex-col">
             </div>
         </div>
     </div>

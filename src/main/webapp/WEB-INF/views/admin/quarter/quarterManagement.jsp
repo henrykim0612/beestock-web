@@ -59,28 +59,33 @@
 <%--업로드 모달--%>
 <div id="uploadModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-card">
+    <div class="modal-card width900px">
         <header class="modal-card-head">
             <p class="modal-card-title">분기 업로드</p>
-            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('uploadModal');"></button>
+            <button class="delete" aria-label="close" onclick="main.hideUploadModal()"></button>
         </header>
         <section class="modal-card-body">
-            <form method="post" enctype="multipart/form-data" id="fileUploadForm">
-                <div class="level">
-                    <div class="level-left mb-4">
-                        <div class="file has-name is-primary is-fullwidth">
+            <div class="columns">
+                <div class="column is-2 is-vertical-center">
+                    <div class="field" id="fileField">
+                        <div class="file is-white">
                             <label class="file-label">
-                                <input class="file-input" type="file" id="quarterFile" name="quarterFile" onchange="main.changeFileInput(this)" accept=".xlsx">
+                                <input multiple class="file-input" type="file" id="quarterFile" accept=".xlsx">
                                 <span class="file-cta">
-                                      <span class="file-icon"><i class="fas fa-upload"></i></span>
-                                      <span class="file-label">엑셀파일 선택</span>
-                                </span>
-                                <span class="file-name" id="spanFileName"></span>
+                                        <span class="file-icon"><i class="fas fa-file-upload"></i></span>
+                                        <span class="file-label">파일선택</span>
+                                    </span>
                             </label>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="column">
+                    <div class="columns">
+                        <div class="column" id="quarterFileDiv">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <footer class="modal-card-foot justify-content-center">
             <button onclick="main.uploadQuarter()" class="button is-success">
@@ -89,7 +94,7 @@
                 </span>
                 <span>업로드</span>
             </button>
-            <button onclick="cmmUtils.closeModal('uploadModal')" class="button is-dark">
+            <button onclick="main.hideUploadModal()" class="button is-dark">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

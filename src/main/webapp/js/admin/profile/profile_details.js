@@ -3,7 +3,6 @@ const main = (function() {
   let global = {
     profileId: null,
     selectedFileName: null,
-    ckEditProfileInfo: undefined,
   }
 
   function init() {
@@ -51,21 +50,14 @@ const main = (function() {
       url: url,
     }).then(function (response) {
       cmmUtils.bindData('profileDetailForm', response);
-      initCKEditor(response);
       setPreviewModal(response);
+      initLinkColumns(response);
     }).catch(function (err) {
       cmmUtils.showErrModal();
       console.log(err);
     });
   }
 
-  function initCKEditor(response) {
-    if (!global['ckEditProfileInfo']) {
-      cmmUtils.createCKEditor({selector: '#profileInfo', data: response['profileInfo']}, function(editor) {
-        global['ckEditProfileInfo'] = editor;
-      });
-    }
-  }
 
   function setPreviewModal(response) {
     const previewImg = document.getElementById('previewImg');
@@ -84,8 +76,7 @@ const main = (function() {
     if (verifyInputValues()) {
       const msg = '프로필을 수정합니다. 오타 또는 누락된것은 없는지 확인하세요.';
       const fileName = global['selectedFileName'];
-      if (fileName) {
-        // 이미지까지 수정한경우
+      if (fileName) { // 이미지까지 수정한경우
         if (cmmUtils.checkImageExtension(fileName)) {
           cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
             cmmUtils.postData({
@@ -109,9 +100,8 @@ const main = (function() {
         } else {
           cmmUtils.showIpModal('파일 확장자', '이미지형식(.jpg, .jpeg, .bmp, .png) 파일 형식만 가능합니다.');
         }
-      } else {
+      } else { // 이미지는 제외하고 수정한 경우
         cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-          // 이미지는 제외하고 수정한 경우
           cmmUtils.postData({
             url: '/api/v1/admin/profile/update-profile',
             body: getParameters(),
@@ -138,9 +128,10 @@ const main = (function() {
       profileId: global['profileId'],
       profileTitle: document.getElementById('profileTitle').value,
       profileSubtitle: document.getElementById('profileSubtitle').value,
-      profileInfo: global['ckEditProfileInfo'].getData(),
+      profileInfo: document.getElementById('profileInfo').value,
       profileType: cmmUtils.getCheckedValues('profileType')[0],
-      isFree: cmmUtils.getCheckedValues('isFree')[0]
+      isFree: cmmUtils.getCheckedValues('isFree')[0],
+      profileLink: createLinkStr()
     }
   }
 
@@ -151,10 +142,33 @@ const main = (function() {
     formData.append('imgRefId', document.getElementById('imgRefId').files[0]);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
-    formData.append('profileInfo', global['ckEditProfileInfo'].getData());
+    formData.append('profileInfo', document.getElementById('profileInfo').value);
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
     formData.append('isFree', cmmUtils.getCheckedValues('isFree')[0]);
+    createLinkStr(formData);
     return formData;
+  }
+
+  // 프로필 참고링크 String 생성
+  function createLinkStr(formData) {
+    const argLen = arguments.length;
+    const linkTypes = document.getElementsByName('linkType');
+    const linkUrls = document.getElementsByName('linkUrl');
+    let resultArr = [];
+    if (linkTypes.length) {
+      for (let i = 0; i < linkTypes.length; i++) {
+        const linkType = linkTypes[i].value;
+        const linkUrl = linkUrls[i].value;
+        resultArr.push(linkType + '^' + linkUrl); // 구분자는 ^
+      }
+    }
+    if (resultArr.length) {
+      if (argLen === 1) {
+        formData.append('profileLink', resultArr.join(','));
+      } else {
+        return resultArr.join(',');
+      }
+    }
   }
 
   function removeProfile() {
@@ -183,6 +197,16 @@ const main = (function() {
       cmmUtils.showIpModal('프로필명');
       return false;
     }
+    // 링크 검증
+    const linkUrls = document.getElementsByName('linkUrl');
+    if (linkUrls.length) {
+      for (let i = 0; i < linkUrls.length; i++) {
+        if (!linkUrls[i].value) {
+          cmmUtils.showIpModal('링크 URL', 'URL을 입력해주세요.');
+          return false;
+        }
+      }
+    }
     return true;
   }
 
@@ -207,6 +231,67 @@ const main = (function() {
     document.getElementById('spanFileName').innerText = fileName;
   }
 
+  // 기등록한 링크 추가
+  function initLinkColumns(response) {
+    const profileLinkStr = response['profileLink'];
+    if (profileLinkStr) {
+      const profileLinks = profileLinkStr.split(',');
+      for (let i = 0; i < profileLinks.length; i++) {
+        const profileInfo = profileLinks[i].split('^');
+        appendLinkColumn({linkType: profileInfo[0], linkUrl: profileInfo[1]});
+      }
+    }
+  }
+
+  // 링크 추가
+  function appendLinkColumn(linkInfo) {
+    const uuid = cmmUtils.getUUID();
+    const argLen = arguments.length;
+    let html = '';
+    html = html + '<div class="columns">';
+    html = html + '  <div class="column has-text-right is-3">';
+    html = html + '    <button type="button" class="button ml-3" onclick="main.removeLinkColumn(\'' + uuid + '\')">';
+    html = html + '      <span class="icon is-small has-text-danger"><i class="fas fa-minus"></i></span>';
+    html = html + '      <span>링크 삭제</span>';
+    html = html + '    </button>';
+    html = html + '    <div class="select">';
+    html = html + '      <select name="linkType">';
+    if (argLen === 1) {
+      const option1 = linkInfo.linkType === '1' ? '<option value="1" selected>유튜브</option>' : '<option value="1">유튜브</option>';
+      const option2 = linkInfo.linkType === '2' ? '<option value="2" selected>일반영상</option>' : '<option value="2">일반영상</option>';
+      const option3 = linkInfo.linkType === '3' ? '<option value="3" selected>기사</option>' : '<option value="3">기사</option>';
+      html = html + option1;
+      html = html + option2;
+      html = html + option3;
+    } else {
+      html = html + '<option value="1" selected>유튜브</option>';
+      html = html + '<option value="2">일반영상</option>';
+      html = html + '<option value="3">기사</option>';
+    }
+    html = html + '      </select>';
+    html = html + '    </div>';
+    html = html + '  </div>';
+    html = html + '  <div class="column is-fullwidth">';
+    html = html + '    <div class="control">';
+    if (argLen === 1) {
+      html = html + '      <input class="input is-info" type="text" name="linkUrl" value="' + linkInfo.linkUrl + '" placeholder="URL 입력">';
+    } else {
+      html = html + '      <input class="input is-info" type="text" name="linkUrl" placeholder="URL 입력">';
+    }
+    html = html + '    </div>';
+    html = html + '  </div>';
+    html = html + '</div>';
+    const div = document.createElement('div');
+    div.id = uuid;
+    div.innerHTML = html;
+    document.getElementById('linkDiv').appendChild(div);
+  }
+
+  // 링크 삭제
+  function removeLinkColumn(uuid) {
+    document.getElementById(uuid).remove();
+  }
+
   return {
     init: init,
     getGlobal: function() {
@@ -216,7 +301,9 @@ const main = (function() {
     modifyProfile: modifyProfile,
     removeProfile: removeProfile,
     downloadImg: downloadImg,
-    changeFileInput: changeFileInput
+    changeFileInput: changeFileInput,
+    appendLinkColumn: appendLinkColumn,
+    removeLinkColumn: removeLinkColumn
   }
 })();
 

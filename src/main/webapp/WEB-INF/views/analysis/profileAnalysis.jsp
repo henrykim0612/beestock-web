@@ -12,7 +12,7 @@
 
 <div class="tile is-ancestor">
     <div class="tile is-3 is-vertical is-parent">
-        <div class="tile is-child">
+        <div class="tile is-child box flex-col justify-content-center">
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-square">
@@ -35,6 +35,35 @@
         </div>
     </div>
     <div class="tile is-vertical is-parent">
+        <%--소개--%>
+        <div class="tile is-child box">
+            <div class="columns">
+                <div class="column is-full">
+                    <p class="subtitle"><strong>소개</strong></p>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-full">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br/>
+                        Etiam semper diam at erat pulvinar, at pulvinar felis blandit. <br/>
+                    </p>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-full">
+                    <div class="flex-col justify-content-center">
+                        <div class="flex-row">
+                            <a class="button is-small" href="https://www.youtube.com/watch?v=fQjPvb3cYMA">
+                                <span class="icon has-text-danger is-small"><i class="fab fa-lg fa-youtube"></i></span>
+                                <span>참고영상</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <%--투자 아이디어--%>
         <div class="tile is-child box">
             <div class="columns">
                 <div class="column is-full">
@@ -62,7 +91,7 @@
                     </button>
                 </div>
                 <div class="columns mt-3">
-                    <div class="column is-full height215px is-scrollable">
+                    <div class="column is-full height150px is-scrollable">
                         <table id="ideaGrid" class="table is-striped is-narrow is-hoverable is-fullwidth"></table>
                     </div>
                 </div>
@@ -191,7 +220,7 @@
                     <div class="field" id="fileField">
                         <div class="file is-white">
                             <label class="file-label">
-                                <input class="file-input" type="file" multiple id="newIdeaFile">
+                                <input multiple class="file-input" type="file" id="newIdeaFile">
                                 <span class="file-cta">
                                     <span class="file-icon"><i class="fas fa-file-signature"></i></span>
                                     <span class="file-label">첨부</span>
@@ -334,6 +363,9 @@
     <div class="modal-background" onclick="main.closeColLineChartModal()"></div>
     <div class="modal-content width1200px">
         <section class="modal-card-body">
+            <div class="flex-row justify-content-end">
+                <button class="delete" aria-label="close" onclick="main.closeColLineChartModal()"></button>
+            </div>
             <div class="flex-col justify-content-start">
                 <div class="flex-row justify-content-start">
                     <div class="field">
