@@ -65,7 +65,7 @@
         <div class="modal-card width900px">
             <header class="modal-card-head">
                 <p class="modal-card-title">종목코드 업로드</p>
-                <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('uploadModal');"></button>
+                <button class="delete" aria-label="close" onclick="main.hideUploadModal()"></button>
             </header>
             <section class="modal-card-body">
                 <div class="columns">
@@ -97,7 +97,7 @@
                 </span>
                     <span>업로드</span>
                 </button>
-                <button onclick="cmmUtils.closeModal('uploadModal')" class="button is-dark">
+                <button onclick="main.hideUploadModal()" class="button is-dark">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

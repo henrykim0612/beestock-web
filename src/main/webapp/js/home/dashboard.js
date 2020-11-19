@@ -46,8 +46,7 @@ const main = (function () {
     }).then(function(response) {
       cmmProfileCard.appendCards(response, global['selectedTab']);
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 

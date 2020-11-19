@@ -4,11 +4,6 @@
 <input type="hidden" id="qaId" value="${qaId}"/>
 
 <form id="qaDetailForm">
-
-    <div class="tile is-ancestor">
-    </div>
-
-
     <div class="columns">
         <div class="column is-1 is-vertical-center">
             <label id="labelTitle" class="label" for="qaTitle">제목</label>

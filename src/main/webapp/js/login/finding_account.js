@@ -8,9 +8,7 @@ const main = (function () {
     }).then(function (response) {
       appendHintOptions(response);
     }).catch(function (err) {
-      cmmUtils.hideLoadingElement(document.getElementById('selHintCode'));
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -66,9 +64,7 @@ const main = (function () {
       console.log(response);
       showEmailModal(response.data);
     }).catch(function (err) {
-      cmmUtils.hideLoadingElement(document.getElementById('btnEmail'));
-      showEmailModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -107,15 +103,11 @@ const main = (function () {
           if (response.data === '401') return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
           showPwdModal(response.data);
         }).catch(function (err) {
-          cmmUtils.hideLoadingElement(document.getElementById('btnPwd'));
-          cmmUtils.showErrModal();
-          console.log(err);
+          cmmUtils.goToErrorPage(err);
         });
       }
     }).catch(function (err) {
-      cmmUtils.hideLoadingElement(document.getElementById('btnPwd'));
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 

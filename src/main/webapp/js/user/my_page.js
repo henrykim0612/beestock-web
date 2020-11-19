@@ -50,7 +50,7 @@ const main = (function() {
             const myImgFile = document.getElementById('myImage');
             myImgFile.setAttribute('src', src);
         }).catch(function (err) {
-            console.log(err);
+            cmmUtils.goToErrorPage(err);
         });
     }
 
@@ -131,8 +131,7 @@ const main = (function() {
         }).then(function (response) {
             cmmProfileCard.appendCards(response, global['selectedTab']);
         }).catch(function (err) {
-            cmmUtils.showErrModal();
-            console.log(err);
+            cmmUtils.goToErrorPage(err);
         });
     }
 
@@ -210,8 +209,7 @@ const main = (function() {
             appendModIdeaFiles(response);
             cmmUtils.showModal('modIdeaModal');
         }).catch(function (err) {
-            cmmUtils.showErrModal();
-            console.log(err);
+            cmmUtils.goToErrorPage(err);
         });
     }
 
@@ -301,8 +299,7 @@ const main = (function() {
                             cmmUtils.showErrModal();
                         }
                     }).catch(function (err) {
-                        cmmUtils.showErrModal();
-                        console.log(err);
+                        cmmUtils.goToErrorPage(err);
                     });
                 } else {
                     cmmUtils.showIpModal('파일', checkedFiles.msg);
@@ -386,9 +383,7 @@ const main = (function() {
                         cmmUtils.showErrModal();
                     }
                 }).catch(function (err) {
-                    cmmUtils.hideLoadingElement(document.getElementById('btnModIdea'));
-                    cmmUtils.showErrModal();
-                    console.log(err);
+                    cmmUtils.goToErrorPage(err);
                 });
             });
         }

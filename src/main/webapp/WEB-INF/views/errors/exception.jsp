@@ -3,7 +3,8 @@
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
 
 <div class="flex-col">
-    <p>${exception }</p>
-    <p>${message }</p>
-    <p>${url }</p>
+    <p>${err.exceptionName }</p>
+    <p>${err.message }</p>
+    <p>${err.requestUrl }</p>
+    <p>${err.pageUrl }</p>
 </div>

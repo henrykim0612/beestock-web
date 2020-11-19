@@ -61,9 +61,7 @@ const main = (function() {
         if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
         goToNotice();
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnIns'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     }
   }

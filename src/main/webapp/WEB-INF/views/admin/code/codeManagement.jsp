@@ -44,7 +44,6 @@
     </span>
 </div>
 
-
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
     <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>

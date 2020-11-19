@@ -180,8 +180,20 @@
 	height: 215px;
 }
 
+.height250px {
+	height: 250px;
+}
+
+.height280px {
+	height: 280px;
+}
+
 .height300px {
 	height: 300px;
+}
+
+.height320px {
+	height: 320px;
 }
 
 .height500px {
@@ -269,4 +281,11 @@
 
 .mt-10 {
 	margin-top: 7rem !important;
+}
+
+.overflowY-auto {
+	overflow-y: auto;
+}
+.overFlowX-auto {
+	overflow-x: auto;
 }

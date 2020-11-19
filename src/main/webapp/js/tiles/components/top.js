@@ -20,8 +20,7 @@ const topMain = (function() {
     cmmUtils.getData({
       url: '/api/v1/login/notice-badge'
     }).then(createNoticeBadge).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -34,8 +33,7 @@ const topMain = (function() {
         appendAlarmMessages(response);
       }
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -156,8 +154,7 @@ const topMain = (function() {
         }
       }
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 

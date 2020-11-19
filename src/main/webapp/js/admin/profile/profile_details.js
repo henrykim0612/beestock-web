@@ -3,6 +3,9 @@ const main = (function() {
   let global = {
     profileId: null,
     selectedFileName: null,
+    ckEditProfileInfo: undefined,
+    linkArrDelimiter: '#,#', // 링크 배열 구분자
+    linkInfoDelimiter: '#^#' // 링크 정보 구분자
   }
 
   function init() {
@@ -50,14 +53,22 @@ const main = (function() {
       url: url,
     }).then(function (response) {
       cmmUtils.bindData('profileDetailForm', response);
+      initCKEditor(response);
       setPreviewModal(response);
       initLinkColumns(response);
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
+  function initCKEditor(response) {
+    // 관리자가 아니고 본인의 글이 아니라면 ReadOnly
+    if (!global['ckEditProfileInfo']) {
+      cmmUtils.createCKEditor({selector: '#profileInfo', data: response['profileInfo']}, function(editor) {
+        global['ckEditProfileInfo'] = editor;
+      });
+    }
+  }
 
   function setPreviewModal(response) {
     const previewImg = document.getElementById('previewImg');
@@ -92,9 +103,7 @@ const main = (function() {
                 init();
               }
             }).catch(function (err) {
-              cmmUtils.hideLoadingElement(document.getElementById('btnMod'));
-              cmmUtils.showErrModal();
-              console.log(err);
+              cmmUtils.goToErrorPage(err);
             });
           });
         } else {
@@ -113,9 +122,7 @@ const main = (function() {
               init();
             }
           }).catch(function (err) {
-            cmmUtils.hideLoadingElement(document.getElementById('btnMod'));
-            cmmUtils.showErrModal();
-            console.log(err);
+            cmmUtils.goToErrorPage(err);
           });
         });
       }
@@ -128,7 +135,7 @@ const main = (function() {
       profileId: global['profileId'],
       profileTitle: document.getElementById('profileTitle').value,
       profileSubtitle: document.getElementById('profileSubtitle').value,
-      profileInfo: document.getElementById('profileInfo').value,
+      profileInfo: global['ckEditProfileInfo'].getData(),
       profileType: cmmUtils.getCheckedValues('profileType')[0],
       isFree: cmmUtils.getCheckedValues('isFree')[0],
       profileLink: createLinkStr()
@@ -142,7 +149,7 @@ const main = (function() {
     formData.append('imgRefId', document.getElementById('imgRefId').files[0]);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
-    formData.append('profileInfo', document.getElementById('profileInfo').value);
+    formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
     formData.append('isFree', cmmUtils.getCheckedValues('isFree')[0]);
     createLinkStr(formData);
@@ -153,20 +160,22 @@ const main = (function() {
   function createLinkStr(formData) {
     const argLen = arguments.length;
     const linkTypes = document.getElementsByName('linkType');
+    const linkNames = document.getElementsByName('linkName');
     const linkUrls = document.getElementsByName('linkUrl');
     let resultArr = [];
     if (linkTypes.length) {
       for (let i = 0; i < linkTypes.length; i++) {
         const linkType = linkTypes[i].value;
+        const linkName = linkNames[i].value;
         const linkUrl = linkUrls[i].value;
-        resultArr.push(linkType + '^' + linkUrl); // 구분자는 ^
+        resultArr.push(linkType + global['linkInfoDelimiter'] + linkName + global['linkInfoDelimiter'] + linkUrl); // 구분자는 #^#
       }
     }
     if (resultArr.length) {
       if (argLen === 1) {
-        formData.append('profileLink', resultArr.join(','));
+        formData.append('profileLink', resultArr.join(global['linkArrDelimiter']));
       } else {
-        return resultArr.join(',');
+        return resultArr.join(global['linkArrDelimiter']);
       }
     }
   }
@@ -182,11 +191,9 @@ const main = (function() {
         loading: 'btnRm'
       }).then(function (response) {
         if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐
-        0 < response ? goToProfile() : cmmUtils.showErrModal();
+        0 < response ? goToProfile() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnRm'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     });
   }
@@ -198,6 +205,15 @@ const main = (function() {
       return false;
     }
     // 링크 검증
+    const linkNames = document.getElementsByName('linkName');
+    if (linkNames.length) {
+      for (let i = 0; i < linkNames.length; i++) {
+        if (!linkNames[i].value) {
+          cmmUtils.showIpModal('링크명', '링크명을 입력해주세요.');
+          return false;
+        }
+      }
+    }
     const linkUrls = document.getElementsByName('linkUrl');
     if (linkUrls.length) {
       for (let i = 0; i < linkUrls.length; i++) {
@@ -235,10 +251,10 @@ const main = (function() {
   function initLinkColumns(response) {
     const profileLinkStr = response['profileLink'];
     if (profileLinkStr) {
-      const profileLinks = profileLinkStr.split(',');
+      const profileLinks = profileLinkStr.split(global['linkArrDelimiter']);
       for (let i = 0; i < profileLinks.length; i++) {
-        const profileInfo = profileLinks[i].split('^');
-        appendLinkColumn({linkType: profileInfo[0], linkUrl: profileInfo[1]});
+        const profileInfo = profileLinks[i].split(global['linkInfoDelimiter']);
+        appendLinkColumn({linkType: profileInfo[0], linkName: profileInfo[1], linkUrl: profileInfo[2]});
       }
     }
   }
@@ -269,6 +285,15 @@ const main = (function() {
       html = html + '<option value="3">기사</option>';
     }
     html = html + '      </select>';
+    html = html + '    </div>';
+    html = html + '  </div>';
+    html = html + '  <div class="column is-3">';
+    html = html + '    <div class="control">';
+    if (argLen === 1) {
+      html = html + '      <input class="input is-info" type="text" name="linkName" value="' + linkInfo.linkName + '" placeholder="링크명 입력">';
+    } else {
+      html = html + '      <input class="input is-info" type="text" name="linkName" placeholder="URL 입력">';
+    }
     html = html + '    </div>';
     html = html + '  </div>';
     html = html + '  <div class="column is-fullwidth">';

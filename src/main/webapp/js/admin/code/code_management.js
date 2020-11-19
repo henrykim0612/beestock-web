@@ -107,8 +107,7 @@ const main = (function() {
         }).then(function (response) {
           showModCodeModal(response);
         }).catch(function (err) {
-          cmmUtils.showErrModal();
-          console.log(err);
+          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -143,8 +142,7 @@ const main = (function() {
           cmmUtils.clearChildNodes('treeViewContent');
           appendContent(response, codeLevel);
         }).catch(function (err) {
-          cmmUtils.showErrModal();
-          console.log(err);
+          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -239,8 +237,7 @@ const main = (function() {
           cmmUtils.appendHiddenClass(['icoCodeIdCheck']); // Check 아이콘 숨김
         }
       }).catch(function (err) {
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     } else {
       cmmUtils.appendHiddenClass(['helpCodeId']);
@@ -272,11 +269,9 @@ const main = (function() {
         body: body,
         loading: 'btnNewCode'
       }).then(function (response) {
-        response ? closeNewCodeModal() : cmmUtils.showErrModal();
+        response ? closeNewCodeModal() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     }
   }
@@ -295,9 +290,7 @@ const main = (function() {
       }).then(function (response) {
         closeModCodeModal();
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnNewCode'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     });
   }
@@ -313,11 +306,9 @@ const main = (function() {
         },
         loading: 'btnModCode'
       }).then(function (response) {
-        0 < response ? closeModCodeModal() : cmmUtils.showErrModal();
+        0 < response ? closeModCodeModal() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnModCode'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     });
   }

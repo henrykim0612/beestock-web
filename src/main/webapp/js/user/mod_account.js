@@ -11,9 +11,7 @@ const main = (function() {
     }).then(function (response) {
       appendHintOptions(response);
     }).catch(function (err) {
-      cmmUtils.hideLoadingElement(document.getElementById('selHintCode'));
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -70,9 +68,7 @@ const main = (function() {
         if (response === -401) return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
         goToMyPage();
       }).catch(function(err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
-        showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     });
   }

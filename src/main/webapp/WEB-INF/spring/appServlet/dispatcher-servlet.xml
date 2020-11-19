@@ -74,7 +74,9 @@
     </beans:bean>
 
     <beans:bean id="excelDownloadView" class="com.beestock.common.ExcelDownloadView"/>
-    <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+    <beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+        <beans:property name="contentType" value="application/json;charset=UTF-8"/>
+    </beans:bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/js/**" location="/js/" />

@@ -30,7 +30,7 @@
         </div>
         <div class="column">
             <div class="control">
-                <textarea id="profileInfo" class="textarea is-info" placeholder="간략히 기술" data-bind="true" data-id="profileInfo"></textarea>
+                <div id="profileInfo"></div>
             </div>
         </div>
     </div>

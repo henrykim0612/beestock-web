@@ -90,10 +90,7 @@ BeeComponents.modules.dataGrid = function(component) {
       }
 
     }).catch(function (err) {
-      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
-      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -116,12 +113,6 @@ BeeComponents.modules.dataGrid = function(component) {
       const col = colModel[i];
       if (col['isHidden'] == null || !col['isHidden']) {
         const th = document.createElement('th');
-
-        // Width
-        // if (col['width'] != null) {
-        //   th.style.width = col['width'];
-        // }
-
         const div = document.createElement('div');
         const text = col['name'] != null ? col['name'] : '';
         div.classList.add('has-text-centered');
@@ -130,6 +121,11 @@ BeeComponents.modules.dataGrid = function(component) {
         }
         div.setAttribute('title', text);
         div.innerText = text;
+
+        // Width
+        if (col['width'] != null) {
+          div.style.width = col['width'];
+        }
 
         // Excel
         if (col['isExcel'] != null && col['isExcel']) {
@@ -210,11 +206,6 @@ BeeComponents.modules.dataGrid = function(component) {
           let value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
           value = col['prefixText'] != null ? value + col['prefixText'] : value;
           row['excelText'] = null; // 엑센전용으로 변경할 경우 사용
-
-          // Width
-          if (col['width'] != null) {
-            thOrTd.style.width = col['width'];
-          }
 
           // Hidden cell
           if (col['isHidden'] != null || col['isHidden']) {
@@ -333,7 +324,7 @@ BeeComponents.modules.dataGrid = function(component) {
     }
 
     fragment.appendChild(ul);
-    this.createPagingSelectBox(fragment, props);
+    if (props['showPageSelectBox'] == null || props['showPageSelectBox']) this.createPagingSelectBox(fragment, props);
     pagination.appendChild(fragment.cloneNode(true));
   }
 
@@ -643,7 +634,7 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.addPaginationEventListeners = function(paginationBar, props) {
     const me = this;
     addPageAnchor();
-    addChangingPageSize();
+    if (props['showPageSelectBox'] == null || props['showPageSelectBox']) addChangingPageSize();
 
     // 페이지 변경 이벤트
     function addPageAnchor() {

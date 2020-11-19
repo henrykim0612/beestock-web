@@ -4,6 +4,7 @@
     "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
+    <!--레이아웃 정의-->
     <definition name="default-layout" template="/WEB-INF/tiles/layouts/defaultLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
@@ -19,7 +20,10 @@
         <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
     </definition>
 
+    <definition name="error-layout" template="/WEB-INF/tiles/layouts/errorLayout.jsp">
+    </definition>
 
+    <!--패턴 정의-->
     <definition name="index" extends="default-layout">
         <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
     </definition>
@@ -28,7 +32,7 @@
         <put-attribute name="content" value="/WEB-INF/views/login/findingAccount.jsp" />
     </definition>
 
-    <definition name="errors/*" extends="layout-without-footer">
+    <definition name="errors/*" extends="error-layout">
         <put-attribute name="content" value="/WEB-INF/views/errors/{1}.jsp" />
     </definition>
 

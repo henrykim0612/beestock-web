@@ -55,8 +55,7 @@ const main = (function() {
       initCKEditor(response);
       checkViewOnly();
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -70,8 +69,7 @@ const main = (function() {
       }
     }).then(function (response) {
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -110,10 +108,7 @@ const main = (function() {
             init();
           }
         }).catch(function (err) {
-          console.log(err);
-          cmmUtils.hideLoadingElement(document.getElementById('btnMod'));
-          cmmUtils.showErrModal();
-          console.log(err);
+          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -130,11 +125,9 @@ const main = (function() {
         loading: 'btnRm'
       }).then(function (response) {
         if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
-        0 < response ? goToNotice() : cmmUtils.showErrModal();
+        0 < response ? goToNotice() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnRm'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     });
   }

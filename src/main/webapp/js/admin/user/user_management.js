@@ -122,9 +122,7 @@ const main = (function() {
       cmmUtils.closeModal('authModal');
       dataGrid.reload();
     }).catch(function (err) {
-      cmmUtils.hideLoadingElement(document.getElementById('btnSaveAuth'));
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 

@@ -8,6 +8,7 @@ const main = (function() {
     chart: undefined,
     ckEditNewIdeaCont: undefined,
     ckEditModIdeaCont: undefined,
+    ckEditProfileInfo: undefined,
     newFileArr: [], // uuid, file, isRemoved
     modFileArr: [], // uuid, fileId, fileSize, isRemoved
     quarterId: null,
@@ -22,6 +23,8 @@ const main = (function() {
     sortedDataArr: [],
     tabView: 'grid', // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
     isInitiatedSpinner: false,
+    linkArrDelimiter: '#,#', // 참고자료 링크 배열 구분자
+    linkInfoDelimiter: '#^#' // 참고자료 링크 정보 구분자
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
@@ -69,8 +72,7 @@ const main = (function() {
     cmmUtils.getData({
       url: url
     }).then(setProfileHeader).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -83,8 +85,7 @@ const main = (function() {
       clearQuarterCont();
       createQuarterSlider(response);
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -512,8 +513,7 @@ const main = (function() {
         selectedQuarterDate: global.selectedQuarterDate
       }
     }).then(callback).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -528,8 +528,7 @@ const main = (function() {
         filterNum: getSelectedStackChartFilter(),
       }
     }).then(callback).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
   
@@ -543,8 +542,7 @@ const main = (function() {
         filterNum: getSelectedLineChartFilter(),
       }
     }).then(callback).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -689,17 +687,84 @@ const main = (function() {
     document.getElementById('profileTitle').innerText = profileTitle;
     document.getElementById('selStackChartFilter')[2].innerText = profileTitle;
     global['profileTitle'] = profileTitle;
-
     // Information
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
     initProfileInfo(data);
-
+    initProfileLink(data);
+    // 즐겨찾기
     createStar(data['isFavorite']);
   }
 
   // 프로필 소개
   function initProfileInfo(data) {
+    cmmUtils.createCKEditor({selector: '#profileInfo', isReadOnly: true, data: data['profileInfo']}, function(editor) {
+      global['ckEditProfileInfo'] = editor;
+      editor.isReadOnly = true;
+      // 상단 툴바 제거
+      const toolbarContainer = editor.ui.view.stickyPanel;
+      editor.ui.view.top.remove( toolbarContainer );
+    });
   }
+
+  // 프로필 링크
+  function initProfileLink(data) {
+    const profileLinkDiv = document.getElementById('profileLinkDiv');
+    if (data['profileLink']) {
+      const profileLinkArr = data['profileLink'].split(global['linkArrDelimiter']);
+      const fragment = document.createDocumentFragment();
+      const aa = function(_this) {
+        console.log(_this.getAttribute('data-url'));
+      }
+      for (let i = 0; i < profileLinkArr.length; i++) {
+        const profileInfo = profileLinkArr[i].split(global['linkInfoDelimiter']);
+        const div = document.createElement('div');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.classList.add('button');
+        // button.classList.add('is-small');
+        button.classList.add('is-white');
+        button.appendChild(createLinkIcon(profileInfo[0]));
+        button.setAttribute('onclick', 'main.goToLinkPop(\'' + profileInfo[2] + '\')');
+        const span = document.createElement('span');
+        span.innerText = profileInfo[1];
+        button.appendChild(span);
+        div.appendChild(button);
+        fragment.appendChild(div);
+      }
+      profileLinkDiv.appendChild(fragment.cloneNode(true));
+    } else {
+      profileLinkDiv.innerHTML = '<p>참고자료가 없습니다.</p>'
+    }
+  }
+
+  function createLinkIcon(type) {
+    const span = document.createElement('span');
+    span.classList.add('icon');
+    span.classList.add('is-small');
+    span.classList.add('mr-3');
+    const colorClass = type === '1' ? 'has-text-danger' : type === '2' ? 'has-text-info' : 'has-text-dark'
+    span.classList.add(colorClass);
+    const icon = document.createElement('i');
+    icon.classList.add('fa-lg');
+    switch (type) {
+      case '1':
+        icon.classList.add('fab');
+        icon.classList.add('fa-youtube');
+        break;
+      case '2':
+        icon.classList.add('fas');
+        icon.classList.add('fa-video');
+        break;
+      case '3':
+        icon.classList.add('far');
+        icon.classList.add('fa-newspaper');
+        break;
+    }
+    span.appendChild(icon);
+    return span;
+  }
+
+
 
 
   // 즐겨찾기 클릭 이벤트
@@ -717,12 +782,12 @@ const main = (function() {
         cmmUtils.showToast({message: favoriteVal === 1 ? '즐겨찾기 되었습니다.' : '즐겨찾기가 해제되었습니다.'});
         createStar(favoriteVal);
       }).catch(function (err) {
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     })
   }
 
+  // 즐겨찾기
   function createStar(favorite) {
     // 1: 즐겨찾기함, 2: 즐겨찾기 안함
     const span = document.getElementById('spanStar');
@@ -748,11 +813,14 @@ const main = (function() {
         url: '/api/v1/analysis/profile/idea-list',
         body: {
           orderBy: [{column: 'uptDate', desc: true}],
-          profileId: global.profileId
+          profileId: global.profileId,
+          pageSize: 5 //  기본 5개로 설정
         },
         eId: 'ideaGrid',
+        pId: 'ideaPagination',
         isThead: true,
         isTfoot: false,
+        showPageSelectBox: false,
         colModel: [
           {id: 'ideaId', isHidden: true},
           {id: 'ideaTitle', name: '아이디어 제목', width: '800px', isSort: true, isLink: true, userCustom: ideaAnchor},
@@ -813,8 +881,7 @@ const main = (function() {
       appendModIdeaFiles(response);
       cmmUtils.showModal('modIdeaModal');
     }).catch(function (err) {
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -890,11 +957,12 @@ const main = (function() {
 
   // 탭 이벤트
   function addTabEventListener() {
-    const tabs = document.getElementById('tabDiv').querySelectorAll('[name=tabs]');
-    for (let i = 0; i < tabs.length; i++) {
+
+    const headerTabs = document.getElementById('headerTabs').querySelectorAll('[name=tabs]');
+    for (let i = 0; i < headerTabs.length; i++) {
       // 탭 클릭 이벤트
-      tabs[i].addEventListener('click', function() {
-        resetActiveTab(tabs);
+      headerTabs[i].addEventListener('click', function() {
+        resetActiveTab(headerTabs);
         // 선택 탭 활성화
         this.classList.add('is-active');
         document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
@@ -902,6 +970,20 @@ const main = (function() {
         showTab();
       })
     }
+
+    const bottomTabs = document.getElementById('bottomTabs').querySelectorAll('[name=tabs]');
+    for (let i = 0; i < bottomTabs.length; i++) {
+      // 탭 클릭 이벤트
+      bottomTabs[i].addEventListener('click', function() {
+        resetActiveTab(bottomTabs);
+        // 선택 탭 활성화
+        this.classList.add('is-active');
+        document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
+        setActiveTabInfo(this);
+        showTab();
+      })
+    }
+
     // 탭 초기화
     function resetActiveTab(tabs) {
       for (let i = 0; i < tabs.length; i++) {
@@ -1029,12 +1111,10 @@ const main = (function() {
           cmmUtils.showToast({message: '저장 되었습니다.'});
           closeNewIdeaModal();
         } else {
-          cmmUtils.showErrModal();
+          cmmUtils.goToErrorPage(response);
         }
       }).catch(function (err) {
-        cmmUtils.hideLoadingElement(document.getElementById('btnNewIdea'));
-        cmmUtils.showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
     }
   }
@@ -1075,12 +1155,10 @@ const main = (function() {
             cmmUtils.showToast({message: '수정 되었습니다.'});
             closeModIdeaModal();
           } else {
-            cmmUtils.showErrModal();
+            cmmUtils.goToErrorPage(response);
           }
         }).catch(function (err) {
-          cmmUtils.hideLoadingElement(document.getElementById('btnModIdea'));
-          cmmUtils.showErrModal();
-          console.log(err);
+          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -1128,6 +1206,11 @@ const main = (function() {
     profileGrid.downloadExcel();
   }
 
+  // 프로필 참고링크 팝업
+  function goToLinkPop(url) {
+    window.open(url, '', "width=500,height=600");
+  }
+
   return {
     getChart: function() { return global.chart; },
     init: init,
@@ -1140,7 +1223,8 @@ const main = (function() {
     downloadProfileGrid: downloadProfileGrid,
     removeFileTag: removeFileTag,
     saveIdea: saveIdea,
-    modifyIdea: modifyIdea
+    modifyIdea: modifyIdea,
+    goToLinkPop: goToLinkPop
   }
 }());
 

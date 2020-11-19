@@ -89,9 +89,35 @@ const cmmUtils = (function () {
     ele.classList.remove('is-loading');
   }
 
-  function goToPage(url) {
+  function goToPage(url, err) {
+    const argLen = arguments.length;
     const form = document.createElement('form');
-    form.method = 'get';
+
+    // 에러정보 추가
+    if (argLen === 2) {
+      const input1 = document.createElement('input');
+      input1.type = 'hidden';
+      input1.name = 'exceptionName'
+      input1.value = err['exceptionName'];
+      const input2 = document.createElement('input');
+      input2.type = 'hidden';
+      input2.name = 'message'
+      input2.value = err['message'];
+      const input3 = document.createElement('input');
+      input3.type = 'hidden';
+      input3.name = 'requestUrl'
+      input3.value = err['requestUrl'];
+      const input4 = document.createElement('input');
+      input4.type = 'hidden';
+      input4.name = 'pageUrl'
+      input4.value = err['pageUrl'];
+      form.appendChild(input1);
+      form.appendChild(input2);
+      form.appendChild(input3);
+      form.appendChild(input4);
+    }
+
+    form.method = argLen === 2 ? 'post' : 'get';
     form.action = CONTEXT_PATH + url;
     document.body.appendChild(form);
     form.submit();
@@ -334,47 +360,43 @@ const cmmUtils = (function () {
   }
 
   function createCKEditor(props, callback) {
-    const toolbar = props['isReadOnly'] != null && props['isReadOnly']
-      ? []
-      : ['heading', 'bold', 'italic', 'link', 'blockQuote', 'fontColor', 'fontSize', 'alignment', 'highlight', 'code', 'underline', 'superscript', 'subscript', 'strikethrough', 'undo', 'redo'];
-    const options = props['isReadOnly'] != null && props['isReadOnly']
-      ? []
-      : [
-        {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
-        {
-          model: 'headingFancy1',
-          view: {
-            name: 'h1',
-            classes: 'fancy1'
-          },
-          title: 'Heading 1',
-          class: 'ck-heading_heading1',
-          // It needs to be converted before the standard 'heading2'.
-          converterPriority: 'high'
+    const toolbar = ['heading', 'bold', 'italic', 'link', 'blockQuote', 'fontColor', 'fontSize', 'alignment', 'highlight', 'code', 'underline', 'superscript', 'subscript', 'strikethrough', 'undo', 'redo'];
+    const options = [
+      {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+      {
+        model: 'headingFancy1',
+        view: {
+          name: 'h1',
+          classes: 'fancy1'
         },
-        {
-          model: 'headingFancy2',
-          view: {
-            name: 'h2',
-            classes: 'fancy2'
-          },
-          title: 'Heading 2',
-          class: 'ck-heading_heading2',
-          // It needs to be converted before the standard 'heading2'.
-          converterPriority: 'high'
+        title: 'Heading 1',
+        class: 'ck-heading_heading1',
+        // It needs to be converted before the standard 'heading2'.
+        converterPriority: 'high'
+      },
+      {
+        model: 'headingFancy2',
+        view: {
+          name: 'h2',
+          classes: 'fancy2'
         },
-        {
-          model: 'headingFancy3',
-          view: {
-            name: 'h3',
-            classes: 'fancy3'
-          },
-          title: 'Heading 3',
-          class: 'ck-heading_heading3',
-          // It needs to be converted before the standard 'heading2'.
-          converterPriority: 'high'
-        }
-      ];
+        title: 'Heading 2',
+        class: 'ck-heading_heading2',
+        // It needs to be converted before the standard 'heading2'.
+        converterPriority: 'high'
+      },
+      {
+        model: 'headingFancy3',
+        view: {
+          name: 'h3',
+          classes: 'fancy3'
+        },
+        title: 'Heading 3',
+        class: 'ck-heading_heading3',
+        // It needs to be converted before the standard 'heading2'.
+        converterPriority: 'high'
+      }
+    ];
 
     ClassicEditor
       .create(document.querySelector(props['selector']), {
@@ -388,8 +410,14 @@ const cmmUtils = (function () {
         if (props['data'] != null) {
           editor.setData(props['data']);
         }
+        // 객체 콜백
         callback(editor);
-        //console.log(Array.from(editor.ui.componentFactory.names())); // 이용가능한 Toolbar 아이템})
+        // 읽기전용이면 Border 를 제거한다
+        if (props['isReadOnly'] != null && props['isReadOnly']) {
+          const selector = props['selector'];
+          const editorDiv = document.querySelector(selector + '~div');
+          editorDiv.querySelector('.ck-editor__editable_inline').style.border = 0;
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -688,6 +716,10 @@ const cmmUtils = (function () {
     return Math.floor(Math.random() * (max - min + 1)) + min; //최댓값도 포함, 최솟값도 포함
   }
 
+  function goToErrorPage(err) {
+    goToPage(err['pageUrl'], err);
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -738,6 +770,7 @@ const cmmUtils = (function () {
     initInputSpinner: initInputSpinner,
     goToAlarmPage: goToAlarmPage,
     createAnalysisBar: createAnalysisBar,
-    getRandomValue: getRandomValue
+    getRandomValue: getRandomValue,
+    goToErrorPage: goToErrorPage
   }
 })();

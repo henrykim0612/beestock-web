@@ -17,9 +17,7 @@ const main = (function() {
     }).then(function (response) {
       appendHintOptions(response);
     }).catch(function (err) {
-      cmmUtils.hideLoadingElement(document.getElementById('selHintCode'));
-      cmmUtils.showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -244,8 +242,7 @@ const main = (function() {
           showModal(document.getElementById('dangerModal')); // 이메일 존재
         }
       }).catch(function(err) {
-        showErrModal();
-        console.log(err);
+        cmmUtils.goToErrorPage(err);
       });
 
     }
@@ -267,8 +264,7 @@ const main = (function() {
         showErrModal();
       }
     }).catch(function(err) {
-      showErrModal();
-      console.log(err);
+      cmmUtils.goToErrorPage(err);
     });
   }
 

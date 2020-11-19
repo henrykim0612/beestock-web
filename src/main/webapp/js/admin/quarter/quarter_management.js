@@ -326,11 +326,10 @@ const main = (function() {
             cmmUtils.showToast({message: '업로드 되었습니다.'});
             resetUploadModal();
           } else {
-            cmmUtils.showErrModal();
+            cmmUtils.goToErrorPage(response);
           }
         }).catch(function (err) {
-          cmmUtils.showErrModal();
-          console.log(err);
+          cmmUtils.goToErrorPage(err);
         });
       });
     }

@@ -34,68 +34,80 @@
             </div>
         </div>
     </div>
-    <div class="tile is-vertical is-parent">
-        <%--소개--%>
+    <%--상단 탭--%>
+    <div class="tile is-fullwidth is-vertical is-parent">
         <div class="tile is-child box">
-            <div class="columns">
-                <div class="column is-full">
-                    <p class="subtitle"><strong>소개</strong></p>
+            <div id="headerTabs" class="tabs">
+                <ul>
+                    <li id="introTab" name="tabs" class="is-active" data-view="grid" data-cont-id="introCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-id-badge"></i></span>
+                            <span>소개</span>
+                        </a>
+                    </li>
+                    <li id="linkTab" name="tabs" data-view="grid" data-cont-id="linkCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-link"></i></span>
+                            <span>참고자료</span>
+                        </a>
+                    </li>
+                    <li id="ideaTab" name="tabs" data-view="barChart" data-cont-id="ideaCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                            <span>투자 아이디어</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <%--소개 탭--%>
+            <div id="introCont">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div id="profileInfo"></div>
+                    </div>
                 </div>
             </div>
-            <div class="columns">
-                <div class="column is-full">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br/>
-                        Etiam semper diam at erat pulvinar, at pulvinar felis blandit. <br/>
-                    </p>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-full">
-                    <div class="flex-col justify-content-center">
-                        <div class="flex-row">
-                            <a class="button is-small" href="https://www.youtube.com/watch?v=fQjPvb3cYMA">
-                                <span class="icon has-text-danger is-small"><i class="fab fa-lg fa-youtube"></i></span>
-                                <span>참고영상</span>
-                            </a>
+            <%--참고링크 탭--%>
+            <div id="linkCont" class="is-hidden">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div id="profileLinkDiv" class="flex-col justify-content-center">
                         </div>
                     </div>
-
                 </div>
             </div>
-        </div>
-        <%--투자 아이디어--%>
-        <div class="tile is-child box">
-            <div class="columns">
-                <div class="column is-full">
-                    <p class="subtitle"><strong>투자 아이디어</strong></p>
-                </div>
-            </div>
-            <sec:authorize access="hasRole('ROLE_USER')">
-                <div class="columns mt-6">
-                    <div class="column is-full">
-                        <article class="message is-warning">
-                            <div class="message-body">
-                                <strong>구독자</strong>만 이용 가능합니다.<br/>
-                                투자 아이디어, 느낀점 등을 기록하고 지속적으로 점검 해보세요.<br/>
-                                나중에 큰 자산이 될 것입니다.
+            <%--아이디어 탭--%>
+            <div id="ideaCont" class="is-hidden">
+                <sec:authorize access="hasRole('ROLE_USER')">
+                    <div class="columns mt-6">
+                        <div class="column is-full">
+                            <article class="message is-warning">
+                                <div class="message-body">
+                                    <strong>구독자</strong>만 이용 가능합니다.<br/>
+                                    투자 아이디어, 느낀점 등을 기록하고 지속적으로 점검 해보세요.<br/>
+                                    나중에 큰 자산이 될 것입니다.
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </sec:authorize>
+                <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+                    <div class="columns is-flex-direction-row is-justify-content-flex-end">
+                        <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
+                            <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
+                            <span>아이디어 추가</span>
+                        </button>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-full height250px">
+                            <div class="table-container mt-3">
+                                <table id="ideaGrid" class="table is-striped is-narrow is-hoverable is-fullwidth"></table>
                             </div>
-                        </article>
+                            <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+                        </div>
                     </div>
-                </div>
-            </sec:authorize>
-            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
-                <div class="columns is-flex-direction-row is-justify-content-flex-end">
-                    <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
-                        <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
-                        <span>아이디어 추가</span>
-                    </button>
-                </div>
-                <div class="columns mt-3">
-                    <div class="column is-full height150px is-scrollable">
-                        <table id="ideaGrid" class="table is-striped is-narrow is-hoverable is-fullwidth"></table>
-                    </div>
-                </div>
-            </sec:authorize>
+                </sec:authorize>
+            </div>
         </div>
     </div>
 </div>
@@ -111,16 +123,18 @@
 </div>
 
 <%--분석탭--%>
-<div id="tabDiv" class="tabs mt-5">
+<div id="bottomTabs" class="tabs mt-5">
     <ul>
         <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
             <a>
-                <span class="icon is-medium"><i class="fas fa-lg fa-table"></i></span>
+                <span class="icon"><i class="fas fa-table"></i></span>
+                <span>테이블 분석</span>
             </a>
         </li>
         <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
             <a>
-                <span class="icon is-medium"><i class="far fa-lg fa-chart-bar"></i></span>
+                <span class="icon"><i class="fas fa-chart-bar"></i></span>
+                <span>막대차트 분석</span>
             </a>
         </li>
     </ul>
