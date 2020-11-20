@@ -699,10 +699,6 @@ const main = (function() {
   function initProfileInfo(data) {
     cmmUtils.createCKEditor({selector: '#profileInfo', isReadOnly: true, data: data['profileInfo']}, function(editor) {
       global['ckEditProfileInfo'] = editor;
-      editor.isReadOnly = true;
-      // 상단 툴바 제거
-      const toolbarContainer = editor.ui.view.stickyPanel;
-      editor.ui.view.top.remove( toolbarContainer );
     });
   }
 

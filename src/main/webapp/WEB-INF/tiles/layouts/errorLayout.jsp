@@ -4,7 +4,8 @@
 <html>
     <tiles:insertAttribute name="header" />
     <body>
-        <div class="container mt-6">
+        <tiles:insertAttribute name="commonScript" />
+        <div class="container">
             <tiles:insertAttribute name="content"/>
         </div>
     </body>

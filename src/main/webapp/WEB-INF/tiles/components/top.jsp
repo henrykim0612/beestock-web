@@ -68,15 +68,16 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span id="spanAlarm" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-show="quickview" data-target="alarmQuickView" data-tooltip="알림확인" onclick="topMain.showAlarmQuickView()"><i class="fas fa-bell"></i></span>
+                        <span id="spanAlarm" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-show="quickview" data-target="alarmQuickView" onclick="topMain.showAlarmQuickView()"><i class="fas fa-bell"></i></span>
+                        <span id="spanMyPage" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
                         <sec:authorize access="hasRole('ROLE_USER')">
-                            <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(일반사용자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(일반사용자)"/>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_SUBC')">
-                            <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(구독자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(구독자)"/>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <span class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-tooltip="<sec:authentication property="principal.userNm"/>(관리자)" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(관리자)"/>
                         </sec:authorize>
                     </sec:authorize>
                     <a class="button ml-2 is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>

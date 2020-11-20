@@ -5,15 +5,25 @@ const topMain = (function() {
     // showNoticeBadge();
     bulmaQuickview.attach();
     initAlarmQuickView();
+    initTooltips();
   }
 
+  // 로그인되면 로그인버튼은 숨김
   function setLayout() {
     const accountNonExpired = document.getElementById('accountNonExpired');
     if (accountNonExpired) {
       if (accountNonExpired.value === 'true') {
-        document.getElementById('aLogin').classList.add('is-hidden');
+        document.getElementById('aLogin').remove();
       }
     }
+  }
+
+  function initTooltips() {
+    const arr = [{selector: '#spanAlarm', content: '알림확인'}];
+    if (document.getElementById('myPageTooltip')) {
+      arr.push({selector: '#spanMyPage', content: document.getElementById('myPageTooltip').value});
+    }
+    cmmUtils.setTippy(arr);
   }
 
   function showNoticeBadge() {
@@ -48,7 +58,9 @@ const topMain = (function() {
         ele.classList.add('has-badge-danger');
         ele.classList.add('has-badge-inline');
       } else {
-        if (ele.hasAttribute('data-badge')) ele.removeAttribute('data-badge');
+        if (ele.hasAttribute('data-badge')) {
+          ele.removeAttribute('data-badge');
+        }
         ele.classList.remove('has-badge-rounded');
         ele.classList.remove('has-badge-danger');
         ele.classList.remove('has-badge-inline');

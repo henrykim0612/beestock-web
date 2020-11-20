@@ -21,6 +21,8 @@
     </definition>
 
     <definition name="error-layout" template="/WEB-INF/tiles/layouts/errorLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
+        <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
     </definition>
 
     <!--패턴 정의-->
@@ -30,6 +32,10 @@
 
     <definition name="login/findingAccount" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/login/findingAccount.jsp" />
+    </definition>
+
+    <definition name="login/loginHome" extends="layout-without-footer">
+        <put-attribute name="content" value="/WEB-INF/views/login/loginHome.jsp" />
     </definition>
 
     <definition name="errors/*" extends="error-layout">

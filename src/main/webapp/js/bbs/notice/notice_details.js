@@ -78,7 +78,6 @@ const main = (function() {
       const isReadOnly = !global['isAdmin'];
       cmmUtils.createCKEditor({selector: '#noticeCont', isReadOnly: isReadOnly, data: response['noticeCont']}, function(editor) {
         global['ckEditNoticeCont'] = editor;
-        editor.isReadOnly = isReadOnly;
       });
     }
   }

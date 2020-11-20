@@ -412,8 +412,13 @@ const cmmUtils = (function () {
         }
         // 객체 콜백
         callback(editor);
-        // 읽기전용이면 Border 를 제거한다
+        // 읽기전용 모드
         if (props['isReadOnly'] != null && props['isReadOnly']) {
+          editor.isReadOnly = true;
+          // 상단 툴바 제거
+          const toolbarContainer = editor.ui.view.stickyPanel;
+          editor.ui.view.top.remove( toolbarContainer );
+          // Border 제거
           const selector = props['selector'];
           const editorDiv = document.querySelector(selector + '~div');
           editorDiv.querySelector('.ck-editor__editable_inline').style.border = 0;
@@ -468,6 +473,16 @@ const cmmUtils = (function () {
     for (let i = 0; i < selectorArr.length; i++) {
       tippy(selectorArr[i], {
         content: '엑셀 다운로드',
+        placement: 'top'
+      });
+    }
+  }
+
+  function setTippy(selectorArr) {
+    for (let i = 0; i < selectorArr.length; i++) {
+      const obj = selectorArr[i];
+      tippy(obj.selector, {
+        content: obj.content,
         placement: 'top'
       });
     }
@@ -755,6 +770,7 @@ const cmmUtils = (function () {
     getCalendarValue: getCalendarValue,
     isValidDateRange: isValidDateRange,
     setExcelTippy: setExcelTippy,
+    setTippy: setTippy,
     getToday: getToday,
     checkExcelExtension: checkExcelExtension,
     checkImageExtension: checkImageExtension,
