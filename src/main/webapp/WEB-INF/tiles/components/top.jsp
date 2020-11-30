@@ -30,14 +30,14 @@
             <%--구독자, 관리자 전용--%>
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUBC')">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" href="${pageContext.request.contextPath}/premium/in-stock-item"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BeeStock 프리미엄</a>
+                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BeeStock 프리미엄</a>
                     <div class="navbar-dropdown">
                         <a class="navbar-item" href="${pageContext.request.contextPath}/premium/in-stock-item"><span class="icon has-text-primary mr-1"><i class="fas fa-dollar-sign"></i></span>국내 종목코드 현황</a>
                     </div>
                 </div>
             </sec:authorize>
             <div class="navbar-item has-dropdown is-hoverable">
-                <a id="aServiceCenter" class="navbar-link" href="${pageContext.request.contextPath}/bbs/notice">
+                <a id="aServiceCenter" class="navbar-link">
                     <span class="icon has-text-warning mr-1"><i class="fas fa-info"></i></span>
                     <span id="spanServiceCenter">고객센터</span>
                 </a>
@@ -53,7 +53,7 @@
             <%--관리자만 가능--%>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link" href="${pageContext.request.contextPath}/admin/user-management"><span class="icon has-text-warning mr-1"><i class="fas fa-cogs"></i></span>시스템관리</a>
+                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-cogs"></i></span>시스템관리</a>
                     <div class="navbar-dropdown">
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
@@ -68,7 +68,7 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span id="spanAlarm" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-show="quickview" data-target="alarmQuickView" onclick="topMain.showAlarmQuickView()"><i class="fas fa-bell"></i></span>
+                        <span id="spanAlarm" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-show="quickview" data-target="alarmQuickView"><i class="fas fa-bell"></i></span>
                         <span id="spanMyPage" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
                         <sec:authorize access="hasRole('ROLE_USER')">
                             <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(일반사용자)"/>
@@ -98,9 +98,12 @@
 <div id="alarmQuickView" class="quickview">
     <header class="quickview-header is-dark">
         <p class="title"><span class="icon has-text-warning mr-3"><i class="fas fa-bell"></i></span>알림</p>
-        <span class="delete" data-dismiss="quickview" onclick="topMain.initAlarmQuickView()"></span>
+        <span id="delQuickView" class="delete" data-dismiss="quickview" onclick="topMain.initAlarmQuickView()"></span>
     </header>
     <div class="quickview-body">
+        <div class="flex-row justify-content-end">
+            <button type="button" class="mt-1 button is-dark is-small" onclick="topMain.closeAlarmBoxAll()"><strong>알림 모두 닫기</strong></button>
+        </div>
         <div class="quickview-block mt-5" id="userAlarmBody">
         </div>
     </div>

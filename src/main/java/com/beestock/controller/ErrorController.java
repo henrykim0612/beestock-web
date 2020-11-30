@@ -45,6 +45,12 @@ public class ErrorController {
         return "errors/exception";
     }
 
+    @PostMapping("/excel")
+    public String excelException(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
+        model.addAttribute("err", exceptionVo);
+        return "errors/excelException";
+    }
+
 
     @PostMapping("/exception")
     public String exception(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {

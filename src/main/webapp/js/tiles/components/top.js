@@ -155,7 +155,7 @@ const topMain = (function() {
         const dataCode = this.getAttribute('data-code');
         const linkId = this.getAttribute('data-link-id');
         const alarmId = this.getAttribute('data-key');
-        clickUserAlarmBox(true, {alarmId: alarmId, dataCode: dataCode, linkId: linkId});
+        clickAlarmBox(true, {alarmId: alarmId, dataCode: dataCode, linkId: linkId});
       });
     }
   }
@@ -166,13 +166,13 @@ const topMain = (function() {
     for (let i = 0; i < confirmBtnArr.length; i++) {
       confirmBtnArr[i].addEventListener('click', function() {
         const alarmId = this.getAttribute('data-key');
-        clickUserAlarmBox(false, {alarmId: alarmId, parentNode: ele});
+        clickAlarmBox(false, {alarmId: alarmId, parentNode: ele});
       });
     }
   }
 
   // 사용자 알림박스 클릭 이벤트
-  function clickUserAlarmBox(isCheck, props) {
+  function clickAlarmBox(isCheck, props) {
     cmmUtils.postData({
       url: '/api/v1/login/user-alarm/delete',
       body: {alarmId: props.alarmId},
@@ -192,6 +192,19 @@ const topMain = (function() {
     });
   }
 
+  // 알람 모두닫기
+  function closeAlarmBoxAll() {
+    cmmUtils.postData({
+      url: '/api/v1/login/user-alarm/delete-all'
+    }).then(function (response) {
+      if (0 < response) {
+        cmmUtils.clearChildNodes(document.getElementById('userAlarmBody'));
+        document.getElementById('delQuickView').click(); // 퀵뷰 닫기
+      }
+    }).catch(function (err) {
+      cmmUtils.goToErrorPage(err);
+    });
+  }
 
   function createNoticeBadge(count) {
     if (count) {
@@ -215,15 +228,11 @@ const topMain = (function() {
     form.remove();
   }
 
-  function showAlarmQuickView() {
-
-  }
-
   return {
     init: init,
     goToMyPage: goToMyPage,
-    showAlarmQuickView: showAlarmQuickView,
-    initAlarmQuickView: initAlarmQuickView
+    initAlarmQuickView: initAlarmQuickView,
+    closeAlarmBoxAll: closeAlarmBoxAll
   }
 
 }());

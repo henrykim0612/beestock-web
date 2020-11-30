@@ -105,7 +105,7 @@ const main = (function() {
       const button = document.createElement('button');
       button.classList.add('button');
       // button.classList.add('is-small');
-      button.classList.add('is-link');
+      button.classList.add('is-dark');
       button.classList.add('is-inverted');
       button.setAttribute('data-button', 'slide');
       button.setAttribute('data-key', quarter['quarterId']);
@@ -161,8 +161,8 @@ const main = (function() {
           showTab();
         });
       }
-      // 기본 1분기 전 데이터를 보여줌
-      slideButtons[1].click();
+      // 최근 분기 데이터를 기본으로 보여줌
+      slideButtons[0].click();
     }
 
     // Clear button css
@@ -311,6 +311,10 @@ const main = (function() {
 
   function initItemCodeStackChart() {
     getItemCodeStackChartInfo(function(response) {
+      if (!response['legend'].length) {
+        cmmUtils.showWarningModal('즐겨찾기 없음', '즐겨찾기한 프로필이 없습니다.');
+        return false;
+      }
       global['itemCodeStackChartData'] = response;
       const props = {
         eId: 'itemCodeChart',
@@ -319,6 +323,7 @@ const main = (function() {
             trigger: 'axis',
             axisPointer: {
               type: 'cross',
+              axis: 'auto',
               crossStyle: {
                 color: '#999'
               }
@@ -386,7 +391,7 @@ const main = (function() {
           stack: 'stack',
           barWidth: '20px',
           label: {
-            show: true,
+            show: false,
             position: 'insideRight'
           },
           data: seriesData.data
@@ -528,7 +533,8 @@ const main = (function() {
         filterNum: getSelectedStackChartFilter(),
       }
     }).then(callback).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
+      console.log(err);
+      // cmmUtils.goToErrorPage(err);
     });
   }
   
