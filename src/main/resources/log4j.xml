@@ -10,30 +10,49 @@
         </layout>
     </appender>
 
-    <logger name="com.beestock">
+        <appender name="rolling" class="org.apache.log4j.RollingFileAppender">
+        <!-- 로그 파일명 정의를 위한 parameter -->
+        <param name="File" value="./logs/rolling/sample.log"/>
+        <!-- 이전 로그 파일에 로그를 덧붙여 쓸 것인지를 정의하기 위한 parameter -->
+        <param name="Append" value="true"/>
+        <!-- 로그 파일의 최대 크기를 정의하기 위한 parameter -->
+        <param name="MaxFileSize" value="200KB"/>
+        <!-- 로그 파일 백업 인덱스를 정의하기 위한 parameter -->
+        <param name="MaxBackupIndex" value="100"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n" />
+        </layout>
+    </appender>
+
+
+    <logger name="com.beestock" additivity="false">
         <level value="debug" />
+        <appender-ref ref="console"/>
     </logger>
 
     <logger name="org.springframework.core">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <logger name="org.springframework.beans">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <logger name="org.springframework.context">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <logger name="org.springframework.web">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <!-- Root Logger -->
     <root>
-        <priority value="debug" />
+        <priority value="off" />
         <appender-ref ref="console" />
     </root>
 
 </log4j:configuration>
+
+
+
