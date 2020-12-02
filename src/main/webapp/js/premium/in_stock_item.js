@@ -5,6 +5,7 @@ const main = (function() {
   let global = {
     selectedSchDate: null,
     selectedFileName: null,
+    gridData: undefined,
     fileArr: [], // uuid, fileId, fileSize, isRemoved
   }
 
@@ -65,23 +66,31 @@ const main = (function() {
 
   function initGrid() {
 
+    // 코드 트리뷰
+    const quickView = function(anchor, col, row) {
+      anchor.setAttribute('data-show', 'quickview');
+      anchor.setAttribute('data-target', 'itemCodeQuickView');
+      anchor.setAttribute('data-custom', 'itemCodeQuickView');
+      anchor.setAttribute('data-code', row['itemCode']);
+    }
+
+    const schDate = cmmUtils.getCalendarValue('schRegDate');
     const props = {
       url: '/api/v1/premium/stock/paging-in-stock-item-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
       body: {
         pageSize: 100,
-        itemDate: cmmUtils.getCalendarValue('schRegDate')
+        itemDate: schDate
       },
-      fileName: '종목코드 리스트',
+      fileName: schDate + ' 종목코드 리스트',
       isThead: true,
       isTfoot: false,
       loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
-        {id: 'itemDate', name: '날짜', isSort: true, align: 'center', width: '150px', isExcel: true},
-        {id: 'itemCode', name: '종목코드', isSort: true, width: '150px', isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, width: '200px', isExcel: true, align: 'left'},
+        {id: 'itemCode', name: '종목코드', isSort: true, width: '100px', isExcel: true, align: 'center'},
+        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, width: '250px', isExcel: true, align: 'left'},
         {id: 'currPrice', name: '현재가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
         {id: 'contrast', name: '대비', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
         {id: 'fluctRate', name: '등락률', isSort: true, width: '100px', isExcel: true, align: 'center', isCurrency: true},
@@ -92,12 +101,76 @@ const main = (function() {
         {id: 'lowPrice', name: '저가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
         {id: 'marketCap', name: '시가총액', isSort: true, width: '250px', isExcel: true, align: 'center', isCurrency: true},
         {id: 'marketCapWeight', name: '시가총액비중(%)', isSort: true, width: '150px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'stockNumber', name: '상장주식수', isSort: true, width: '200px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'stockNumberFr', name: '외국인 보유주식수', isSort: true, width: '200px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'frRatio', name: '외국인 지분율(%)', isSort: true, width: '150px', isExcel: true, align: 'center', isCurrency: true}
-      ]
+        {id: 'stockNumber', name: '상장주식수', isSort: true, width: '200px', isExcel: true, align: 'center', isCurrency: true}
+      ],
+      success: function(data, _this) {
+        initQuickView();
+        addItemNameEventListener(data, _this);
+        global['gridData'] = data['rowData'];
+      }
     }
     dataGrid = new COMPONENTS.DataGrid(props);
+  }
+
+  function initQuickView() {
+    bulmaQuickview.attach(); // quickviews now contains an array of all Quickview instances
+  }
+
+  // 종목명 퀵뷰
+  function addItemNameEventListener(data, _this) {
+    const tableId = _this.props.eId;
+    const tags = document.getElementById(tableId).querySelectorAll('[data-custom=itemCodeQuickView]');
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      tag.addEventListener('click', function () {
+        const itemCode = this.dataset.code;
+        const len = global['gridData'].length;
+        for (let i = 0; i < len; i++) {
+          const row = global['gridData'][i];
+          if (row['itemCode'] === itemCode) {
+            setQuickViewTitle(row);
+            appendQuickViewContent(row);
+          }
+        }
+      });
+    }
+  }
+
+  // 퀵뷰 타이틀 세팅
+  function setQuickViewTitle(row) {
+    document.getElementById('qViewTitle').innerText = row['itemName'];
+  }
+
+  // 퀵뷰 상세정보 생성
+  function appendQuickViewContent(row) {
+    const entries = [
+      {id: 'itemCode', name: '종목코드'},
+      {id: 'itemName', name: '종목명'},
+      {id: 'currPrice', name: '현재가', isCurrency: true},
+      {id: 'contrast', name: '대비'},
+      {id: 'fluctRate', name: '등락률'},
+      {id: 'transVol', name: '거래량', isCurrency: true},
+      {id: 'transAmount', name: '거래대금', isCurrency: true},
+      {id: 'marketPrice', name: '시가', isCurrency: true},
+      {id: 'highPrice', name: '고가', isCurrency: true},
+      {id: 'lowPrice', name: '저가', isCurrency: true},
+      {id: 'marketCap', name: '시가총액', isCurrency: true},
+      {id: 'marketCapWeight', name: '시가총액비중(%)'},
+      {id: 'stockNumber', name: '상장주식수', isCurrency: true}
+    ];
+    const len = entries.length;
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < len; i++) {
+      const entry = entries[i];
+      const value = entry.isCurrency != null ? row[entry.id].toLocaleString() : row[entry.id];
+      const p = document.createElement('p');
+      p.classList.add('mb-4')
+      p.innerText = entry.name + ' : ' + value;
+      fragment.appendChild(p);
+    }
+    const cont = document.getElementById('qViewContent');
+    cmmUtils.clearChildNodes(cont);
+    cont.appendChild(fragment.cloneNode(true));
   }
 
   function addFileEventListener() {

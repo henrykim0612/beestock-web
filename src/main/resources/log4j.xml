@@ -10,20 +10,22 @@
         </layout>
     </appender>
 
-        <appender name="rolling" class="org.apache.log4j.RollingFileAppender">
-        <!-- 로그 파일명 정의를 위한 parameter -->
-        <param name="File" value="./logs/rolling/sample.log"/>
-        <!-- 이전 로그 파일에 로그를 덧붙여 쓸 것인지를 정의하기 위한 parameter -->
-        <param name="Append" value="true"/>
-        <!-- 로그 파일의 최대 크기를 정의하기 위한 parameter -->
-        <param name="MaxFileSize" value="200KB"/>
-        <!-- 로그 파일 백업 인덱스를 정의하기 위한 parameter -->
-        <param name="MaxBackupIndex" value="100"/>
+    <appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.home}/logs/daily/app.log"/>
+        <!--DatePattern 이 File 보다 아래와야 날짜가 맞게 생성됨-->
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <!--
+            '.'yyyy-MM				Rollover at the beginning of each month.
+            '.'yyyy-ww				Rollover at the first day of each week. The first day of the week depends on the locale.
+            '.'yyyy-MM-dd			Rollover at midnight each day.
+            '.'yyyy-MM-dd-a			Rollover at midnight and midday of each day.
+            '.'yyyy-MM-dd-HH		Rollover at the top of every hour.
+            '.'yyyy-MM-dd-HH-mm	    Rollover at the beginning of every minute.
+        -->
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n" />
+            <param name="ConversionPattern" value="%-5p %d{yyyy/MM/dd HH:mm:ss.SSS}  %m %n" />
         </layout>
     </appender>
-
 
     <logger name="com.beestock" additivity="false">
         <level value="debug" />

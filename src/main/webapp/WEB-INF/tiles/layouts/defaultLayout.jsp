@@ -6,7 +6,7 @@
     <body>
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
-        <div class="container mt-6">
+        <div class="container is-fullhd mt-6">
             <tiles:insertAttribute name="content"/>
         </div>
         <tiles:insertAttribute name="modal" />

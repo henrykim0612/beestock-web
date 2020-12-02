@@ -107,3 +107,20 @@
         </div>
     </div>
 </sec:authorize>
+
+<%--Quick view--%>
+<div id="itemCodeQuickView" class="quickview">
+    <header class="quickview-header">
+        <p><strong id="qViewTitle"></strong></p>
+        <span class="delete" data-dismiss="quickview"></span>
+    </header>
+    <div class="quickview-body">
+        <div class="quickview-block">
+            <div id="qViewContent" class="tree ml-5 mt-5">
+            </div>
+        </div>
+    </div>
+    <footer class="quickview-footer">
+    </footer>
+</div>
+
