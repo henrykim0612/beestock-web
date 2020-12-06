@@ -24,6 +24,7 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/icon-picker/bulma-iconpicker.min.js" type="text/javascript"></script>
 <%--CKEditor--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/ckeditor5/build/ckeditor.js" type="text/javascript"></script>
+
 <%--ECharts--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/echarts/echarts-en.min.js" type="text/javascript"></script>
 <%--Swiper--%>

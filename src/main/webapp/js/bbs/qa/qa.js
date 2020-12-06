@@ -158,6 +158,7 @@ const main = (function () {
         loginPwd: loginPwd
       }
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (response) {
         goToDetails();
       } else {

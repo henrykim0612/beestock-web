@@ -30,7 +30,7 @@ const cmmProfileCard = (function () {
     const profileCard = document.getElementsByName('profileCard');
     for (let i = 0; i < profileCard.length; i++) {
       const card = profileCard[i];
-      // 프로필 카드 클릭 이벤트
+      // 포트폴리오 카드 클릭 이벤트
       card.addEventListener('click', function() {
         const profileId = this.getAttribute('data-profile-id');
         const url = '/analysis/profile/' + profileId;
@@ -89,7 +89,7 @@ const cmmProfileCard = (function () {
       title.classList.add('has-text-grey-light');
     }
     title.innerText = data['profileTitle'];
-    // 무료 프로필은 뱃지 추가
+    // 무료 포트폴리오은 뱃지 추가
     if (data['isFree'] === 2) {
       title.setAttribute('data-badge', '무료');
       title.classList.add('has-badge-rounded');

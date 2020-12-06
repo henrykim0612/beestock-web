@@ -6,6 +6,7 @@ const main = (function () {
       url: '/api/v1/code/children/Q0000',
       loading: 'selHintCode'
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       appendHintOptions(response);
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
@@ -61,7 +62,7 @@ const main = (function () {
       },
       loading: 'btnEmail'
     }).then(function (response) {
-      console.log(response);
+      cmmUtils.verifyResponse(response);
       showEmailModal(response.data);
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
@@ -88,6 +89,7 @@ const main = (function () {
       },
       loading: 'btnPwd'
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (!response.data) { // 이메일 없음
         showPwdModal(response.data);
       } else { // 확인했으면 새로운 비밀번호 발급
@@ -100,7 +102,7 @@ const main = (function () {
           },
           loading: 'btnPwd'
         }).then(function (response) {
-          if (response.data === '401') return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
+          cmmUtils.verifyResponse(response);
           showPwdModal(response.data);
         }).catch(function (err) {
           cmmUtils.goToErrorPage(err);

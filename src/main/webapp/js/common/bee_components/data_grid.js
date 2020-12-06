@@ -57,7 +57,7 @@ BeeComponents.modules.dataGrid = function(component) {
       url: props['url'],
       body: body
     }).then(function (response) {
-
+      cmmUtils.verifyResponse(response);
       if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
       if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
 
@@ -123,7 +123,11 @@ BeeComponents.modules.dataGrid = function(component) {
         div.innerText = text;
 
         // Width
+        if (col['id'] != null && col['id'] === 'rowNum') {
+          th.style.width = '60px';
+        }
         if (col['width'] != null) {
+          th.style.width = col['width'];
           div.style.width = col['width'];
         }
 

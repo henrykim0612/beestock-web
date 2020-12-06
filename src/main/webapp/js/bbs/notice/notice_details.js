@@ -51,6 +51,7 @@ const main = (function() {
     cmmUtils.getData({
       url: url,
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       cmmUtils.bindData('noticeDetailForm', response);
       initCKEditor(response);
       checkViewOnly();
@@ -68,6 +69,7 @@ const main = (function() {
         noticeId: noticeId,
       }
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
     });
@@ -101,7 +103,7 @@ const main = (function() {
           body: getParameters(),
           loading: 'btnMod'
         }).then(function (response) {
-          if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
+          cmmUtils.verifyResponse(response);
           cmmUtils.showModal('saveModal');
           if (0 < response) {
             init();
@@ -123,7 +125,7 @@ const main = (function() {
         },
         loading: 'btnRm'
       }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
+        cmmUtils.verifyResponse(response);
         0 < response ? goToNotice() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);

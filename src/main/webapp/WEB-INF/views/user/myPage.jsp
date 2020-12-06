@@ -75,7 +75,7 @@
 <div class="tile is-ancestor">
     <div class="tile is-parent">
         <div class="tile is-child box">
-            <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-star"></i></span>즐겨찾기한 프로필</p>
+            <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-star"></i></span>즐겨찾기한 포트폴리오</p>
             <div class="tabs is-centered">
                 <ul>
                     <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">

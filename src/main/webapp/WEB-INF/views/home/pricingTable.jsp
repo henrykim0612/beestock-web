@@ -5,7 +5,7 @@
 
 <article class="message is-dark">
     <div class="message-body">
-        정기적인 <strong>BeeStock</strong> 구독으로 더 많은 프로필과 자료들을 확인하십시오.
+        정기적인 <strong>BeeStock</strong> 구독으로 더 많은 포트폴리오와 자료들을 확인하십시오.
     </div>
 </article>
 
@@ -14,10 +14,10 @@
         <div class="plan-header">공개 항목</div>
         <div class="plan-price"><span class="plan-price-amount">&nbsp;</span></div>
         <div class="plan-items">
-            <div class="plan-item">국내 프로필</div>
-            <div class="plan-item">해외 프로필</div>
+            <div class="plan-item">국내 포트폴리오</div>
+            <div class="plan-item">해외 포트폴리오</div>
             <div class="plan-item">자료 엑셀 다운로드</div>
-            <div class="plan-item">프로필별 개인 저장공간</div>
+            <div class="plan-item">포트폴리오별 개인 저장공간</div>
             <div class="plan-item">프리미엄 전용 화면</div>
         </div>
         <div class="plan-footer">
@@ -28,8 +28,8 @@
         <div class="plan-header">일반 사용자</div>
         <div class="plan-price"><span class="plan-price-amount">무료</span></div>
         <div class="plan-items">
-            <div class="plan-item" data-feature="Storage">무료 프로필만 공개</div>
-            <div class="plan-item" data-feature="Domains">무료 프로필만 공개</div>
+            <div class="plan-item" data-feature="Storage">무료 포트폴리오만 공개</div>
+            <div class="plan-item" data-feature="Domains">무료 포트폴리오만 공개</div>
             <div class="plan-item has-text-danger" data-feature="Bandwidth">이용 불가</div>
             <div class="plan-item has-text-danger" data-feature="Bandwidth">이용 불가</div>
             <div class="plan-item has-text-danger" data-feature="Bandwidth">비공개</div>

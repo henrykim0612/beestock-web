@@ -118,7 +118,7 @@ const main = (function() {
       },
       loading: 'btnSaveAuth'
     }).then(function (response) {
-      if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
+      cmmUtils.verifyResponse(response);
       cmmUtils.closeModal('authModal');
       dataGrid.reload();
     }).catch(function (err) {

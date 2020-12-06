@@ -177,6 +177,7 @@ const topMain = (function() {
       url: '/api/v1/login/user-alarm/delete',
       body: {alarmId: props.alarmId},
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (0 < response) {
         if (isCheck) {
           // 페이지 이동
@@ -197,6 +198,7 @@ const topMain = (function() {
     cmmUtils.postData({
       url: '/api/v1/login/user-alarm/delete-all'
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (0 < response) {
         cmmUtils.clearChildNodes(document.getElementById('userAlarmBody'));
         document.getElementById('delQuickView').click(); // 퀵뷰 닫기

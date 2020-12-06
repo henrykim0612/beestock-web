@@ -6,7 +6,7 @@
 <form id="profileDetailForm">
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <label id="labelTitle" class="label" for="profileTitle">프로필명</label>
+            <label id="labelTitle" class="label" for="profileTitle">명칭</label>
         </div>
         <div class="column">
             <div class="control">
@@ -29,9 +29,7 @@
             <label id="labelCont" class="label" for="profileInfo">설명</label>
         </div>
         <div class="column">
-            <div class="control">
-                <div id="profileInfo"></div>
-            </div>
+            <div id="profileInfo"></div>
         </div>
     </div>
     <div class="columns">
@@ -96,7 +94,7 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <label id="labelFreeProfile" class="label">프로필 공개</label>
+            <label id="labelFreeProfile" class="label">공개</label>
         </div>
         <div class="column">
             <div class="field">

@@ -26,27 +26,33 @@ public class AdminController {
 
     @GetMapping("/profile-management")
     public String goToCodeProfileManagement(ModelMap model) {
-        model.addAttribute("title", "프로필 관리");
+        model.addAttribute("title", "포트폴리오 관리");
         return "admin/profile/profileManagement";
     }
 
     @GetMapping("/profile-form")
     public String goToProfileForm(ModelMap model) {
-        model.addAttribute("title", "프로필 등록");
+        model.addAttribute("title", "포트폴리오 등록");
         return "admin/profile/profileForm";
     }
 
     @GetMapping("/profile-details/{profileId}")
     public String goToProfileDetails(ModelMap model, @PathVariable String profileId) {
-        model.addAttribute("title", "프로필 상세");
+        model.addAttribute("title", "포트폴리오 상세");
         model.addAttribute("profileId", profileId);
         return "admin/profile/profileDetails";
     }
 
     @GetMapping("/quarter-management")
     public String goToQuarterManagement(ModelMap model) {
-        model.addAttribute("title", "분기별 프로필 관리");
+        model.addAttribute("title", "분기별 포트폴리오 관리");
         return "admin/quarter/quarterManagement";
+    }
+
+    @GetMapping("/profile-order-management")
+    public String goToProfileOrderManagement(ModelMap model) {
+        model.addAttribute("title", "분기별 포트폴리오 관리");
+        return "admin/profile/profileOrderManagement";
     }
 
 

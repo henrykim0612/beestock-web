@@ -24,10 +24,13 @@ const main = (function() {
     tabView: 'grid', // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
     isInitiatedSpinner: false,
     linkArrDelimiter: '#,#', // 참고자료 링크 배열 구분자
-    linkInfoDelimiter: '#^#' // 참고자료 링크 정보 구분자
+    linkInfoDelimiter: '#^#', // 참고자료 링크 정보 구분자
+    gridData: undefined
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
+  let soldOutGrid = undefined;
+  let newTransferGrid = undefined;
   let profileBarChart = undefined;
   let itemCodeStackChart = undefined;
   let itemCodeLineChart = undefined;
@@ -44,7 +47,9 @@ const main = (function() {
     addTabEventListener();
     addBarChartSelectBoxListener();
     addStackChartSelectBoxListener();
-    if (document.getElementById('icoExcelDownload')) cmmUtils.setExcelTippy(['#icoExcelDownload']);
+    if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
+    if (document.getElementById('newTransferExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
+    if (document.getElementById('soldOutExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
   }
 
   function createBreadCrumb() {
@@ -60,7 +65,7 @@ const main = (function() {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-chart-line"></i></span>';
-    html += '      <span>프로필 분석</span>';
+    html += '      <span>포트폴리오 분석</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
@@ -181,10 +186,12 @@ const main = (function() {
     switch (global.tabView) {
       case 'grid': initProfileGrid(); break;
       case 'barChart': initBarChart(); break;
+      case 'soldOut': initSoldOutGrid(); break;
+      case 'newTransfer': initNewTransferGrid(); break;
     }
   }
 
-  // 프로필 그리드
+  // 포트폴리오 그리드
   function initProfileGrid() {
 
     // 수익률 막대 표
@@ -281,6 +288,7 @@ const main = (function() {
         {id: 'incsRate', name: '분기전 대비 보유수량 증감률', isSort: true, align: 'center', addingFrontHeader: addingFrontHeader, type: 'custom', userCustom: incsRate, isExcel: true}
       ],
       success: function (data, _this) {
+        global['gridData'] = data;
         if (!global['isInitiatedSpinner']) { // 최초에만 한번 초기화
           initSpinner();
         }
@@ -288,6 +296,95 @@ const main = (function() {
       }
     }
     profileGrid = new COMPONENTS.DataGrid(props);
+  }
+
+  // 전량매도 그리드
+  function initSoldOutGrid() {
+
+    // 종목명
+    const titleAnchor = function(anchor, col, row) {
+      anchor.setAttribute('data-custom', 'titleAnchor');
+      anchor.setAttribute('data-key', row['itemCode']);
+      anchor.setAttribute('data-name', row['itemName']);
+    }
+
+    const props = {
+      url: '/api/v1/analysis/profile/quarter-info',
+      body: {
+        orderBy: [{column: 'itemName'}],
+        quarterId: global.quarterId,
+        profileId: global.profileId,
+        comparisonQuarter: global.comparisonQuarter,
+        selectedQuarterDate: global.selectedQuarterDate,
+        itemStatus: 2 // 전량매도
+      },
+      eId: 'soldOutGrid',
+      isThead: true,
+      isTfoot: false,
+      isPageLoader: false,
+      fileName: global.selectedQuarterDate + '_전량매도',
+      colModel: [
+        {id: 'itemCode', isHidden: true},
+        {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
+        {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true, isLink: true, userCustom: titleAnchor, width: '500px'}
+      ],
+      success: function (data, _this) {
+        itemNameAnchorEvent(data, _this);
+      }
+    }
+    soldOutGrid = new COMPONENTS.DataGrid(props);
+  }
+
+  // 신규편입 그리드
+  function initNewTransferGrid() {
+
+    // 수익률 막대 표
+    const earnRate = function(col, row) {
+      row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
+      return cmmUtils.createAnalysisBar(row['earnRate']);
+    }
+
+    // 종목명
+    const titleAnchor = function(anchor, col, row) {
+      anchor.setAttribute('data-custom', 'titleAnchor');
+      anchor.setAttribute('data-key', row['itemCode']);
+      anchor.setAttribute('data-name', row['itemName']);
+    }
+
+    const props = {
+      url: '/api/v1/analysis/profile/quarter-info',
+      body: {
+        orderBy: [{column: 'viewWeight', desc: true}],
+        quarterId: global.quarterId,
+        profileId: global.profileId,
+        comparisonQuarter: global.comparisonQuarter,
+        selectedQuarterDate: global.selectedQuarterDate,
+        itemStatus: 1
+      },
+      eId: 'newTransferGrid',
+      isThead: true,
+      isTfoot: false,
+      isPageLoader: false,
+      fileName: global.selectedQuarterDate + '_신규편입',
+      colModel: [
+        {id: 'itemCode', isHidden: true},
+        {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
+        {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true, isLink: true, userCustom: titleAnchor},
+        {id: 'viewWeight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
+        {id: 'quantity', name: '보유수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'buyingPrice', name: '매수가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'currPrice', name: '현재가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true}
+      ],
+      success: function (data, _this) {
+        global['gridData'] = data;
+        if (!global['isInitiatedSpinner']) { // 최초에만 한번 초기화
+          initSpinner();
+        }
+        itemNameAnchorEvent(data, _this);
+      }
+    }
+    newTransferGrid = new COMPONENTS.DataGrid(props);
   }
 
   // 종목명 클릭시
@@ -312,7 +409,7 @@ const main = (function() {
   function initItemCodeStackChart() {
     getItemCodeStackChartInfo(function(response) {
       if (!response['legend'].length) {
-        cmmUtils.showWarningModal('즐겨찾기 없음', '즐겨찾기한 프로필이 없습니다.');
+        cmmUtils.showWarningModal('즐겨찾기 없음', '즐겨찾기한 포트폴리오가 없습니다.');
         return false;
       }
       global['itemCodeStackChartData'] = response;
@@ -552,7 +649,7 @@ const main = (function() {
     });
   }
 
-  // 프로필 차트
+  // 포트폴리오 차트
   function initBarChart() {
     getQuarterInfo(function(response) {
       const chartData = createData(response);
@@ -683,9 +780,9 @@ const main = (function() {
     profileBarChart.setOption(options);
   }
 
-  // 프로필 헤더 생성
+  // 포트폴리오 헤더 생성
   function setProfileHeader(data) {
-    // 프로필 이미지
+    // 포트폴리오 이미지
     const profileImg = document.getElementById('profileImg');
     profileImg.src = CONTEXT_PATH + '/common/image/' + data['fileId'];
     // 타이틀
@@ -701,14 +798,14 @@ const main = (function() {
     createStar(data['isFavorite']);
   }
 
-  // 프로필 소개
+  // 포트폴리오 소개
   function initProfileInfo(data) {
     cmmUtils.createCKEditor({selector: '#profileInfo', isReadOnly: true, data: data['profileInfo']}, function(editor) {
       global['ckEditProfileInfo'] = editor;
     });
   }
 
-  // 프로필 링크
+  // 포트폴리오 링크
   function initProfileLink(data) {
     const profileLinkDiv = document.getElementById('profileLinkDiv');
     if (data['profileLink']) {
@@ -781,6 +878,7 @@ const main = (function() {
           isFavorite: favoriteVal
         },
       }).then(function (response) {
+        cmmUtils.verifyResponse(response);
         cmmUtils.showToast({message: favoriteVal === 1 ? '즐겨찾기 되었습니다.' : '즐겨찾기가 해제되었습니다.'});
         createStar(favoriteVal);
       }).catch(function (err) {
@@ -877,6 +975,7 @@ const main = (function() {
     cmmUtils.getData({
       url: url
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       clearModIdeaModal(response);
       cmmUtils.bindData('modIdeaForm', response);
       global.ckEditModIdeaCont.setData(response['ideaCont']);
@@ -1109,6 +1208,7 @@ const main = (function() {
         body: formData,
         loading: 'btnNewIdea'
       }).then(function (response) {
+        cmmUtils.verifyResponse(response);
         if (response === 1) {
           cmmUtils.showToast({message: '저장 되었습니다.'});
           closeNewIdeaModal();
@@ -1153,6 +1253,7 @@ const main = (function() {
           body: formData,
           loading: 'btnModIdea'
         }).then(function (response) {
+          cmmUtils.verifyResponse(response);
           if (response === 1) {
             cmmUtils.showToast({message: '수정 되었습니다.'});
             closeModIdeaModal();
@@ -1204,11 +1305,15 @@ const main = (function() {
     return size;
   }
 
-  function downloadProfileGrid() {
-    profileGrid.downloadExcel();
+  function downloadProfileGrid(type) {
+    switch (type) {
+      case 1: profileGrid.downloadExcel(); break;
+      case 2: newTransferGrid.downloadExcel(); break;
+      case 3: soldOutGrid.downloadExcel(); break;
+    }
   }
 
-  // 프로필 참고링크 팝업
+  // 포트폴리오 참고링크 팝업
   function goToLinkPop(url) {
     window.open(url, '', "width=500,height=600");
   }

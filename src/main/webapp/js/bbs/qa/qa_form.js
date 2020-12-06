@@ -54,7 +54,7 @@ const main = (function() {
         body: getParameters(),
         loading: 'btnIns'
       }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
+        cmmUtils.verifyResponse(response);
         goToQa();
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);

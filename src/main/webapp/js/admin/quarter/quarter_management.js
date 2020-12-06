@@ -46,7 +46,7 @@ const main = (function() {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-database"></i></span>';
-    html += '      <span>분기별 프로필 관리</span>';
+    html += '      <span>분기별 포트폴리오 관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
@@ -74,7 +74,7 @@ const main = (function() {
       url: '/api/v1/admin/profile/paging-profile-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
-      fileName: '프로필 리스트',
+      fileName: '포트폴리오 리스트',
       isThead: true,
       isTfoot: false,
       isSelectable: true,
@@ -82,9 +82,9 @@ const main = (function() {
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'profileId', isHidden: true, attributes: {title: 'profileTitle'}},
-        {id: 'profileTitle', name: '프로필명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
+        {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
-        {id: 'isFree', name: '프로필공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '100px'},
+        {id: 'isFree', name: '포트폴리오공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '100px'},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
         {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
@@ -146,7 +146,7 @@ const main = (function() {
         orderBy: [{column: 'quarterDate', desc: true}],
         profileId: rowId
       },
-      fileName: '프로필 분기 리스트',
+      fileName: '포트폴리오 분기 리스트',
       isThead: true,
       isTfoot: false,
       emptyRowMsg: '등록된 분기 정보가 없습니다.',
@@ -182,7 +182,7 @@ const main = (function() {
       url: '/api/v1/admin/quarter/quarter-info-list',
       eId: 'quarterInfoGrid',
       body: {quarterId: global['selectedQuarterId']},
-      fileName: '프로필 분기 상세정보',
+      fileName: '포트폴리오 분기 상세정보',
       isThead: true,
       isTfoot: false,
       colModel: [
@@ -322,6 +322,7 @@ const main = (function() {
           body: formData,
           isPageLoader: true
         }).then(function (response) {
+          cmmUtils.verifyResponse(response);
           if (response === 1) {
             cmmUtils.showToast({message: '업로드 되었습니다.'});
             resetUploadModal();

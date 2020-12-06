@@ -17,7 +17,7 @@
             <p class="control has-icons-left">
                 <span class="select">
                     <select id="selSearch">
-                        <option value="profileTitle" selected>프로필명</option>
+                        <option value="profileTitle" selected>포트폴리오명</option>
                         <option value="profileSubtitle">보조명</option>
                         <option value="profileInfo">설명</option>
                     </select>

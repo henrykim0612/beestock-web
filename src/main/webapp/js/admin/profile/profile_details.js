@@ -33,13 +33,13 @@ const main = (function() {
     html += '  <li>';
     html += '    <a href="' + CONTEXT_PATH + '/admin/profile-management">';
     html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
-    html += '      <span>프로필 관리</span>';
+    html += '      <span>포트폴리오 관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
-    html += '      <span>프로필 상세</span>';
+    html += '      <span>포트폴리오 상세</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
@@ -52,6 +52,7 @@ const main = (function() {
     cmmUtils.getData({
       url: url,
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       cmmUtils.bindData('profileDetailForm', response);
       initCKEditor(response);
       setPreviewModal(response);
@@ -62,12 +63,9 @@ const main = (function() {
   }
 
   function initCKEditor(response) {
-    // 관리자가 아니고 본인의 글이 아니라면 ReadOnly
-    if (!global['ckEditProfileInfo']) {
-      cmmUtils.createCKEditor({selector: '#profileInfo', data: response['profileInfo']}, function(editor) {
-        global['ckEditProfileInfo'] = editor;
-      });
-    }
+    cmmUtils.createCKEditor({selector: '#profileInfo', data: response['profileInfo']}, function(editor) {
+      global['ckEditProfileInfo'] = editor;
+    });
   }
 
   function setPreviewModal(response) {
@@ -85,7 +83,7 @@ const main = (function() {
 
   function modifyProfile() {
     if (verifyInputValues()) {
-      const msg = '프로필을 수정합니다. 오타 또는 누락된것은 없는지 확인하세요.';
+      const msg = '포트폴리오을 수정합니다. 오타 또는 누락된것은 없는지 확인하세요.';
       const fileName = global['selectedFileName'];
       if (fileName) { // 이미지까지 수정한경우
         if (cmmUtils.checkImageExtension(fileName)) {
@@ -97,7 +95,7 @@ const main = (function() {
               headers: {},
               loading: 'btnMod'
             }).then(function (response) {
-              if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐
+              cmmUtils.verifyResponse(response);
               cmmUtils.showModal('saveModal');
               if (0 < response) {
                 init();
@@ -116,7 +114,7 @@ const main = (function() {
             body: getParameters(),
             loading: 'btnMod'
           }).then(function (response) {
-            if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐
+            cmmUtils.verifyResponse(response);
             cmmUtils.showModal('saveModal');
             if (0 < response) {
               init();
@@ -156,7 +154,7 @@ const main = (function() {
     return formData;
   }
 
-  // 프로필 참고링크 String 생성
+  // 포트폴리오 참고링크 String 생성
   function createLinkStr(formData) {
     const argLen = arguments.length;
     const linkTypes = document.getElementsByName('linkType');
@@ -181,7 +179,7 @@ const main = (function() {
   }
 
   function removeProfile() {
-    const msg = '해당 프로필을 삭제합니다. 프로필의 분기 데이터까지 모두 제거됩니다.';
+    const msg = '해당 포트폴리오을 삭제합니다. 포트폴리오의 분기 데이터까지 모두 제거됩니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
       cmmUtils.postData({
         url: '/api/v1/admin/profile/delete-profile',
@@ -190,7 +188,7 @@ const main = (function() {
         },
         loading: 'btnRm'
       }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐
+        cmmUtils.verifyResponse(response);
         0 < response ? goToProfile() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);
@@ -201,7 +199,7 @@ const main = (function() {
   function verifyInputValues() {
     const profileTitle = document.getElementById('profileTitle').value;
     if (!profileTitle) {
-      cmmUtils.showIpModal('프로필명');
+      cmmUtils.showIpModal('포트폴리오명');
       return false;
     }
     // 링크 검증

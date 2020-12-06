@@ -2,7 +2,9 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <!DOCTYPE html>
 <html>
-    <tiles:insertAttribute name="header" />
+    <head>
+        <tiles:insertAttribute name="header" />
+    </head>
     <body>
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />

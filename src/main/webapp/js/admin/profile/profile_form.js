@@ -37,13 +37,13 @@ const main = (function() {
     html += '  <li>';
     html += '    <a href="' + CONTEXT_PATH + '/admin/profile-management">';
     html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
-    html += '      <span>프로필 관리</span>';
+    html += '      <span>포트폴리오 관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
-    html += '      <span>프로필 등록</span>';
+    html += '      <span>포트폴리오 등록</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
@@ -54,7 +54,7 @@ const main = (function() {
     if (verifyInputValues()) {
       const fileName = global['selectedFileName'];
       if (cmmUtils.checkImageExtension(fileName)) {
-        const msg = '새로운 프로필 등록을 시작합니다.';
+        const msg = '새로운 포트폴리오 등록을 시작합니다.';
         cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
           cmmUtils.postData({
             url: '/api/v1/admin/profile/insert-profile',
@@ -63,7 +63,7 @@ const main = (function() {
             body: getParameters(),
             loading: 'btnIns'
           }).then(function (response) {
-            if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
+            cmmUtils.verifyResponse(response);
             goToProfile();
           }).catch(function (err) {
             cmmUtils.goToErrorPage(err);
@@ -79,7 +79,7 @@ const main = (function() {
     const profileTitle = document.getElementById('profileTitle').value;
     const imgRefId = document.getElementById('imgRefId').value;
     if (!profileTitle) {
-      cmmUtils.showIpModal('프로필명');
+      cmmUtils.showIpModal('포트폴리오명');
       return false;
     }
     if (!imgRefId) {
@@ -120,7 +120,7 @@ const main = (function() {
     return formData;
   }
 
-  // 프로필 참고링크 String 생성
+  // 포트폴리오 참고링크 String 생성
   function createLinkStr(formData) {
     const linkTypes = document.getElementsByName('linkType');
     const linkNames = document.getElementsByName('linkName');

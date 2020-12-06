@@ -9,7 +9,7 @@
     <div class="modal-content">
         <div class="notification is-danger">
             <button class="delete" onclick="cmmUtils.closeModal('errModal')"></button>
-            죄송합니다. 서버와 통신도중 문제가 발생했습니다. <br/>페이지를 다시 호출해주세요.
+            페이지에 에러가 발생했습니다. <br/>이용에 불편을 드려 죄송합니다.
         </div>
     </div>
 </div>

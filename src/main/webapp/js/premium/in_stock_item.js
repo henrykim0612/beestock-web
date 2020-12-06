@@ -287,6 +287,7 @@ const main = (function() {
           body: formData,
           isPageLoader: true
         }).then(function (response) {
+          cmmUtils.verifyResponse(response);
           if (response === 1) {
             cmmUtils.showToast({message: '업로드 되었습니다.'});
             resetUploadModal();

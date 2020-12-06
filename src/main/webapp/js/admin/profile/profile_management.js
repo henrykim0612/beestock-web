@@ -32,7 +32,7 @@ const main = (function() {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
-    html += '      <span>프로필 관리</span>';
+    html += '      <span>포트폴리오 관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
@@ -60,16 +60,16 @@ const main = (function() {
       url: '/api/v1/admin/profile/paging-profile-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
-      fileName: '프로필 리스트',
+      fileName: '포트폴리오 리스트',
       isThead: true,
       isTfoot: false,
       loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
-        {id: 'profileTitle', name: '프로필명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
+        {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
         {id: 'profileSubtitle', name: '보조명', isSort: true, isExcel: true, width: '250px'},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
-        {id: 'isFree', name: '프로필공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '100px'},
+        {id: 'isFree', name: '포트폴리오공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '100px'},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
         {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},

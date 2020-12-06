@@ -401,9 +401,9 @@ const cmmUtils = (function () {
     ClassicEditor
       .create(document.querySelector(props['selector']), {
         toolbar: toolbar,
-        language: 'ko',
         heading: {
-          options: options
+          options: options,
+          plugins: [ ]
         }
       })
       .then(function(editor) {
@@ -425,7 +425,7 @@ const cmmUtils = (function () {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        console.log(error.stack);
       });
   }
 
@@ -643,13 +643,13 @@ const cmmUtils = (function () {
       case 'M0002': // Q&A
         goToPage('/bbs/qa/' + linkId);
         break;
-      case 'M0003': // 프로필
+      case 'M0003': // 포트폴리오
         goToPage('/analysis/profile/' + linkId);
         break;
     }
   }
 
-  // 프로필 분석막대 생성
+  // 포트폴리오 분석막대 생성
   function createAnalysisBar(value) {
     if (Math.abs(value) === 100) value = Math.floor(value); // 100 이면 소수점 제거
     const mainDiv = document.createElement('div');
@@ -731,8 +731,22 @@ const cmmUtils = (function () {
     return Math.floor(Math.random() * (max - min + 1)) + min; //최댓값도 포함, 최솟값도 포함
   }
 
+  function verifyResponse(response) {
+    if (response['pageUrl'] != null) {
+      goToPage(response['pageUrl'], response);
+    }
+    if (response === -401) { // 세션 끊어짐
+      goToLoginHome();
+    }
+  }
+
   function goToErrorPage(err) {
-    goToPage(err['pageUrl'], err);
+    if (err['pageUrl'] != null) {
+      goToPage(err['pageUrl'], err);
+    } else {
+      console.log(err);
+      showErrModal();
+    }
   }
 
   return {
@@ -787,6 +801,7 @@ const cmmUtils = (function () {
     goToAlarmPage: goToAlarmPage,
     createAnalysisBar: createAnalysisBar,
     getRandomValue: getRandomValue,
-    goToErrorPage: goToErrorPage
+    goToErrorPage: goToErrorPage,
+    verifyResponse: verifyResponse
   }
 })();

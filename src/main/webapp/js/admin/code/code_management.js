@@ -105,6 +105,7 @@ const main = (function() {
         cmmUtils.getData({
           url: url,
         }).then(function (response) {
+          cmmUtils.verifyResponse(response);
           showModCodeModal(response);
         }).catch(function (err) {
           cmmUtils.goToErrorPage(err);
@@ -139,6 +140,7 @@ const main = (function() {
         cmmUtils.getData({
           url: '/api/v1/code/tree-view/' + codeId,
         }).then(function (response) {
+          cmmUtils.verifyResponse(response);
           cmmUtils.clearChildNodes('treeViewContent');
           appendContent(response, codeLevel);
         }).catch(function (err) {
@@ -227,6 +229,7 @@ const main = (function() {
       cmmUtils.getData({
         url: url
       }).then(function (response) {
+        cmmUtils.verifyResponse(response);
         if (response === 0) { // 새로운 코드
           cmmUtils.appendInfoClasses(['newCodeId', 'helpCodeId'], true);
           cmmUtils.removeHiddenClass(['icoCodeIdCheck']); // Check 아이콘 노출
@@ -269,6 +272,7 @@ const main = (function() {
         body: body,
         loading: 'btnNewCode'
       }).then(function (response) {
+        cmmUtils.verifyResponse(response);
         response ? closeNewCodeModal() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);
@@ -288,6 +292,7 @@ const main = (function() {
         },
         loading: 'btnNewCode'
       }).then(function (response) {
+        cmmUtils.verifyResponse(response);
         closeModCodeModal();
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);
@@ -306,6 +311,7 @@ const main = (function() {
         },
         loading: 'btnModCode'
       }).then(function (response) {
+        cmmUtils.verifyResponse(response);
         0 < response ? closeModCodeModal() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);
