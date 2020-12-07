@@ -6,7 +6,7 @@
 <form id="profileDetailForm">
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <label id="labelTitle" class="label" for="profileTitle">프로필명</label>
+            <label id="labelTitle" class="label" for="profileTitle">명칭</label>
         </div>
         <div class="column">
             <div class="control">
@@ -29,14 +29,12 @@
             <label id="labelCont" class="label" for="profileInfo">설명</label>
         </div>
         <div class="column">
-            <div class="control">
-                <div id="profileInfo"></div>
-            </div>
+            <div id="profileInfo"></div>
         </div>
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <button type="button" class="button" onclick="main.appendLinkColumn()">
+            <button type="button" class="button is-small" onclick="main.appendLinkColumn()">
                 <span class="icon is-small has-text-success"><i class="fas fa-plus"></i></span>
                 <span>링크 추가</span>
             </button>
@@ -96,7 +94,7 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <label id="labelFreeProfile" class="label">프로필 공개</label>
+            <label id="labelFreeProfile" class="label">공개</label>
         </div>
         <div class="column">
             <div class="field">
@@ -133,7 +131,7 @@
 
 <div class="flex-row justify-content-center mt-6">
     <div id="uptDiv">
-        <button id="btnMod" onclick="main.modifyProfile()" class="button is-success">
+        <button id="btnMod" onclick="main.modifyProfile()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-edit"></i>
                 </span>
@@ -141,7 +139,7 @@
         </button>
     </div>
     <div id="removeDiv" class="ml-3">
-        <button id="btnRm" onclick="main.removeProfile()" class="button is-danger">
+        <button id="btnRm" onclick="main.removeProfile()" class="button is-danger is-small">
                 <span class="icon is-small">
                   <i class="fas fa-trash-alt"></i>
                 </span>
@@ -149,7 +147,7 @@
         </button>
     </div>
     <div class="ml-3">
-        <button onclick="main.goToProfile()" class="button is-dark">
+        <button onclick="main.goToProfile()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-arrow-alt-circle-left"></i>
                 </span>

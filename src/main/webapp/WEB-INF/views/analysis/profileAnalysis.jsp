@@ -101,7 +101,7 @@
                     <div class="columns">
                         <div class="column is-full height250px">
                             <div class="table-container mt-3">
-                                <table id="ideaGrid" class="table is-striped is-narrow is-hoverable is-fullwidth"></table>
+                                <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
                             </div>
                             <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
                         </div>
@@ -128,13 +128,25 @@
         <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
             <a>
                 <span class="icon"><i class="fas fa-table"></i></span>
-                <span>테이블 분석</span>
+                <span>전체</span>
+            </a>
+        </li>
+        <li id="newTransferTab" name="tabs" data-view="newTransfer" data-cont-id="newTransferGridCont">
+            <a>
+                <span class="icon has-text-success"><i class="fas fa-plus-circle"></i></span>
+                <span>신규편입</span>
+            </a>
+        </li>
+        <li id="soldOutTab" name="tabs" data-view="soldOut" data-cont-id="soldOutGridCont">
+            <a>
+                <span class="icon has-text-danger"><i class="fas fa-minus-circle"></i></span>
+                <span>전량매도</span>
             </a>
         </li>
         <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
             <a>
-                <span class="icon"><i class="fas fa-chart-bar"></i></span>
-                <span>막대차트 분석</span>
+                <span class="icon has-text-link"><i class="fas fa-chart-bar"></i></span>
+                <span>막대차트</span>
             </a>
         </li>
     </ul>
@@ -147,12 +159,42 @@
             <%--엑셀 다운로드--%>
             <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
                 <div class="flex-col justify-content-end">
-                    <span id="icoExcelDownload" class="icon has-text-success cursor" onclick="main.downloadProfileGrid()"><i class="fas fa-lg fa-file-download"></i></span>
+                    <span id="gridExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(1)"><i class="fas fa-lg fa-file-download"></i></span>
                 </div>
             </sec:authorize>
         </div>
     </div>
-    <table id="profileGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="profileGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
+</div>
+
+<%--신규편입 탭--%>
+<div id="newTransferGridCont">
+    <div class="flex-row">
+        <div class="flex-row width-100per justify-content-end">
+            <%--엑셀 다운로드--%>
+            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+                <div class="flex-col justify-content-end">
+                    <span id="newTransferExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(2)"><i class="fas fa-lg fa-file-download"></i></span>
+                </div>
+            </sec:authorize>
+        </div>
+    </div>
+    <table id="newTransferGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
+</div>
+
+<%--전량매도 탭--%>
+<div id="soldOutGridCont">
+    <div class="flex-row">
+        <div class="flex-row width-100per justify-content-end">
+            <%--엑셀 다운로드--%>
+            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+                <div class="flex-col justify-content-end">
+                    <span id="soldOutExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(3)"><i class="fas fa-lg fa-file-download"></i></span>
+                </div>
+            </sec:authorize>
+        </div>
+    </div>
+    <table id="soldOutGrid" class="mt-3 table is-narrow is-hoverable"></table>
 </div>
 
 <%--차트 탭--%>
@@ -354,7 +396,7 @@
                             <div class="select is-small">
                                 <select id="selStackChartFilter">
                                     <option value="0" selected>전체</option>
-                                    <option value="1">즐겨찾기한 프로필</option>
+                                    <option value="1">즐겨찾기한 포트폴리오</option>
                                     <option value="2"></option>
                                 </select>
                             </div>

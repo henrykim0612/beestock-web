@@ -3,11 +3,11 @@ const main = (function() {
   let global = {
     isAdmin: cmmUtils.nvl(document.getElementById('authority')) === '[ROLE_ADMIN]',
     loginId: cmmUtils.nvl(document.getElementById('loginId')),
-    ckEditQaCont: undefined,
-    ckEditQaAnswer: undefined
+    qaId: null
   }
 
   function init() {
+    global.qaId = document.getElementById('qaId').value
     createBreadCrumb();
     drawDetails();
   }
@@ -45,140 +45,67 @@ const main = (function() {
   }
 
   function drawDetails() {
-    const qaId = document.getElementById('qaId').value;
+    const qaId = global.qaId;
     const url = '/api/v1/bbs/qa/' + qaId;
     cmmUtils.getData({
       url: url,
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       cmmUtils.bindData('qaDetailForm', response);
-      initCKEditor(response)
-      checkViewOnly(response);
+      if (cmmUtils.nvl(response['qaAnswer'])) { // 답변완료 상태
+        changeSteps();
+        removeModifyButton();
+      } else { // 미답변 상태
+        setDefaultAnswer();
+        // 등록자가 아니면 수정버튼 삭제
+        if (response['regLoginId'] !== global.loginId) {
+          removeModifyButton();
+        }
+      }
+
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
     });
   }
 
-  function initCKEditor(response) {
-    // 관리자가 아니고 본인의 글이 아니라면 ReadOnly
-    if (!global['ckEditQaCont']) {
-      const isReadOnly = cmmUtils.nvl(response['qaAnswer']) !== '' || response['regLoginId'] !== global['loginId'];
-      cmmUtils.createCKEditor({selector: '#qaCont', isReadOnly: isReadOnly, data: response['qaCont']}, function(editor) {
-        global['ckEditQaCont'] = editor;
-        editor.isReadOnly = isReadOnly;
-      });
-    }
-    if (!global['ckEditQaCont']) {
-      // 관리자는 답변 활성화
-      const isReadOnly = !global['isAdmin'];
-      cmmUtils.createCKEditor({selector: '#qaAnswer', isReadOnly: isReadOnly, data: cmmUtils.nvl(response['qaAnswer'])}, function(editor) {
-        global['ckEditQaAnswer'] = editor;
-        editor.isReadOnly = isReadOnly;
-      });
-    }
+  // 완료 상태로 스탭 변경
+  function changeSteps() {
+    const step2 = document.getElementById('step2');
+    step2.classList.remove('is-active');
+    step2.classList.remove('has-gaps');
+    const step3 = document.getElementById('step3');
+    step3.classList.add('is-active');
+    const step3Span = document.getElementById('step3Span');
+    step3Span.classList.remove('is-hollow');
   }
 
-  function checkViewOnly(response) {
-    // 관리자가 아니고 본인의 글이 아니라면
-    if (response['regLoginId'] !== global['loginId']) {
-      setViewOnly();
-    } else {
-      // 답변이 완료된 글은 수정할 수 없음
-      if (cmmUtils.nvl(response['qaAnswer']) !== '') {
-        setViewOnly();
-      }
-    }
-
-    function setViewOnly() {
-      const qaTitle = document.getElementById('qaTitle')
-      qaTitle.disabled = true;
-      qaTitle.classList.remove('is-info');
-      document.getElementById('ckSecret1').disabled = true;
-      document.getElementById('ckSecret2').disabled = true;
-      if (!global['isAdmin']) {
-        document.getElementById('uptDiv').remove();
-        document.getElementById('removeDiv').remove();
-      }
-    }
+  // 미답변 상태일 경우 기본 답변 문구 추가
+  function setDefaultAnswer() {
+    document.getElementById('qaAnswer').innerHTML = '<p>관리자의 답변이 없습니다.</p>'
   }
 
-  function modifyQa() {
-    if (verifyInputValues()) {
-      const msg = '해당글을 수정합니다.'
-      cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-        cmmUtils.postData({
-          url: '/api/v1/bbs/qa/update',
-          body: getParameters(),
-          loading: 'btnMod'
-        }).then(function (response) {
-          if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
-          cmmUtils.showModal('saveModal');
-          if (0 < response) {
-            init();
-          }
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
-        });
-      });
+  // 답변완료는 수정불가
+  function removeModifyButton() {
+    if (!global.isAdmin) { // 관리자가 아니라면 삭제
+      document.getElementById('uptDiv').remove();
     }
   }
-
-  function removeQa() {
-    const msg = '해당글을 삭제합니다.';
-    cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      cmmUtils.postData({
-        url: '/api/v1/bbs/qa/delete',
-        body: getParameters(),
-        loading: 'btnRm'
-      }).then(function (response) {
-        if (response === -401) return cmmUtils.goToLoginHome(); // 세션 끊어짐, 해킹의심
-        0 < response ? goToQa() : cmmUtils.goToErrorPage(response);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
-      });
-    });
-  }
-
-  function verifyInputValues() {
-    const qaTitle = document.getElementById('qaTitle').value;
-    if (!qaTitle) {
-      cmmUtils.showIpModal('제목');
-      return false;
-    }
-    if (!global.ckEditQaCont.getData()) {
-      cmmUtils.showIpModal('내용');
-      return false;
-    }
-    return true;
-  }
-
-  function getParameters() {
-    const props = {
-      qaId: document.getElementById('qaId').value,
-      qaTitle: document.getElementById('qaTitle').value,
-      qaCont: global['ckEditQaCont'].getData(),
-      ckSecret: cmmUtils.getCheckedValues('ckSecret')[0],
-      regLoginId: document.getElementById('modUptLoginId').value
-    }
-    if (global['isAdmin']) {
-      props['qaAnswer'] = global['ckEditQaAnswer'].getData();
-    }
-    return props;
-  }
-
 
   // 목록으로 돌아가기
   function goToQa() {
     cmmUtils.goToPage('/bbs/qa');
   }
 
+  // 수정 페이지로
+  function goToModify() {
+    const url = '/bbs/qa/modify/' + global.qaId;
+    cmmUtils.goToPage(url);
+  }
+
   return {
     init: init,
-    getGlobal: function() {
-      return global;
-    },
     goToQa: goToQa,
-    modifyQa: modifyQa,
-    removeQa: removeQa
+    goToModify: goToModify
   }
 })();
 

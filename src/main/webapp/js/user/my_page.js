@@ -44,6 +44,7 @@ const main = (function() {
         cmmUtils.getData({
             url: '/api/v1/login/my-image',
         }).then(function (response) {
+            cmmUtils.verifyResponse(response);
             const src = cmmUtils.nvl(response.data)
               ? CONTEXT_PATH + '/common/image/' + response['data']
               : CONTEXT_PATH + '/resources/images/no-profile.png';
@@ -129,6 +130,7 @@ const main = (function() {
                 profileType: global['selectedTab'] === 'contIn' ? 1 : 2 // 1: 국내, 2: 해외
             }
         }).then(function (response) {
+            cmmUtils.verifyResponse(response);
             cmmProfileCard.appendCards(response, global['selectedTab']);
         }).catch(function (err) {
             cmmUtils.goToErrorPage(err);
@@ -156,7 +158,7 @@ const main = (function() {
             colModel: [
                 {id: 'ideaId', isHidden: true},
                 {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
-                {id: 'profileTitle', name: '프로필', width: '300px', isSort: true, align: 'left', isLink: true, userCustom: profileTitleAnchor},
+                {id: 'profileTitle', name: '포트폴리오', width: '300px', isSort: true, align: 'left', isLink: true, userCustom: profileTitleAnchor},
                 {id: 'ideaTitle', name: '아이디어 제목', width: '800px', isSort: true, isLink: true, userCustom: ideaTitleAnchor},
                 {id: 'uptDate', name: '최근 수정일', width: '150px', isSort: true, align: 'center'}
             ],
@@ -177,7 +179,7 @@ const main = (function() {
                     showModIdeaModal(ideaId);
                 })
             }
-            // 프로필 타이틀 이벤트
+            // 포트폴리오 타이틀 이벤트
             const profileAnchorTags = document.getElementById(eId).querySelectorAll('[data-custom=profileAnchor]');
             for (let i = 0; i < profileAnchorTags.length; i++) {
                 profileAnchorTags[i].addEventListener('click', function () {
@@ -203,6 +205,7 @@ const main = (function() {
         cmmUtils.getData({
             url: url
         }).then(function (response) {
+            cmmUtils.verifyResponse(response);
             clearModIdeaModal(response);
             cmmUtils.bindData('modIdeaForm', response);
             global.ckEditModIdeaCont.setData(response['ideaCont']);
@@ -274,7 +277,7 @@ const main = (function() {
         }
     }
 
-    // 내 프로필 사진 변경
+    // 내 포트폴리오 사진 변경
     function onChangeImgFile(fis) {
         const str = fis.value;
         const fileName = fis.value.substring(str.lastIndexOf("\\")+1);
@@ -291,6 +294,7 @@ const main = (function() {
                         headers: {},
                         body: formData,
                     }).then(function (response) {
+                        cmmUtils.verifyResponse(response);
                         if (response.status === 'OK') {
                             const myImage = document.getElementById('myImage');
                             const src = CONTEXT_PATH + '/common/image/' + response['data'];
@@ -376,6 +380,7 @@ const main = (function() {
                     body: formData,
                     loading: 'btnModIdea'
                 }).then(function (response) {
+                    cmmUtils.verifyResponse(response);
                     if (response === 1) {
                         cmmUtils.showToast({message: '수정 되었습니다.'});
                         closeModIdeaModal();

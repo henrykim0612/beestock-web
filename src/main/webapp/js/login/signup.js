@@ -15,6 +15,7 @@ const main = (function() {
       url: '/api/v1/code/children/Q0000',
       loading: 'selHintCode'
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       appendHintOptions(response);
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);

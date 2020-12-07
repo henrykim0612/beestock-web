@@ -47,7 +47,7 @@ const main = (function () {
     }
 
     const answerMark = function (col, row) {
-      return !cmmUtils.isEmpty(row['qaAnswer']) ? '<span class="tag is-info is-light">답변완료</span>' : '<span class="tag is-warning is-light">미답변</span>';
+      return !cmmUtils.isEmpty(row['qaAnswer']) ? '<span class="tag is-success is-light">답변완료</span>' : '<span class="tag is-warning is-light">미답변</span>';
     }
 
     const titleAnchor = function (anchor, col, row) {
@@ -105,8 +105,8 @@ const main = (function () {
     const eId = _this.props.eId;
     const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
     for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function () {
 
+      tags[i].addEventListener('click', function () {
         const isSecret = this.getAttribute('data-secret') === 'true';
         const owner = this.getAttribute('data-owner');
         const loginId = cmmUtils.nvl(document.getElementById('loginId'));
@@ -128,6 +128,7 @@ const main = (function () {
             }
           }
         }
+
       })
     }
   }
@@ -158,6 +159,7 @@ const main = (function () {
         loginPwd: loginPwd
       }
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (response) {
         goToDetails();
       } else {

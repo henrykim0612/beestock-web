@@ -261,6 +261,22 @@
 	width: 50%;
 }
 
+.width-40per {
+	width: 40%;
+}
+
+.width-30per {
+	width: 30%;
+}
+
+.width-20per {
+	width: 20%;
+}
+
+.width-10per {
+	width: 10%;
+}
+
 .analysis-bar {
 	height: 20px;
 }
@@ -296,4 +312,8 @@
 }
 .overFlowX-auto {
 	overflow-x: auto;
+}
+
+table thead th {
+	background: #f7f7f8;
 }

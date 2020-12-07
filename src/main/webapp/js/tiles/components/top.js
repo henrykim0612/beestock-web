@@ -35,7 +35,8 @@ const topMain = (function() {
     const accountNonExpired = document.getElementById('accountNonExpired');
     if (accountNonExpired) {
       if (accountNonExpired.value === 'true') {
-        document.getElementById('aLogin').remove();
+        document.getElementById('spanSignUp').remove();
+        document.getElementById('spanLogin').remove();
       }
     }
   }
@@ -44,6 +45,15 @@ const topMain = (function() {
     const arr = [{selector: '#spanAlarm', content: '알림확인'}];
     if (document.getElementById('myPageTooltip')) {
       arr.push({selector: '#spanMyPage', content: document.getElementById('myPageTooltip').value});
+    }
+    if (document.getElementById('spanLogout')) {
+      arr.push({selector: '#spanLogout', content: '로그아웃'});
+    }
+    if (document.getElementById('spanLogin')) {
+      arr.push({selector: '#spanLogin', content: '로그인'});
+    }
+    if (document.getElementById('spanSignUp')) {
+      arr.push({selector: '#spanSignUp', content: '회원가입'});
     }
     cmmUtils.setTippy(arr);
   }
@@ -177,6 +187,7 @@ const topMain = (function() {
       url: '/api/v1/login/user-alarm/delete',
       body: {alarmId: props.alarmId},
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (0 < response) {
         if (isCheck) {
           // 페이지 이동
@@ -197,6 +208,7 @@ const topMain = (function() {
     cmmUtils.postData({
       url: '/api/v1/login/user-alarm/delete-all'
     }).then(function (response) {
+      cmmUtils.verifyResponse(response);
       if (0 < response) {
         cmmUtils.clearChildNodes(document.getElementById('userAlarmBody'));
         document.getElementById('delQuickView').click(); // 퀵뷰 닫기
@@ -228,9 +240,24 @@ const topMain = (function() {
     form.remove();
   }
 
+  function logout() {
+    cmmUtils.goToPage(CONTEXT_PATH + '/login/logout');
+  }
+
+  function login() {
+    cmmUtils.goToPage(CONTEXT_PATH + '/login/login-home');
+  }
+
+  function signUp() {
+    cmmUtils.goToPage(CONTEXT_PATH + '/login/signup');
+  }
+
   return {
     init: init,
     goToMyPage: goToMyPage,
+    logout: logout,
+    login: login,
+    signUp: signUp,
     initAlarmQuickView: initAlarmQuickView,
     closeAlarmBoxAll: closeAlarmBoxAll
   }

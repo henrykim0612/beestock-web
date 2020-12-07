@@ -33,7 +33,7 @@
     </span>
 </div>
 
-<table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+<table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 <nav id="dataPagination" class="pagination is-rounded is-small" role="navigation" aria-label="pagination"></nav>
 
 <%--권한변경 모달--%>
@@ -76,13 +76,13 @@
             </div>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnSaveAuth" onclick="main.saveAuth()" class="button is-success">
+            <button id="btnSaveAuth" onclick="main.saveAuth()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                 <span>변경</span>
             </button>
-            <button onclick="main.closeChangeRoleModal('authModal')" class="button is-dark">
+            <button onclick="main.closeChangeRoleModal('authModal')" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

@@ -17,7 +17,7 @@
             <p class="control has-icons-left">
                 <span class="select">
                     <select id="selSearch">
-                        <option value="profileTitle" selected>프로필명</option>
+                        <option value="profileTitle" selected>포트폴리오명</option>
                         <option value="profileSubtitle">보조명</option>
                         <option value="profileInfo">설명</option>
                     </select>
@@ -46,13 +46,13 @@
 
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
-    <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3 mb-6" role="navigation" aria-label="pagination"></nav>
 
 
 <%--분기 데이터 테이블--%>
-<table id="quarterGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+<table id="quarterGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
 <nav id="quarterPagination" class="pagination is-rounded is-small ml-3 mr-3 mb-6" role="navigation" aria-label="pagination"></nav>
 
 
@@ -88,13 +88,13 @@
             </div>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button onclick="main.uploadQuarter()" class="button is-success">
+            <button onclick="main.uploadQuarter()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                 <span>업로드</span>
             </button>
-            <button onclick="main.hideUploadModal()" class="button is-dark">
+            <button onclick="main.hideUploadModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>
@@ -118,10 +118,10 @@
                     <i class="fas fa-lg fa-file-download"></i>
                 </span>
             </div>
-            <table id="quarterInfoGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+            <table id="quarterInfoGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button onclick="cmmUtils.closeModal('quarterInfoModal')" class="button is-dark">
+            <button onclick="cmmUtils.closeModal('quarterInfoModal')" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

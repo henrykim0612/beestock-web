@@ -2,11 +2,13 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <!DOCTYPE html>
 <html>
-    <tiles:insertAttribute name="header" />
+    <head>
+        <tiles:insertAttribute name="header" />
+    </head>
     <body>
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
-        <div class="container mt-6">
+        <div class="container is-fullhd mt-6">
             <tiles:insertAttribute name="content" />
         </div>
         <tiles:insertAttribute name="modal" />

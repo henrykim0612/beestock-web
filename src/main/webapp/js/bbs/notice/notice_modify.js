@@ -1,23 +1,17 @@
 const main = (function() {
 
   let global = {
+    noticeId: null,
     isAdmin: cmmUtils.nvl(document.getElementById('authority')) === '[ROLE_ADMIN]',
     loginId: cmmUtils.nvl(document.getElementById('loginId')),
     ckEditNoticeCont: undefined,
   }
 
   function init() {
+    global.noticeId = document.getElementById('noticeId').value;
     createBreadCrumb();
     cmmUtils.initCalendar();
-    initCKEditor();
-  }
-
-  function initCKEditor() {
-    if (!global['ckEditNoticeCont']) {
-      cmmUtils.createCKEditor({selector: '#noticeCont'}, function(editor) {
-        global['ckEditNoticeCont'] = editor;
-      });
-    }
+    drawDetails();
   }
 
   function createBreadCrumb() {
@@ -29,6 +23,7 @@ const main = (function() {
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
     html += '    </a>';
+    html += '  </li>';
     html += '  </li>';
     html += '    <a href="' + CONTEXT_PATH + '/bbs/notice">';
     html += '      <span class="icon is-small"><i class="fas fa-info" aria-hidden="true"></i></span>';
@@ -44,26 +39,83 @@ const main = (function() {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-flag"></i></span>';
-    html += '      <span>공지사항 등록</span>';
+    html += '      <span>공지사항 수정</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
   }
 
-  function insertNotice() {
+  function drawDetails() {
+    const url = '/api/v1/bbs/notice/' + global.noticeId;
+    cmmUtils.getData({
+      url: url,
+    }).then(function (response) {
+      cmmUtils.verifyResponse(response);
+      cmmUtils.bindData('noticeDetailForm', response);
+      initCKEditor(response);
+      checkViewOnly();
+    }).catch(function (err) {
+      cmmUtils.goToErrorPage(err);
+    });
+  }
+
+  function initCKEditor(response) {
+    if (!global['ckEditNoticeCont']) {
+      const isReadOnly = !global['isAdmin'];
+      cmmUtils.createCKEditor({selector: '#noticeCont', isReadOnly: isReadOnly, data: response['noticeCont']}, function(editor) {
+        global['ckEditNoticeCont'] = editor;
+      });
+    }
+  }
+
+  function checkViewOnly() {
+    if (!global['isAdmin']) { // 관리자가 아니면 비활성화
+      const noticeTitle = document.getElementById('noticeTitle');
+      noticeTitle.disabled = true;
+      noticeTitle.classList.remove('is-info');
+      // document.getElementById('ckPinnedNotice1').disabled = true;
+      // document.getElementById('ckPinnedNotice2').disabled = true;
+    }
+  }
+
+  function modifyNotice() {
     if (verifyInputValues()) {
+      const msg = '해당글을 수정합니다.'
+      cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
+        cmmUtils.postData({
+          url: '/api/v1/bbs/notice/update',
+          body: getParameters(),
+          loading: 'btnMod'
+        }).then(function (response) {
+          cmmUtils.verifyResponse(response);
+          cmmUtils.showModal('saveModal');
+          if (0 < response) {
+            init();
+          }
+        }).catch(function (err) {
+          cmmUtils.goToErrorPage(err);
+        });
+      });
+    }
+  }
+
+  function removeNotice() {
+    const msg = '해당글을 삭제합니다.';
+    cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
       cmmUtils.postData({
-        url: '/api/v1/bbs/notice/insert',
-        body: getParameters(),
-        loading: 'btnIns'
+        url: '/api/v1/bbs/notice/delete',
+        body: {
+          noticeId: global.noticeId
+        },
+        loading: 'btnRm'
       }).then(function (response) {
         cmmUtils.verifyResponse(response);
-        goToNotice();
+        0 < response ? goToNotice() : cmmUtils.goToErrorPage(response);
       }).catch(function (err) {
         cmmUtils.goToErrorPage(err);
       });
-    }
+    });
   }
 
   function verifyInputValues() {
@@ -95,6 +147,7 @@ const main = (function() {
 
   function getParameters() {
     return {
+      noticeId: global.noticeId,
       noticeTitle: document.getElementById('noticeTitle').value,
       noticeCont: global['ckEditNoticeCont'].getData(),
       alarmStDate: cmmUtils.getCalendarValue('alarmStDate'),
@@ -111,7 +164,8 @@ const main = (function() {
   return {
     init: init,
     goToNotice: goToNotice,
-    insertNotice: insertNotice
+    modifyNotice: modifyNotice,
+    removeNotice: removeNotice
   }
 })();
 

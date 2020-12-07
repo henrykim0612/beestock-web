@@ -57,8 +57,9 @@
                     <div class="navbar-dropdown">
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management"><span class="icon has-text-primary mr-1"><i class="fas fa-address-card"></i></span>프로필 관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management"><span class="icon has-text-primary mr-1"><i class="fas fa-database"></i></span>분기별 프로필 관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management"><span class="icon has-text-primary mr-1"><i class="fas fa-address-card"></i></span>포트폴리오 관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management"><span class="icon has-text-primary mr-1"><i class="fas fa-database"></i></span>분기별 포트폴리오 관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management"><span class="icon has-text-primary mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 관리</a>
                     </div>
                 </div>
             </sec:authorize>
@@ -80,10 +81,10 @@
                             <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(관리자)"/>
                         </sec:authorize>
                     </sec:authorize>
-                    <a class="button ml-2 is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
-                    <a id="aLogin" class="button is-info is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>
+                    <span id="spanSignUp" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.signUp()"><i class="fas fa-user-plus"></i></span>
+                    <span id="spanLogin" class="icon has-text-info is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.login()"><i class="fas fa-sign-in-alt"></i></span>
                     <sec:authorize access="isAuthenticated()">
-                        <a class="button is-danger is-small" href="${pageContext.request.contextPath}/login/logout"><strong>로그아웃</strong></a>
+                        <span id="spanLogout" class="icon has-text-danger is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.logout()"><i class="fas fa-sign-out-alt"></i></span>
                     </sec:authorize>
                 </div>
             </div>
