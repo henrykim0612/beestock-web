@@ -327,7 +327,6 @@ const main = (function() {
   }
 
   return {
-    getGlobal: function() { return global; },
     init: init,
     findStockItem: findStockItem,
     downloadExcel: downloadExcel,

@@ -26,6 +26,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/carousel/bulma-carousel.min.css" type="text/css">
 <%--Pricing table--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/pricing-table/bulma-pricingtable.min.css" type="text/css">
+<%--o-steps--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/o-steps/bulma-steps.min.css" type="text/css">
+
 <%--Quick view--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/quick-view/bulma-quickview.min.css" type="text/css">
 <%--Toast--%>

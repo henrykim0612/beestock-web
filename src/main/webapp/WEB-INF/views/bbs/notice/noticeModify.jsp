@@ -1,15 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
-<script src="${pageContext.request.contextPath}/js/bbs/notice/notice_form.js"></script>
+<script src="${pageContext.request.contextPath}/js/bbs/notice/notice_modify.js"></script>
 
-<form id="noticeForm">
+<input type="hidden" id="noticeId" value="${noticeId}"/>
+
+<form id="noticeDetailForm">
+
     <div class="columns">
         <div class="column is-1 is-vertical-center">
             <label id="labelTitle" class="label" for="noticeTitle">제목</label>
         </div>
         <div class="column">
             <div class="control">
-                <input id="noticeTitle" class="input is-info" type="text" maxlength="100" placeholder="최대 100자리 입력">
+                <input id="noticeTitle" class="input is-info" type="text" data-bind="true" data-id="noticeTitle" maxlength="100" placeholder="최대 100자리 입력">
             </div>
         </div>
     </div>
@@ -30,7 +33,7 @@
         <div class="column">
             <div class="control has-icons-left">
                 <div class="control input-single-date">
-                    <input id="alarmStDate" type="date">
+                    <input id="alarmStDate" type="date" data-bind="true" data-id="alarmStDate" data-type="date">
                 </div>
             </div>
         </div>
@@ -42,8 +45,20 @@
         <div class="column">
             <div class="control has-icons-left">
                 <div class="control input-single-date">
-                    <input id="alarmEdDate" type="date">
+                    <input id="alarmEdDate" type="date" data-bind="true" data-id="alarmEdDate" data-type="date">
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
+            <label id="labelModUptDate" class="label" for="modUptDate">최근 수정일</label>
+        </div>
+        <div class="column">
+            <div class="control has-icons-left">
+                <input disabled id="modUptDate" class="input" type="text" data-bind="true" data-id="uptDate">
+                <span class="icon is-small is-left"><i class="fas fa-clock"></i></span>
             </div>
         </div>
     </div>
@@ -53,28 +68,33 @@
         </div>
         <div class="column">
             <div class="field">
-                <input checked type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice1" name="ckPinnedNotice" value="0">
+                <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice1" name="ckPinnedNotice" data-bind="true" data-id="ckPinnedNotice" value="0">
                 <label for="ckPinnedNotice1">미고정</label>
-                <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice2" name="ckPinnedNotice" value="1">
+                <input type="radio" class="is-checkradio is-primary is-circle" id="ckPinnedNotice2" name="ckPinnedNotice" data-bind="true" data-id="ckPinnedNotice" value="1">
                 <label for="ckPinnedNotice2">고정</label>
             </div>
         </div>
     </div>
 </form>
-
 <div class="flex-row justify-content-center mt-6">
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <div>
-            <button id="btnIns" onclick="main.insertNotice()" class="button is-success is-small">
+    <div id="uptDiv">
+        <button id="btnMod" onclick="main.modifyNotice()" class="button is-success">
                 <span class="icon is-small">
-                  <i class="fas fa-check"></i>
+                  <i class="fas fa-edit"></i>
                 </span>
-                <span>등록</span>
-            </button>
-        </div>
-    </sec:authorize>
+            <span>수정</span>
+        </button>
+    </div>
+    <div id="removeDiv" class="ml-3">
+        <button id="btnRm" onclick="main.removeNotice()" class="button is-danger">
+                <span class="icon is-small">
+                  <i class="fas fa-trash-alt"></i>
+                </span>
+            <span>삭제</span>
+        </button>
+    </div>
     <div class="ml-3">
-        <button onclick="main.goToNotice()" class="button is-dark is-small">
+        <button onclick="main.goToNotice()" class="button is-dark">
                 <span class="icon is-small">
                   <i class="fas fa-arrow-alt-circle-left"></i>
                 </span>

@@ -364,7 +364,6 @@ const main = (function() {
 
   return {
     init: init,
-    getGlobal: function() { return global; },
     goToProfileForm: goToProfileForm,
     changeSelType: changeSelType,
     findProfile: findProfile,

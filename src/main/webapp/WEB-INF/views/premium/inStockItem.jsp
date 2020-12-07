@@ -35,7 +35,7 @@
         <div class="level-right">
             <div class="control ml-4">
                 <div class="buttons">
-                    <button class="button is-primary" onclick="main.showUploadModal()">
+                    <button class="button is-primary is-small" onclick="main.showUploadModal()">
                         <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
                         <span>종목코드 업로드</span>
                     </button>
@@ -54,7 +54,7 @@
 
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
-    <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
@@ -91,13 +91,13 @@
                 </div>
             </section>
             <footer class="modal-card-foot justify-content-center">
-                <button onclick="main.uploadStockItem()" class="button is-success">
+                <button onclick="main.uploadStockItem()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                     <span>업로드</span>
                 </button>
-                <button onclick="main.hideUploadModal()" class="button is-dark">
+                <button onclick="main.hideUploadModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

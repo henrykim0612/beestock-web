@@ -81,10 +81,10 @@
                             <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(관리자)"/>
                         </sec:authorize>
                     </sec:authorize>
-                    <a class="button ml-2 is-primary is-small" href="${pageContext.request.contextPath}/login/signup"><strong>회원가입</strong></a>
-                    <a id="aLogin" class="button is-info is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인</strong></a>
+                    <span id="spanSignUp" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.signUp()"><i class="fas fa-user-plus"></i></span>
+                    <span id="spanLogin" class="icon has-text-info is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.login()"><i class="fas fa-sign-in-alt"></i></span>
                     <sec:authorize access="isAuthenticated()">
-                        <a class="button is-danger is-small" href="${pageContext.request.contextPath}/login/logout"><strong>로그아웃</strong></a>
+                        <span id="spanLogout" class="icon has-text-danger is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.logout()"><i class="fas fa-sign-out-alt"></i></span>
                     </sec:authorize>
                 </div>
             </div>

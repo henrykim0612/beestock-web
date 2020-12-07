@@ -28,6 +28,15 @@ public class QaController {
         model.addAttribute("title", "Q&A 상세보기");
         model.addAttribute("qaId", qaId);
         return "bbs/qa/qaDetails";
+        // Q&A 수정페이지
     }
+
+    @GetMapping("/qa/modify/{qaId}")
+    public String goToQaModify(ModelMap model, @PathVariable String qaId) {
+        model.addAttribute("title", "Q&A 수정");
+        model.addAttribute("qaId", qaId);
+        return "bbs/qa/qaModify";
+    }
+
 
 }

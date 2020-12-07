@@ -22,6 +22,15 @@ public class NoticeController {
         model.addAttribute("noticeId", noticeId);
         return "bbs/notice/noticeDetails";
     }
+
+    // 공지사항 수정
+    @GetMapping("/notice/modify/{noticeId}")
+    public String goToModify(ModelMap model, @PathVariable String noticeId) {
+        model.addAttribute("title", "공지사항 수정");
+        model.addAttribute("noticeId", noticeId);
+        return "bbs/notice/noticeModify";
+    }
+
     // 공지사항 등록창
     @GetMapping("/notice-form")
     public String goToNoticeForm(ModelMap model) {

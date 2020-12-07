@@ -317,9 +317,6 @@ const main = (function() {
 
   return {
     init: init,
-    getGlobal: function() {
-      return global;
-    },
     goToProfile: goToProfile,
     modifyProfile: modifyProfile,
     removeProfile: removeProfile,

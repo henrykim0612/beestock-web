@@ -34,7 +34,7 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <button type="button" class="button" onclick="main.appendLinkColumn()">
+            <button type="button" class="button is-small" onclick="main.appendLinkColumn()">
                 <span class="icon is-small has-text-success"><i class="fas fa-plus"></i></span>
                 <span>링크 추가</span>
             </button>
@@ -92,7 +92,7 @@
 </form>
 <div class="flex-row justify-content-center mt-6">
     <div id="uptDiv">
-        <button id="btnIns" onclick="main.insertProfile()" class="button is-success">
+        <button id="btnIns" onclick="main.insertProfile()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
@@ -100,7 +100,7 @@
         </button>
     </div>
     <div class="ml-3">
-        <button onclick="main.goToProfile()" class="button is-dark">
+        <button onclick="main.goToProfile()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-arrow-alt-circle-left"></i>
                 </span>

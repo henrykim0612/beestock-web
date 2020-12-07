@@ -49,15 +49,17 @@ const main = (function() {
 
   function insertNewQa() {
     if (verifyInputValues()) {
-      cmmUtils.postData({
-        url: '/api/v1/bbs/qa/insert',
-        body: getParameters(),
-        loading: 'btnIns'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
-        goToQa();
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
+      cmmConfirm.show({msg: 'Q&A로 등록 하시겠습니까?', color: 'is-warning'}, function() {
+        cmmUtils.postData({
+          url: '/api/v1/bbs/qa/insert',
+          body: getParameters(),
+          loading: 'btnIns'
+        }).then(function (response) {
+          cmmUtils.verifyResponse(response);
+          goToQa();
+        }).catch(function (err) {
+          cmmUtils.goToErrorPage(err);
+        });
       });
     }
   }
@@ -91,8 +93,7 @@ const main = (function() {
   return {
     init: init,
     goToQa: goToQa,
-    insertNewQa: insertNewQa,
-    test: function() { return global.ckEditQaCont;}
+    insertNewQa: insertNewQa
   }
 })();
 

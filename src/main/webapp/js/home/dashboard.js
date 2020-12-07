@@ -56,9 +56,6 @@ const main = (function () {
 
   return {
     init: init,
-    getGlobal: function () {
-      return global;
-    },
     findProfile: findProfile
   }
 

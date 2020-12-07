@@ -38,7 +38,7 @@
 </form>
 <div class="flex-row justify-content-center mt-6">
     <div id="uptDiv">
-        <button id="btnIns" onclick="main.insertNewQa()" class="button is-success">
+        <button id="btnIns" onclick="main.insertNewQa()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
@@ -46,7 +46,7 @@
         </button>
     </div>
     <div class="ml-3">
-        <button onclick="main.goToQa()" class="button is-dark">
+        <button onclick="main.goToQa()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-arrow-alt-circle-left"></i>
                 </span>

@@ -29,7 +29,7 @@
     <div class="level-right">
         <div class="control ml-4">
             <div class="buttons">
-                <button class="button is-primary" onclick="main.showNewCodeModal()">
+                <button class="button is-primary is-small" onclick="main.showNewCodeModal()">
                     <span class="icon is-small"><i class="fas fa-plus-circle"></i></span>
                     <span>최상위 코드 등록</span>
                 </button>
@@ -46,7 +46,7 @@
 
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
-    <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
@@ -112,13 +112,13 @@
             </form>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnNewCode" onclick="main.saveNewCode()" class="button is-success">
+            <button id="btnNewCode" onclick="main.saveNewCode()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                 <span>등록</span>
             </button>
-            <button onclick="main.closeNewCodeModal()" class="button is-dark">
+            <button onclick="main.closeNewCodeModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>
@@ -179,19 +179,19 @@
             </form>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnModCode" onclick="main.modifyCode()" class="button is-success">
+            <button id="btnModCode" onclick="main.modifyCode()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-edit"></i>
                 </span>
                 <span>수정</span>
             </button>
-            <button id="btnRemoveCode" onclick="main.removeCode()" class="button is-danger">
+            <button id="btnRemoveCode" onclick="main.removeCode()" class="button is-danger is-small">
                 <span class="icon is-small">
                   <i class="fas fa-trash-alt"></i>
                 </span>
                 <span>삭제</span>
             </button>
-            <button onclick="main.closeModCodeModal()" class="button is-dark">
+            <button onclick="main.closeModCodeModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

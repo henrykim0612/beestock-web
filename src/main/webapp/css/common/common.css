@@ -313,3 +313,7 @@
 .overFlowX-auto {
 	overflow-x: auto;
 }
+
+table thead th {
+	background: #f7f7f8;
+}

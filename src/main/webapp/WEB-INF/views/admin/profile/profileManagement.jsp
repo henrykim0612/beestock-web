@@ -38,7 +38,7 @@
     <div class="level-right">
         <div class="control ml-4">
             <div class="buttons">
-                <button class="button is-primary" onclick="main.goToProfileForm()">
+                <button class="button is-primary is-small" onclick="main.goToProfileForm()">
                     <span class="icon is-small"><i class="fas fa-plus-circle"></i></span>
                     <span>포트폴리오 등록</span>
                 </button>
@@ -56,7 +56,7 @@
 
 <%--테이블 그리드--%>
 <div class="table-container mt-3">
-    <table id="dataGrid" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>

@@ -101,7 +101,7 @@
                     <div class="columns">
                         <div class="column is-full height250px">
                             <div class="table-container mt-3">
-                                <table id="ideaGrid" class="table is-striped is-narrow is-hoverable is-fullwidth"></table>
+                                <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
                             </div>
                             <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
                         </div>
@@ -164,7 +164,7 @@
             </sec:authorize>
         </div>
     </div>
-    <table id="profileGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="profileGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--신규편입 탭--%>
@@ -179,7 +179,7 @@
             </sec:authorize>
         </div>
     </div>
-    <table id="newTransferGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+    <table id="newTransferGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--전량매도 탭--%>
@@ -194,7 +194,7 @@
             </sec:authorize>
         </div>
     </div>
-    <table id="soldOutGrid" class="mt-3 table is-bordered is-striped is-narrow is-hoverable"></table>
+    <table id="soldOutGrid" class="mt-3 table is-narrow is-hoverable"></table>
 </div>
 
 <%--차트 탭--%>

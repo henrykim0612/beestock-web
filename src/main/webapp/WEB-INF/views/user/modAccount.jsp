@@ -117,13 +117,13 @@
     <div class="level-item has-text-centered">
         <div class="field loginField is-grouped is-grouped-centered">
             <div class="control">
-                <button id="btnSubmit" onclick="main.modifyAccount()" class="button is-success">
+                <button id="btnSubmit" onclick="main.modifyAccount()" class="button is-success is-small">
                     <span class="icon is-small">
                       <i class="fas fa-edit"></i>
                     </span>
                     <span>수정</span>
                 </button>
-                <button onclick="main.goToMyPage()" class="button is-dark">
+                <button onclick="main.goToMyPage()" class="button is-dark is-small">
                     <span class="icon is-small">
                       <i class="fas fa-arrow-alt-circle-left"></i>
                     </span>
