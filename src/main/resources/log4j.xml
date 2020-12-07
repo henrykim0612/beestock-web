@@ -29,29 +29,29 @@
 
     <logger name="com.beestock" additivity="false">
         <level value="debug" />
-        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.core">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <logger name="org.springframework.beans">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <logger name="org.springframework.context">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <logger name="org.springframework.web">
-        <level value="debug" />
+        <level value="info" />
     </logger>
 
     <!-- Root Logger -->
     <root>
         <priority value="off" />
-        <appender-ref ref="console" />
+        <appender-ref ref="rollingFile" />
     </root>
 
 </log4j:configuration>
