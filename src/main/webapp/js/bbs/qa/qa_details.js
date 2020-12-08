@@ -81,7 +81,7 @@ const main = (function() {
 
   // 미답변 상태일 경우 기본 답변 문구 추가
   function setDefaultAnswer() {
-    document.getElementById('qaAnswer').innerHTML = '<p>관리자의 답변이 없습니다.</p>'
+    document.getElementById('qaAnswer').innerHTML = '<p>관리자가 아직 확인하지 않았습니다.</p>'
   }
 
   // 답변완료는 수정불가

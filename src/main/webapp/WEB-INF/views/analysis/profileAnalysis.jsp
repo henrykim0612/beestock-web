@@ -168,7 +168,7 @@
 </div>
 
 <%--신규편입 탭--%>
-<div id="newTransferGridCont">
+<div id="newTransferGridCont" class="is-hidden">
     <div class="flex-row">
         <div class="flex-row width-100per justify-content-end">
             <%--엑셀 다운로드--%>
@@ -183,7 +183,7 @@
 </div>
 
 <%--전량매도 탭--%>
-<div id="soldOutGridCont">
+<div id="soldOutGridCont" class="is-hidden">
     <div class="flex-row">
         <div class="flex-row width-100per justify-content-end">
             <%--엑셀 다운로드--%>
@@ -194,7 +194,7 @@
             </sec:authorize>
         </div>
     </div>
-    <table id="soldOutGrid" class="mt-3 table is-narrow is-hoverable"></table>
+    <table id="soldOutGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--차트 탭--%>
@@ -395,9 +395,8 @@
                         <div class="control has-icons-left">
                             <div class="select is-small">
                                 <select id="selStackChartFilter">
-                                    <option value="0" selected>전체</option>
+                                    <option value="0" selected></option>
                                     <option value="1">즐겨찾기한 포트폴리오</option>
-                                    <option value="2"></option>
                                 </select>
                             </div>
                             <div class="icon is-small is-left">
@@ -418,11 +417,11 @@
 <div id="colLineChartModal" class="modal">
     <div class="modal-background" onclick="main.closeColLineChartModal()"></div>
     <div class="modal-content width1200px">
+        <header class="modal-card-head">
+            <p class="modal-card-title" id="lineChartModalTitle"></p>
+            <button class="delete" aria-label="close" onclick="main.closeColLineChartModal()"></button>
+        </header>
         <section class="modal-card-body">
-            <div class="flex-row justify-content-end">
-                <button class="delete" aria-label="close" onclick="main.closeColLineChartModal()"></button>
-            </div>
-            <div class="flex-col justify-content-start">
                 <div class="flex-row justify-content-start">
                     <div class="field">
                         <div class="control has-icons-left">

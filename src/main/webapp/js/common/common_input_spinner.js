@@ -1,17 +1,17 @@
-function InputSpinner() {
+function InputSpinner(el) {
   var _this = this;
 
   this.counter = 0;
   this.limitCounter = 0;
   this.callback = undefined;
   this.els = {
-    decrement: document.querySelector('.ctrl__button--decrement'),
+    decrement: el.querySelector('.ctrl__button--decrement'),
     counter: {
-      container: document.querySelector('.ctrl__counter'),
-      num: document.querySelector('.ctrl__counter-num'),
-      input: document.querySelector('.ctrl__counter-input')
+      container: el.querySelector('.ctrl__counter'),
+      num: el.querySelector('.ctrl__counter-num'),
+      input: el.querySelector('.ctrl__counter-input')
     },
-    increment: document.querySelector('.ctrl__button--increment')
+    increment: el.querySelector('.ctrl__button--increment')
   };
 
   this.decrement = function() {

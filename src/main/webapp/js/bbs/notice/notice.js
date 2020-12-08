@@ -64,14 +64,14 @@ const main = (function() {
         const colModel = document.getElementById('loginId')
           ? [
               {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
-              {name: '핀고정', type: 'custom', userCustom: pinned, width: '60px', align: 'center'},
-              {name:'상태', type: 'custom', userCustom: dday, width: '70px', align: 'center'},
+              {name: '', type: 'custom', userCustom: pinned, width: '30px', align: 'center'},
+              {name:'', type: 'custom', userCustom: dday, width: '60px', align: 'center'},
               {id: 'noticeTitle', name: '제목', isSort: true, width: '1100px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'}
           ]
           : [
               {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
-              {name: '핀고정', type: 'custom', userCustom: pinned, width: '60px', align: 'center'},
-              {name:'상태', type: 'custom', userCustom: dday, width: '70px', align: 'center'},
+              {name: '', type: 'custom', userCustom: pinned, width: '60px', align: 'center'},
+              {name:'', type: 'custom', userCustom: dday, width: '70px', align: 'center'},
               {id: 'noticeTitle', name: '제목', isSort: true, width: '1100px', isLink: true, userCustom: titleAnchor}
           ];
 
