@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/premium/in_stock_item.js"></script>
+<script src="${pageContext.request.contextPath}/js/premium/in_stock_item.js" type="text/javascript"></script>
 
 <%--검색조건--%>
 <div class="level mr-3 mb-5">

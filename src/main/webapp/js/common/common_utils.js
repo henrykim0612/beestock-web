@@ -754,6 +754,10 @@ const cmmUtils = (function () {
     }
   }
 
+  function goToLinkPop(url) {
+    window.open(url, '', "width=500,height=600");
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -765,6 +769,7 @@ const cmmUtils = (function () {
     showErrModal: showErrModal,
     goToPage: goToPage,
     goToLoginHome: goToLoginHome,
+    goToLinkPop: goToLinkPop,
     clearChildNodes: clearChildNodes,
     removeHiddenClass: removeHiddenClass,
     appendHiddenClass: appendHiddenClass,

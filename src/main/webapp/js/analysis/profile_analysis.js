@@ -18,8 +18,8 @@ const main = (function() {
     selectedBarChartFilterText: '시가평가액',
     selectedItemName: null,
     selectedItemCode: null,
-    itemCodeStackChartData: undefined,
-    itemCodeLineChartData: undefined,
+    leftItemCodeChartData: undefined,
+    rightItemCodeChartData: undefined,
     sortedDataArr: [],
     tabView: 'grid', // 엑티브된 탭정보를 가지고있는 변수(초기 설정은 그리드)
     isInitiatedSpinner: false,
@@ -32,8 +32,8 @@ const main = (function() {
   let soldOutGrid = undefined;
   let newTransferGrid = undefined;
   let profileBarChart = undefined;
-  let itemCodeStackChart = undefined;
-  let itemCodeLineChart = undefined;
+  let leftItemCodeChart = undefined;
+  let rightItemCodeChart = undefined;
 
   function init() {
     createBreadCrumb();
@@ -434,19 +434,19 @@ const main = (function() {
   function showStackChartModal() {
     document.getElementById('stackChartModalTitle').innerText = global['selectedItemName'] + ' 보유수량 비교';
     cmmUtils.showModal('stackChartModal');
-    initItemCodeStackChart();
+    initLeftItemCodeChart();
   }
 
-  function initItemCodeStackChart() {
-    getItemCodeStackChartInfo(function(response) {
+  function initLeftItemCodeChart() {
+    getLeftItemCodeChartInfo(function(response) {
       if (!response['legend'].length) {
         cmmUtils.showWarningModal('즐겨찾기 없음', '즐겨찾기한 포트폴리오가 없습니다.');
-        itemCodeStackChart.dispose();
+        leftItemCodeChart.dispose();
         return false;
       }
-      global['itemCodeStackChartData'] = response;
+      global['leftItemCodeChartData'] = response;
       const props = {
-        eId: 'itemCodeChart',
+        eId: 'leftItemCodeChart',
         options: {
           tooltip: {
             trigger: 'axis',
@@ -499,11 +499,11 @@ const main = (function() {
         }
       };
 
-      if (!!itemCodeStackChart) {
-        itemCodeStackChart.dispose();
-        itemCodeStackChart = new COMPONENTS.Chart(props);
+      if (!!leftItemCodeChart) {
+        leftItemCodeChart.dispose();
+        leftItemCodeChart = new COMPONENTS.Chart(props);
       } else {
-        itemCodeStackChart = new COMPONENTS.Chart(props);
+        leftItemCodeChart = new COMPONENTS.Chart(props);
       }
     })
 
@@ -549,19 +549,21 @@ const main = (function() {
     document.getElementById('lineChartModalTitle').innerText = itemName;
     cmmUtils.showModal('colLineChartModal');
     global.selectedItemCode = itemCode;
-    initItemCodeLineChart();
+    initRightItemCodeChart();
   }
 
-  function initItemCodeLineChart() {
-    getItemCodeLineChartInfo(function(response) {
-      global['itemCodeLineChartData'] = response;
+  function initRightItemCodeChart() {
+    getRightItemCodeChartInfo(function(response) {
+      global['rightItemCodeChartData'] = response;
       const props = {
-        eId: 'itemCodeLineChart',
+        eId: 'rightItemCodeChart',
         options: {
           tooltip: {
             trigger: 'axis',
+            confine: true,
             axisPointer: {
               type: 'cross',
+              axis: 'auto',
               crossStyle: {
                 color: '#999'
               }
@@ -594,11 +596,11 @@ const main = (function() {
           series: createSeriesArr(response['seriesList'])
         }
       };
-      if (!!itemCodeLineChart) {
-        itemCodeLineChart.dispose();
-        itemCodeLineChart = new COMPONENTS.Chart(props);
+      if (!!rightItemCodeChart) {
+        rightItemCodeChart.dispose();
+        rightItemCodeChart = new COMPONENTS.Chart(props);
       } else {
-        itemCodeLineChart = new COMPONENTS.Chart(props);
+        rightItemCodeChart = new COMPONENTS.Chart(props);
       }
     })
 
@@ -607,9 +609,13 @@ const main = (function() {
       for (let i = 0; i < data.length; i++) {
         const row = data[i];
         series.push({
-          type: 'line',
-          symbolSize: 7,
           name: row.name,
+          type: 'bar',
+          barWidth: '20px',
+          label: {
+            show: false,
+            position: 'insideRight'
+          },
           data: row.data
         })
       }
@@ -654,7 +660,7 @@ const main = (function() {
   }
 
   // 종목코드 스택차트 데이터 반환
-  function getItemCodeStackChartInfo(callback) {
+  function getLeftItemCodeChartInfo(callback) {
     cmmUtils.postData({
       url: '/api/v1/analysis/profile/stack-chart/item-code',
       body: {
@@ -668,7 +674,7 @@ const main = (function() {
     });
   }
   
-  function getItemCodeLineChartInfo(callback) {
+  function getRightItemCodeChartInfo(callback) {
     cmmUtils.postData({
       url: '/api/v1/analysis/profile/line-chart/item-code',
       body: {
@@ -805,7 +811,7 @@ const main = (function() {
   }
 
   function addStackChartSelectBoxListener() {
-    document.getElementById('selStackChartFilter').addEventListener('change', initItemCodeStackChart);
+    document.getElementById('selStackChartFilter').addEventListener('change', initLeftItemCodeChart);
   }
 
   function reloadBarChart (options) {
@@ -844,9 +850,6 @@ const main = (function() {
     if (data['profileLink']) {
       const profileLinkArr = data['profileLink'].split(global['linkArrDelimiter']);
       const fragment = document.createDocumentFragment();
-      const aa = function(_this) {
-        console.log(_this.getAttribute('data-url'));
-      }
       for (let i = 0; i < profileLinkArr.length; i++) {
         const profileInfo = profileLinkArr[i].split(global['linkInfoDelimiter']);
         const div = document.createElement('div');
@@ -983,10 +986,13 @@ const main = (function() {
   }
 
   function initTooltips() {
-    tippy('#fileField', {
-      content: '다중선택 가능',
-      placement: 'top'
-    });
+    const arr = [
+      {selector: '#fileField', content: '다중선택 가능'},
+      {selector: '#bannerNSec', content: '네이버증권'},
+      {selector: '#bannerDart', content: 'DART'},
+      {selector: '#bannerConsensus', content: '한경컨센서스'},
+    ]
+    cmmUtils.setTippy(arr);
   }
 
   function initCKEditor() {

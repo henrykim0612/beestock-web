@@ -1,13 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js"></script>
+<script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js" type="text/javascript"></script>
 <input type="hidden" id="profileId" value="${profileId}"/>
 
-<div class="is-flex is-flex-direction-row is-justify-content-center">
-    <div class="column"></div>
-    <div class="is-flex is-justify-content-end"></div>
-    <div class="is-flex is-justify-content-start"></div>
+<div class="flex-row justify-content-end">
+    <div>
+        <figure class="image is-32x32">
+            <img id="bannerNSec" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/n-sec.png" onclick="cmmUtils.goToLinkPop('https://finance.naver.com')">
+        </figure>
+    </div>
+    <div class="ml-2">
+        <figure class="image is-32x32">
+            <img id="bannerDart" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/dart.png" onclick="cmmUtils.goToLinkPop('http://dart.fss.or.kr/')">
+        </figure>
+    </div>
+    <div class="ml-2">
+        <figure class="image is-32x32">
+            <img id="bannerConsensus" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/consensus.png" onclick="cmmUtils.goToLinkPop('http://consensus.hankyung.com/apps.analysis/analysis.list?&skinType=business')">
+        </figure>
+    </div>
 </div>
 
 <div class="tile is-ancestor">
@@ -406,7 +418,7 @@
                     </div>
                 </div>
                 <div class="flex-row justify-content-center">
-                    <div id="itemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                    <div id="leftItemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
                 </div>
             </div>
         </section>
@@ -437,7 +449,7 @@
                     </div>
                 </div>
                 <div class="flex-row justify-content-center">
-                    <div id="itemCodeLineChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                    <div id="rightItemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
                 </div>
             </div>
         </section>

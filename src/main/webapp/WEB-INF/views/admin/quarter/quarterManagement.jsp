@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/admin/quarter/quarter_management.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/quarter/quarter_management.js" type="text/javascript"></script>
 
 <div class="level mr-3 mb-5">
     <div class="level-left">
