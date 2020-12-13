@@ -1,13 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js"></script>
+<script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js" type="text/javascript"></script>
 <input type="hidden" id="profileId" value="${profileId}"/>
 
-<div class="is-flex is-flex-direction-row is-justify-content-center">
-    <div class="column"></div>
-    <div class="is-flex is-justify-content-end"></div>
-    <div class="is-flex is-justify-content-start"></div>
+<div class="flex-row justify-content-end">
+    <div>
+        <figure class="image is-32x32">
+            <img id="bannerNSec" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/n-sec.png" onclick="cmmUtils.goToLinkPop('https://finance.naver.com')">
+        </figure>
+    </div>
+    <div class="ml-2">
+        <figure class="image is-32x32">
+            <img id="bannerDart" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/dart.png" onclick="cmmUtils.goToLinkPop('http://dart.fss.or.kr/')">
+        </figure>
+    </div>
+    <div class="ml-2">
+        <figure class="image is-32x32">
+            <img id="bannerConsensus" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/consensus.png" onclick="cmmUtils.goToLinkPop('http://consensus.hankyung.com/apps.analysis/analysis.list?&skinType=business')">
+        </figure>
+    </div>
 </div>
 
 <div class="tile is-ancestor">
@@ -168,7 +180,7 @@
 </div>
 
 <%--신규편입 탭--%>
-<div id="newTransferGridCont">
+<div id="newTransferGridCont" class="is-hidden">
     <div class="flex-row">
         <div class="flex-row width-100per justify-content-end">
             <%--엑셀 다운로드--%>
@@ -183,7 +195,7 @@
 </div>
 
 <%--전량매도 탭--%>
-<div id="soldOutGridCont">
+<div id="soldOutGridCont" class="is-hidden">
     <div class="flex-row">
         <div class="flex-row width-100per justify-content-end">
             <%--엑셀 다운로드--%>
@@ -194,7 +206,7 @@
             </sec:authorize>
         </div>
     </div>
-    <table id="soldOutGrid" class="mt-3 table is-narrow is-hoverable"></table>
+    <table id="soldOutGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--차트 탭--%>
@@ -395,9 +407,8 @@
                         <div class="control has-icons-left">
                             <div class="select is-small">
                                 <select id="selStackChartFilter">
-                                    <option value="0" selected>전체</option>
+                                    <option value="0" selected></option>
                                     <option value="1">즐겨찾기한 포트폴리오</option>
-                                    <option value="2"></option>
                                 </select>
                             </div>
                             <div class="icon is-small is-left">
@@ -407,7 +418,7 @@
                     </div>
                 </div>
                 <div class="flex-row justify-content-center">
-                    <div id="itemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                    <div id="leftItemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
                 </div>
             </div>
         </section>
@@ -418,11 +429,11 @@
 <div id="colLineChartModal" class="modal">
     <div class="modal-background" onclick="main.closeColLineChartModal()"></div>
     <div class="modal-content width1200px">
+        <header class="modal-card-head">
+            <p class="modal-card-title" id="lineChartModalTitle"></p>
+            <button class="delete" aria-label="close" onclick="main.closeColLineChartModal()"></button>
+        </header>
         <section class="modal-card-body">
-            <div class="flex-row justify-content-end">
-                <button class="delete" aria-label="close" onclick="main.closeColLineChartModal()"></button>
-            </div>
-            <div class="flex-col justify-content-start">
                 <div class="flex-row justify-content-start">
                     <div class="field">
                         <div class="control has-icons-left">
@@ -438,7 +449,7 @@
                     </div>
                 </div>
                 <div class="flex-row justify-content-center">
-                    <div id="itemCodeLineChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                    <div id="rightItemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
                 </div>
             </div>
         </section>

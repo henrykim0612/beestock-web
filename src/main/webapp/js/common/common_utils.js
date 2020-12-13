@@ -1,5 +1,10 @@
 const cmmUtils = (function () {
 
+  const global = {
+    maxFileSize: 10,
+    maxGroupFileSize: 50
+  }
+
   function getData(props) {
     if (props['loading'] != null) {
       cmmUtils.showLoadingElement(document.getElementById(props['loading']));
@@ -584,8 +589,8 @@ const cmmUtils = (function () {
   }
 
   function verifyFileSize(fileArr, defaultSize) {
-    const sizeLimit = 1048578 * 10; // 파일별 사이즈는 10MB 제한.
-    const sizeOfAllFiles = 1048578 * 50; // 모든 파일의 사이즈는 50MB 넘을 수 없음.
+    const sizeLimit = 1048578 * global.maxFileSize; // 파일별 사이즈는 10MB 제한.
+    const sizeOfAllFiles = 1048578 * global.maxGroupFileSize; // 모든 파일의 사이즈는 50MB 넘을 수 없음.
     let size = arguments.length === 2 ? defaultSize : 0; // 수정모드에서는 기존에 등록된 파일사이즈를 기본값으로 사용.
     let rtnObj = {status: true, msg: null};
     for (let i = 0; i < fileArr.length; i++) {
@@ -608,7 +613,7 @@ const cmmUtils = (function () {
 
   function verifySingleFileSize(file) {
     let rtnObj = {status: true, msg: null};
-    const sizeLimit = 1048578 * 10; // 파일별 사이즈는 10MB 제한.
+    const sizeLimit = 1048578 * global.maxFileSize; // 파일별 사이즈는 10MB 제한.
     if (sizeLimit < file.size) {
       rtnObj.status = false;
       rtnObj.msg = file.name + '은 10MB를 초과합니다(10MB 사이즈 제한).';
@@ -631,7 +636,7 @@ const cmmUtils = (function () {
   }
 
   function initInputSpinner(props) {
-    const spinner = new InputSpinner();
+    const spinner = new InputSpinner(document.getElementById(props['eId']));
     spinner.ready(props);
   }
 
@@ -749,6 +754,10 @@ const cmmUtils = (function () {
     }
   }
 
+  function goToLinkPop(url) {
+    window.open(url, '', "width=500,height=600");
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -760,6 +769,7 @@ const cmmUtils = (function () {
     showErrModal: showErrModal,
     goToPage: goToPage,
     goToLoginHome: goToLoginHome,
+    goToLinkPop: goToLinkPop,
     clearChildNodes: clearChildNodes,
     removeHiddenClass: removeHiddenClass,
     appendHiddenClass: appendHiddenClass,

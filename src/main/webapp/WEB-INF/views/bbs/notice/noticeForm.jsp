@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
-<script src="${pageContext.request.contextPath}/js/bbs/notice/notice_form.js"></script>
+<script src="${pageContext.request.contextPath}/js/bbs/notice/notice_form.js" type="text/javascript"></script>
 
 <form id="noticeForm">
     <div class="columns">

@@ -22,7 +22,7 @@
     <div class="flex-col justify-content-center height700px is-fullwidth">
         <div class="flex-row justify-content-center">
             <div class="flex-row justify-content-center width-50per">
-                <img src="${pageContext.request.contextPath}/resources/images/logo/app/logo-a-v-b-01.png" style="width: 50%;">
+                <img src="${pageContext.request.contextPath}/resources/images/logo/app/error.png" style="width: 50%;">
             </div>
             <div class="width-50per flex-col justify-content-center">
                 <p class="title is-spaced has-text-danger-dark" style="font-size: 4rem;">Excel Error</p>

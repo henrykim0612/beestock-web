@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
 
-<script src="${pageContext.request.contextPath}/js/bbs/notice/notice.js"></script>
+<script src="${pageContext.request.contextPath}/js/bbs/notice/notice.js" type="text/javascript"></script>
 
 <div class="level mr-3 mb-6">
     <div class="level-left">

@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-<script src="${pageContext.request.contextPath}/js/tiles/components/top.js"></script>
+<script src="${pageContext.request.contextPath}/js/tiles/components/top.js" type="text/javascript"></script>
 
 <sec:authorize access="isAuthenticated()">
     <input type="hidden" id="accountNonExpired" value="<sec:authentication property="principal.accountNonExpired"/>"/>
@@ -82,7 +82,7 @@
                         </sec:authorize>
                     </sec:authorize>
                     <span id="spanSignUp" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.signUp()"><i class="fas fa-user-plus"></i></span>
-                    <span id="spanLogin" class="icon has-text-info is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.login()"><i class="fas fa-sign-in-alt"></i></span>
+                    <span id="spanLogin" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.login()"><i class="fas fa-sign-in-alt"></i></span>
                     <sec:authorize access="isAuthenticated()">
                         <span id="spanLogout" class="icon has-text-danger is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.logout()"><i class="fas fa-sign-out-alt"></i></span>
                     </sec:authorize>

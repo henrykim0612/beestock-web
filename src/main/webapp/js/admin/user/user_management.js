@@ -69,16 +69,15 @@ const main = (function() {
       isTfoot: false,
       loading: 'btnSearch',
       colModel: [
-        {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
-        {id: 'loginId', name: '이메일', isSort: true, isExcel: true},
-        {id: 'userNm', name: '사용자/닉네임', isSort: true, isExcel: true},
-        {id: 'userPhone', name: '연락처', isExcel: true},
-        {id: 'regDate', name: '회원가입 일자', isSort: true, isExcel: true},
-        {id: 'regLoginId', name: '등록자', isSort: true, isExcel: true},
-        {id: 'uptDate', name: '수정일자', isSort: true, isExcel: true},
-        {id: 'uptLoginId', name: '수정자', isSort: true, isExcel: true},
-        {id: 'expDate', name: '만료일', isSort: true, isExcel: true},
-        {id: 'roleNm', name: '권한', type: 'custom', userCustom: customRoleNm, isExcel: true}
+        {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
+        {id: 'loginId', name: '이메일', isSort: true, isExcel: true, align: 'left'},
+        {id: 'userNm', name: '사용자/닉네임', isSort: true, isExcel: true, align: 'center'},
+        {id: 'userPhone', name: '연락처', isExcel: true, align: 'center'},
+        {id: 'regDate', name: '회원가입 일자', isSort: true, isExcel: true, align: 'center'},
+        {id: 'uptDate', name: '수정일자', isSort: true, isExcel: true, align: 'center'},
+        {id: 'uptLoginId', name: '수정자', isSort: true, isExcel: true, align: 'center'},
+        {id: 'expDate', name: '만료일', isSort: true, isExcel: true, align: 'center'},
+        {id: 'roleNm', name: '권한', type: 'custom', userCustom: customRoleNm, isExcel: true, align: 'center'}
       ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);

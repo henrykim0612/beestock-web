@@ -82,11 +82,10 @@ const main = (function() {
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
         {id: 'profileId', isHidden: true, attributes: {title: 'profileTitle'}},
-        {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
+        {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '350px', isLink: true, userCustom: titleAnchor},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
-        {id: 'isFree', name: '포트폴리오공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '100px'},
+        {id: 'isFree', name: '포트폴리오공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '150px'},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
-        {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
         {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}
       ],
@@ -188,9 +187,9 @@ const main = (function() {
       colModel: [
         {id: 'itemCode', name: '종목코드', isSort: true, align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true},
-        {id: 'quantity', name: '수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
-        {id: 'acqPrice', name: '취득가액', isSort: true, align: 'right', isCurrency: true, isExcel: true},
-        {id: 'marketPrice', name: '시가평가액', isSort: true, align: 'right', isCurrency: true, isExcel: true}
+        {id: 'quantity', name: '수량', isSort: true, align: 'center', isCurrency: true, isExcel: true},
+        {id: 'acqPrice', name: '취득가액', isSort: true, align: 'center', isCurrency: true, isExcel: true},
+        {id: 'marketPrice', name: '시가평가액', isSort: true, align: 'center', isCurrency: true, isExcel: true}
       ]
     }
     quarterInfoGrid = new COMPONENTS.DataGrid(props);

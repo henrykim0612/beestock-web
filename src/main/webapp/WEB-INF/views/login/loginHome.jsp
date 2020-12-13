@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script src="${pageContext.request.contextPath}/js/login/login_home.js"></script>
+<script src="${pageContext.request.contextPath}/js/login/login_home.js" type="text/javascript"></script>
 
 <div class="height600px flex-col justify-content-center">
     <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login/login-proc">

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/admin/profile/profile_details.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/profile/profile_details.js" type="text/javascript"></script>
 
 <input type="hidden" id="profileId" value="${profileId}"/>
 
