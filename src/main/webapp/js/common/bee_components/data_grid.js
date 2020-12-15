@@ -74,6 +74,7 @@ BeeComponents.modules.dataGrid = function(component) {
         me.createTfoot(fragment, props);
       }
       me.createTbody(fragment, props, tbody);
+      // 마지막으로 테이블에 추가
       table.appendChild(fragment);
       me.addTableEventListeners(table, props, tbody);
 
@@ -198,7 +199,7 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.createTbody = function(parentFragment, props, tbody) {
     const colModel = props['colModel'];
     const rowData = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
-    const fragment = document.createDocumentFragment();
+    const tbodyFragment = document.createDocumentFragment();
     if (rowData.length) {
       for (let i = 0; i < rowData.length; i++) {
         const row = rowData[i];
@@ -236,10 +237,10 @@ BeeComponents.modules.dataGrid = function(component) {
           if (col['type'] != null) {
             // 태그타입
             if (col['type'] === 'custom') {
-              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row) : '<span class="tag is-dark">' + value + '</span>';
+              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row, thOrTd) : '<span class="tag is-dark">' + value + '</span>';
             }
             if (col['type'] === 'node') {
-              col['userCustom'] != null ? thOrTd.appendChild(col['userCustom'](col, row)) : '<span class="tag is-dark">' + value + '</span>';
+              col['userCustom'] != null ? thOrTd.appendChild(col['userCustom'](col, row, thOrTd)) : '<span class="tag is-dark">' + value + '</span>';
             }
           } else {
             // Link 타입
@@ -280,7 +281,7 @@ BeeComponents.modules.dataGrid = function(component) {
           // tr에 추가
           tr.appendChild(thOrTd);
         }
-        fragment.appendChild(tr);
+        tbodyFragment.appendChild(tr);
       }
     } else {
       // 조회 결과가 없을경우
@@ -290,14 +291,14 @@ BeeComponents.modules.dataGrid = function(component) {
       th.innerText = props['emptyRowMsg'] != null ? props['emptyRowMsg'] : '조회 결과가 없습니다.';
       th.colSpan = colModel.length;
       tr.append(th);
-      fragment.appendChild(tr);
+      tbodyFragment.appendChild(tr);
     }
     if (!tbody) {
       const newTbody = document.createElement('tbody');
-      newTbody.appendChild(fragment.cloneNode(true));
+      newTbody.appendChild(tbodyFragment);
       parentFragment.appendChild(newTbody);
     } else {
-      tbody.appendChild(fragment.cloneNode(true));
+      tbody.appendChild(tbodyFragment);
       parentFragment.appendChild(tbody);
     }
   }

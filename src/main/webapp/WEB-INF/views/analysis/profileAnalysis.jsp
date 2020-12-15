@@ -4,7 +4,7 @@
 <script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js" type="text/javascript"></script>
 <input type="hidden" id="profileId" value="${profileId}"/>
 
-<div class="flex-row justify-content-end">
+<div class="flex-row justify-content-end mb-2">
     <div>
         <figure class="image is-32x32">
             <img id="bannerNSec" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/n-sec.png" onclick="cmmUtils.goToLinkPop('https://finance.naver.com')">

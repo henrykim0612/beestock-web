@@ -317,3 +317,7 @@
 table thead th {
 	background: #f7f7f8;
 }
+
+.min-screen-height {
+	min-height: 1080px;
+}

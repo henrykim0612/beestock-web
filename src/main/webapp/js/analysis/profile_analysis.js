@@ -261,9 +261,7 @@ const main = (function() {
 
     // 종목명
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-key', row['itemCode']);
-      anchor.setAttribute('data-name', row['itemName']);
+      itemNameAnchorEvent(anchor, row);
     }
 
     const props = {
@@ -296,7 +294,6 @@ const main = (function() {
         if (!global['isInitiatedSpinner']) { // 최초에만 한번 초기화
           initSpinner(spinnerId, 0);
         }
-        itemNameAnchorEvent(data, _this);
       }
     }
     profileGrid = new COMPONENTS.DataGrid(props);
@@ -313,9 +310,7 @@ const main = (function() {
 
     // 종목명
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-key', row['itemCode']);
-      anchor.setAttribute('data-name', row['itemName']);
+      itemNameAnchorEvent(anchor, row);
     }
 
     // 증감율
@@ -352,22 +347,17 @@ const main = (function() {
         {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
         {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
-      ],
-      success: function (data, _this) {
-        itemNameAnchorEvent(data, _this);
-      }
+      ]
     }
     newTransferGrid = new COMPONENTS.DataGrid(props);
   }
 
-  // 전략매도 그리드
+  // 전량매도 그리드
   function initSoldOutGrid() {
 
     // 종목명
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-key', row['itemCode']);
-      anchor.setAttribute('data-name', row['itemName']);
+      itemNameAnchorEvent(anchor, row);
     }
 
     // 수익률 막대 표
@@ -410,25 +400,18 @@ const main = (function() {
         {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
         {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
-      ],
-      success: function (data, _this) {
-        itemNameAnchorEvent(data, _this);
-      }
+      ]
     }
     soldOutGrid = new COMPONENTS.DataGrid(props);
   }
 
   // 종목명 클릭시
-  function itemNameAnchorEvent(data, _this) {
-    const eId = _this.props.eId;
-    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
-    for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function() {
-        global['selectedItemName'] = this.getAttribute('data-name');
-        global['selectedItemCode'] = this.getAttribute('data-key');
-        showStackChartModal();
-      })
-    }
+  function itemNameAnchorEvent(anchor, row) {
+    anchor.addEventListener('click', function() {
+      global['selectedItemName'] = row['itemName'];
+      global['selectedItemCode'] = row['itemCode'];
+      showStackChartModal();
+    })
   }
 
   function showStackChartModal() {

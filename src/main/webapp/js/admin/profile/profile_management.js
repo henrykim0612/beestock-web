@@ -52,8 +52,10 @@ const main = (function() {
     }
 
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-profile-id', row['profileId']);
+      anchor.addEventListener('click', function() {
+        global['selectedProfileId'] = row['profileId'];
+        goToDetails();
+      })
     }
 
     const props = {
@@ -74,10 +76,7 @@ const main = (function() {
         {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
         {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}
-      ],
-      success: function(data, _this) {
-        addTitleAnchorEvent(data, _this);
-      }
+      ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);
   }

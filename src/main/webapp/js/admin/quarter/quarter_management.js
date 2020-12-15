@@ -66,8 +66,10 @@ const main = (function() {
     }
 
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-profile-id', row['profileId']);
+      anchor.addEventListener('click', function() {
+        global['selectedProfileId'] = row['profileId'];
+        showUploadModal();
+      })
     }
 
     const props = {
@@ -90,22 +92,10 @@ const main = (function() {
         {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}
       ],
       success: function(data, _this) {
-        addTitleAnchorEvent(data, _this);
         addSelectedRows(data, _this);
       }
     }
     profileGrid = new COMPONENTS.DataGrid(props);
-  }
-
-  function addTitleAnchorEvent(data, _this) {
-    const eId = _this.props.eId;
-    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
-    for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function() {
-        global['selectedProfileId'] = this.getAttribute('data-profile-id');
-        showUploadModal();
-      })
-    }
   }
 
   // Table row event
@@ -132,9 +122,11 @@ const main = (function() {
   function initQuarterGrid(rowId) {
 
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-quarter-id', row['quarterId']);
-      anchor.setAttribute('data-quarter-date', row['quarterDate']);
+      anchor.addEventListener('click', function() {
+        global['selectedQuarterId'] = row['quarterId'];
+        global['selectedQuarterDate'] = row['quarterDate'];
+        showQuarterInfoModal();
+      })
     }
 
     const props = {
@@ -154,25 +146,9 @@ const main = (function() {
         {id: 'quarterDate', name: '분기', isSort: true, align: 'center', isLink: true, userCustom: titleAnchor},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center'},
         {id: 'regLoginId', name: '등록자', isSort: true, align: 'center'}
-      ],
-      success: function(data, _this) {
-        addQuarterTitleAnchorEvent(data, _this);
-      }
+      ]
     }
     quarterGrid = new COMPONENTS.DataGrid(props);
-  }
-
-  function addQuarterTitleAnchorEvent(data, _this) {
-    const eId = _this.props.eId;
-    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
-    for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function() {
-        global['selectedQuarterId'] = this.getAttribute('data-quarter-id');
-        global['selectedQuarterDate'] = this.getAttribute('data-quarter-date');
-        showQuarterInfoModal();
-
-      })
-    }
   }
 
   // 분기 상세 데이터 그리드

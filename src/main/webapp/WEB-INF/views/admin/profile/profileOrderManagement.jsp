@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <script src="${pageContext.request.contextPath}/js/admin/profile/profile_order_management.js" type="text/javascript"></script>
 
-<div class="buttons" style="position: sticky; top: 240px;">
+<div class="buttons" style="position: fixed; top: 200px;">
     <button id="btnSave" class="button is-success is-small" onclick="main.save()">
         <span class="icon"><i class="fas fa-check"></i></span>
         <span>저장</span>
