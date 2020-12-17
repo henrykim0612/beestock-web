@@ -60,11 +60,6 @@ const main = (function() {
       return row['profileType'] === 1 ? '<span class="tag is-success is-light">국내</span>' : '<span class="tag is-warning is-light">해외</span>';
     }
 
-    const customIsFree = function(col, row) {
-      // 1: 유료, 2: 무료
-      return row['isFree'] === 1 ? '<span class="tag is-danger is-light">유료</span>' : '<span class="tag is-success is-light">무료</span>';
-    }
-
     const titleAnchor = function(anchor, col, row) {
       anchor.addEventListener('click', function() {
         global['selectedProfileId'] = row['profileId'];
@@ -86,7 +81,6 @@ const main = (function() {
         {id: 'profileId', isHidden: true, attributes: {title: 'profileTitle'}},
         {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '350px', isLink: true, userCustom: titleAnchor},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
-        {id: 'isFree', name: '포트폴리오공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '150px'},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}

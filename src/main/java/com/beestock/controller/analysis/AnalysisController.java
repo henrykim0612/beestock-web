@@ -22,7 +22,7 @@ public class AnalysisController {
     public String goToPricingTable(ModelMap model, @PathVariable String profileId, Authentication auth) {
         model.addAttribute("title", "포트폴리오 분석");
         model.addAttribute("profileId", profileId);
-        return profileService.isAvailableUser(profileId, auth) ? "analysis/profileAnalysis" : "home/pricingTable";
+        return "analysis/profileAnalysis";
     }
 
 }
