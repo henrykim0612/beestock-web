@@ -38,8 +38,9 @@ const main = (function () {
   }
 
   function initGrid() {
+
     const questionMark = function (col, row) {
-      return '<span class="icon is-dark"><i class="fab fa-quora"></i>' + row['rowNum'] + '</span>';
+      return '<span class="icon is-dark"><i class="fab fa-quora"></i>' + row['qaNo'] + '</span>';
     }
 
     const locker = function (col, row) {
@@ -68,7 +69,8 @@ const main = (function () {
       isTfoot: false,
       loading: 'btnSearch',
       colModel: [
-        {name: 'No', type: 'custom', userCustom: questionMark, width: '50px', align: 'center', isStrong: true},
+        {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
+        {id: 'qaNo', name: '등록번호', width: '80px', align: 'center'},
         {name: '비밀글', type: 'custom', userCustom: locker, width: '50px', align: 'center'},
         {id: 'qaTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor},
         {name: '답변상태', type: 'custom', userCustom: answerMark, width: '80px', align: 'center'},

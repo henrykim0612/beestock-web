@@ -5,6 +5,7 @@
 <input type="hidden" id="qaId" value="${qaId}"/>
 
 <form id="qaDetailForm">
+    <input type="hidden" id="qaNo" data-bind="true" data-id="qaNo"/>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
             <label id="labelTitle" class="label" for="qaTitle">제목</label>

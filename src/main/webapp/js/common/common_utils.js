@@ -283,7 +283,9 @@ const cmmUtils = (function () {
 
     function setInputTag(tag, data) {
       switch (tag.type.toUpperCase()) {
-        case 'TEXT': setText(tag, data); break;
+        case 'TEXT':
+        case 'HIDDEN':
+          setText(tag, data); break;
         case 'CHECKBOX': setCheckbox(tag, data); break;
         case 'RADIO': setRadio(tag, data); break;
         case 'SELECTBOX': setSelectBox(tag, data); break;

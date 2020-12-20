@@ -39,7 +39,7 @@
 
 <form id="qaDetailForm">
     <h1 class="title is-4">질문내용</h1>
-    <div class="box">
+    <div class="box mb-6">
         <h2 id="qaTitle" class="subtitle" data-bind="true" data-id="qaTitle"></h2>
         <div id="qaCont" data-bind="true" data-id="qaCont"></div>
     </div>

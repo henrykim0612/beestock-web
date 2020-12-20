@@ -75,17 +75,6 @@ const main = (function() {
     dataGrid = new COMPONENTS.DataGrid(props);
   }
 
-  function addTitleAnchorEvent(data, _this) {
-    const eId = _this.props.eId;
-    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
-    for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function() {
-        global['selectedProfileId'] = this.getAttribute('data-profile-id');
-        goToDetails();
-      })
-    }
-  }
-
   function goToProfileForm() {
     cmmUtils.goToPage('/admin/profile-form')
   }

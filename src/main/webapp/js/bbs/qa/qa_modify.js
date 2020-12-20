@@ -107,9 +107,6 @@ const main = (function() {
         }).then(function (response) {
           cmmUtils.verifyResponse(response);
           cmmUtils.showModal('saveModal');
-          if (0 < response) {
-            init();
-          }
         }).catch(function (err) {
           cmmUtils.goToErrorPage(err);
         });
@@ -152,7 +149,8 @@ const main = (function() {
       qaTitle: document.getElementById('qaTitle').value,
       qaCont: global['ckEditQaCont'].getData(),
       ckSecret: cmmUtils.getCheckedValues('ckSecret')[0],
-      regLoginId: document.getElementById('modUptLoginId').value
+      regLoginId: document.getElementById('modUptLoginId').value,
+      qaNo: parseInt(document.getElementById('qaNo').value)
     }
     if (global['isAdmin']) {
       props['qaAnswer'] = global['ckEditQaAnswer'].getData();
