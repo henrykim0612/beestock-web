@@ -2,7 +2,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js" type="text/javascript"></script>
-<input type="hidden" id="profileId" value="${profileId}"/>
+<input type="hidden" id="profileId" value="${profileVo.profileId}"/>
+<input type="hidden" id="profileType" value="${profileVo.profileType}"/>
 
 <div class="flex-row justify-content-end mb-2">
     <div>

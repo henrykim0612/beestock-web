@@ -271,7 +271,8 @@ const main = (function() {
         quarterId: global.quarterId,
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
-        selectedQuarterDate: global.selectedQuarterDate
+        selectedQuarterDate: global.selectedQuarterDate,
+        profileType: document.getElementById('profileType').value
       },
       eId: 'profileGrid',
       isThead: true,
@@ -330,6 +331,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
+        profileType: document.getElementById('profileType').value,
         itemStatus: 1
       },
       eId: 'newTransferGrid',
@@ -383,6 +385,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
+        profileType: document.getElementById('profileType').value,
         itemStatus: 2 // 전량매도
       },
       eId: 'soldOutGrid',
