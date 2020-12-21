@@ -91,17 +91,7 @@ const main = (function() {
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'itemCode', name: '종목코드', isSort: true, width: '100px', isExcel: true, align: 'center'},
         {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, width: '250px', isExcel: true, align: 'left'},
-        {id: 'currPrice', name: '현재가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'contrast', name: '대비', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'fluctRate', name: '등락률', isSort: true, width: '100px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'transVol', name: '거래량', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'transAmount', name: '거래대금', isSort: true, width: '250px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'marketPrice', name: '시가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'highPrice', name: '고가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'lowPrice', name: '저가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'marketCap', name: '시가총액', isSort: true, width: '250px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'marketCapWeight', name: '시가총액비중(%)', isSort: true, width: '150px', isExcel: true, align: 'center', isCurrency: true},
-        {id: 'stockNumber', name: '상장주식수', isSort: true, width: '200px', isExcel: true, align: 'center', isCurrency: true}
+        {id: 'currPrice', name: '현재가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true}
       ],
       success: function(data, _this) {
         initQuickView();
@@ -146,17 +136,7 @@ const main = (function() {
     const entries = [
       {id: 'itemCode', name: '종목코드'},
       {id: 'itemName', name: '종목명'},
-      {id: 'currPrice', name: '현재가', isCurrency: true},
-      {id: 'contrast', name: '대비'},
-      {id: 'fluctRate', name: '등락률'},
-      {id: 'transVol', name: '거래량', isCurrency: true},
-      {id: 'transAmount', name: '거래대금', isCurrency: true},
-      {id: 'marketPrice', name: '시가', isCurrency: true},
-      {id: 'highPrice', name: '고가', isCurrency: true},
-      {id: 'lowPrice', name: '저가', isCurrency: true},
-      {id: 'marketCap', name: '시가총액', isCurrency: true},
-      {id: 'marketCapWeight', name: '시가총액비중(%)'},
-      {id: 'stockNumber', name: '상장주식수', isCurrency: true}
+      {id: 'currPrice', name: '현재가', isCurrency: true}
     ];
     const len = entries.length;
     const fragment = document.createDocumentFragment();
