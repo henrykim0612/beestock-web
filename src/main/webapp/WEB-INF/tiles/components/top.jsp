@@ -31,9 +31,6 @@
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUBC')">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BeeStock 프리미엄</a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/in-stock-item"><span class="icon has-text-primary mr-1"><i class="fas fa-dollar-sign"></i></span>국내 종목코드 현황</a>
-                    </div>
                 </div>
             </sec:authorize>
             <div class="navbar-item has-dropdown is-hoverable">
@@ -58,8 +55,9 @@
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management"><span class="icon has-text-primary mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management"><span class="icon has-text-primary mr-1"><i class="fas fa-address-card"></i></span>포트폴리오 관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management"><span class="icon has-text-primary mr-1"><i class="fas fa-database"></i></span>분기별 포트폴리오 관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management"><span class="icon has-text-primary mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management"><span class="icon has-text-primary mr-1"><i class="fas fa-database"></i></span>포트폴리오 분기 수동 업로드</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management"><span class="icon has-text-primary mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 변경</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management"><span class="icon has-text-primary mr-1"><i class="fas fa-hand-holding-usd"></i></span>Daily 주가 수동 업로드</a>
                     </div>
                 </div>
             </sec:authorize>

@@ -25,7 +25,8 @@ const main = (function() {
     isInitiatedSpinner: false,
     linkArrDelimiter: '#,#', // 참고자료 링크 배열 구분자
     linkInfoDelimiter: '#^#', // 참고자료 링크 정보 구분자
-    gridData: undefined
+    gridData: undefined,
+    selectedProfileType: null
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
@@ -38,6 +39,7 @@ const main = (function() {
   function init() {
     createBreadCrumb();
     global.profileId = document.getElementById('profileId').value;
+    global.selectedProfileType = document.getElementById('profileType').value;
     getProfileDetails();
     initQuarterSlider();
     addSpanStarEvent();
@@ -102,19 +104,42 @@ const main = (function() {
   function createQuarterSlider(response) {
     // <div class="swiper-slide"><button class="button is-link is-inverted is-small"><span class="icon"><i class="fas fa-clock"></i></span><span>2020-2분기</span></button></div>
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < response.length; i++) {
-      const quarter = response[i];
-      // 슬라이드 생성
+    const len = response.length;
+    for (let i = 0; i < len; i++) {
+      // 비어있는 분기를 확인함
+      createDummyQuarter(i, response, fragment);
+      // 존재하는 분기생성
+      createExistedQuarter(response[i], fragment);
+    }
+    const quarterCont = document.getElementById('quarterCont');
+    quarterCont.appendChild(fragment);
+    addSlideButtonEvents(quarterCont);
+    initSwiper();
+  }
+
+  function createDummyQuarter(i, response, fragment) {
+    let isExisted = true;
+    // 비어있는(미공시된) 분기를 체크하여 더미를 생성해줌
+    if (i === 0) {
+      if (response[i]['quarterDate'] !== cmmUtils.getLatestQuarter()) {
+        // 최근 분기가 없음
+        isExisted = false;
+      }
+    } else {
+      if (response[i-1]['quarterDate'] !== cmmUtils.getFrontQuarter(response[i]['quarterDate'])) {
+        isExisted = false;
+      }
+    }
+    // 미존재시 더미 분기 생성
+    if (!isExisted) {
       const slide = document.createElement('div');
       slide.classList.add('swiper-slide');
       const button = document.createElement('button');
       button.classList.add('button');
       // button.classList.add('is-small');
-      button.classList.add('is-dark');
+      button.disabled = true;
+      button.classList.add('is-danger');
       button.classList.add('is-inverted');
-      button.setAttribute('data-button', 'slide');
-      button.setAttribute('data-key', quarter['quarterId']);
-      button.setAttribute('data-quarter', quarter['quarterDate']);
       const iconSpan = document.createElement('span');
       iconSpan.classList.add('icon');
       const icon = document.createElement('i');
@@ -122,17 +147,40 @@ const main = (function() {
       icon.classList.add('fa-clock');
       iconSpan.appendChild(icon);
       const textSpan = document.createElement('span');
-      textSpan.innerText = quarter['quarterDate'];
+      textSpan.innerText = '미공시'
       button.append(iconSpan);
       button.append(textSpan);
       slide.appendChild(button);
       fragment.appendChild(slide);
     }
-    const quarterCont = document.getElementById('quarterCont');
-    quarterCont.appendChild(fragment.cloneNode(true));
-    addSlideButtonEvents(quarterCont);
-    initSwiper();
   }
+
+  function createExistedQuarter(quarter, fragment) {
+    // 슬라이드 생성
+    const slide = document.createElement('div');
+    slide.classList.add('swiper-slide');
+    const button = document.createElement('button');
+    button.classList.add('button');
+    // button.classList.add('is-small');
+    button.classList.add('is-dark');
+    button.classList.add('is-inverted');
+    button.setAttribute('data-button', 'slide');
+    button.setAttribute('data-key', quarter['quarterId']);
+    button.setAttribute('data-quarter', quarter['quarterDate']);
+    const iconSpan = document.createElement('span');
+    iconSpan.classList.add('icon');
+    const icon = document.createElement('i');
+    icon.classList.add('fas');
+    icon.classList.add('fa-clock');
+    iconSpan.appendChild(icon);
+    const textSpan = document.createElement('span');
+    textSpan.innerText = quarter['quarterDate'];
+    button.append(iconSpan);
+    button.append(textSpan);
+    slide.appendChild(button);
+    fragment.appendChild(slide);
+  }
+
 
   function initSwiper() {
     const slider = new Swiper('#quarterSlider', {
@@ -272,7 +320,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
-        profileType: document.getElementById('profileType').value
+        profileType: global.selectedProfileType
       },
       eId: 'profileGrid',
       isThead: true,
@@ -331,7 +379,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
-        profileType: document.getElementById('profileType').value,
+        profileType: global.selectedProfileType,
         itemStatus: 1
       },
       eId: 'newTransferGrid',
@@ -385,7 +433,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
-        profileType: document.getElementById('profileType').value,
+        profileType: global.selectedProfileType,
         itemStatus: 2 // 전량매도
       },
       eId: 'soldOutGrid',
@@ -638,7 +686,8 @@ const main = (function() {
         quarterId: global.quarterId,
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
-        selectedQuarterDate: global.selectedQuarterDate
+        selectedQuarterDate: global.selectedQuarterDate,
+        profileType: global.selectedProfileType
       }
     }).then(callback).catch(function (err) {
       cmmUtils.goToErrorPage(err);
@@ -674,7 +723,7 @@ const main = (function() {
     });
   }
 
-  // 포트폴리오 차트
+  // 포트폴리오 차트탭
   function initBarChart() {
     getQuarterInfo(function(response) {
       const chartData = createData(response);
@@ -719,7 +768,7 @@ const main = (function() {
             {
               type: 'bar',
               barWidth: '20px',
-              color: '#276cda',
+              color: '#C23531',
               label: {
                 show: true,
                 position: 'right',

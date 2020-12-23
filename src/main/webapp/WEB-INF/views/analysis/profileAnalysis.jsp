@@ -38,7 +38,7 @@
                             <span id="spanStar" class="icon has-text-warning cursor"></span>
                         </div>
                         <div class="media-content">
-                            <p id="profileTitle" class="title is-4"></p>
+                            <p id="profileTitle" class="title is-6"></p>
                         </div>
                     </div>
                     <div id="profileSubtitle" class="content">
@@ -240,7 +240,7 @@
                 <div class="select is-small">
                     <select id="selBarChartFilter">
                         <option value="marketPrice" selected>시가평가액</option>
-                        <option value="weight">비중</option>
+                        <option value="viewWeight">비중(%)</option>
                         <option value="quantity">보유수량</option>
                     </select>
                 </div>

@@ -1,27 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/premium/in_stock_item.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/admin/latestprice/latest_price_management.js" type="text/javascript"></script>
 
 <%--검색조건--%>
+<div class="columns">
+    <div class="column">
+        <div class="field">
+            <input type="radio" class="is-checkradio is-primary is-circle" id="profileType1" name="profileType" value="1" checked="checked">
+            <label for="profileType1">국내</label>
+            <input type="radio" class="is-checkradio is-primary is-circle" id="profileType2" name="profileType" value="2">
+            <label for="profileType2">해외</label>
+        </div>
+    </div>
+</div>
 <div class="level mr-3 mb-5">
     <div class="level-left">
         <div class="field has-addons">
             <p class="control has-icons-left">
                 <span class="select">
                         <select id="selSearch">
-                            <option value="itemCode" selected>종목코드</option>
-                            <option value="itemName">종목명</option>
+                            <option value="1" selected>종목코드</option>
+                            <option value="2">종목명</option>
                         </select>
                     </span>
                 <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
             </p>
             <p class="control">
                 <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다"/>
-            </p>
-            <p class="control has-icons-left">
-            <div class="control input-single-date">
-                <input id="schRegDate" type="date"/>
-            </div>
             </p>
             <p class="control">
                 <button id="btnSearch" class="button is-dark" onclick="main.reloadGrid()">
@@ -53,9 +58,7 @@
 </sec:authorize>
 
 <%--테이블 그리드--%>
-<div class="table-container mt-3">
-    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
-</div>
+<table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
 <%--업로드 모달--%>

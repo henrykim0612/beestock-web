@@ -760,6 +760,51 @@ const cmmUtils = (function () {
     window.open(url, '', "width=500,height=600");
   }
 
+  // 최근 업로드된 분기를 리턴 (최근 업도드된 분기는 현재 분기에서 2분기 이전임)
+  function getLatestQuarter() {
+    const currentDate = new Date();
+    const currentQuarter = getQuarter(currentDate);
+    // 2분기 이전을 구함
+    let currentYear = currentDate.getFullYear();
+    let latestQuarter;
+    switch (currentQuarter - 2) {
+      case 0:
+        currentYear = currentYear - 1;
+        latestQuarter = 4;
+        break;
+      case -1:
+        currentYear = currentYear - 1;
+        latestQuarter = 3;
+        break;
+      default:
+        latestQuarter = currentQuarter - 2;
+        break;
+    }
+    return currentYear + '-' + latestQuarter;
+  }
+
+  function getQuarter(date) {
+    const month = date.getMonth() + 1;
+    return (Math.ceil(month / 3));
+  }
+
+  // 바로 앞의 분기를 가져옴
+  function getFrontQuarter(quarterDate) {
+    const splitDate = quarterDate.split('-');
+    let year = parseInt(splitDate[0]);
+    let quarter = parseInt(splitDate[1]);
+    switch (quarter + 1) {
+      case 5:
+        year = year + 1;
+        quarter = 1;
+        break;
+      default:
+        quarter = quarter + 1;
+        break;
+    }
+    return year + '-' + quarter;
+  }
+
   return {
     getData: getData,
     postData: postData,
@@ -814,6 +859,9 @@ const cmmUtils = (function () {
     createAnalysisBar: createAnalysisBar,
     getRandomValue: getRandomValue,
     goToErrorPage: goToErrorPage,
-    verifyResponse: verifyResponse
+    verifyResponse: verifyResponse,
+    getLatestQuarter: getLatestQuarter,
+    getQuarter: getQuarter,
+    getFrontQuarter: getFrontQuarter
   }
 })();

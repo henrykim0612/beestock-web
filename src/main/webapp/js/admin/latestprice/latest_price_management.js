@@ -3,7 +3,7 @@ const main = (function() {
 
   let dataGrid;
   let global = {
-    selectedSchDate: null,
+    selectedProfileType: 1, // 기본은 국내
     selectedFileName: null,
     gridData: undefined,
     fileArr: [], // uuid, fileId, fileSize, isRemoved
@@ -11,9 +11,7 @@ const main = (function() {
 
   function init() {
     createBreadCrumb();
-    cmmUtils.initCalendar();
-    setDefaultDate();
-    addSchDateEvent();
+    addProfileTypeEventListener();
     cmmUtils.setExcelTippy(['#icoExcelDownload']);
     initGrid();
     addFileEventListener();
@@ -30,72 +28,82 @@ const main = (function() {
     html += '    </a>';
     html += '  </li>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/premium/in-stock-item">';
-    html += '      <span class="icon is-small"><i class="fas fa-search-dollar" aria-hidden="true"></i></span>';
-    html += '      <span>BeeStock 프리미엄</span>';
+    html += '    <a href="' + CONTEXT_PATH + '/admin/latest-price-management">';
+    html += '      <span class="icon is-small"><i class="fas fa-cogs" aria-hidden="true"></i></span>';
+    html += '      <span>시스템관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-dollar-sign"></i></span>';
-    html += '      <span>국내 종목코드 현황</span>';
+    html += '      <span>Daily 주가 수동 업로드</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
   }
 
-  function setDefaultDate() {
-    const today = cmmUtils.getToday();
-    global['selectedSchDate'] = today;
-    cmmUtils.setCalendarValue('schRegDate', today); // 오늘날짜로 기본 세팅
-  }
-
-  function addSchDateEvent() {
-    const element = document.getElementById('schRegDate');
-    if (element) {
-      element.bulmaCalendar.on('select', function(datepicker) {
-        const value = datepicker.data.value();
-        if (global['selectedSchDate'] !== value) {
-          global['selectedSchDate'] = value;
-          // reloadGrid();
-        }
-      });
+  // 국내/해외 라디오 버튼
+  function addProfileTypeEventListener() {
+    const radioButtons = document.getElementsByName('profileType');
+    const size = radioButtons.length;
+    for (let i = 0; i < size; i++) {
+      radioButtons[i].addEventListener('click', function() {
+        global.selectedProfileType = parseInt(this.value);
+        initGrid();
+      })
     }
   }
 
-  function initGrid() {
+  function initGrid(schFilter) {
 
     // 코드 트리뷰
     const quickView = function(anchor, col, row) {
       anchor.setAttribute('data-show', 'quickview');
       anchor.setAttribute('data-target', 'itemCodeQuickView');
-      anchor.setAttribute('data-custom', 'itemCodeQuickView');
-      anchor.setAttribute('data-code', row['itemCode']);
+      const key = global.selectedProfileType === 1 ? 'itemCode' : 'symbol';
+      // 종목명 퀵뷰
+      anchor.addEventListener('click', function() {
+        const len = global['gridData'].length;
+        for (let i = 0; i < len; i++) {
+          const row = global['gridData'][i];
+          if (row[key] === row[key]) {
+            setQuickViewTitle(row);
+            appendQuickViewContent(row);
+          }
+        }
+      })
     }
 
-    const schDate = cmmUtils.getCalendarValue('schRegDate');
+    const colModel = global.selectedProfileType === 1
+      ? [
+        {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
+        {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
+        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, isExcel: true, align: 'left'},
+        {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
+      ]
+      : [
+        {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
+        {id: 'symbol', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
+        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, isExcel: true, align: 'left'},
+        {id: 'latestPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
+      ];
+
+    let body = schFilter != null ? schFilter : {};
+    body.pageSize = 100;
+
     const props = {
-      url: '/api/v1/premium/stock/paging-in-stock-item-list',
+      url: global.selectedProfileType === 1 ? '/api/v1/admin/stock/paging-in-stock-item-list' : '/api/v1/admin/stock/paging-out-stock-item-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
-      body: {
-        pageSize: 100,
-        itemDate: schDate
-      },
-      fileName: schDate + ' 종목코드 리스트',
+      body: body,
+      fileName: '종목코드 리스트',
       isThead: true,
       isTfoot: false,
       loading: 'btnSearch',
-      colModel: [
-        {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
-        {id: 'itemCode', name: '종목코드', isSort: true, width: '100px', isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, width: '250px', isExcel: true, align: 'left'},
-        {id: 'currPrice', name: '현재가', isSort: true, width: '180px', isExcel: true, align: 'center', isCurrency: true}
-      ],
+      colModel: colModel,
       success: function(data, _this) {
         initQuickView();
-        addItemNameEventListener(data, _this);
         global['gridData'] = data['rowData'];
       }
     }
@@ -106,26 +114,6 @@ const main = (function() {
     bulmaQuickview.attach(); // quickviews now contains an array of all Quickview instances
   }
 
-  // 종목명 퀵뷰
-  function addItemNameEventListener(data, _this) {
-    const tableId = _this.props.eId;
-    const tags = document.getElementById(tableId).querySelectorAll('[data-custom=itemCodeQuickView]');
-    for (let i = 0; i < tags.length; i++) {
-      const tag = tags[i];
-      tag.addEventListener('click', function () {
-        const itemCode = this.dataset.code;
-        const len = global['gridData'].length;
-        for (let i = 0; i < len; i++) {
-          const row = global['gridData'][i];
-          if (row['itemCode'] === itemCode) {
-            setQuickViewTitle(row);
-            appendQuickViewContent(row);
-          }
-        }
-      });
-    }
-  }
-
   // 퀵뷰 타이틀 세팅
   function setQuickViewTitle(row) {
     document.getElementById('qViewTitle').innerText = row['itemName'];
@@ -133,11 +121,16 @@ const main = (function() {
 
   // 퀵뷰 상세정보 생성
   function appendQuickViewContent(row) {
-    const entries = [
-      {id: 'itemCode', name: '종목코드'},
-      {id: 'itemName', name: '종목명'},
-      {id: 'currPrice', name: '현재가', isCurrency: true}
-    ];
+    const entries = global.selectedProfileType === 1
+      ? [
+        {id: 'itemCode', name: '종목코드'},
+        {id: 'itemName', name: '종목명'},
+        {id: 'currPrice', name: '현재가', isCurrency: true}
+      ] : [
+        {id: 'symbol', name: '종목코드'},
+        {id: 'itemName', name: '종목명'},
+        {id: 'latestPrice', name: '현재가', isCurrency: true}
+      ]
     const len = entries.length;
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < len; i++) {
@@ -222,11 +215,12 @@ const main = (function() {
   }
 
   function reloadGrid() {
-    const key = document.getElementById('selSearch').value;
+    const key = document.getElementById('selSearch').value === '1'
+      ? global.selectedProfileType === 1 ? 'symbol' : 'itemCode'
+      : document.getElementById('selSearch').value;
     const props = {};
     props[key] = document.getElementById('inputSearch').value;
-    props['itemDate'] = global['selectedSchDate'];
-    dataGrid.reload(props);
+    initGrid(props);
   }
 
   function downloadExcel() {
@@ -234,8 +228,13 @@ const main = (function() {
   }
 
   function showUploadModal() {
-    resetUploadModal();
-    cmmUtils.showModal('uploadModal');
+    if (global.selectedProfileType === 1) { // 국내
+      resetUploadModal();
+      cmmUtils.showModal('uploadModal');
+    } else {
+      cmmUtils.showWarningModal('구현 준비중', '미완성 상태입니다.');
+    }
+
   }
 
   function hideUploadModal() {
@@ -261,7 +260,7 @@ const main = (function() {
           }
         }
         cmmUtils.postData({
-          url: '/api/v1/premium/stock/upload-in-stock-item',
+          url: '/api/v1/admin/stock/upload-in-stock-item',
           headers: {},
           isMultipartFile: true,
           body: formData,
@@ -307,6 +306,9 @@ const main = (function() {
   }
 
   return {
+    test: function() {
+      return global.selectedProfileType;
+    },
     init: init,
     findStockItem: findStockItem,
     downloadExcel: downloadExcel,
