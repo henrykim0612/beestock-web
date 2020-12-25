@@ -119,39 +119,44 @@ const main = (function() {
 
   function createDummyQuarter(i, response, fragment) {
     let isExisted = true;
+    let loopNum;
     // 비어있는(미공시된) 분기를 체크하여 더미를 생성해줌
     if (i === 0) {
       if (response[i]['quarterDate'] !== cmmUtils.getLatestQuarter()) {
         // 최근 분기가 없음
         isExisted = false;
+        loopNum = 1;
       }
     } else {
-      if (response[i-1]['quarterDate'] !== cmmUtils.getFrontQuarter(response[i]['quarterDate'])) {
+      if (response[i - 1]['quarterDate'] !== cmmUtils.getFrontQuarter(response[i]['quarterDate'])) {
         isExisted = false;
+        loopNum = cmmUtils.getUnknownQuartersReverse(response[i - 1]['quarterDate'], response[i]['quarterDate']).length;
       }
     }
     // 미존재시 더미 분기 생성
     if (!isExisted) {
-      const slide = document.createElement('div');
-      slide.classList.add('swiper-slide');
-      const button = document.createElement('button');
-      button.classList.add('button');
-      // button.classList.add('is-small');
-      button.disabled = true;
-      button.classList.add('is-danger');
-      button.classList.add('is-inverted');
-      const iconSpan = document.createElement('span');
-      iconSpan.classList.add('icon');
-      const icon = document.createElement('i');
-      icon.classList.add('fas');
-      icon.classList.add('fa-clock');
-      iconSpan.appendChild(icon);
-      const textSpan = document.createElement('span');
-      textSpan.innerText = '미공시'
-      button.append(iconSpan);
-      button.append(textSpan);
-      slide.appendChild(button);
-      fragment.appendChild(slide);
+      for (let i = 0; i < loopNum; i++) {
+        const slide = document.createElement('div');
+        slide.classList.add('swiper-slide');
+        const button = document.createElement('button');
+        button.classList.add('button');
+        // button.classList.add('is-small');
+        button.disabled = true;
+        button.classList.add('is-danger');
+        button.classList.add('is-inverted');
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('icon');
+        const icon = document.createElement('i');
+        icon.classList.add('fas');
+        icon.classList.add('fa-clock');
+        iconSpan.appendChild(icon);
+        const textSpan = document.createElement('span');
+        textSpan.innerText = '미공시'
+        button.append(iconSpan);
+        button.append(textSpan);
+        slide.appendChild(button);
+        fragment.appendChild(slide);
+      }
     }
   }
 
@@ -588,6 +593,11 @@ const main = (function() {
 
   function initRightItemCodeChart() {
     getRightItemCodeChartInfo(function(response) {
+
+      // 미공시 데이터를 추가로 가공함
+      const modifiedChartData = cmmUtils.addUnknownQuarters(response.categories, response.seriesList[0].data);
+      console.log(modifiedChartData);
+
       global['rightItemCodeChartData'] = response;
       const props = {
         eId: 'rightItemCodeChart',
@@ -619,7 +629,7 @@ const main = (function() {
           },
           xAxis:  {
             type: 'category',
-            data: response['categories'],
+            data: modifiedChartData['quarters'],
             axisPointer: {
               type: 'shadow'
             }
@@ -627,7 +637,7 @@ const main = (function() {
           yAxis:  {
             type: 'value',
           },
-          series: createSeriesArr(response['seriesList'])
+          series: createSeriesArr(response.seriesList[0].name, modifiedChartData)
         }
       };
       if (!!rightItemCodeChart) {
@@ -638,26 +648,29 @@ const main = (function() {
       }
     })
 
-    function createSeriesArr(data) {
-      let series = [];
-      for (let i = 0; i < data.length; i++) {
-        const row = data[i];
-        series.push({
-          name: row.name,
-          type: 'bar',
-          barWidth: '20px',
-          label: {
-            show: false,
-            position: 'insideRight'
-          },
-          data: row.data
-        })
-      }
-      return series;
+    function createSeriesArr(name, modifiedChartData) {
+     return [
+       {
+         name: name,
+         type: 'line',
+         barWidth: '20px',
+         label: {
+           show: false,
+           position: 'insideRight'
+         },
+         data: modifiedChartData.data,
+         markArea: {
+           silent: true,
+           itemStyle: {
+             color: '#E6E6E6',
+             opacity: 0.7
+           },
+           data: modifiedChartData.markArea
+         }
+       }
+     ]
     }
   }
-
-
 
   function closeStackChartModal() {
     document.getElementById('selStackChartFilter')[0].selected = true;
