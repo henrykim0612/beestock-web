@@ -1,10 +1,12 @@
 const cmmProfileCard = (function () {
 
   let global = {
+    userRole: null,
     splitNum: 6
   }
 
-  function appendCards(response, eId) {
+  function appendCards(response, eId, userRole) {
+    setUserRole(userRole);
     cmmUtils.clearChildNodes(eId);
     const content = document.getElementById(eId);
     const fragment = document.createDocumentFragment();
@@ -23,6 +25,10 @@ const cmmProfileCard = (function () {
       fragment.appendChild(columns);
     }
     content.appendChild(fragment);
+  }
+
+  function setUserRole(userRole) {
+    global.userRole = userRole;
   }
 
   // 묶음을 컬럼 생성
@@ -46,9 +52,15 @@ const cmmProfileCard = (function () {
     card.classList.add('card');
     card.classList.add('cursor');
     card.setAttribute('name', 'profileCard');
+    // 카드 클릭 이벤트
     card.addEventListener('click', function() {
-      const url = '/analysis/profile/' + data['profileId'];
-      cmmUtils.goToPage(url);
+      if (data['profileType'] === 1 && (global.userRole === '[ROLE_USER]' || global.userRole === '[ROLE_STANDARD]')) {
+        // 국내 프로필은 프리미엄 이상만 이용가능
+        cmmUtils.showModal('premiumModal');
+      } else {
+        const url = '/analysis/profile/' + data['profileType'] +'/' + data['profileId'];
+        cmmUtils.goToPage(url);
+      }
     })
     // 카드 이미지
     const cardImage = document.createElement('div');

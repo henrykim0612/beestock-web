@@ -254,20 +254,23 @@ BeeComponents.modules.dataGrid = function(component) {
               }
               a.innerHTML = value;
               thOrTd.appendChild(a);
+              // 뱃지 생성
               if (col['hasBadge'] != null && row[col['hasBadge']]) { // row[col['hasBadge']] 컬럼의 값이 1이 되면 뱃지 생성
+                const button = document.createElement('button');
+                button.classList.add('button');
+                button.classList.add('is-small');
+                button.classList.add('is-white');
+                // 뱃지 추가
                 const span = document.createElement('span');
-                span.setAttribute('data-badge', col['hasBadgeText'] != null ? col['hasBadgeText'] : '확인필요');
-                span.classList.add('ml-5');
-                span.classList.add('has-badge-rounded');
-                span.classList.add('has-badge-small');
-                if (col['hasBadgeInline'] != null && col['hasBadgeInline']) {
-                  span.classList.add('has-badge-inline');
-                }
+                span.classList.add('badge');
+                span.classList.add('is-top');
+                span.classList.add('is-primary');
+                span.innerText = col['hasBadgeText'];
                 if (col['hasBadgeOutlined'] != null && col['hasBadgeOutlined']) {
-                  span.classList.add('has-badge-outlined');
+                  span.classList.add('is-outlined');
                 }
-                span.classList.add('has-badge-primary');
-                thOrTd.appendChild(span);
+                button.appendChild(span);
+                thOrTd.appendChild(button);
               }
             } else {
               thOrTd.innerHTML = value;

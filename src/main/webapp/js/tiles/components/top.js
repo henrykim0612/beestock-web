@@ -83,19 +83,19 @@ const topMain = (function() {
   function appendAlarmBadge(response) {
     const len = response.length;
     const ele = document.getElementById('spanAlarm');
+    /*<span title="Badge top right" class="badge is-outlined is-danger is-light">8</span>*/
     if (ele) {
       if (len) {
-        ele.setAttribute('data-badge', len);
-        ele.classList.add('has-badge-rounded');
-        ele.classList.add('has-badge-danger');
-        ele.classList.add('has-badge-inline');
+        const badge = document.createElement('span');
+        badge.id = 'alarmBadge'
+        badge.classList.add('badge');
+        badge.classList.add('is-danger');
+        badge.innerText = len;
+        ele.appendChild(badge);
       } else {
-        if (ele.hasAttribute('data-badge')) {
-          ele.removeAttribute('data-badge');
+        if (!!ele.querySelector('#alarmBadge')) {
+          ele.querySelector('#alarmBadge').remove();
         }
-        ele.classList.remove('has-badge-rounded');
-        ele.classList.remove('has-badge-danger');
-        ele.classList.remove('has-badge-inline');
       }
     }
   }

@@ -53,9 +53,11 @@
                     <div class="control has-icons-left">
                         <div class="select">
                             <select id="modalSelAuth">
+                                <option value="ROLE_USER">일반 사용자</option>
+                                <option value="ROLE_STANDARD">스탠다드 사용자</option>
+                                <option value="ROLE_PREMIUM">프리미엄 사용자</option>
+                                <option value="ROLE_PREMIUM_PLUS">프리미엄 플러스</option>
                                 <option value="ROLE_ADMIN">관리자</option>
-                                <option value="ROLE_SUBC">구독자</option>
-                                <option value="ROLE_USER">일반사용자</option>
                             </select>
                         </div>
                         <div class="icon is-small is-left">

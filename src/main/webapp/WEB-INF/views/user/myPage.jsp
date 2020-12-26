@@ -43,23 +43,27 @@
             <div class="columns">
                 <div class="column">
                     <sec:authorize access="hasRole('ROLE_USER')">
-                        <span class="icon has-text-link mr-2 is-medium"><i class="fas fa-lg fa-id-card"></i></span>일반사용자
+                        <span class="icon has-text-dark mr-2 is-medium"><i class="fas fa-lg fa-id-card"></i></span>일반 사용자
                     </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_SUBC')">
-                        <span class="icon has-text-danger mr-2 medium"><i class="fas fa-lg fa-id-card"></i></span>구독자
+                    <sec:authorize access="hasRole('ROLE_STANDARD')">
+                        <span class="icon has-text-link mr-2 medium"><i class="fas fa-lg fa-id-card"></i></span>스탠다드 사용자
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_PREMIUM')">
+                        <span class="icon has-text-danger mr-2 medium"><i class="fas fa-lg fa-id-card"></i></span>프리미엄 사용자
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_PREMIUM_PLUS')">
+                        <span class="icon has-text-danger mr-2 medium"><i class="fas fa-lg fa-id-card"></i></span>프리미엄 플러스 사용자
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <span class="icon has-text-dark mr-2 medium"><i class="fas fa-lg fa-id-card"></i></span>관리자
+                        <span class="icon has-text-warning mr-2 medium"><i class="fas fa-lg fa-id-card"></i></span>관리자
                     </sec:authorize>
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <p class="subtitle">
-                            <span class="icon has-text-dark mr-2"><i class="fas fa-user-clock"></i></span><sec:authentication property="principal.expDate"/> 까지 구독
-                        </p>
-                    </sec:authorize>
+                    <p class="subtitle">
+                        <span class="icon has-text-dark mr-2"><i class="fas fa-user-clock"></i></span><sec:authentication property="principal.expDate"/> 구독 만료
+                    </p>
                 </div>
             </div>
             <div class="columns">

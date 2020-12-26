@@ -28,7 +28,7 @@
             <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard"><span class="icon has-text-warning mr-1"><i class="fas fa-home"></i></span>홈</a>
             <a class="navbar-item" href="${pageContext.request.contextPath}/home/documentation"><span class="icon has-text-warning mr-1"><i class="fas fa-book"></i></span>BeeStock 가이드</a>
             <%--구독자, 관리자 전용--%>
-            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUBC')">
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BeeStock 프리미엄</a>
                 </div>
@@ -67,22 +67,53 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
-                        <span id="spanAlarm" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" data-show="quickview" data-target="alarmQuickView"><i class="fas fa-bell"></i></span>
-                        <span id="spanMyPage" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.goToMyPage()"><i class="fas fa-user-alt"></i></span>
+                        <%--알림 아이콘--%>
+                        <button class="button is-dark" data-show="quickview" data-target="alarmQuickView">
+                            <span id="spanAlarm" class="icon has-text-warning is-medium has-tooltip-bottom">
+                                <i class="fas fa-bell"></i>
+                            </span>
+                        </button>
+                        <%--마이 페이지--%>
+                        <button id="spanMyPage" class="button is-dark" onclick="topMain.goToMyPage()">
+                            <span class="icon has-text-warning is-medium has-tooltip-bottom">
+                                <i class="fas fa-user-alt"></i>
+                            </span>
+                        </button>
                         <sec:authorize access="hasRole('ROLE_USER')">
-                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(일반사용자)"/>
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(일반 사용자)"/>
                         </sec:authorize>
-                        <sec:authorize access="hasRole('ROLE_SUBC')">
-                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(구독자)"/>
+                        <sec:authorize access="hasRole('ROLE_STANDARD')">
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(스탠다드 사용자)"/>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_PREMIUM')">
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(프리미엄 사용자)"/>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_PREMIUM_PLUS')">
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(프리미엄 플러스 사용자)"/>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(관리자)"/>
                         </sec:authorize>
                     </sec:authorize>
-                    <span id="spanSignUp" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.signUp()"><i class="fas fa-user-plus"></i></span>
-                    <span id="spanLogin" class="icon has-text-warning is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.login()"><i class="fas fa-sign-in-alt"></i></span>
+                    <%--회원가입--%>
+                    <button id="spanSignUp" class="button is-dark" onclick="topMain.signUp()">
+                        <span class="icon has-text-primary is-medium has-tooltip-bottom">
+                            <i class="fas fa-user-plus"></i>
+                        </span>
+                    </button>
+                    <%--로그인--%>
+                    <button id="spanLogin" class="button is-dark" onclick="topMain.login()">
+                        <span class="icon has-text-warning is-medium has-tooltip-bottom">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </span>
+                    </button>
                     <sec:authorize access="isAuthenticated()">
-                        <span id="spanLogout" class="icon has-text-danger is-medium ml-2 mb-1 cursor has-tooltip-bottom" onclick="topMain.logout()"><i class="fas fa-sign-out-alt"></i></span>
+                        <%--로그아웃--%>
+                        <button id="spanLogout" class="button is-dark" onclick="topMain.logout()">
+                            <span class="icon has-text-danger is-medium has-tooltip-bottom">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </span>
+                        </button>
                     </sec:authorize>
                 </div>
             </div>

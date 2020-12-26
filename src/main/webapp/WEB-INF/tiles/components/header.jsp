@@ -15,7 +15,7 @@
 <%--Switch--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/switch/bulma-switch.min.css" type="text/css">
 <%--Badge--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/badge/bulma-badge.min.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/badge/1.0.1/bulma-badge.min.css" type="text/css">
 <%--Page loader--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/page-loader/bulma-pageloader.min.css" type="text/css">
 <%--Tooltip--%>

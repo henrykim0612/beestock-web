@@ -1,13 +1,34 @@
 const main = (function () {
 
   let global = {
-    selectedTab: 'contIn', // 기본은 국내
+    userRole: null,
+    selectedTab: null,
     splitNum: 4
   }
 
   function init() {
+    setUserRole();
+    setSelectedTab();
     addTabListener();
     initCards();
+  }
+
+  function setUserRole() {
+    global.userRole = !!document.getElementById('authority') ? document.getElementById('authority').value : '';
+  }
+
+  function setSelectedTab() {
+    const tabs = document.getElementsByName('tabs');
+    const len = tabs.length;
+    for (let i = 0; i < len; i++) {
+      const tab = tabs[i];
+      if (tab.classList.contains('is-active')) {
+        const contId = tab.dataset.contId;
+        global.selectedTab = contId;
+        // Tab content 숨김 해제
+        document.getElementById(contId).classList.remove('is-hidden');
+      }
+    }
   }
 
   function addTabListener() {
@@ -44,7 +65,7 @@ const main = (function () {
       url: '/api/v1/dashboard/profile-list',
       body: body,
     }).then(function(response) {
-      cmmProfileCard.appendCards(response, global['selectedTab']);
+      cmmProfileCard.appendCards(response, global['selectedTab'], global.userRole);
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
     });
