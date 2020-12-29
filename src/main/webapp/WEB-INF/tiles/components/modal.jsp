@@ -111,17 +111,43 @@
     </div>
 </div>
 
+<div id="standardModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <article class="message is-link">
+            <div class="message-header">
+                <p>화면 제한 안내</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('standardModal')"></button>
+            </div>
+            <div class="message-body">
+                <div class="is-left mb-5">
+                    <p>해당 화면은<strong>Standard</strong> 등급 이상의 구독자만 이용이 가능합니다.</p>
+                    <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
+                </div>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="buttons">
+                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">확인</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </article>
+    </div>
+</div>
+
 <div id="premiumModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-warning">
+        <article class="message is-danger">
             <div class="message-header">
-                <p>프리미엄 구독 전용</p>
+                <p>화면 제한 안내</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumModal')"></button>
             </div>
             <div class="message-body">
                 <div class="is-left mb-5">
-                    <p>국내 포트폴리오는 <strong>Premium</strong> 구독자 전용 화면 입니다.</p>
+                    <p>해당 화면은<strong>Premium</strong> 등급 이상의 구독자만 이용이 가능합니다.</p>
                     <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
                 <nav class="level">

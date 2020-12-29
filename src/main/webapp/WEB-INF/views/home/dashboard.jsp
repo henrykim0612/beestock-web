@@ -25,11 +25,11 @@
             </a>
         </li>
         <li id="tabIn" name="tabs" data-cont-id="contIn">
-            <a>
+            <a id="tabInAnchor">
                 <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
                 <span>국내</span>
                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_STANDARD')">
-                    <span title="Badge top right" class="badge is-danger is-top-right">Premium</span>
+                    <span class="badge is-danger is-top-right">Premium</span>
                 </sec:authorize>
             </a>
         </li>

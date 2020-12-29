@@ -7,10 +7,24 @@ const main = (function () {
   }
 
   function init() {
+    setGuestLayout();
     setUserRole();
     setSelectedTab();
     addTabListener();
     initCards();
+  }
+
+  // 게스트일 경우의 화면 처리
+  function setGuestLayout() {
+    if (!document.getElementById('loginId')) {
+      // Premium badge
+      const span = document.createElement('span');
+      span.classList.add('badge');
+      span.classList.add('is-danger');
+      span.classList.add('is-top-right');
+      span.innerText = 'Premium';
+      document.getElementById('tabInAnchor').appendChild(span);
+    }
   }
 
   function setUserRole() {

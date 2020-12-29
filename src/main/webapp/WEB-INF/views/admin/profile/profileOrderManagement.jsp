@@ -34,10 +34,12 @@
 <%--프로필 리스트--%>
 <div class="flex-row justify-content-center is-fullwidth mt-5">
     <div class="flex-col justify-content-center width-20per"></div>
-    <div class="flex-col justify-content-center width-40per">
+    <%--국내--%>
+    <div class="flex-col justify-content-start width-40per">
         <div id="inDiv" class="flex-col justify-content-center"></div>
     </div>
-    <div class="flex-col justify-content-center width-40per">
+    <%--해외--%>
+    <div class="flex-col justify-content-start width-40per">
         <div id="outDiv" class="flex-col justify-content-center"></div>
     </div>
 </div>

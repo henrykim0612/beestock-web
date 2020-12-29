@@ -1,8 +1,8 @@
 const cmmUtils = (function () {
 
   const global = {
-    maxFileSize: 10,
-    maxGroupFileSize: 50
+    maxFileSize: 3,
+    maxGroupFileSize: 30
   }
 
   function getData(props) {
@@ -367,52 +367,112 @@ const cmmUtils = (function () {
   }
 
   function createCKEditor(props, callback) {
-    const toolbar = ['heading', 'bold', 'italic', 'link', 'blockQuote', 'fontColor', 'fontSize', 'alignment', 'highlight', 'code', 'underline', 'superscript', 'subscript', 'strikethrough', 'undo', 'redo'];
-    const options = [
-      {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
-      {
-        model: 'headingFancy1',
-        view: {
-          name: 'h1',
-          classes: 'fancy1'
-        },
-        title: 'Heading 1',
-        class: 'ck-heading_heading1',
-        // It needs to be converted before the standard 'heading2'.
-        converterPriority: 'high'
+
+    let config = {
+      extraPlugins: [MyCustomUploadAdapterPlugin],
+      removePlugins: ['ImageCaption'],
+      toolbar: {
+        items: [
+          'heading', '|',
+          'fontfamily', 'fontsize', '|',
+          'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify', '|',
+          'fontColor', 'fontBackgroundColor', '|',
+          'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 'link', '|',
+          'outdent', 'indent', '|',
+          'imageInsert', 'blockQuote', 'insertTable', '|',
+          'undo', 'redo'
+        ],
+        shouldNotGroupWhenFull: true
       },
-      {
-        model: 'headingFancy2',
-        view: {
-          name: 'h2',
-          classes: 'fancy2'
-        },
-        title: 'Heading 2',
-        class: 'ck-heading_heading2',
-        // It needs to be converted before the standard 'heading2'.
-        converterPriority: 'high'
+      table: {
+        contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
       },
-      {
-        model: 'headingFancy3',
-        view: {
-          name: 'h3',
-          classes: 'fancy3'
-        },
-        title: 'Heading 3',
-        class: 'ck-heading_heading3',
-        // It needs to be converted before the standard 'heading2'.
-        converterPriority: 'high'
+      image: {
+        styles: [
+          'alignLeft', 'alignCenter', 'alignRight'
+        ],
+        // Configure the available image resize options.
+        resizeOptions: [
+          {
+            name: 'imageResize:original',
+            label: '100%',
+            value: null
+          },
+          {
+            name: 'imageResize:75',
+            label: '75%',
+            value: '75'
+          },
+          {
+            name: 'imageResize:50',
+            label: '50%',
+            value: '50'
+          },
+          {
+            name: 'imageResize:250',
+            label: '25%',
+            value: '25'
+          }
+        ],
+        // You need to configure the image toolbar, too, so it shows the new style
+        // buttons as well as the resize buttons.
+        toolbar: [
+          'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight',
+          '|',
+          'imageResize'
+          // '|',
+          // 'imageTextAlternative'
+        ]
+      },
+      heading: {
+        options: [
+          {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+          {
+            model: 'headingFancy1',
+            view: {
+              name: 'h1',
+              classes: 'fancy1'
+            },
+            title: 'Heading 1',
+            class: 'ck-heading_heading1',
+            // It needs to be converted before the standard 'heading2'.
+            converterPriority: 'high'
+          },
+          {
+            model: 'headingFancy2',
+            view: {
+              name: 'h2',
+              classes: 'fancy2'
+            },
+            title: 'Heading 2',
+            class: 'ck-heading_heading2',
+            // It needs to be converted before the standard 'heading2'.
+            converterPriority: 'high'
+          },
+          {
+            model: 'headingFancy3',
+            view: {
+              name: 'h3',
+              classes: 'fancy3'
+            },
+            title: 'Heading 3',
+            class: 'ck-heading_heading3',
+            // It needs to be converted before the standard 'heading2'.
+            converterPriority: 'high'
+          }
+        ]
       }
-    ];
+    }
+
+    /*Word count 이벤트 처리*/
+    if (props['wordCount'] != null) {
+      config.wordCount = {
+        onUpdate: props['wordCount']
+      }
+    }
 
     ClassicEditor
-      .create(document.querySelector(props['selector']), {
-        toolbar: toolbar,
-        heading: {
-          options: options,
-          plugins: [ ]
-        }
-      })
+      .create(document.querySelector(props['selector']), config)
       .then(function(editor) {
         if (props['data'] != null) {
           editor.setData(props['data']);
@@ -591,7 +651,7 @@ const cmmUtils = (function () {
   }
 
   function verifyFileSize(fileArr, defaultSize) {
-    const sizeLimit = 1048578 * global.maxFileSize; // 파일별 사이즈는 10MB 제한.
+    const sizeLimit = 1048578 * global.maxFileSize;
     const sizeOfAllFiles = 1048578 * global.maxGroupFileSize; // 모든 파일의 사이즈는 50MB 넘을 수 없음.
     let size = arguments.length === 2 ? defaultSize : 0; // 수정모드에서는 기존에 등록된 파일사이즈를 기본값으로 사용.
     let rtnObj = {status: true, msg: null};
@@ -601,24 +661,24 @@ const cmmUtils = (function () {
         size = size + file.size;
         if (sizeLimit < file.size) {
           rtnObj.status = false;
-          rtnObj.msg = file.name + '은 10MB를 초과합니다(파일당 10MB 사이즈 제한).';
+          rtnObj.msg = file.name + '은 ' + global.maxFileSize + 'MB를 초과합니다(파일당 ' + global.maxFileSize + 'MB 사이즈 제한).';
           break;
         }
       }
     }
     if (sizeOfAllFiles < size) {
       rtnObj.status = false;
-      rtnObj.msg = '업로드 최대 사이즈는 50MB 입니다(현재:' + (size/1048576).toFixed(1) + 'MB). 파일 사이즈를 확인해주세요.';
+      rtnObj.msg = '업로드 최대 사이즈는 ' + global.maxGroupFileSize + 'MB 입니다(현재:' + (size/1048576).toFixed(1) + 'MB). 파일 사이즈를 확인해주세요.';
     }
     return rtnObj;
   }
 
   function verifySingleFileSize(file) {
     let rtnObj = {status: true, msg: null};
-    const sizeLimit = 1048578 * global.maxFileSize; // 파일별 사이즈는 10MB 제한.
+    const sizeLimit = 1048578 * global.maxFileSize;
     if (sizeLimit < file.size) {
       rtnObj.status = false;
-      rtnObj.msg = file.name + '은 10MB를 초과합니다(10MB 사이즈 제한).';
+      rtnObj.msg = file.name + '은 ' + global.maxFileSize + 'MB를 초과합니다(' + global.maxFileSize + 'MB 사이즈 제한).';
     }
     return rtnObj;
   }

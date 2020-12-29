@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%--Polyfill--%>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=Promise%2Cfetch" type="text/javascript"></script>
 <%--fontawesome--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.3.1/fontawesome.js" type="text/javascript"></script>
@@ -22,16 +22,16 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/toast/bulma-toast.min.js" type="text/javascript"></script>
 <%--Icon Picker--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/icon-picker/bulma-iconpicker.min.js" type="text/javascript"></script>
+
 <%--CKEditor--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/ckeditor5/build/ckeditor.js" type="text/javascript"></script>
-
 <%--ECharts--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/echarts/echarts-en.min.js" type="text/javascript"></script>
 <%--Swiper--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.js" type="text/javascript"></script>
-
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/common_input_spinner.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/common/custom_upload_adaptor.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>
