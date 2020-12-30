@@ -11,7 +11,7 @@
     <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
 </sec:authorize>
 
-<nav class="is-fixed-top navbar is-dark" role="navigation" aria-label="main navigation">
+<nav class="is-fixed-top navbar is-black" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="${pageContext.request.contextPath}/home/dashboard">
             <img src="${pageContext.request.contextPath}/resources/images/logo/app/logo-a-h-01.png">
@@ -43,7 +43,10 @@
                         <span class="icon has-text-primary mr-1"><i class="fas fa-flag"></i></span>
                         <span id="spanNotice">공지사항</span>
                     </a>
-                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa"><span class="icon has-text-primary mr-1"><i class="fas fa-question-circle"></i></span>Q&A</a>
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa">
+                        <span class="icon has-text-primary mr-1"><i class="fas fa-question-circle"></i></span>
+                        <span>Q&A</span>
+                    </a>
                 </div>
             </div>
             <a class="navbar-item" href="${pageContext.request.contextPath}/home/pricing-table"><span class="icon has-text-warning mr-1"><i class="fas fa-book-reader"></i></span>구독</a>
@@ -68,13 +71,13 @@
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
                         <%--알림 아이콘--%>
-                        <button class="button is-dark" data-show="quickview" data-target="alarmQuickView">
+                        <button class="button is-black" data-show="quickview" data-target="alarmQuickView">
                             <span id="spanAlarm" class="icon has-text-warning is-medium has-tooltip-bottom">
                                 <i class="fas fa-bell"></i>
                             </span>
                         </button>
                         <%--마이 페이지--%>
-                        <button id="spanMyPage" class="button is-dark" onclick="topMain.goToMyPage()">
+                        <button id="spanMyPage" class="button is-black" onclick="topMain.goToMyPage()">
                             <span class="icon has-text-warning is-medium has-tooltip-bottom">
                                 <i class="fas fa-user-alt"></i>
                             </span>
@@ -96,20 +99,20 @@
                         </sec:authorize>
                     </sec:authorize>
                     <%--회원가입--%>
-                    <button id="spanSignUp" class="button is-dark" onclick="topMain.signUp()">
+                    <button id="spanSignUp" class="button is-black" onclick="topMain.signUp()">
                         <span class="icon has-text-primary is-medium has-tooltip-bottom">
                             <i class="fas fa-user-plus"></i>
                         </span>
                     </button>
                     <%--로그인--%>
-                    <button id="spanLogin" class="button is-dark" onclick="topMain.login()">
+                    <button id="spanLogin" class="button is-black" onclick="topMain.login()">
                         <span class="icon has-text-warning is-medium has-tooltip-bottom">
                             <i class="fas fa-sign-in-alt"></i>
                         </span>
                     </button>
                     <sec:authorize access="isAuthenticated()">
                         <%--로그아웃--%>
-                        <button id="spanLogout" class="button is-dark" onclick="topMain.logout()">
+                        <button id="spanLogout" class="button is-black" onclick="topMain.logout()">
                             <span class="icon has-text-danger is-medium has-tooltip-bottom">
                                 <i class="fas fa-sign-out-alt"></i>
                             </span>
@@ -126,13 +129,13 @@
 
 <%--Tree view--%>
 <div id="alarmQuickView" class="quickview">
-    <header class="quickview-header is-dark">
+    <header class="quickview-header is-black">
         <p class="title"><span class="icon has-text-warning mr-3"><i class="fas fa-bell"></i></span>알림</p>
         <span id="delQuickView" class="delete" data-dismiss="quickview" onclick="topMain.initAlarmQuickView()"></span>
     </header>
     <div class="quickview-body">
         <div class="flex-row justify-content-end">
-            <button type="button" class="mt-1 button is-dark is-small" onclick="topMain.closeAlarmBoxAll()"><strong>알림 모두 닫기</strong></button>
+            <button type="button" class="mt-1 button is-black is-small" onclick="topMain.closeAlarmBoxAll()"><strong>알림 모두 닫기</strong></button>
         </div>
         <div class="quickview-block mt-5" id="userAlarmBody">
         </div>

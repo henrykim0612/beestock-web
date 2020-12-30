@@ -211,11 +211,30 @@ const main = (function() {
       for (let i = 0; i < slideButtons.length; i++) {
         // 선택한 분기 클릭 이벤트
         slideButtons[i].addEventListener('click', function() {
-          resetButtons(slideButtons);
-          activeButton(this);
-          global.quarterId = this.getAttribute('data-key');
-          global.selectedQuarterDate = this.getAttribute('data-quarter');
-          showTab();
+          const that = this;
+          global.quarterId = that.getAttribute('data-key');
+          global.selectedQuarterDate = that.getAttribute('data-quarter');
+
+          // 이벤트를 사용할 권한이 있는지 확인
+          cmmUtils.postData({
+            url: '/api/v1/analysis/profile/is-available-event',
+            body: {
+              eventNum: 1, // 슬라이드 타임라인 이벤트 번호
+              profileId: global.profileId,
+              quarterDate: global.selectedQuarterDate
+            }
+          }).then(function (isAvailable) {
+            if (isAvailable) {
+              resetButtons(slideButtons);
+              activeButton(that);
+              showTab();
+            } else {
+              // 이용할 수 없음
+              cmmUtils.showModal('standardModal');
+            }
+          }).catch(function (err) {
+            cmmUtils.goToErrorPage(err)
+          });
         });
       }
       // 최근 분기 데이터를 기본으로 보여줌
@@ -461,9 +480,20 @@ const main = (function() {
   // 종목명 클릭시
   function itemNameAnchorEvent(anchor, row) {
     anchor.addEventListener('click', function() {
-      global['selectedItemName'] = row['itemName'];
-      global['selectedItemCode'] = row['itemCode'];
-      showStackChartModal();
+      // 일반 사용자는 사용할 수 없음
+      cmmUtils.postData({
+        url: '/api/v1/analysis/profile/is-available-event'
+      }).then(function (isAvailable) {
+        if (isAvailable) {
+          global['selectedItemName'] = row['itemName'];
+          global['selectedItemCode'] = row['itemCode'];
+          showStackChartModal();
+        } else {
+          cmmUtils.showModal('guideModal');
+        }
+      }).catch(function (err) {
+        cmmUtils.goToErrorPage(err)
+      });
     })
   }
 
@@ -582,15 +612,25 @@ const main = (function() {
   }
 
   function showColLineChartModal(itemCode, itemName) {
-    document.getElementById('lineChartModalTitle').innerText = itemName;
-    cmmUtils.showModal('colLineChartModal');
-    global.selectedItemCode = itemCode;
-    initRightItemCodeChart();
+    // 일반 사용자는 사용할 수 없음
+    cmmUtils.postData({
+      url: '/api/v1/analysis/profile/is-available-event'
+    }).then(function (isAvailable) {
+      if (isAvailable) {
+        document.getElementById('lineChartModalTitle').innerText = itemName;
+        cmmUtils.showModal('colLineChartModal');
+        global.selectedItemCode = itemCode;
+        initRightItemCodeChart();
+      } else {
+        cmmUtils.showModal('guideModal');
+      }
+    }).catch(function (err) {
+      cmmUtils.goToErrorPage(err)
+    });
   }
 
   function initRightItemCodeChart() {
     getRightItemCodeChartInfo(function(response) {
-
       // 미공시 데이터를 추가로 가공함
       const modifiedChartData = cmmUtils.addUnknownQuarters(response.categories, response.seriesList[0].data);
       console.log(modifiedChartData);
@@ -718,7 +758,8 @@ const main = (function() {
       cmmUtils.goToErrorPage(err);
     });
   }
-  
+
+  // 포트폴리오 분석 오른쪽 그리드 차트
   function getRightItemCodeChartInfo(callback) {
     cmmUtils.postData({
       url: '/api/v1/analysis/profile/line-chart/item-code',
