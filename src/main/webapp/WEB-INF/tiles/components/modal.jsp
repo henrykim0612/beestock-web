@@ -169,7 +169,7 @@
         <article class="message is-link">
             <div class="message-header">
                 <p>기능 제한 안내</p>
-                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('standardModal')"></button>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('guideModal')"></button>
             </div>
             <div class="message-body has-text-dark">
                 <div class="mb-3">
@@ -186,7 +186,7 @@
                     <div class="level-item has-text-centered">
                         <div class="buttons">
                             <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">확인</button>
+                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('guideModal')">확인</button>
                         </div>
                     </div>
                 </nav>
