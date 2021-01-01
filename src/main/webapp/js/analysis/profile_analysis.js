@@ -7,10 +7,10 @@ const main = (function() {
     selectedIdeaId: null,
     chart: undefined,
     ckEditNewIdeaCont: undefined,
+    newIdeaWordCount: 0,
     ckEditModIdeaCont: undefined,
+    modIdeaWordCount: 0,
     ckEditProfileInfo: undefined,
-    newFileArr: [], // uuid, file, isRemoved
-    modFileArr: [], // uuid, fileId, fileSize, isRemoved
     quarterId: null,
     comparisonQuarter: 1, // 기본은 1분기전
     selectedQuarterDate: null,
@@ -25,7 +25,8 @@ const main = (function() {
     isInitiatedSpinner: false,
     linkArrDelimiter: '#,#', // 참고자료 링크 배열 구분자
     linkInfoDelimiter: '#^#', // 참고자료 링크 정보 구분자
-    gridData: undefined
+    gridData: undefined,
+    selectedProfileType: null
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
@@ -38,12 +39,12 @@ const main = (function() {
   function init() {
     createBreadCrumb();
     global.profileId = document.getElementById('profileId').value;
+    global.selectedProfileType = document.getElementById('profileType').value;
     getProfileDetails();
     initQuarterSlider();
     addSpanStarEvent();
     initInvestIdea();
     initTooltips();
-    addFileEventListener();
     addTabEventListener();
     addBarChartSelectBoxListener();
     addStackChartSelectBoxListener();
@@ -102,37 +103,88 @@ const main = (function() {
   function createQuarterSlider(response) {
     // <div class="swiper-slide"><button class="button is-link is-inverted is-small"><span class="icon"><i class="fas fa-clock"></i></span><span>2020-2분기</span></button></div>
     const fragment = document.createDocumentFragment();
-    for (let i = 0; i < response.length; i++) {
-      const quarter = response[i];
-      // 슬라이드 생성
-      const slide = document.createElement('div');
-      slide.classList.add('swiper-slide');
-      const button = document.createElement('button');
-      button.classList.add('button');
-      // button.classList.add('is-small');
-      button.classList.add('is-dark');
-      button.classList.add('is-inverted');
-      button.setAttribute('data-button', 'slide');
-      button.setAttribute('data-key', quarter['quarterId']);
-      button.setAttribute('data-quarter', quarter['quarterDate']);
-      const iconSpan = document.createElement('span');
-      iconSpan.classList.add('icon');
-      const icon = document.createElement('i');
-      icon.classList.add('fas');
-      icon.classList.add('fa-clock');
-      iconSpan.appendChild(icon);
-      const textSpan = document.createElement('span');
-      textSpan.innerText = quarter['quarterDate'];
-      button.append(iconSpan);
-      button.append(textSpan);
-      slide.appendChild(button);
-      fragment.appendChild(slide);
+    const len = response.length;
+    for (let i = 0; i < len; i++) {
+      // 비어있는 분기를 확인함
+      createDummyQuarter(i, response, fragment);
+      // 존재하는 분기생성
+      createExistedQuarter(response[i], fragment);
     }
     const quarterCont = document.getElementById('quarterCont');
-    quarterCont.appendChild(fragment.cloneNode(true));
+    quarterCont.appendChild(fragment);
     addSlideButtonEvents(quarterCont);
     initSwiper();
   }
+
+  function createDummyQuarter(i, response, fragment) {
+    let isExisted = true;
+    let loopNum;
+    // 비어있는(미공시된) 분기를 체크하여 더미를 생성해줌
+    if (i === 0) {
+      if (response[i]['quarterDate'] !== cmmUtils.getLatestQuarter()) {
+        // 최근 분기가 없음
+        isExisted = false;
+        loopNum = 1;
+      }
+    } else {
+      if (response[i - 1]['quarterDate'] !== cmmUtils.getFrontQuarter(response[i]['quarterDate'])) {
+        isExisted = false;
+        loopNum = cmmUtils.getUnknownQuartersReverse(response[i - 1]['quarterDate'], response[i]['quarterDate']).length;
+      }
+    }
+    // 미존재시 더미 분기 생성
+    if (!isExisted) {
+      for (let i = 0; i < loopNum; i++) {
+        const slide = document.createElement('div');
+        slide.classList.add('swiper-slide');
+        const button = document.createElement('button');
+        button.classList.add('button');
+        // button.classList.add('is-small');
+        button.disabled = true;
+        button.classList.add('is-danger');
+        button.classList.add('is-inverted');
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('icon');
+        const icon = document.createElement('i');
+        icon.classList.add('fas');
+        icon.classList.add('fa-clock');
+        iconSpan.appendChild(icon);
+        const textSpan = document.createElement('span');
+        textSpan.innerText = '미공시'
+        button.append(iconSpan);
+        button.append(textSpan);
+        slide.appendChild(button);
+        fragment.appendChild(slide);
+      }
+    }
+  }
+
+  function createExistedQuarter(quarter, fragment) {
+    // 슬라이드 생성
+    const slide = document.createElement('div');
+    slide.classList.add('swiper-slide');
+    const button = document.createElement('button');
+    button.classList.add('button');
+    // button.classList.add('is-small');
+    button.classList.add('is-dark');
+    button.classList.add('is-inverted');
+    button.setAttribute('data-button', 'slide');
+    button.setAttribute('data-key', quarter['quarterId']);
+    button.setAttribute('data-quarter', quarter['quarterDate']);
+    const iconSpan = document.createElement('span');
+    iconSpan.classList.add('icon');
+    const icon = document.createElement('i');
+    icon.classList.add('fas');
+    icon.classList.add('fa-clock');
+    iconSpan.appendChild(icon);
+    const textSpan = document.createElement('span');
+    textSpan.innerText = quarter['quarterDate'];
+    button.append(iconSpan);
+    button.append(textSpan);
+    slide.appendChild(button);
+    fragment.appendChild(slide);
+  }
+
 
   function initSwiper() {
     const slider = new Swiper('#quarterSlider', {
@@ -159,11 +211,30 @@ const main = (function() {
       for (let i = 0; i < slideButtons.length; i++) {
         // 선택한 분기 클릭 이벤트
         slideButtons[i].addEventListener('click', function() {
-          resetButtons(slideButtons);
-          activeButton(this);
-          global.quarterId = this.getAttribute('data-key');
-          global.selectedQuarterDate = this.getAttribute('data-quarter');
-          showTab();
+          const that = this;
+          global.quarterId = that.getAttribute('data-key');
+          global.selectedQuarterDate = that.getAttribute('data-quarter');
+
+          // 이벤트를 사용할 권한이 있는지 확인
+          cmmUtils.postData({
+            url: '/api/v1/analysis/profile/is-available-event',
+            body: {
+              eventNum: 1, // 슬라이드 타임라인 이벤트 번호
+              profileId: global.profileId,
+              quarterDate: global.selectedQuarterDate
+            }
+          }).then(function (isAvailable) {
+            if (isAvailable) {
+              resetButtons(slideButtons);
+              activeButton(that);
+              showTab();
+            } else {
+              // 이용할 수 없음
+              cmmUtils.showModal('standardModal');
+            }
+          }).catch(function (err) {
+            cmmUtils.goToErrorPage(err)
+          });
         });
       }
       // 최근 분기 데이터를 기본으로 보여줌
@@ -227,31 +298,29 @@ const main = (function() {
       let text = '';
       if (row['prevQuarterCnt'] === 0) {
         text = global.comparisonQuarter + ' 분기 전 데이터 없음';
-        html = '<span class="tag is-warning is-light"><strong>' + text + '</strong></span>';
+        html = '<div class="flex-row justify-content-center"><span class="tag is-warning is-light"><strong>' + text + '</strong></span></div>';
       } else {
         if (row['itemStatus']) { // 전량매도 또는 신규편입
           if (row['itemStatus'] === 1) {
-            html = '<span class="tag is-success is-light">신규편입</span>';
-            html = html + '<span class="icon cursor ml-3" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+            html = '<div class="flex-row justify-content-center"><span class="tag is-success is-light">신규편입</span><span class="icon cursor ml-1" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span></div>';
           }
           if (row['itemStatus'] === 2) {
-            html = '<span class="tag is-danger is-light">전량매도</span>';
-            html = html + '<span class="icon cursor ml-3" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+            html = '<div class="flex-row justify-content-center"><span class="tag is-danger is-light">전량매도</span><span class="icon cursor ml-1" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span></div>';
           }
         } else { // 해당없음~
           let rate = row['incsRate'];
           if (rate === 0 ) {
             text = '0%';
-            html = '<span class="is-dark">' + text + '</span>';
+            html = '<div class="flex-row justify-content-center"><span class="is-dark">' + text + '</span>';
           } else if (0 < rate) {
             text = rate + '%';
-            html = '<span class="has-text-link">' + text + '</span>';
+            html = '<div class="flex-row justify-content-center"><span class="has-text-link">' + text + '</span>';
           } else {
             text = rate + '%';
-            html = '<span class="has-text-danger">' + text + '</span>';
+            html = '<div class="flex-row justify-content-center"><span class="has-text-danger">' + text + '</span>';
           }
           // 차트 아이콘
-          html = html + '<span class="icon cursor ml-3" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+          html = html + '<span class="icon cursor ml-1" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span></div>';
         }
       }
 
@@ -261,9 +330,7 @@ const main = (function() {
 
     // 종목명
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-key', row['itemCode']);
-      anchor.setAttribute('data-name', row['itemName']);
+      itemNameAnchorEvent(anchor, row);
     }
 
     const props = {
@@ -273,7 +340,8 @@ const main = (function() {
         quarterId: global.quarterId,
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
-        selectedQuarterDate: global.selectedQuarterDate
+        selectedQuarterDate: global.selectedQuarterDate,
+        profileType: global.selectedProfileType
       },
       eId: 'profileGrid',
       isThead: true,
@@ -296,7 +364,6 @@ const main = (function() {
         if (!global['isInitiatedSpinner']) { // 최초에만 한번 초기화
           initSpinner(spinnerId, 0);
         }
-        itemNameAnchorEvent(data, _this);
       }
     }
     profileGrid = new COMPONENTS.DataGrid(props);
@@ -313,9 +380,7 @@ const main = (function() {
 
     // 종목명
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-key', row['itemCode']);
-      anchor.setAttribute('data-name', row['itemName']);
+      itemNameAnchorEvent(anchor, row);
     }
 
     // 증감율
@@ -335,6 +400,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
+        profileType: global.selectedProfileType,
         itemStatus: 1
       },
       eId: 'newTransferGrid',
@@ -352,22 +418,17 @@ const main = (function() {
         {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
         {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
-      ],
-      success: function (data, _this) {
-        itemNameAnchorEvent(data, _this);
-      }
+      ]
     }
     newTransferGrid = new COMPONENTS.DataGrid(props);
   }
 
-  // 전략매도 그리드
+  // 전량매도 그리드
   function initSoldOutGrid() {
 
     // 종목명
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-key', row['itemCode']);
-      anchor.setAttribute('data-name', row['itemName']);
+      itemNameAnchorEvent(anchor, row);
     }
 
     // 수익률 막대 표
@@ -393,6 +454,7 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
+        profileType: global.selectedProfileType,
         itemStatus: 2 // 전량매도
       },
       eId: 'soldOutGrid',
@@ -410,25 +472,29 @@ const main = (function() {
         {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
         {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
-      ],
-      success: function (data, _this) {
-        itemNameAnchorEvent(data, _this);
-      }
+      ]
     }
     soldOutGrid = new COMPONENTS.DataGrid(props);
   }
 
   // 종목명 클릭시
-  function itemNameAnchorEvent(data, _this) {
-    const eId = _this.props.eId;
-    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
-    for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function() {
-        global['selectedItemName'] = this.getAttribute('data-name');
-        global['selectedItemCode'] = this.getAttribute('data-key');
-        showStackChartModal();
-      })
-    }
+  function itemNameAnchorEvent(anchor, row) {
+    anchor.addEventListener('click', function() {
+      // 일반 사용자는 사용할 수 없음
+      cmmUtils.postData({
+        url: '/api/v1/analysis/profile/is-available-event'
+      }).then(function (isAvailable) {
+        if (isAvailable) {
+          global['selectedItemName'] = row['itemName'];
+          global['selectedItemCode'] = row['itemCode'];
+          showStackChartModal();
+        } else {
+          cmmUtils.showModal('guideModal');
+        }
+      }).catch(function (err) {
+        cmmUtils.goToErrorPage(err)
+      });
+    })
   }
 
   function showStackChartModal() {
@@ -546,14 +612,29 @@ const main = (function() {
   }
 
   function showColLineChartModal(itemCode, itemName) {
-    document.getElementById('lineChartModalTitle').innerText = itemName;
-    cmmUtils.showModal('colLineChartModal');
-    global.selectedItemCode = itemCode;
-    initRightItemCodeChart();
+    // 일반 사용자는 사용할 수 없음
+    cmmUtils.postData({
+      url: '/api/v1/analysis/profile/is-available-event'
+    }).then(function (isAvailable) {
+      if (isAvailable) {
+        document.getElementById('lineChartModalTitle').innerText = itemName;
+        cmmUtils.showModal('colLineChartModal');
+        global.selectedItemCode = itemCode;
+        initRightItemCodeChart();
+      } else {
+        cmmUtils.showModal('guideModal');
+      }
+    }).catch(function (err) {
+      cmmUtils.goToErrorPage(err)
+    });
   }
 
   function initRightItemCodeChart() {
     getRightItemCodeChartInfo(function(response) {
+      // 미공시 데이터를 추가로 가공함
+      const modifiedChartData = cmmUtils.addUnknownQuarters(response.categories, response.seriesList[0].data);
+      console.log(modifiedChartData);
+
       global['rightItemCodeChartData'] = response;
       const props = {
         eId: 'rightItemCodeChart',
@@ -585,7 +666,7 @@ const main = (function() {
           },
           xAxis:  {
             type: 'category',
-            data: response['categories'],
+            data: modifiedChartData['quarters'],
             axisPointer: {
               type: 'shadow'
             }
@@ -593,7 +674,7 @@ const main = (function() {
           yAxis:  {
             type: 'value',
           },
-          series: createSeriesArr(response['seriesList'])
+          series: createSeriesArr(response.seriesList[0].name, modifiedChartData)
         }
       };
       if (!!rightItemCodeChart) {
@@ -604,26 +685,29 @@ const main = (function() {
       }
     })
 
-    function createSeriesArr(data) {
-      let series = [];
-      for (let i = 0; i < data.length; i++) {
-        const row = data[i];
-        series.push({
-          name: row.name,
-          type: 'bar',
-          barWidth: '20px',
-          label: {
-            show: false,
-            position: 'insideRight'
-          },
-          data: row.data
-        })
-      }
-      return series;
+    function createSeriesArr(name, modifiedChartData) {
+     return [
+       {
+         name: name,
+         type: 'line',
+         barWidth: '20px',
+         label: {
+           show: false,
+           position: 'insideRight'
+         },
+         data: modifiedChartData.data,
+         markArea: {
+           silent: true,
+           itemStyle: {
+             color: '#E6E6E6',
+             opacity: 0.7
+           },
+           data: modifiedChartData.markArea
+         }
+       }
+     ]
     }
   }
-
-
 
   function closeStackChartModal() {
     document.getElementById('selStackChartFilter')[0].selected = true;
@@ -652,7 +736,8 @@ const main = (function() {
         quarterId: global.quarterId,
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
-        selectedQuarterDate: global.selectedQuarterDate
+        selectedQuarterDate: global.selectedQuarterDate,
+        profileType: global.selectedProfileType
       }
     }).then(callback).catch(function (err) {
       cmmUtils.goToErrorPage(err);
@@ -673,7 +758,8 @@ const main = (function() {
       cmmUtils.goToErrorPage(err);
     });
   }
-  
+
+  // 포트폴리오 분석 오른쪽 그리드 차트
   function getRightItemCodeChartInfo(callback) {
     cmmUtils.postData({
       url: '/api/v1/analysis/profile/line-chart/item-code',
@@ -688,7 +774,7 @@ const main = (function() {
     });
   }
 
-  // 포트폴리오 차트
+  // 포트폴리오 차트탭
   function initBarChart() {
     getQuarterInfo(function(response) {
       const chartData = createData(response);
@@ -733,7 +819,7 @@ const main = (function() {
             {
               type: 'bar',
               barWidth: '20px',
-              color: '#276cda',
+              color: '#C23531',
               label: {
                 show: true,
                 position: 'right',
@@ -764,12 +850,6 @@ const main = (function() {
       }
       return result;
     }
-  }
-
-  function initRadarChart() {
-    getQuarterInfo(function(response) {
-
-    })
   }
 
   function pushBarChartData(result, data, limitSize) {
@@ -996,13 +1076,22 @@ const main = (function() {
   }
 
   function initCKEditor() {
+
+    const newIdeaContWordCount = function(stats) {
+      global.newIdeaWordCount = stats.characters;
+    }
+
+    const modIdeaContWordCount = function(stats) {
+      global.modIdeaWordCount = stats.characters;
+    }
+
     if (!global['ckEditNewIdeaCont']) {
-      cmmUtils.createCKEditor({selector: '#newIdeaCont'}, function(editor) {
+      cmmUtils.createCKEditor({selector: '#newIdeaCont', wordCount: newIdeaContWordCount}, function(editor) {
         global['ckEditNewIdeaCont'] = editor;
       });
     }
     if (!global['ckEditModIdeaCont']) {
-      cmmUtils.createCKEditor({selector: '#modIdeaCont'}, function(editor) {
+      cmmUtils.createCKEditor({selector: '#modIdeaCont', wordCount: modIdeaContWordCount}, function(editor) {
         global['ckEditModIdeaCont'] = editor;
       });
     }
@@ -1018,7 +1107,6 @@ const main = (function() {
       clearModIdeaModal(response);
       cmmUtils.bindData('modIdeaForm', response);
       global.ckEditModIdeaCont.setData(response['ideaCont']);
-      appendModIdeaFiles(response);
       cmmUtils.showModal('modIdeaModal');
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
@@ -1033,18 +1121,12 @@ const main = (function() {
   function clearNewIdeaModal() {
     document.getElementById('newIdeaTitle').value = '';
     global.ckEditNewIdeaCont.setData('');
-    document.getElementById('newIdeaFile').value = '';
-    cmmUtils.clearChildNodes(document.getElementById('newIdeaFileDiv'));
-    global.newFileArr = [];
   }
 
   function clearModIdeaModal(response) {
     document.getElementById('modIdeaTitle').value = '';
     global.ckEditModIdeaCont.setData('');
-    document.getElementById('modIdeaFile').value = '';
-    cmmUtils.clearChildNodes(document.getElementById('modIdeaFileDiv'));
     document.getElementById('modCardTitle').innerText = response['ideaTitle'];
-    global.newFileArr = [];
   }
 
   function closeNewIdeaModal() {
@@ -1059,40 +1141,6 @@ const main = (function() {
 
   function reloadIdeaGrid() {
     ideaGrid.reload();
-  }
-
-  // 파일태그 변경 이벤트
-  function addFileEventListener() {
-    // 입력모달 첨부파일
-    document.getElementById('newIdeaFile').addEventListener('change', function() {
-      if (this.files.length) {
-        const newIdeaFileDiv = document.getElementById('newIdeaFileDiv');
-        const fragment = document.createDocumentFragment();
-        for (let i = 0; i < this.files.length; i++) {
-          const file = this.files[i];
-          const uuid = cmmUtils.getUUID();
-          global.newFileArr.push({uuid: uuid, file: file});
-          fragment.appendChild(appendFileTag({uuid: uuid, name: file.name}));
-        }
-        newIdeaFileDiv.appendChild(fragment.cloneNode(true));
-        //this.value = ''; // 리셋
-      }
-    })
-    // 수정모달 첨부파일
-    document.getElementById('modIdeaFile').addEventListener('change', function() {
-      if (this.files.length) {
-        const modIdeaFileDiv = document.getElementById('modIdeaFileDiv');
-        const fragment = document.createDocumentFragment();
-        for (let i = 0; i < this.files.length; i++) {
-          const file = this.files[i];
-          const uuid = cmmUtils.getUUID();
-          global.newFileArr.push({uuid: uuid, file: file});
-          fragment.appendChild(appendFileTag({uuid: uuid, name: file.name}));
-        }
-        modIdeaFileDiv.appendChild(fragment.cloneNode(true));
-        this.value = ''; // 리셋
-      }
-    })
   }
 
   // 탭 이벤트
@@ -1151,98 +1199,12 @@ const main = (function() {
     global.tabView = el.getAttribute('data-view');
   }
 
-  function appendModIdeaFiles(response) {
-    if (response['ideaFiles'] != null && response['ideaFiles'].length) {
-      global.modFileArr = [];
-      const modIdeaFileDiv = document.getElementById('modIdeaFileDiv');
-      const fragment = document.createDocumentFragment();
-      for (let i = 0; i < response['ideaFiles'].length; i++) {
-        const file = response['ideaFiles'][i];
-        const uuid = cmmUtils.getUUID();
-        global.modFileArr.push({uuid: uuid, fileId: file['fileId'], fileSize: file['fileSize']});
-        fragment.appendChild(appendFileTag({uuid: uuid, name: file['originalFileName'], fileId: file['fileId']}, true));
-      }
-      modIdeaFileDiv.appendChild(fragment.cloneNode(true));
-      // 아이디어 다운로드 이벤트 추가
-      const ideaFileAnchors = modIdeaFileDiv.querySelectorAll('[data-anchor=ideaFile]');
-      for (let i = 0; i < ideaFileAnchors.length; i++) {
-        ideaFileAnchors[i].addEventListener('click', function() {
-          cmmUtils.downloadFile(this.getAttribute('data-file-id'));
-        })
-      }
-    }
-  }
-
-  function appendFileTag(data, hasLink) {
-    const button = document.createElement('button');
-    button.classList.add('delete');
-    button.classList.add('is-small');
-    button.setAttribute('onclick', 'main.removeFileTag(\'' + data.uuid + '\')');
-    const span = document.createElement('span');
-    span.classList.add('tag');
-    span.classList.add('is-warning');
-    span.classList.add('is-light');
-    span.classList.add('mr-3');
-    span.setAttribute('data-key', data.uuid);
-    if (hasLink) {
-      const a = document.createElement('a');
-      a.classList.add('is-link');
-      a.innerText = data.name;
-      a.setAttribute('data-anchor', 'ideaFile');
-      a.setAttribute('data-file-id', data['fileId']);
-      span.appendChild(a);
-    } else {
-      span.innerText = data.name;
-    }
-    span.appendChild(button);
-    return span;
-  }
-
-  function removeFileTag(uuid) {
-    const ideaFileDiv = global['modFileArr'].length
-      ? document.getElementById('modIdeaFileDiv')
-      : document.getElementById('newIdeaFileDiv');
-    const spanTags = ideaFileDiv.querySelectorAll('span');
-    for (let i = 0; i < spanTags.length; i++) {
-      const span = spanTags[i];
-      if (span.getAttribute('data-key') === uuid) {
-        span.remove();
-      }
-    }
-    removeNewFileArrIdx(uuid);
-    if (global['modFileArr'].length) removeModFileArrIdx(uuid);
-  }
-
-  function removeNewFileArrIdx(uuid) {
-    for (let i = 0; i < global.newFileArr.length; i++) {
-      const obj = global.newFileArr[i];
-      if (uuid === obj.uuid) {
-        obj.isRemoved = true;
-      }
-    }
-  }
-
-  function removeModFileArrIdx(uuid) {
-    for (let i = 0; i < global.modFileArr.length; i++) {
-      const obj = global.modFileArr[i];
-      if (uuid === obj.uuid) {
-        obj.isRemoved = true;
-      }
-    }
-  }
-
   function saveIdea() {
     if (verifyNewIdeaForm()) {
       const formData = new FormData();
       formData.append('profileId', global.profileId);
       formData.append('ideaTitle', document.getElementById('newIdeaTitle').value);
       formData.append('ideaCont', global.ckEditNewIdeaCont.getData());
-      for (let i = 0; i < global.newFileArr.length; i++) {
-        const fileObj = global.newFileArr[i];
-        if (fileObj.isRemoved == null || !fileObj.isRemoved) {
-          formData.append('file' + i, fileObj.file);
-        }
-      }
       cmmUtils.postData({
         url: '/api/v1/analysis/profile/insert-idea',
         headers: {},
@@ -1271,23 +1233,6 @@ const main = (function() {
         formData.append('ideaId', global.selectedIdeaId);
         formData.append('ideaTitle', document.getElementById('modIdeaTitle').value);
         formData.append('ideaCont', global.ckEditModIdeaCont.getData());
-        for (let i = 0; i < global.newFileArr.length; i++) {
-          const fileObj = global.newFileArr[i];
-          if (fileObj.isRemoved == null || !fileObj.isRemoved) {
-            formData.append('file' + i, fileObj.file);
-          }
-        }
-        // 기존에 저장된 파일중 제거된 파일정보를 바디에 추가
-        let strArr = [];
-        for (let i = 0; i < global.modFileArr.length; i++) {
-          const fileObj = global.modFileArr[i];
-          if (fileObj.isRemoved != null || fileObj.isRemoved) {
-            strArr.push(fileObj.fileId);
-          }
-        }
-        if (strArr.length) {
-          formData.append('modifiedFileStr', strArr.join(','));
-        }
         cmmUtils.postData({
           url: '/api/v1/analysis/profile/update-idea',
           headers: {},
@@ -1311,13 +1256,12 @@ const main = (function() {
 
   function verifyNewIdeaForm() {
     const newIdeaTitle = document.getElementById('newIdeaTitle').value;
-    const checkedFiles = cmmUtils.verifyFileSize(global.newFileArr);
     if (!newIdeaTitle) {
       cmmUtils.showIpModal('제목', '제목을 입력해주세요.');
       return false;
     }
-    if (!checkedFiles.status) {
-      cmmUtils.showIpModal('파일', checkedFiles.msg);
+    if (global.newIdeaWordCount > 2000) {
+      cmmUtils.showIpModal('문자수 초과', '아이디어 문자수는 최대 2000문자(현재:' + global.newIdeaWordCount + '문자)까지 가능합니다. ');
       return false;
     }
     return true;
@@ -1325,26 +1269,15 @@ const main = (function() {
 
   function verifyModIdeaForm() {
     const modIdeaTitle = document.getElementById('modIdeaTitle').value;
-    const checkedFiles = cmmUtils.verifyFileSize(global.newFileArr, getModFileSize());
     if (!modIdeaTitle) {
       cmmUtils.showIpModal('제목', '제목을 입력해주세요.');
       return false;
     }
-    if (!checkedFiles.status) {
-      cmmUtils.showIpModal('파일', checkedFiles.msg);
+    if (global.modIdeaWordCount > 2000) {
+      cmmUtils.showIpModal('문자수 초과', '아이디어 문자수는 최대 2000문자(현재:' + global.modIdeaWordCount + '문자)까지 가능합니다. ');
       return false;
     }
     return true;
-  }
-
-  function getModFileSize() {
-    let size = 0;
-    if (global.modFileArr.length) {
-      for (let i = 0; i < global.modFileArr.length; i++) {
-        size = size + global.modFileArr[i].fileSize;
-      }
-    }
-    return size;
   }
 
   function downloadProfileGrid(type) {
@@ -1370,7 +1303,6 @@ const main = (function() {
     closeStackChartModal: closeStackChartModal,
     closeColLineChartModal: closeColLineChartModal,
     downloadProfileGrid: downloadProfileGrid,
-    removeFileTag: removeFileTag,
     saveIdea: saveIdea,
     modifyIdea: modifyIdea,
     goToLinkPop: goToLinkPop

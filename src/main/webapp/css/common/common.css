@@ -164,6 +164,10 @@
 	width: 1200px;
 }
 
+.width1300px {
+	width: 1300px;
+}
+
 .height120px {
 	height: 120px;
 }
@@ -316,4 +320,8 @@
 
 table thead th {
 	background: #f7f7f8;
+}
+
+.min-screen-height {
+	min-height: 1080px;
 }

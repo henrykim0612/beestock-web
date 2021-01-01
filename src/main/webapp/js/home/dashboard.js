@@ -1,13 +1,48 @@
 const main = (function () {
 
   let global = {
-    selectedTab: 'contIn', // 기본은 국내
+    userRole: null,
+    selectedTab: null,
     splitNum: 4
   }
 
   function init() {
+    setGuestLayout();
+    setUserRole();
+    setSelectedTab();
     addTabListener();
     initCards();
+  }
+
+  // 게스트일 경우의 화면 처리
+  function setGuestLayout() {
+    if (!document.getElementById('loginId')) {
+      // Premium badge
+      const span = document.createElement('span');
+      span.classList.add('badge');
+      span.classList.add('is-danger');
+      span.classList.add('is-top-right');
+      span.innerText = 'Premium';
+      document.getElementById('tabInAnchor').appendChild(span);
+    }
+  }
+
+  function setUserRole() {
+    global.userRole = !!document.getElementById('authority') ? document.getElementById('authority').value : '';
+  }
+
+  function setSelectedTab() {
+    const tabs = document.getElementsByName('tabs');
+    const len = tabs.length;
+    for (let i = 0; i < len; i++) {
+      const tab = tabs[i];
+      if (tab.classList.contains('is-active')) {
+        const contId = tab.dataset.contId;
+        global.selectedTab = contId;
+        // Tab content 숨김 해제
+        document.getElementById(contId).classList.remove('is-hidden');
+      }
+    }
   }
 
   function addTabListener() {
@@ -44,7 +79,7 @@ const main = (function () {
       url: '/api/v1/dashboard/profile-list',
       body: body,
     }).then(function(response) {
-      cmmProfileCard.appendCards(response, global['selectedTab']);
+      cmmProfileCard.appendCards(response, global['selectedTab'], global.userRole);
     }).catch(function (err) {
       cmmUtils.goToErrorPage(err);
     });

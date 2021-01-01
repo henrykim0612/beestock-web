@@ -2,9 +2,10 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js" type="text/javascript"></script>
-<input type="hidden" id="profileId" value="${profileId}"/>
+<input type="hidden" id="profileId" value="${profileVo.profileId}"/>
+<input type="hidden" id="profileType" value="${profileVo.profileType}"/>
 
-<div class="flex-row justify-content-end">
+<div class="flex-row justify-content-end mb-2">
     <div>
         <figure class="image is-32x32">
             <img id="bannerNSec" class="cursor" src="${pageContext.request.contextPath}/resources/images/banner/n-sec.png" onclick="cmmUtils.goToLinkPop('https://finance.naver.com')">
@@ -37,7 +38,7 @@
                             <span id="spanStar" class="icon has-text-warning cursor"></span>
                         </div>
                         <div class="media-content">
-                            <p id="profileTitle" class="title is-4"></p>
+                            <p id="profileTitle" class="title is-6"></p>
                         </div>
                     </div>
                     <div id="profileSubtitle" class="content">
@@ -90,35 +91,20 @@
             </div>
             <%--아이디어 탭--%>
             <div id="ideaCont" class="is-hidden">
-                <sec:authorize access="hasRole('ROLE_USER')">
-                    <div class="columns mt-6">
-                        <div class="column is-full">
-                            <article class="message is-warning">
-                                <div class="message-body">
-                                    <strong>구독자</strong>만 이용 가능합니다.<br/>
-                                    투자 아이디어, 느낀점 등을 기록하고 지속적으로 점검 해보세요.<br/>
-                                    나중에 큰 자산이 될 것입니다.
-                                </div>
-                            </article>
+                <div class="columns is-flex-direction-row is-justify-content-flex-end">
+                    <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
+                        <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
+                        <span>아이디어 추가</span>
+                    </button>
+                </div>
+                <div class="columns">
+                    <div class="column is-full height250px">
+                        <div class="table-container mt-3">
+                            <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
                         </div>
+                        <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
                     </div>
-                </sec:authorize>
-                <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
-                    <div class="columns is-flex-direction-row is-justify-content-flex-end">
-                        <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
-                            <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
-                            <span>아이디어 추가</span>
-                        </button>
-                    </div>
-                    <div class="columns">
-                        <div class="column is-full height250px">
-                            <div class="table-container mt-3">
-                                <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
-                            </div>
-                            <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
-                        </div>
-                    </div>
-                </sec:authorize>
+                </div>
             </div>
         </div>
     </div>
@@ -239,7 +225,7 @@
                 <div class="select is-small">
                     <select id="selBarChartFilter">
                         <option value="marketPrice" selected>시가평가액</option>
-                        <option value="weight">비중</option>
+                        <option value="viewWeight">비중(%)</option>
                         <option value="quantity">보유수량</option>
                     </select>
                 </div>
@@ -257,7 +243,7 @@
 <%--아이디어 등록 모달--%>
 <div id="newIdeaModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-card width1200px">
+    <div class="modal-card width1300px">
         <header class="modal-card-head">
             <p class="modal-card-title">아이디어 등록</p>
             <button class="delete" aria-label="close" onclick="main.closeNewIdeaModal()"></button>
@@ -275,32 +261,11 @@
             </div>
             <div class="columns">
                 <div class="column is-1 is-vertical-center">
-                    <label class="label" for="newIdeaCont">내용</label>
+                    <label class="label" for="newIdeaCont">아이디어</label>
                 </div>
                 <div class="column">
                     <div class="control has-icons-left">
                         <div id="newIdeaCont"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-1 is-vertical-center">
-                    <div class="field" id="fileField">
-                        <div class="file is-white">
-                            <label class="file-label">
-                                <input multiple class="file-input" type="file" id="newIdeaFile">
-                                <span class="file-cta">
-                                    <span class="file-icon"><i class="fas fa-file-signature"></i></span>
-                                    <span class="file-label">첨부</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="columns">
-                        <div class="column" id="newIdeaFileDiv">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -325,7 +290,7 @@
 <%--아이디어 수정모달--%>
 <div id="modIdeaModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-card width1200px">
+    <div class="modal-card width1300px">
         <header class="modal-card-head">
             <p class="modal-card-title" id="modCardTitle">투자 아이디어</p>
             <button class="delete" aria-label="close" onclick="main.closeModIdeaModal()"></button>
@@ -344,32 +309,11 @@
                 </div>
                 <div class="columns">
                     <div class="column is-1 is-vertical-center">
-                        <label class="label" for="modIdeaCont">내용</label>
+                        <label class="label" for="modIdeaCont">아이디어</label>
                     </div>
                     <div class="column">
                         <div class="control has-icons-left">
                             <div id="modIdeaCont"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column is-1 is-vertical-center">
-                        <div class="field" id="modFileField">
-                            <div class="file is-white">
-                                <label class="file-label">
-                                    <input class="file-input" type="file" multiple id="modIdeaFile">
-                                    <span class="file-cta">
-                                    <span class="file-icon"><i class="fas fa-file-signature"></i></span>
-                                    <span class="file-label">첨부</span>
-                                </span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="columns">
-                            <div class="column" id="modIdeaFileDiv">
-                            </div>
                         </div>
                     </div>
                 </div>

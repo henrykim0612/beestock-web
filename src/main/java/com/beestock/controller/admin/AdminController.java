@@ -55,5 +55,11 @@ public class AdminController {
         return "admin/profile/profileOrderManagement";
     }
 
+    @GetMapping("/latest-price-management")
+    public String goToStockItemManagement(ModelMap model) {
+        model.addAttribute("title", "Daily 주가 수동 업로드");
+        return "admin/latestprice/latestPriceManagement";
+    }
+
 
 }

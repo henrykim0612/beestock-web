@@ -115,7 +115,6 @@ const main = (function() {
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
-    formData.append('isFree', cmmUtils.getCheckedValues('isFree')[0]);
     createLinkStr(formData);
     return formData;
   }

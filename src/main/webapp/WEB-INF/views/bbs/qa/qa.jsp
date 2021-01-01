@@ -10,6 +10,8 @@
                    <select id="selSearch">
                         <option value="qaTitle" selected>제목</option>
                         <option value="qaCont">내용</option>
+                        <option value="qaNo">등록번호</option>
+                        <option value="regLoginId">등록자</option>
                     </select>
                 </span>
                 <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>

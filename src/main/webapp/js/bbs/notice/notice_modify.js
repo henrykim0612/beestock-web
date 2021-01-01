@@ -90,9 +90,6 @@ const main = (function() {
         }).then(function (response) {
           cmmUtils.verifyResponse(response);
           cmmUtils.showModal('saveModal');
-          if (0 < response) {
-            init();
-          }
         }).catch(function (err) {
           cmmUtils.goToErrorPage(err);
         });

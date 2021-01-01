@@ -1,10 +1,12 @@
 const cmmProfileCard = (function () {
 
   let global = {
+    userRole: null,
     splitNum: 6
   }
 
-  function appendCards(response, eId) {
+  function appendCards(response, eId, userRole) {
+    setUserRole(userRole);
     cmmUtils.clearChildNodes(eId);
     const content = document.getElementById(eId);
     const fragment = document.createDocumentFragment();
@@ -22,21 +24,11 @@ const cmmProfileCard = (function () {
       }
       fragment.appendChild(columns);
     }
-    content.appendChild(fragment.cloneNode(true));
-    addCardEventListener();
+    content.appendChild(fragment);
   }
 
-  function addCardEventListener() {
-    const profileCard = document.getElementsByName('profileCard');
-    for (let i = 0; i < profileCard.length; i++) {
-      const card = profileCard[i];
-      // 포트폴리오 카드 클릭 이벤트
-      card.addEventListener('click', function() {
-        const profileId = this.getAttribute('data-profile-id');
-        const url = '/analysis/profile/' + profileId;
-        cmmUtils.goToPage(url);
-      })
-    }
+  function setUserRole(userRole) {
+    global.userRole = userRole;
   }
 
   // 묶음을 컬럼 생성
@@ -60,8 +52,16 @@ const cmmProfileCard = (function () {
     card.classList.add('card');
     card.classList.add('cursor');
     card.setAttribute('name', 'profileCard');
-    card.setAttribute('data-profile-id', data['profileId']);
-    card.setAttribute('data-free', data['isFree']);
+    // 카드 클릭 이벤트
+    card.addEventListener('click', function() {
+      if (data['profileType'] === 1 && (global.userRole === '[ROLE_USER]' || global.userRole === '[ROLE_STANDARD]')) {
+        // 국내 프로필은 프리미엄 이상만 이용가능
+        cmmUtils.showModal('premiumModal');
+      } else {
+        const url = '/analysis/profile/' + data['profileType'] +'/' + data['profileId'];
+        cmmUtils.goToPage(url);
+      }
+    })
     // 카드 이미지
     const cardImage = document.createElement('div');
     cardImage.classList.add('card-image');
@@ -84,17 +84,13 @@ const cmmProfileCard = (function () {
     const title = document.createElement('p');
     title.classList.add('title');
     title.classList.add('is-6');
+
     // 오늘 읽었으면 색상 변경(1:읽음, 2:읽지않음)
     if (data['isRead'] === 1) {
       title.classList.add('has-text-grey-light');
     }
     title.innerText = data['profileTitle'];
-    // 무료 포트폴리오은 뱃지 추가
-    if (data['isFree'] === 2) {
-      title.setAttribute('data-badge', '무료');
-      title.classList.add('has-badge-rounded');
-      title.classList.add('has-badge-info');
-    }
+
     // 보조명칭
     const subTitle = document.createElement('p');
     subTitle.classList.add('subtitle');

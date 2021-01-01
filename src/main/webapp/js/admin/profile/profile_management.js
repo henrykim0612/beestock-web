@@ -46,14 +46,11 @@ const main = (function() {
       return row['profileType'] === 1 ? '<span class="tag is-success is-light">국내</span>' : '<span class="tag is-warning is-light">해외</span>';
     }
 
-    const customIsFree = function(col, row) {
-      // 1: 유료, 2: 무료
-      return row['isFree'] === 1 ? '<span class="tag is-danger is-light">유료</span>' : '<span class="tag is-success is-light">무료</span>';
-    }
-
     const titleAnchor = function(anchor, col, row) {
-      anchor.setAttribute('data-custom', 'titleAnchor');
-      anchor.setAttribute('data-profile-id', row['profileId']);
+      anchor.addEventListener('click', function() {
+        global['selectedProfileId'] = row['profileId'];
+        goToDetails();
+      })
     }
 
     const props = {
@@ -69,28 +66,13 @@ const main = (function() {
         {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
         {id: 'profileSubtitle', name: '보조명', isSort: true, isExcel: true, width: '250px'},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
-        {id: 'isFree', name: '포트폴리오공개', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customIsFree, width: '100px'},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
         {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
         {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}
-      ],
-      success: function(data, _this) {
-        addTitleAnchorEvent(data, _this);
-      }
+      ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);
-  }
-
-  function addTitleAnchorEvent(data, _this) {
-    const eId = _this.props.eId;
-    const tags = document.getElementById(eId).querySelectorAll('[data-custom=titleAnchor]');
-    for (let i = 0; i < tags.length; i++) {
-      tags[i].addEventListener('click', function() {
-        global['selectedProfileId'] = this.getAttribute('data-profile-id');
-        goToDetails();
-      })
-    }
   }
 
   function goToProfileForm() {

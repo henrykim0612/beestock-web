@@ -16,23 +16,25 @@
         </div>
     </div>
 </div>
-
 <div class="tabs is-centered">
-    <ul>
-        <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">
-            <a>
-                <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
-                <span>국내</span>
-            </a>
-        </li>
-        <li id="tabOut" name="tabs" data-cont-id="contOut">
+    <ul class="mt-3">
+        <li id="tabOut" name="tabs" data-cont-id="contOut" class="is-active">
             <a>
                 <span class="icon is-small"><i class="fas fa-globe"></i></span>
-                <span>국외</span>
+                <span>해외</span>
+            </a>
+        </li>
+        <li id="tabIn" name="tabs" data-cont-id="contIn">
+            <a id="tabInAnchor">
+                <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
+                <span>국내</span>
+                <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_STANDARD')">
+                    <span class="badge is-danger is-top-right">Premium</span>
+                </sec:authorize>
             </a>
         </li>
     </ul>
 </div>
 
-<div id="contIn"></div>
+<div id="contIn" class="is-hidden"></div>
 <div id="contOut" class="is-hidden"></div>

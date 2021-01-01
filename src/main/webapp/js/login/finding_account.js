@@ -131,7 +131,7 @@ const main = (function () {
     cmmUtils.clearChildNodes(pwdModalSect);
     let html = '';
     if (tempPwd) {
-      html = '<p>임시 비밀번호는 ' + tempPwd + ' 입니다. 로그인후 비밀번호를 변경해주세요.</p>';
+      html = '<p>임시 비밀번호를 메일로 전송 드렸습니다.</p><p>보안을 위해 로그인후 비밀번호를 바로 변경해주세요.</p>';
     } else {
       html = '<p>등록되어 있지 않은 Email 또는 비밀번호 힌트의 답이 일치하지 않습니다.</p>';
     }
