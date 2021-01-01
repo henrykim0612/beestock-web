@@ -145,7 +145,7 @@
                 <p>화면 제한 안내</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumModal')"></button>
             </div>
-            <div class="message-body">
+            <div class="message-body has-text-dark">
                 <div class="is-left mb-5">
                     <p>해당 화면은<strong>Premium</strong> 등급 이상의 구독자만 이용이 가능합니다.</p>
                     <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
