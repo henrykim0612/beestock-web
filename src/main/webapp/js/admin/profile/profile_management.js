@@ -57,6 +57,9 @@ const main = (function() {
       url: '/api/v1/admin/profile/paging-profile-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
+      body: {
+        orderBy: [{column: 'uptDate', desc: true}],
+      },
       fileName: '포트폴리오 리스트',
       isThead: true,
       isTfoot: false,

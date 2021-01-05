@@ -61,6 +61,7 @@ const main = (function() {
     const quickView = function(anchor, col, row) {
       anchor.setAttribute('data-show', 'quickview');
       anchor.setAttribute('data-target', 'itemCodeQuickView');
+      anchor.setAttribute('data-target', 'itemCodeQuickView');
       const key = global.selectedProfileType === 1 ? 'itemCode' : 'symbol';
       // 종목명 퀵뷰
       anchor.addEventListener('click', function() {
@@ -79,13 +80,11 @@ const main = (function() {
       ? [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, isExcel: true, align: 'left'},
         {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
       ]
       : [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'symbol', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, isExcel: true, align: 'left'},
         {id: 'latestPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
       ];
 
@@ -121,29 +120,29 @@ const main = (function() {
 
   // 퀵뷰 상세정보 생성
   function appendQuickViewContent(row) {
-    const entries = global.selectedProfileType === 1
-      ? [
-        {id: 'itemCode', name: '종목코드'},
-        {id: 'itemName', name: '종목명'},
-        {id: 'currPrice', name: '현재가', isCurrency: true}
-      ] : [
-        {id: 'symbol', name: '종목코드'},
-        {id: 'itemName', name: '종목명'},
-        {id: 'latestPrice', name: '현재가', isCurrency: true}
-      ]
-    const len = entries.length;
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < len; i++) {
-      const entry = entries[i];
-      const value = entry.isCurrency != null ? row[entry.id].toLocaleString() : row[entry.id];
-      const p = document.createElement('p');
-      p.classList.add('mb-4')
-      p.innerText = entry.name + ' : ' + value;
-      fragment.appendChild(p);
-    }
-    const cont = document.getElementById('qViewContent');
-    cmmUtils.clearChildNodes(cont);
-    cont.appendChild(fragment.cloneNode(true));
+    // const entries = global.selectedProfileType === 1
+    //   ? [
+    //     {id: 'itemCode', name: '종목코드'},
+    //     {id: 'itemName', name: '종목명'},
+    //     {id: 'currPrice', name: '현재가', isCurrency: true}
+    //   ] : [
+    //     {id: 'symbol', name: '종목코드'},
+    //     {id: 'itemName', name: '종목명'},
+    //     {id: 'latestPrice', name: '현재가', isCurrency: true}
+    //   ]
+    // const len = entries.length;
+    // const fragment = document.createDocumentFragment();
+    // for (let i = 0; i < len; i++) {
+    //   const entry = entries[i];
+    //   const value = entry.isCurrency != null ? row[entry.id].toLocaleString() : row[entry.id];
+    //   const p = document.createElement('p');
+    //   p.classList.add('mb-4')
+    //   p.innerText = entry.name + ' : ' + value;
+    //   fragment.appendChild(p);
+    // }
+    // const cont = document.getElementById('qViewContent');
+    // cmmUtils.clearChildNodes(cont);
+    // cont.appendChild(fragment.cloneNode(true));
   }
 
   function addFileEventListener() {
