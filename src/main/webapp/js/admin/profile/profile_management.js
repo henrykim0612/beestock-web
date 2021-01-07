@@ -97,6 +97,7 @@ const main = (function() {
     const key = document.getElementById('selSearch').value;
     props[key] = document.getElementById('inputSearch').value;
     props['profileType'] = global['selectedSelType'];
+    props['orderBy'] = dataGrid.getProps().body.orderBy;
     dataGrid.reload(props);
   }
 
@@ -108,6 +109,7 @@ const main = (function() {
 
   return {
     init: init,
+    dataGrid: function() { return dataGrid; },
     goToProfileForm: goToProfileForm,
     changeSelType: changeSelType,
     findProfile: findProfile,

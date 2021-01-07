@@ -227,13 +227,8 @@ const main = (function() {
   }
 
   function showUploadModal() {
-    if (global.selectedProfileType === 1) { // 국내
-      resetUploadModal();
-      cmmUtils.showModal('uploadModal');
-    } else {
-      cmmUtils.showWarningModal('구현 준비중', '미완성 상태입니다.');
-    }
-
+    resetUploadModal();
+    cmmUtils.showModal('uploadModal');
   }
 
   function hideUploadModal() {
@@ -304,6 +299,21 @@ const main = (function() {
     return true;
   }
 
+  // 해외 종목코드 동기화
+  function syncSymbols() {
+    cmmConfirm.show({msg: '동기화를 진행 하시겠습니까?', color: 'is-warning'}, function() {
+      cmmUtils.postData({
+        url: '/api/v1/admin/stock/sync-symbols',
+        loading: 'btnSyncSymbol'
+      }).then(function (response) {
+        cmmUtils.verifyResponse(response);
+        cmmUtils.showToast(response ? {message: '동기화 성공'} : {message: '동기화 실패', type: 'is-danger is-light'});
+      }).catch(function (err) {
+        cmmUtils.goToErrorPage(err)
+      });
+    });
+  }
+
   return {
     test: function() {
       return global.selectedProfileType;
@@ -312,6 +322,7 @@ const main = (function() {
     findStockItem: findStockItem,
     downloadExcel: downloadExcel,
     showUploadModal: showUploadModal,
+    syncSymbols: syncSymbols,
     hideUploadModal: hideUploadModal,
     uploadStockItem: uploadStockItem,
     removeFileTag: removeFileTag,

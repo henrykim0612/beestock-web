@@ -20,7 +20,7 @@ const cmmUtils = (function () {
       headers: props['headers'] != null ? props['headers'] : {'Content-Type': 'application/json'},
       redirect: 'follow', // manual, *follow, error
       referrer: 'no-referrer' // no-referrer, *client
-    }).then(function (response) {
+    }, 18000).then(function (response) { // 180초 이후는 타임아웃
       if (props['loading'] != null) {
         cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
       }
@@ -52,7 +52,7 @@ const cmmUtils = (function () {
       body: props['isMultipartFile'] != null && props['isMultipartFile']
         ? props['body']
         : props['body'] != null ? JSON.stringify(props['body']) : '{}'
-    }).then(function (response) {
+    }, 18000).then(function (response) { // 180초 이후는 타임아웃
       if (props['loading'] != null) {
         cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
       }
@@ -625,7 +625,7 @@ const cmmUtils = (function () {
     if (arguments.length === 0) {
       bulmaToast.toast({
         message: '저장되었습니다.',
-        type: 'is-success is-light',
+        type: props.type != null? 'is-success is-light' : props.type,
         duration: 3000,
         position: 'bottom-right',
         dismissible: false,
