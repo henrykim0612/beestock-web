@@ -4,11 +4,21 @@
 <form id="qaForm">
     <div class="columns">
         <div class="column is-1 is-vertical-center">
-            <label id="labelTitle" class="label" for="profileTitle">포트폴리오명</label>
+            <label id="labelTitle" class="label" for="profileTitle">명칭</label>
         </div>
         <div class="column">
             <div class="control">
                 <input id="profileTitle" class="input is-info" type="text" maxlength="100" placeholder="최대 100자리 입력">
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
+            <label id="labelFilerId" class="label" for="filerId">고유번호</label>
+        </div>
+        <div class="column">
+            <div class="control">
+                <input id="filerId" class="input is-info" type="text" maxlength="10" placeholder="해외인 경우 filer_id 컬럼 값 입력">
             </div>
         </div>
     </div>

@@ -16,6 +16,16 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
+            <label id="labelFilerId" class="label" for="filerId">고유번호</label>
+        </div>
+        <div class="column">
+            <div class="control">
+                <input id="filerId" class="input is-info" type="text" data-bind="true" data-id="filerId" maxlength="10" placeholder="해외인 경우 filer_id 컬럼 값 입력">
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label id="labelSubtitle" class="label" for="profileSubtitle">보조명칭</label>
         </div>
         <div class="column">

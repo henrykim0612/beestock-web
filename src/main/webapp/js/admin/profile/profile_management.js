@@ -57,6 +57,9 @@ const main = (function() {
       url: '/api/v1/admin/profile/paging-profile-list',
       eId: 'dataGrid',
       pId: 'dataPagination',
+      body: {
+        orderBy: [{column: 'uptDate', desc: true}],
+      },
       fileName: '포트폴리오 리스트',
       isThead: true,
       isTfoot: false,
@@ -94,6 +97,7 @@ const main = (function() {
     const key = document.getElementById('selSearch').value;
     props[key] = document.getElementById('inputSearch').value;
     props['profileType'] = global['selectedSelType'];
+    props['orderBy'] = dataGrid.getProps().body.orderBy;
     dataGrid.reload(props);
   }
 
@@ -105,6 +109,7 @@ const main = (function() {
 
   return {
     init: init,
+    dataGrid: function() { return dataGrid; },
     goToProfileForm: goToProfileForm,
     changeSelType: changeSelType,
     findProfile: findProfile,

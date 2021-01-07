@@ -132,6 +132,7 @@ const main = (function() {
     return {
       profileId: global['profileId'],
       profileTitle: document.getElementById('profileTitle').value,
+      filerId: document.getElementById('filerId').value,
       profileSubtitle: document.getElementById('profileSubtitle').value,
       profileInfo: global['ckEditProfileInfo'].getData(),
       profileType: cmmUtils.getCheckedValues('profileType')[0],
@@ -145,6 +146,7 @@ const main = (function() {
     formData.append('profileId', global['profileId']);
     formData.append('imgRefId', document.getElementById('imgRefId').files[0]);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
+    formData.append('filerId', document.getElementById('filerId').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
@@ -198,6 +200,11 @@ const main = (function() {
     const profileTitle = document.getElementById('profileTitle').value;
     if (!profileTitle) {
       cmmUtils.showIpModal('포트폴리오명');
+      return false;
+    }
+    const filerId = document.getElementById('filerId').value;
+    if (filerId && filerId.length > 10) {
+      cmmUtils.showIpModal('포트폴리오 고유번호', '포트폴리고 고유번호는 최대 10자리까지 입력 가능합니다.');
       return false;
     }
     // 링크 검증

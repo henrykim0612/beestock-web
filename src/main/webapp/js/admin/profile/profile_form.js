@@ -77,11 +77,16 @@ const main = (function() {
 
   function verifyInputValues() {
     const profileTitle = document.getElementById('profileTitle').value;
-    const imgRefId = document.getElementById('imgRefId').value;
     if (!profileTitle) {
       cmmUtils.showIpModal('포트폴리오명');
       return false;
     }
+    const filerId = document.getElementById('filerId').value;
+    if (filerId && filerId.length > 10) {
+      cmmUtils.showIpModal('포트폴리오 고유번호', '포트폴리고 고유번호는 최대 10자리까지 입력 가능합니다.');
+      return false;
+    }
+    const imgRefId = document.getElementById('imgRefId').value;
     if (!imgRefId) {
       cmmUtils.showIpModal('대표사진', '대표사진을 선택해주세요.');
       return false;
@@ -111,6 +116,7 @@ const main = (function() {
   function getParameters() {
     const formData = new FormData();
     formData.append('imgRefId', document.getElementById('imgRefId').files[0]);
+    formData.append('filerId', document.getElementById('filerId').value);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());

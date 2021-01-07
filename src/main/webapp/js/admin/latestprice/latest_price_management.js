@@ -61,6 +61,7 @@ const main = (function() {
     const quickView = function(anchor, col, row) {
       anchor.setAttribute('data-show', 'quickview');
       anchor.setAttribute('data-target', 'itemCodeQuickView');
+      anchor.setAttribute('data-target', 'itemCodeQuickView');
       const key = global.selectedProfileType === 1 ? 'itemCode' : 'symbol';
       // 종목명 퀵뷰
       anchor.addEventListener('click', function() {
@@ -79,13 +80,11 @@ const main = (function() {
       ? [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, isExcel: true, align: 'left'},
         {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
       ]
       : [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'symbol', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, isLink: true, userCustom: quickView, isExcel: true, align: 'left'},
         {id: 'latestPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
       ];
 
@@ -121,29 +120,29 @@ const main = (function() {
 
   // 퀵뷰 상세정보 생성
   function appendQuickViewContent(row) {
-    const entries = global.selectedProfileType === 1
-      ? [
-        {id: 'itemCode', name: '종목코드'},
-        {id: 'itemName', name: '종목명'},
-        {id: 'currPrice', name: '현재가', isCurrency: true}
-      ] : [
-        {id: 'symbol', name: '종목코드'},
-        {id: 'itemName', name: '종목명'},
-        {id: 'latestPrice', name: '현재가', isCurrency: true}
-      ]
-    const len = entries.length;
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < len; i++) {
-      const entry = entries[i];
-      const value = entry.isCurrency != null ? row[entry.id].toLocaleString() : row[entry.id];
-      const p = document.createElement('p');
-      p.classList.add('mb-4')
-      p.innerText = entry.name + ' : ' + value;
-      fragment.appendChild(p);
-    }
-    const cont = document.getElementById('qViewContent');
-    cmmUtils.clearChildNodes(cont);
-    cont.appendChild(fragment.cloneNode(true));
+    // const entries = global.selectedProfileType === 1
+    //   ? [
+    //     {id: 'itemCode', name: '종목코드'},
+    //     {id: 'itemName', name: '종목명'},
+    //     {id: 'currPrice', name: '현재가', isCurrency: true}
+    //   ] : [
+    //     {id: 'symbol', name: '종목코드'},
+    //     {id: 'itemName', name: '종목명'},
+    //     {id: 'latestPrice', name: '현재가', isCurrency: true}
+    //   ]
+    // const len = entries.length;
+    // const fragment = document.createDocumentFragment();
+    // for (let i = 0; i < len; i++) {
+    //   const entry = entries[i];
+    //   const value = entry.isCurrency != null ? row[entry.id].toLocaleString() : row[entry.id];
+    //   const p = document.createElement('p');
+    //   p.classList.add('mb-4')
+    //   p.innerText = entry.name + ' : ' + value;
+    //   fragment.appendChild(p);
+    // }
+    // const cont = document.getElementById('qViewContent');
+    // cmmUtils.clearChildNodes(cont);
+    // cont.appendChild(fragment.cloneNode(true));
   }
 
   function addFileEventListener() {
@@ -228,13 +227,8 @@ const main = (function() {
   }
 
   function showUploadModal() {
-    if (global.selectedProfileType === 1) { // 국내
-      resetUploadModal();
-      cmmUtils.showModal('uploadModal');
-    } else {
-      cmmUtils.showWarningModal('구현 준비중', '미완성 상태입니다.');
-    }
-
+    resetUploadModal();
+    cmmUtils.showModal('uploadModal');
   }
 
   function hideUploadModal() {
@@ -305,6 +299,21 @@ const main = (function() {
     return true;
   }
 
+  // 해외 종목코드 동기화
+  function syncSymbols() {
+    cmmConfirm.show({msg: '동기화를 진행 하시겠습니까?', color: 'is-warning'}, function() {
+      cmmUtils.postData({
+        url: '/api/v1/admin/stock/sync-symbols',
+        loading: 'btnSyncSymbol'
+      }).then(function (response) {
+        cmmUtils.verifyResponse(response);
+        cmmUtils.showToast(response ? {message: '동기화 성공'} : {message: '동기화 실패', type: 'is-danger is-light'});
+      }).catch(function (err) {
+        cmmUtils.goToErrorPage(err)
+      });
+    });
+  }
+
   return {
     test: function() {
       return global.selectedProfileType;
@@ -313,6 +322,7 @@ const main = (function() {
     findStockItem: findStockItem,
     downloadExcel: downloadExcel,
     showUploadModal: showUploadModal,
+    syncSymbols: syncSymbols,
     hideUploadModal: hideUploadModal,
     uploadStockItem: uploadStockItem,
     removeFileTag: removeFileTag,

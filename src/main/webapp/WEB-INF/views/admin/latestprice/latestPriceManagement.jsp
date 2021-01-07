@@ -42,7 +42,11 @@
                 <div class="buttons">
                     <button class="button is-primary is-small" onclick="main.showUploadModal()">
                         <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
-                        <span>종목코드 업로드</span>
+                        <span>국내 종목코드 업로드</span>
+                    </button>
+                    <button id="btnSyncSymbol" class="button is-primary is-small" onclick="main.syncSymbols()">
+                        <span class="icon is-small"><i class="fas fa-sync-alt"></i></span>
+                        <span>해외 종목코드 동기화</span>
                     </button>
                 </div>
             </div>
@@ -67,7 +71,7 @@
         <div class="modal-background"></div>
         <div class="modal-card width900px">
             <header class="modal-card-head">
-                <p class="modal-card-title">종목코드 업로드</p>
+                <p class="modal-card-title">국내 종목코드 업로드</p>
                 <button class="delete" aria-label="close" onclick="main.hideUploadModal()"></button>
             </header>
             <section class="modal-card-body">
