@@ -232,24 +232,19 @@ const topMain = (function() {
   }
 
   function goToMyPage() {
-    const form = document.createElement('form');
-    form.method = 'get';
-    form.action = CONTEXT_PATH + '/user/my-page';
-    document.body.appendChild(form);
-    form.submit();
-    form.remove();
+    cmmUtils.goToPage('/user/my-page');
   }
 
   function logout() {
-    cmmUtils.goToPage(CONTEXT_PATH + '/login/logout');
+    cmmUtils.goToPage('/login/logout');
   }
 
   function login() {
-    cmmUtils.goToPage(CONTEXT_PATH + '/login/login-home');
+    cmmUtils.goToPage('/login/login-home');
   }
 
   function signUp() {
-    cmmUtils.goToPage(CONTEXT_PATH + '/login/signup');
+    cmmUtils.goToPage('/login/signup');
   }
 
   return {
