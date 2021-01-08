@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%--Polyfill--%>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=Promise%2Cfetch" type="text/javascript"></script>
+<%--Axios--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/axios/0.21.1/axios.min.js" type="text/javascript"></script>
 <%--fontawesome--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.3.1/fontawesome.js" type="text/javascript"></script>
 <%--Lodash--%>

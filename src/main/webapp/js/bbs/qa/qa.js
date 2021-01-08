@@ -154,14 +154,13 @@ const main = (function () {
   function checkPwd() {
     const loginId = document.getElementById('loginId').value;
     const loginPwd = document.getElementById('ipPwd').value;
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/login/check-pwd',
       body: {
         loginId: loginId,
         loginPwd: loginPwd
       }
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
       if (response) {
         goToDetails();
       } else {

@@ -49,28 +49,14 @@ const main = (function() {
   function drawDetails() {
     const noticeId = document.getElementById('noticeId').value;
     const url = '/api/v1/bbs/notice/' + noticeId;
-    cmmUtils.getData({
-      url: url,
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: url}, function(response) {
       cmmUtils.bindData('noticeDetailForm', response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
   // 수신 상태로 변경
   function insertAlarm() {
-    cmmUtils.postData({
-      url: '/api/v1/bbs/notice/insert-alarm',
-      body: {
-        noticeId: global.noticeId,
-      }
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
-    });
+    cmmUtils.axiosPost({url: '/api/v1/bbs/notice/insert-alarm', body: {noticeId: global.noticeId}});
   }
 
   // 목록으로 돌아가기

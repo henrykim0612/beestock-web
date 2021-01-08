@@ -56,17 +56,12 @@ const main = (function() {
       if (cmmUtils.checkImageExtension(fileName)) {
         const msg = '새로운 포트폴리오 등록을 시작합니다.';
         cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-          cmmUtils.postData({
+          cmmUtils.axiosPost({
             url: '/api/v1/admin/profile/insert-profile',
-            isMultipartFile: true,
-            headers: {},
             body: getParameters(),
             loading: 'btnIns'
-          }).then(function (response) {
-            cmmUtils.verifyResponse(response);
+          }, function (response) {
             goToProfile();
-          }).catch(function (err) {
-            cmmUtils.goToErrorPage(err);
           });
         });
       } else {

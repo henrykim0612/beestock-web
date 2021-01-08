@@ -108,7 +108,7 @@ const main = (function() {
   function saveAuth() {
     const roleNm = document.getElementById('modalSelAuth').value;
     const expDate = document.getElementById('expDate').value;
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/admin/change-role',
       body: {
         loginId: global['selectedLoginId'],
@@ -116,12 +116,9 @@ const main = (function() {
         expDate: expDate
       },
       loading: 'btnSaveAuth'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
       cmmUtils.closeModal('authModal');
       dataGrid.reload();
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 

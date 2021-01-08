@@ -48,15 +48,10 @@ const main = (function() {
 
   function drawDetails() {
     const url = '/api/v1/bbs/notice/' + global.noticeId;
-    cmmUtils.getData({
-      url: url,
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: url}, function(response) {
       cmmUtils.bindData('noticeDetailForm', response);
       initCKEditor(response);
       checkViewOnly();
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -83,15 +78,12 @@ const main = (function() {
     if (verifyInputValues()) {
       const msg = '해당글을 수정합니다.'
       cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-        cmmUtils.postData({
+        cmmUtils.axiosPost({
           url: '/api/v1/bbs/notice/update',
           body: getParameters(),
           loading: 'btnMod'
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           cmmUtils.showModal('saveModal');
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -100,17 +92,12 @@ const main = (function() {
   function removeNotice() {
     const msg = '해당글을 삭제합니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/bbs/notice/delete',
-        body: {
-          noticeId: global.noticeId
-        },
+        body: {noticeId: global.noticeId},
         loading: 'btnRm'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         0 < response ? goToNotice() : cmmUtils.goToErrorPage(response);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     });
   }

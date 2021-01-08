@@ -49,16 +49,11 @@ const main = (function() {
   function drawDetails() {
     const profileId = global['profileId'];
     const url = '/api/v1/admin/profile/' + profileId;
-    cmmUtils.getData({
-      url: url,
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: url}, function(response) {
       cmmUtils.bindData('profileDetailForm', response);
       initCKEditor(response);
       setPreviewModal(response);
       initLinkColumns(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -83,25 +78,20 @@ const main = (function() {
 
   function modifyProfile() {
     if (verifyInputValues()) {
-      const msg = '포트폴리오을 수정합니다. 오타 또는 누락된것은 없는지 확인하세요.';
+      const msg = '포트폴리오를 수정합니다. 오타 또는 누락된것은 없는지 확인하세요.';
       const fileName = global['selectedFileName'];
       if (fileName) { // 이미지까지 수정한경우
         if (cmmUtils.checkImageExtension(fileName)) {
           cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-            cmmUtils.postData({
+            cmmUtils.axiosPost({
               url: '/api/v1/admin/profile/update-profile-all',
               body: getFormData(),
-              isMultipartFile: true,
-              headers: {},
               loading: 'btnMod'
-            }).then(function (response) {
-              cmmUtils.verifyResponse(response);
+            }, function (response) {
               cmmUtils.showModal('saveModal');
               if (0 < response) {
                 init();
               }
-            }).catch(function (err) {
-              cmmUtils.goToErrorPage(err);
             });
           });
         } else {
@@ -109,18 +99,15 @@ const main = (function() {
         }
       } else { // 이미지는 제외하고 수정한 경우
         cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-          cmmUtils.postData({
+          cmmUtils.axiosPost({
             url: '/api/v1/admin/profile/update-profile',
             body: getParameters(),
             loading: 'btnMod'
-          }).then(function (response) {
-            cmmUtils.verifyResponse(response);
+          }, function (response) {
             cmmUtils.showModal('saveModal');
             if (0 < response) {
               init();
             }
-          }).catch(function (err) {
-            cmmUtils.goToErrorPage(err);
           });
         });
       }
@@ -179,19 +166,16 @@ const main = (function() {
   }
 
   function removeProfile() {
-    const msg = '해당 포트폴리오을 삭제합니다. 포트폴리오의 분기 데이터까지 모두 제거됩니다.';
+    const msg = '해당 포트폴리오를 삭제합니다. 포트폴리오의 분기 데이터까지 모두 제거됩니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/admin/profile/delete-profile',
         body: {
           profileId: global['profileId']
         },
         loading: 'btnRm'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         0 < response ? goToProfile() : cmmUtils.goToErrorPage(response);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     });
   }

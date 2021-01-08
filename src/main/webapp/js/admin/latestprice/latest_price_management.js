@@ -253,14 +253,12 @@ const main = (function() {
             formData.append('file' + i, fileObj.file);
           }
         }
-        cmmUtils.postData({
+
+        cmmUtils.axiosPost({
           url: '/api/v1/admin/stock/upload-in-stock-item',
-          headers: {},
-          isMultipartFile: true,
           body: formData,
           isPageLoader: true
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           if (response === 1) {
             cmmUtils.showToast({message: '업로드 되었습니다.'});
             resetUploadModal();
@@ -268,8 +266,6 @@ const main = (function() {
             console.log(response);
             cmmUtils.goToErrorPage(response);
           }
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -302,14 +298,11 @@ const main = (function() {
   // 해외 종목코드 동기화
   function syncSymbols() {
     cmmConfirm.show({msg: '동기화를 진행 하시겠습니까?', color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/admin/stock/sync-symbols',
         loading: 'btnSyncSymbol'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         cmmUtils.showToast(response ? {message: '동기화 성공'} : {message: '동기화 실패', type: 'is-danger is-light'});
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err)
       });
     });
   }

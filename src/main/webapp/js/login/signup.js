@@ -11,14 +11,8 @@ const main = (function() {
 
   function getHintList() {
     // 비밀번호 힌트 리스트 생성
-    cmmUtils.getData({
-      url: '/api/v1/code/children/Q0000',
-      loading: 'selHintCode'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: '/api/v1/code/children/Q0000', loading: 'selHintCode'}, function(response) {
       appendHintOptions(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -224,12 +218,11 @@ const main = (function() {
       userPhone: userPhone,
       ipHintAnswer: ipHintAnswer
     }) ) {
-
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/login/is-existed',
         body: {loginId: loginId.value},
         loading: 'btnSubmit'
-      }).then(function(response) {
+      }, function (response) {
         if (!response) {
           insertProc({
             loginId: loginId.value,
@@ -242,30 +235,21 @@ const main = (function() {
         } else {
           showModal(document.getElementById('dangerModal')); // 이메일 존재
         }
-      }).catch(function(err) {
-        cmmUtils.goToErrorPage(err);
       });
-
     }
   }
 
   function insertProc(body) {
     cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/login/insert-user',
       body: body
-    }).then(function(response) {
-      const data = JSON.stringify(response);
-      cmmUtils.hideLoadingElement(document.getElementById('btnSubmit'));
-      if (data) {
-
+    }, function (response) {
+      if (response) {
         showModal(document.getElementById('sucModal'));
-
       } else {
         showErrModal();
       }
-    }).catch(function(err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 

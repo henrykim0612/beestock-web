@@ -94,13 +94,15 @@
                     </sec:authorize>
                 </div>
             </div>
-            <div class="columns">
-                <div class="column">
-                    <p class="subtitle">
-                        <span class="icon has-text-danger mr-2"><i class="fas fa-user-clock"></i></span><sec:authentication property="principal.expDate"/> 구독 만료
-                    </p>
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
+                <div class="columns">
+                    <div class="column">
+                        <p class="subtitle">
+                            <span class="icon has-text-danger mr-2"><i class="fas fa-user-clock"></i></span><sec:authentication property="principal.expDate"/> 구독 만료
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </sec:authorize>
             <div class="columns">
                 <div class="column">
                     <button class="button is-primary is-small" onclick="cmmUtils.showModal('confirmPwdModal')">
@@ -210,27 +212,6 @@
                     <div class="column">
                         <div class="control has-icons-left">
                             <div id="modIdeaCont"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column is-1 is-vertical-center">
-                        <div class="field" id="modFileField">
-                            <div class="file is-white">
-                                <label class="file-label">
-                                    <input class="file-input" type="file" multiple id="modIdeaFile">
-                                    <span class="file-cta">
-                                    <span class="file-icon"><i class="fas fa-file-signature"></i></span>
-                                    <span class="file-label">첨부</span>
-                                </span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="columns">
-                            <div class="column" id="modIdeaFileDiv">
-                            </div>
                         </div>
                     </div>
                 </div>

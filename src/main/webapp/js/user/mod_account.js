@@ -2,17 +2,14 @@ const main = (function() {
 
   function init() {
     // 비밀번호 힌트 리스트 생성
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/code/list',
       body: {
         parentCodeId: 'Q0000'
       },
       loading: 'selHintCode'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
       appendHintOptions(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -61,15 +58,13 @@ const main = (function() {
   function updateProc(body) {
     cmmConfirm.show({msg: '계정을 수정합니다. 오타가 없는지 확인하세요.', color: 'is-warning'}, function() {
       cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/login/update-user',
         body: body,
         loading: 'btnSubmit'
-      }).then(function(response) {
+      }, function (response) {
         if (response === -401) return cmmUtils.goToLoginHome(); // 해킹의심, 세션끊김
         goToMyPage();
-      }).catch(function(err) {
-        cmmUtils.goToErrorPage(err);
       });
     });
   }

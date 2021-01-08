@@ -46,11 +46,11 @@
                 <div class="field loginField is-grouped is-grouped-centered">
                     <div class="flex-col justify-content-center">
                         <div class="buttons mb-3">
-                            <button id="" class="button is-primary" onclick="topMain.signUp()">
+                            <button type="button" class="button is-primary" onclick="topMain.signUp()">
                                 <span class="icon"><i class="fas fa-user-plus"></i></span>
                                 <span><strong>회원가입</strong></span>
                             </button>
-                            <button id="btnSubmit" class="button is-warning" onclick="main.login()">
+                            <button type="button" id="btnSubmit" class="button is-warning" onclick="main.login()">
                                 <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
                                 <span><strong>로그인</strong></span>
                             </button>

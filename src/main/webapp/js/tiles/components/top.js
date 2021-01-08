@@ -59,23 +59,20 @@ const topMain = (function() {
   }
 
   function showNoticeBadge() {
-    cmmUtils.getData({
-      url: '/api/v1/login/notice-badge'
-    }).then(createNoticeBadge).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
-    });
-  }
-
-  function initAlarmQuickView() {
-    cmmUtils.getData({
-      url: '/api/v1/login/user-alarm/list',
-    }).then(function(response) {
+    cmmUtils.axiosGet({url: '/api/v1/login/notice-badge'}, function(response) {
       if (response) {
         appendAlarmBadge(response);
         appendAlarmMessages(response);
       }
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
+    });
+  }
+
+  function initAlarmQuickView() {
+    cmmUtils.axiosGet({url: '/api/v1/login/user-alarm/list'}, function(response) {
+      if (response) {
+        appendAlarmBadge(response);
+        appendAlarmMessages(response);
+      }
     });
   }
 
@@ -183,11 +180,10 @@ const topMain = (function() {
 
   // 사용자 알림박스 클릭 이벤트
   function clickAlarmBox(isCheck, props) {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/login/user-alarm/delete',
-      body: {alarmId: props.alarmId},
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+      body: {alarmId: props.alarmId}
+    }, function (response) {
       if (0 < response) {
         if (isCheck) {
           // 페이지 이동
@@ -198,23 +194,18 @@ const topMain = (function() {
           node.remove();
         }
       }
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
   // 알람 모두닫기
   function closeAlarmBoxAll() {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/login/user-alarm/delete-all'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
       if (0 < response) {
         cmmUtils.clearChildNodes(document.getElementById('userAlarmBody'));
         document.getElementById('delQuickView').click(); // 퀵뷰 닫기
       }
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -232,24 +223,19 @@ const topMain = (function() {
   }
 
   function goToMyPage() {
-    const form = document.createElement('form');
-    form.method = 'get';
-    form.action = CONTEXT_PATH + '/user/my-page';
-    document.body.appendChild(form);
-    form.submit();
-    form.remove();
+    cmmUtils.goToPage('/user/my-page');
   }
 
   function logout() {
-    cmmUtils.goToPage(CONTEXT_PATH + '/login/logout');
+    cmmUtils.goToPage('/login/logout');
   }
 
   function login() {
-    cmmUtils.goToPage(CONTEXT_PATH + '/login/login-home');
+    cmmUtils.goToPage('/login/login-home');
   }
 
   function signUp() {
-    cmmUtils.goToPage(CONTEXT_PATH + '/login/signup');
+    cmmUtils.goToPage('/login/signup');
   }
 
   return {

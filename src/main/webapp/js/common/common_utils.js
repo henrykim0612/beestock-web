@@ -5,62 +5,36 @@ const cmmUtils = (function () {
     maxGroupFileSize: 30
   }
 
-  function getData(props) {
-    if (props['loading'] != null) {
-      cmmUtils.showLoadingElement(document.getElementById(props['loading']));
-    }
-    if (props['isPageLoader'] != null && props['isPageLoader']) {
-      cmmUtils.showPageLoader();
-    }
-    return fetch(CONTEXT_PATH + props['url'], {
-      method: 'GET',
-      mode: 'cors', // no-cors, cors, *same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: props['headers'] != null ? props['headers'] : {'Content-Type': 'application/json'},
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer' // no-referrer, *client
-    }, 18000).then(function (response) { // 180초 이후는 타임아웃
-      if (props['loading'] != null) {
-        cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
-      }
-      if (props['isPageLoader'] != null && props['isPageLoader']) {
-        cmmUtils.hidePageLoader();
-      }
-      return response.json();
-    });
+  function axiosGet(props, callback) {
+    if (props['loading'] != null) showLoadingElement(document.getElementById(props['loading']));
+    if (props['isPageLoader'] != null && props['isPageLoader']) showPageLoader();
+    axios.get(CONTEXT_PATH + props['url'])
+      .then(function(response) {
+        verifyResponse(response);
+        if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+        if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
+        callback(response.data);
+      })
+      .catch(function(err) {
+        console.error(err);
+        goToErrorPage(err);
+      });
   }
 
-  function postData(props) {
-
-    if (props['isPageLoader'] != null && props['isPageLoader']) {
-      cmmUtils.showPageLoader();
-    }
-
-    if (props['loading'] != null) {
-      cmmUtils.showLoadingElement(document.getElementById(props['loading']));
-    }
-    // Default options are marked with *
-    return fetch(CONTEXT_PATH + props['url'], {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, cors, *same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: props['headers'] != null ? props['headers'] : {'Content-Type': 'application/json'},
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
-      body: props['isMultipartFile'] != null && props['isMultipartFile']
-        ? props['body']
-        : props['body'] != null ? JSON.stringify(props['body']) : '{}'
-    }, 18000).then(function (response) { // 180초 이후는 타임아웃
-      if (props['loading'] != null) {
-        cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
-      }
-      if (props['isPageLoader'] != null && props['isPageLoader']) {
-        cmmUtils.hidePageLoader();
-      }
-      return response.json();
-    }); // parses JSON response into native JavaScript objects
+  function axiosPost(props, callback) {
+    const args = arguments.length;
+    if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.showPageLoader();
+    if (props['loading'] != null) cmmUtils.showLoadingElement(document.getElementById(props['loading']));
+    axios.post(CONTEXT_PATH + props['url'], props['body'] != null ? props['body'] : {})
+      .then(function(response) {
+        if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+        if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
+        if (args === 2) callback(response.data);
+      })
+      .catch(function(err) {
+        console.error(err);
+        goToErrorPage(err);
+      })
   }
 
   function showModal(eleOrId) {
@@ -811,7 +785,6 @@ const cmmUtils = (function () {
     if (err['pageUrl'] != null) {
       goToPage(err['pageUrl'], err);
     } else {
-      console.log(err);
       showErrModal();
     }
   }
@@ -984,8 +957,8 @@ const cmmUtils = (function () {
 
 
   return {
-    getData: getData,
-    postData: postData,
+    axiosGet: axiosGet,
+    axiosPost: axiosPost,
     showLoadingElement: showLoadingElement,
     hideLoadingElement: hideLoadingElement,
     showModal: showModal,
