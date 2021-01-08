@@ -47,10 +47,7 @@ const main = (function() {
   function drawDetails() {
     const qaId = global.qaId;
     const url = '/api/v1/bbs/qa/' + qaId;
-    cmmUtils.getData({
-      url: url,
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: url}, function(response) {
       cmmUtils.bindData('qaDetailForm', response);
       if (cmmUtils.nvl(response['qaAnswer'])) { // 답변완료 상태
         changeSteps();
@@ -62,9 +59,6 @@ const main = (function() {
           removeModifyButton();
         }
       }
-
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 

@@ -75,13 +75,12 @@ const main = (function () {
     const body = arguments.length === 1
       ? {profileType: profileType, profileTitle: searchWord}
       : {profileType: profileType};
-    cmmUtils.postData({
+
+    cmmUtils.axiosPost({
       url: '/api/v1/dashboard/profile-list',
-      body: body,
-    }).then(function(response) {
+      body: body
+    }, function (response) {
       cmmProfileCard.appendCards(response, global['selectedTab'], global.userRole);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 

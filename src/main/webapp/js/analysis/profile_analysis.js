@@ -75,23 +75,15 @@ const main = (function() {
 
   function getProfileDetails() {
     const url = '/api/v1/analysis/profile/' + global.profileId;
-    cmmUtils.getData({
-      url: url
-    }).then(setProfileHeader).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
-    });
+    cmmUtils.axiosGet({url: url}, setProfileHeader);
   }
 
   // 분기 슬라이더 생성
   function initQuarterSlider() {
     const url = '/api/v1/analysis/profile/quarter-all/' + global.profileId;
-    cmmUtils.getData({
-      url: url,
-    }).then(function(response) {
+    cmmUtils.axiosGet({url: url}, function(response) {
       clearQuarterCont();
       createQuarterSlider(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -216,14 +208,14 @@ const main = (function() {
           global.selectedQuarterDate = that.getAttribute('data-quarter');
 
           // 이벤트를 사용할 권한이 있는지 확인
-          cmmUtils.postData({
+          cmmUtils.axiosPost({
             url: '/api/v1/analysis/profile/is-available-event',
             body: {
               eventNum: 1, // 슬라이드 타임라인 이벤트 번호
               profileId: global.profileId,
               quarterDate: global.selectedQuarterDate
             }
-          }).then(function (isAvailable) {
+          }, function (isAvailable) {
             if (isAvailable) {
               resetButtons(slideButtons);
               activeButton(that);
@@ -232,8 +224,6 @@ const main = (function() {
               // 이용할 수 없음
               cmmUtils.showModal('standardModal');
             }
-          }).catch(function (err) {
-            cmmUtils.goToErrorPage(err)
           });
         });
       }
@@ -481,9 +471,9 @@ const main = (function() {
   function itemNameAnchorEvent(anchor, row) {
     anchor.addEventListener('click', function() {
       // 일반 사용자는 사용할 수 없음
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/analysis/profile/is-available-event'
-      }).then(function (isAvailable) {
+      }, function (isAvailable) {
         if (isAvailable) {
           global['selectedItemName'] = row['itemName'];
           global['selectedItemCode'] = row['itemCode'];
@@ -491,8 +481,6 @@ const main = (function() {
         } else {
           cmmUtils.showModal('guideModal');
         }
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err)
       });
     })
   }
@@ -613,9 +601,9 @@ const main = (function() {
 
   function showColLineChartModal(itemCode, itemName) {
     // 일반 사용자는 사용할 수 없음
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/analysis/profile/is-available-event'
-    }).then(function (isAvailable) {
+    }, function (isAvailable) {
       if (isAvailable) {
         document.getElementById('lineChartModalTitle').innerText = itemName;
         cmmUtils.showModal('colLineChartModal');
@@ -624,8 +612,6 @@ const main = (function() {
       } else {
         cmmUtils.showModal('guideModal');
       }
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err)
     });
   }
 
@@ -726,11 +712,10 @@ const main = (function() {
   function getSelectedLineChartFilter() {
     return parseInt(document.getElementById('selLineChartFilter').value);
   }
-  
 
   // 분기 분석 정보 반환
   function getQuarterInfo(callback) {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/analysis/profile/quarter-info',
       body: {
         quarterId: global.quarterId,
@@ -739,39 +724,33 @@ const main = (function() {
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType
       }
-    }).then(callback).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
-    });
+    }, callback);
   }
 
   // 종목코드 스택차트 데이터 반환
   function getLeftItemCodeChartInfo(callback) {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/analysis/profile/stack-chart/item-code',
       body: {
         selectedQuarterDate: global.selectedQuarterDate,
         itemCode: global.selectedItemCode,
         profileTitle: global.profileTitle,
-        filterNum: getSelectedStackChartFilter(),
+        filterNum: getSelectedStackChartFilter()
       }
-    }).then(callback).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
-    });
+    }, callback);
   }
 
   // 포트폴리오 분석 오른쪽 그리드 차트
   function getRightItemCodeChartInfo(callback) {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/analysis/profile/line-chart/item-code',
       body: {
         selectedQuarterDate: global.selectedQuarterDate,
         profileId: global.profileId,
         itemCode: global.selectedItemCode,
-        filterNum: getSelectedLineChartFilter(),
+        filterNum: getSelectedLineChartFilter()
       }
-    }).then(callback).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
-    });
+    }, callback);
   }
 
   // 포트폴리오 차트탭
@@ -987,18 +966,15 @@ const main = (function() {
     document.getElementById('spanStar').addEventListener('click', function() {
       const favoriteVal = parseInt(this.getAttribute('data-favorite')) === 1 ? 2 : 1;
       this.setAttribute('data-favorite', ''+favoriteVal);
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/analysis/profile/favorite',
         body: {
           profileId: global.profileId,
           isFavorite: favoriteVal
-        },
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+        }
+      }, function (response) {
         cmmUtils.showToast({message: favoriteVal === 1 ? '즐겨찾기 되었습니다.' : '즐겨찾기가 해제되었습니다.'});
         createStar(favoriteVal);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     })
   }
@@ -1100,16 +1076,11 @@ const main = (function() {
   function showModIdeaModal(ideaId) {
     global.selectedIdeaId = ideaId;
     const url = '/api/v1/analysis/profile/idea/' + ideaId;
-    cmmUtils.getData({
-      url: url
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: url}, function(response) {
       clearModIdeaModal(response);
       cmmUtils.bindData('modIdeaForm', response);
       global.ckEditModIdeaCont.setData(response['ideaCont']);
       cmmUtils.showModal('modIdeaModal');
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -1205,22 +1176,18 @@ const main = (function() {
       formData.append('profileId', global.profileId);
       formData.append('ideaTitle', document.getElementById('newIdeaTitle').value);
       formData.append('ideaCont', global.ckEditNewIdeaCont.getData());
-      cmmUtils.postData({
+
+      cmmUtils.axiosPost({
         url: '/api/v1/analysis/profile/insert-idea',
-        headers: {},
-        isMultipartFile: true,
         body: formData,
         loading: 'btnNewIdea'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         if (response === 1) {
           cmmUtils.showToast({message: '저장 되었습니다.'});
           closeNewIdeaModal();
         } else {
           cmmUtils.goToErrorPage(response);
         }
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     }
   }
@@ -1233,22 +1200,18 @@ const main = (function() {
         formData.append('ideaId', global.selectedIdeaId);
         formData.append('ideaTitle', document.getElementById('modIdeaTitle').value);
         formData.append('ideaCont', global.ckEditModIdeaCont.getData());
-        cmmUtils.postData({
+
+        cmmUtils.axiosPost({
           url: '/api/v1/analysis/profile/update-idea',
-          headers: {},
-          isMultipartFile: true,
           body: formData,
           loading: 'btnModIdea'
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           if (response === 1) {
             cmmUtils.showToast({message: '수정 되었습니다.'});
             closeModIdeaModal();
           } else {
             cmmUtils.goToErrorPage(response);
           }
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }

@@ -2,14 +2,8 @@ const main = (function () {
 
   function init() {
     // 비밀번호 힌트 리스트 생성
-    cmmUtils.getData({
-      url: '/api/v1/code/children/Q0000',
-      loading: 'selHintCode'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: '/api/v1/code/children/Q0000', loading: 'selHintCode'}, function(response) {
       appendHintOptions(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -54,18 +48,15 @@ const main = (function () {
       return false;
     }
 
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/login/find-email',
       body: {
         userNm: upUserName.value,
         userPhone: ipUserPhone.value
       },
       loading: 'btnEmail'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
       showEmailModal(response.data);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -80,7 +71,7 @@ const main = (function () {
       return false;
     }
 
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/login/find-email',
       body: {
         loginId: ipEmail.value,
@@ -88,12 +79,11 @@ const main = (function () {
         hintAnswer: ipHintAnswer.value
       },
       loading: 'btnPwd'
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
       if (!response.data) { // 이메일 없음
         showPwdModal(response.data);
       } else { // 확인했으면 새로운 비밀번호 발급
-        cmmUtils.postData({
+        cmmUtils.axiosPost({
           url: '/api/v1/login/gen-pwd',
           body: {
             loginId: ipEmail.value,
@@ -101,15 +91,10 @@ const main = (function () {
             hintAnswer: ipHintAnswer.value
           },
           loading: 'btnPwd'
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           showPwdModal(response.data);
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       }
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 

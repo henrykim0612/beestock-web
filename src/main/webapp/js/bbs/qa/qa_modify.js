@@ -47,15 +47,10 @@ const main = (function() {
   function drawDetails() {
     const qaId = document.getElementById('qaId').value;
     const url = '/api/v1/bbs/qa/' + qaId;
-    cmmUtils.getData({
-      url: url,
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    cmmUtils.axiosGet({url: url}, function(response) {
       cmmUtils.bindData('qaDetailForm', response);
       initCKEditor(response)
       checkViewOnly(response);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -100,15 +95,12 @@ const main = (function() {
     if (verifyInputValues()) {
       const msg = '해당글을 수정합니다.'
       cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-        cmmUtils.postData({
+        cmmUtils.axiosPost({
           url: '/api/v1/bbs/qa/update',
           body: getParameters(),
           loading: 'btnMod'
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           cmmUtils.showModal('saveModal');
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -117,15 +109,12 @@ const main = (function() {
   function removeQa() {
     const msg = '해당글을 삭제합니다.';
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/bbs/qa/delete',
         body: getParameters(),
         loading: 'btnRm'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         0 < response ? goToQa() : cmmUtils.goToErrorPage(response);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     });
   }

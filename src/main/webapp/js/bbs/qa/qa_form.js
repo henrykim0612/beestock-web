@@ -50,15 +50,12 @@ const main = (function() {
   function insertNewQa() {
     if (verifyInputValues()) {
       cmmConfirm.show({msg: 'Q&A로 등록 하시겠습니까?', color: 'is-warning'}, function() {
-        cmmUtils.postData({
+        cmmUtils.axiosPost({
           url: '/api/v1/bbs/qa/insert',
           body: getParameters(),
           loading: 'btnIns'
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           goToQa();
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }

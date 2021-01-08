@@ -53,15 +53,12 @@ const main = (function() {
 
   function insertNotice() {
     if (verifyInputValues()) {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/bbs/notice/insert',
         body: getParameters(),
         loading: 'btnIns'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         goToNotice();
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     }
   }

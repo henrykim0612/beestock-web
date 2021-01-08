@@ -53,11 +53,11 @@ BeeComponents.modules.dataGrid = function(component) {
       cmmUtils.showPageLoader();
     }
 
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: props['url'],
       body: body
-    }).then(function (response) {
-      cmmUtils.verifyResponse(response);
+    }, function (response) {
+
       if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
       if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
 
@@ -89,10 +89,8 @@ BeeComponents.modules.dataGrid = function(component) {
       if (props['success'] != null) {
         props['success'](response, me);
       }
-
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
+
   }
 
   component.DataGrid.prototype.reload = function(me, body) {

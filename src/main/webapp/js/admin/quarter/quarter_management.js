@@ -284,22 +284,17 @@ const main = (function() {
             formData.append('file' + i, fileObj.file);
           }
         }
-        cmmUtils.postData({
+        cmmUtils.axiosPost({
           url: '/api/v1/admin/quarter/upload-quarter',
-          headers: {},
-          isMultipartFile: true,
           body: formData,
           isPageLoader: true
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        }, function (response) {
           if (response === 1) {
             cmmUtils.showToast({message: '업로드 되었습니다.'});
             resetUploadModal();
           } else {
             cmmUtils.goToErrorPage(response);
           }
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }

@@ -102,13 +102,8 @@ const main = (function() {
       tag.addEventListener('click', function() {
         const codeId = this.getAttribute('data-code-id');
         const url = '/api/v1/code/' + codeId;
-        cmmUtils.getData({
-          url: url,
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        cmmUtils.axiosGet({url: url}, function(response) {
           showModCodeModal(response);
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -137,14 +132,10 @@ const main = (function() {
       tag.addEventListener('click', function() {
         const codeId = this.getAttribute('data-code-id');
         const codeLevel = parseInt(this.getAttribute('data-code-lv')) + 1; // 선택한 코드의 다음레벨
-        cmmUtils.getData({
-          url: '/api/v1/code/tree-view/' + codeId,
-        }).then(function (response) {
-          cmmUtils.verifyResponse(response);
+        const url = '/api/v1/code/tree-view/' + codeId;
+        cmmUtils.axiosGet({url: url}, function(response) {
           cmmUtils.clearChildNodes('treeViewContent');
           appendContent(response, codeLevel);
-        }).catch(function (err) {
-          cmmUtils.goToErrorPage(err);
         });
       });
     }
@@ -226,10 +217,7 @@ const main = (function() {
     cmmUtils.clearClasses(['newCodeId', 'helpCodeId']);
     if (_this.value) {
       const url = '/api/v1/code/is-existed/' + _this.value;
-      cmmUtils.getData({
-        url: url
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      cmmUtils.axiosGet({url: url}, function(response) {
         if (response === 0) { // 새로운 코드
           cmmUtils.appendInfoClasses(['newCodeId', 'helpCodeId'], true);
           cmmUtils.removeHiddenClass(['icoCodeIdCheck']); // Check 아이콘 노출
@@ -239,8 +227,6 @@ const main = (function() {
           cmmUtils.removeHiddenClass(['icoCodeIdTriangle', 'helpCodeId']); // Triangle 과 Help 노출
           cmmUtils.appendHiddenClass(['icoCodeIdCheck']); // Check 아이콘 숨김
         }
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     } else {
       cmmUtils.appendHiddenClass(['helpCodeId']);
@@ -267,15 +253,13 @@ const main = (function() {
         body['parentCodeId'] = hidParentCodeId.value;
         body['codeLevel'] = parseInt(hidParentCodeLevel.value) + 1; // 부모코드의 다음 레벨로
       }
-      cmmUtils.postData({
+
+      cmmUtils.axiosPost({
         url: '/api/v1/code/insert',
         body: body,
         loading: 'btnNewCode'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         response ? closeNewCodeModal() : cmmUtils.goToErrorPage(response);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     }
   }
@@ -283,7 +267,7 @@ const main = (function() {
   function modifyCode() {
     const msg = '코드를 수정하시겠습니까?.'
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/code/update',
         body: {
           codeId: global['selectedCodeId'],
@@ -291,11 +275,8 @@ const main = (function() {
           description: document.getElementById('modDescription').value
         },
         loading: 'btnNewCode'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         closeModCodeModal();
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     });
   }
@@ -303,18 +284,15 @@ const main = (function() {
   function removeCode() {
     const msg = '<strong>하위 코드까지 모두 삭제됩니다</strong>. 삭제 후 복구 할 수 없습니다.'
     cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/code/delete',
         body: {
           codeId: global['selectedCodeId'],
           codeLevel: global['selectedCodeLevel']
         },
         loading: 'btnModCode'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         0 < response ? closeModCodeModal() : cmmUtils.goToErrorPage(response);
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err);
       });
     });
   }

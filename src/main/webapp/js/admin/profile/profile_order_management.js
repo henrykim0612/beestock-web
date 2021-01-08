@@ -37,29 +37,25 @@ const main = (function() {
 
   // 국내 프로필 조회
   function initInProfile() {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/admin/profile/profile-list',
       body: {profileType: 1}
-    }).then(function(response) {
+    }, function (response) {
       const ele = document.getElementById('inDiv');
       appendProfileButtons(response, ele);
       addProfileClickEvents(ele);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
   // 국외 프로필
   function initOutProfile() {
-    cmmUtils.postData({
+    cmmUtils.axiosPost({
       url: '/api/v1/admin/profile/profile-list',
       body: {profileType: 2}
-    }).then(function(response) {
+    }, function (response) {
       const ele = document.getElementById('outDiv');
       appendProfileButtons(response, ele);
       addProfileClickEvents(ele);
-    }).catch(function (err) {
-      cmmUtils.goToErrorPage(err);
     });
   }
 
@@ -170,20 +166,16 @@ const main = (function() {
     }
     // 저장
     cmmConfirm.show({msg: '변경된 순서로 포트폴리오 순서를 적용합니다.', color: 'is-warning'}, function() {
-      cmmUtils.postData({
+      cmmUtils.axiosPost({
         url: '/api/v1/admin/profile/update-order',
         body: {
           profileList: param
         },
         loading: 'btnSave'
-      }).then(function (response) {
-        cmmUtils.verifyResponse(response);
+      }, function (response) {
         if (response > 0) {
           cmmUtils.showToast({message: '저장되었습니다.'});
         }
-      }).catch(function (err) {
-        cmmUtils.goToErrorPage(err)
-        console.log(err);
       });
     })
 
