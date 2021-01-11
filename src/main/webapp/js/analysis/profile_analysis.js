@@ -51,6 +51,11 @@ const main = (function() {
     if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
     if (document.getElementById('newTransferExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
     if (document.getElementById('soldOutExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
+    console.log('모지....', global.selectedProfileType);
+    if (global.selectedProfileType === '1') {
+      // 국내인 경우 오른쪽 차트 팝업 안내문구 추가
+      appendRightChartMsg();
+    }
   }
 
   function createBreadCrumb() {
@@ -1257,6 +1262,13 @@ const main = (function() {
   // 포트폴리오 참고링크 팝업
   function goToLinkPop(url) {
     window.open(url, '', "width=500,height=600");
+  }
+
+  // 국내인 경우 오른쪽 차트 안내문구 추가
+  function appendRightChartMsg() {
+    const p = document.createElement('p');
+    p.innerHTML = '※ 국내자료는 <strong>액면분할</strong>, <strong>무상증자</strong> 등에 대한 <strong>수정수량</strong>을 제공하지 않습니다. 주식 <strong>보유수량</strong>이 급격하게 증가했다면 해당이슈에 대해 검토하십시오.';
+    document.getElementById('rightChartMsgBody').appendChild(p);
   }
 
   return {

@@ -393,9 +393,15 @@
                     </div>
                 </div>
                 <div class="flex-row justify-content-center">
-                    <div id="rightItemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                    <div id="rightItemCodeChart" class="is-fullwidth width1200px height500px"></div>
                 </div>
-            </div>
+                <div class="flex-row justify-content-center">
+                    <article class="message is-warning">
+                        <div id="rightChartMsgBody" class="message-body">
+                            <p>※ <strong>미공시</strong>로 표기된 것은 제출된 운용보고서가 <strong>비공개</strong>된 것입니다. 위 차트 상에는 전량매도로 보일 수 있으나, <strong>알수없음</strong>으로 보는 것이 맞습니다.</p>
+                        </div>
+                    </article>
+                </div>
         </section>
     </div>
 </div>
