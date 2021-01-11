@@ -490,13 +490,13 @@ BeeComponents.modules.dataGrid = function(component) {
     const theadDivArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
     // Thead 정렬 아이콘 변경
     for (let i = 0; i < theadDivArr.length; i++) {
-      this.changeIconClass(theadDivArr[i]);
+      this.changeIconClass(theadDivArr[i], table, props);
     }
     // Tfoot 이 존재한다면 똑같이 정렬 아이콘 변경
     if (props['isTfoot'] != null && props['isTfoot']) {
       const tfootDivArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
       for (let i = 0; i < tfootDivArr.length; i++) {
-        this.changeIconClass(tfootDivArr[i]);
+        this.changeIconClass(tfootDivArr[i], table, props);
       }
     }
   }
@@ -527,8 +527,13 @@ BeeComponents.modules.dataGrid = function(component) {
     }
   }
 
-  component.DataGrid.prototype.changeIconClass = function(th) {
-    const currentDataSort = th.getAttribute('data-sort');
+  // 정렬 아이콘 변경
+  component.DataGrid.prototype.changeIconClass = function(selectedTh, table, props) {
+
+    // 싱글 정렬을 활성화했을 경우에는 이전 정렬을 모두 초기화
+    if (props['singleSorting'] != null && props['singleSorting']) resetSortingClasses(table, selectedTh);
+
+    const currentDataSort = selectedTh.getAttribute('data-sort');
     let changedDataSort;
     // Sorting 값 변경
     switch (currentDataSort) {
@@ -536,14 +541,45 @@ BeeComponents.modules.dataGrid = function(component) {
       case '1':changedDataSort = '2'; break; // 내림차순으로 변경
       default: changedDataSort = '0'; break; // 정렬해제
     }
-    th.setAttribute('data-sort', changedDataSort);
+    selectedTh.setAttribute('data-sort', changedDataSort);
     // svg 아이콘 클래스 변경
-    const svgArr = th.querySelectorAll('svg');
+    const svgArr = selectedTh.querySelectorAll('svg');
     for (let j = 0; j < svgArr.length; j++) {
       const svg = svgArr[j];
       changedDataSort === svg.getAttribute('data-sort')
         ? svg.classList.remove('is-hidden')
         : svg.classList.add('is-hidden');
+    }
+
+    // 정렬 초기화
+    function resetSortingClasses(table, selectedTh) {
+
+      const sortingDiv = table.querySelector('thead').querySelectorAll('[data-custom=sortingDiv]');
+      let len = sortingDiv.length;
+      for (let i = 0; i < len; i++) {
+        const div = sortingDiv[i];
+        if (div.dataset.refId !== selectedTh.dataset.refId) { // 클릭한 th 가 아닌것만 초기화
+          div.dataset.sort = '0'; // 초기화
+        }
+      }
+
+      // Tfoot 이 존재한다면 똑같이 정렬 아이콘 변경
+      if (props['isTfoot'] != null && props['isTfoot']) {
+        const tFootSortingDiv = table.querySelector('tfoot').querySelectorAll('[data-custom=sortingDiv]');
+        let len = tFootSortingDiv.length;
+        for (let i = 0; i < len; i++) {
+          const div = tFootSortingDiv[i];
+          if (div.dataset.refId !== selectedTh.dataset.refId) { // 클릭한 th 가 아닌것만 초기화
+            div.dataset.sort = '0'; // 초기화
+          }
+        }
+      }
+      
+      // 아이콘 초기화
+      const svgArr = table.querySelector('thead').querySelectorAll('svg');
+      for (let i = 0; i < svgArr.length; i++) {
+        svgArr[i].classList.add('is-hidden');
+      }
     }
   }
 
@@ -602,9 +638,9 @@ BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid.prototype.addTableEventListeners = function(table, props, tbody) {
     const me = this;
-    addSelectingTr();
+    addSelectingTr(); // 선택 행
     if (!tbody) {
-      addSortingDiv();
+      addSortingDiv(); // 정렬
     }
 
     // Row 클릭시 하이라이트 이벤트

@@ -337,6 +337,7 @@ const main = (function() {
       isThead: true,
       isTfoot: false,
       isPageLoader: false,
+      singleSorting: true,
       fileName: global.selectedQuarterDate,
       colModel: [
         {id: 'itemCode', isHidden: true},
@@ -397,6 +398,7 @@ const main = (function() {
       isThead: true,
       isTfoot: false,
       isPageLoader: false,
+      singleSorting: true,
       fileName: global.selectedQuarterDate + '_신규편입',
       colModel: [
         {id: 'itemCode', isHidden: true},
@@ -451,6 +453,7 @@ const main = (function() {
       isThead: true,
       isTfoot: false,
       isPageLoader: false,
+      singleSorting: true,
       fileName: global.selectedQuarterDate + '_전량매도',
       colModel: [
         {id: 'itemCode', isHidden: true},
