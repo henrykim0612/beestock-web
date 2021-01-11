@@ -763,6 +763,13 @@ const main = (function() {
 
   // 포트폴리오 차트탭
   function initBarChart() {
+
+    // 3자리 콤마 설정
+    function lableFommater(data) {
+      data = parseFloat(data);
+      return data.toLocaleString();
+    }
+
     getQuarterInfo(function(response) {
       const chartData = createData(response);
       const props = {
@@ -809,6 +816,9 @@ const main = (function() {
               color: '#C23531',
               label: {
                 show: true,
+                formatter: function (params) { // 3자리 콤마 설정
+                  return lableFommater(params.value);
+                },
                 position: 'right',
                 color: '#2f2f2f'
               },

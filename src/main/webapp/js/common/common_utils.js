@@ -718,9 +718,10 @@ const cmmUtils = (function () {
         const contDiv = document.createElement('div');
         contDiv.classList.add('flex-col');
         contDiv.classList.add('justify-content-center');
-        const leftStrong = document.createElement('strong');
-        leftStrong.innerText = value + '%';
-        contDiv.appendChild(leftStrong);
+        const strong = document.createElement('strong');
+        strong.style.color = '#0a0a0a';
+        strong.innerText = value + '%';
+        contDiv.appendChild(strong);
         minusDiv.appendChild(contDiv);
         leftDiv.appendChild(minusDiv);
         mainDiv.appendChild(leftDiv);
@@ -749,6 +750,7 @@ const cmmUtils = (function () {
         contDiv.classList.add('analysis-plus');
         contDiv.style.width = value + '%';
         const strong = document.createElement('strong');
+        strong.style.color = '#0a0a0a';
         strong.innerText = value + '%';
         contDiv.appendChild(strong);
         rightDiv.appendChild(contDiv);
