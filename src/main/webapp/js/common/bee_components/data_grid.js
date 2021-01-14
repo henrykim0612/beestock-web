@@ -65,15 +65,23 @@ BeeComponents.modules.dataGrid = function(component) {
 
       const table = document.getElementById(props['eId']);
       const tbody = table.querySelector('tbody');
-      cmmUtils.clearChildNodes(tbody ? tbody : table);
-
-      // Table
       const fragment = document.createDocumentFragment();
-      if (!tbody) {
+
+      // 헤더를 초기화 하는 경우
+      if (props['refreshHeader'] != null && props['refreshHeader']) {
+        cmmUtils.clearChildNodes(table);
         me.createThead(fragment, props);
         me.createTfoot(fragment, props);
+        me.createTbody(fragment, props); // Tbody 생성(Tbody 새롭게 생성)
+      } else {
+        cmmUtils.clearChildNodes(tbody ? tbody : table);
+        if (!tbody) {
+          me.createThead(fragment, props);
+          me.createTfoot(fragment, props);
+        }
+        me.createTbody(fragment, props, tbody); // Tbody 생성(기존에 있던 Tbody에)
       }
-      me.createTbody(fragment, props, tbody);
+
       // 마지막으로 테이블에 추가
       table.appendChild(fragment);
       me.addTableEventListeners(table, props, tbody);
@@ -114,6 +122,7 @@ BeeComponents.modules.dataGrid = function(component) {
         const th = document.createElement('th');
         const div = document.createElement('div');
         const text = col['name'] != null ? col['name'] : '';
+
         div.classList.add('has-text-centered');
         if (col['id'] != null) {
           div.setAttribute('data-ref-id', col['id']);
@@ -151,7 +160,6 @@ BeeComponents.modules.dataGrid = function(component) {
         tr.appendChild(th);
       }
     }
-
     thead.appendChild(tr);
     fragment.appendChild(thead);
   }
@@ -161,19 +169,41 @@ BeeComponents.modules.dataGrid = function(component) {
       const colModel = props['colModel'];
       const tfoot = document.createElement('tfoot');
       const tr = document.createElement('tr');
+
       for (let i = 0; i < colModel.length; i++) {
         const col = colModel[i];
         if (col['isHidden'] == null || !col['isHidden']) {
           const th = document.createElement('th');
           const div = document.createElement('div');
           const text = col['name'] != null ? col['name'] : '';
+
           div.classList.add('has-text-centered');
-          div.setAttribute('data-ref-id', col['id']);
+          if (col['id'] != null) {
+            div.setAttribute('data-ref-id', col['id']);
+          }
           div.setAttribute('title', text);
           div.innerText = text;
-          // Sorting 기능 추가
-          this.createSortingIcons(col, div, props);
-          th.appendChild(div);
+
+          // Width
+          if (col['id'] != null && col['id'] === 'rowNum') {
+            th.style.width = '60px';
+          }
+          if (col['width'] != null) {
+            th.style.width = col['width'];
+            div.style.width = col['width'];
+          }
+
+          // 앞에 추가적인 커스텀 요소가 있을 경우
+          if (col['addingFrontHeader'] != null) {
+            const parentDiv = document.createElement('div');
+            parentDiv.classList.add('flex-row');
+            parentDiv.classList.add('justify-content-center');
+            parentDiv.appendChild(col['addingFrontHeader'](col, props));
+            parentDiv.appendChild(div);
+            th.appendChild(parentDiv);
+          } else {
+            th.appendChild(div);
+          }
           tr.appendChild(th);
         }
       }
@@ -490,14 +520,7 @@ BeeComponents.modules.dataGrid = function(component) {
     const theadDivArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
     // Thead 정렬 아이콘 변경
     for (let i = 0; i < theadDivArr.length; i++) {
-      this.changeIconClass(theadDivArr[i]);
-    }
-    // Tfoot 이 존재한다면 똑같이 정렬 아이콘 변경
-    if (props['isTfoot'] != null && props['isTfoot']) {
-      const tfootDivArr = table.querySelector('tfoot').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
-      for (let i = 0; i < tfootDivArr.length; i++) {
-        this.changeIconClass(tfootDivArr[i]);
-      }
+      this.changeIconClass(theadDivArr[i], table, props);
     }
   }
 
@@ -527,8 +550,13 @@ BeeComponents.modules.dataGrid = function(component) {
     }
   }
 
-  component.DataGrid.prototype.changeIconClass = function(th) {
-    const currentDataSort = th.getAttribute('data-sort');
+  // 정렬 아이콘 변경
+  component.DataGrid.prototype.changeIconClass = function(selectedTh, table, props) {
+
+    // 싱글 정렬을 활성화했을 경우에는 이전 정렬을 모두 초기화
+    if (props['singleSorting'] != null && props['singleSorting']) resetSortingClasses(table, selectedTh);
+
+    const currentDataSort = selectedTh.getAttribute('data-sort');
     let changedDataSort;
     // Sorting 값 변경
     switch (currentDataSort) {
@@ -536,14 +564,34 @@ BeeComponents.modules.dataGrid = function(component) {
       case '1':changedDataSort = '2'; break; // 내림차순으로 변경
       default: changedDataSort = '0'; break; // 정렬해제
     }
-    th.setAttribute('data-sort', changedDataSort);
+    selectedTh.setAttribute('data-sort', changedDataSort);
+
     // svg 아이콘 클래스 변경
-    const svgArr = th.querySelectorAll('svg');
+    const svgArr = selectedTh.querySelectorAll('svg');
     for (let j = 0; j < svgArr.length; j++) {
       const svg = svgArr[j];
-      changedDataSort === svg.getAttribute('data-sort')
-        ? svg.classList.remove('is-hidden')
-        : svg.classList.add('is-hidden');
+      changedDataSort === svg.dataset.sort ? svg.classList.remove('is-hidden') : svg.classList.add('is-hidden');
+    }
+
+    // 정렬 초기화
+    function resetSortingClasses(table, selectedTh) {
+      // 정렬 값 초기화
+      const sortingDiv = table.querySelectorAll('[data-custom=sortingDiv]');
+      let len = sortingDiv.length;
+      for (let i = 0; i < len; i++) {
+        const div = sortingDiv[i];
+        if (div.dataset.refId !== selectedTh.dataset.refId) { // 클릭한 th 가 아닌것만 초기화
+          div.dataset.sort = '0'; // 초기화
+        }
+      }
+      // 아이콘 초기화
+      const svgArr = table.querySelectorAll('svg');
+      for (let i = 0; i < svgArr.length; i++) {
+        const svg = svgArr[i];
+        if (svg.dataset.sort !== undefined) {
+          svgArr[i].classList.add('is-hidden');
+        }
+      }
     }
   }
 
@@ -602,9 +650,9 @@ BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid.prototype.addTableEventListeners = function(table, props, tbody) {
     const me = this;
-    addSelectingTr();
+    addSelectingTr(); // 선택 행
     if (!tbody) {
-      addSortingDiv();
+      addSortingDiv(); // 정렬
     }
 
     // Row 클릭시 하이라이트 이벤트

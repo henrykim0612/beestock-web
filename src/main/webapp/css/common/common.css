@@ -2,7 +2,7 @@
 	Flex 
 */
 .flex-container {
-	display: flex;	
+	display: flex;
 }
 
 .flex-row {
@@ -322,6 +322,16 @@ table thead th {
 	background: #f7f7f8;
 }
 
+table tfoot th {
+	background: #f7f7f8;
+}
+
 .min-screen-height {
 	min-height: 1080px;
+}
+
+.spinner {
+	width: 40px;
+	text-align: center;
+	font-weight: bold;
 }

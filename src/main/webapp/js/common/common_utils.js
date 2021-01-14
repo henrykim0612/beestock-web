@@ -43,6 +43,23 @@ const cmmUtils = (function () {
       : document.getElementById(eleOrId).classList.add('is-active');
   }
 
+  function showGuideModal(props) {
+
+    setColor(props.color != null ? props.color : 'is-info');
+    document.getElementById('guideHeader').innerHTML = props.header;
+    document.getElementById('guideModal').classList.add('is-active')
+
+    function setColor(className) {
+      const article = document.getElementById('guideArticle');
+      article.classList.remove('is-danger');
+      article.classList.remove('is-warning');
+      article.classList.remove('is-info');
+      article.classList.remove('is-link');
+      article.classList.remove('is-success');
+      article.classList.add(className);
+    }
+  }
+
   function showWarningModal(title, cont) {
     document.getElementById('warningModalTitle').innerHTML = title;
     document.getElementById('warningModalCont').innerHTML = cont;
@@ -499,6 +516,10 @@ const cmmUtils = (function () {
     document.getElementById(id).bulmaCalendar.value(value);
   }
 
+  function clearCalendarValue(id) {
+    document.getElementById(id).bulmaCalendar.clear();
+  }
+
   // 시작 날짜가 종료 날짜보다 작은지 검증한다
   function isValidDateRange(sId, eId) {
     const stDate = document.getElementById(sId).bulmaCalendar.value();
@@ -671,11 +692,6 @@ const cmmUtils = (function () {
     form.remove();
   }
 
-  function initInputSpinner(props) {
-    const spinner = new InputSpinner(document.getElementById(props['eId']));
-    spinner.ready(props);
-  }
-
   function goToAlarmPage(linkCode, linkId) {
     switch (linkCode) {
       case 'M0001': // 공지사항
@@ -718,9 +734,10 @@ const cmmUtils = (function () {
         const contDiv = document.createElement('div');
         contDiv.classList.add('flex-col');
         contDiv.classList.add('justify-content-center');
-        const leftStrong = document.createElement('strong');
-        leftStrong.innerText = value + '%';
-        contDiv.appendChild(leftStrong);
+        const strong = document.createElement('strong');
+        strong.style.color = '#0a0a0a';
+        strong.innerText = value + '%';
+        contDiv.appendChild(strong);
         minusDiv.appendChild(contDiv);
         leftDiv.appendChild(minusDiv);
         mainDiv.appendChild(leftDiv);
@@ -749,6 +766,7 @@ const cmmUtils = (function () {
         contDiv.classList.add('analysis-plus');
         contDiv.style.width = value + '%';
         const strong = document.createElement('strong');
+        strong.style.color = '#0a0a0a';
         strong.innerText = value + '%';
         contDiv.appendChild(strong);
         rightDiv.appendChild(contDiv);
@@ -955,6 +973,31 @@ const cmmUtils = (function () {
     return unknownArr;
   }
 
+  function initSpinner(ele, callback) {
+
+    const btnMinus = ele.querySelector('.spinner-minus');
+    const btnPlus = ele.querySelector('.spinner-plus');
+    const counter = ele.querySelector('.spinner-count');
+
+    btnMinus.addEventListener('click', function() {
+      const value = parseInt(counter.value) - 1;
+      counter.value = value > 0 ? value : 1;
+      callback(value);
+    });
+    btnPlus.addEventListener('click', function() {
+      const value = parseInt(counter.value) + 1;
+      counter.value = value;
+      callback(value);
+    });
+    counter.addEventListener('keyup', function() {
+      const regexp = /^[0-9]*$/ // 숫자만
+      if (!this.value) this.value = 1;
+      if( !regexp.test(this.value) ) {
+        this.value = 1;
+      }
+      callback(this.value);
+    });
+  }
 
   return {
     axiosGet: axiosGet,
@@ -962,6 +1005,7 @@ const cmmUtils = (function () {
     showLoadingElement: showLoadingElement,
     hideLoadingElement: hideLoadingElement,
     showModal: showModal,
+    showGuideModal: showGuideModal,
     showWarningModal: showWarningModal,
     closeModal: closeModal,
     showErrModal: showErrModal,
@@ -989,6 +1033,7 @@ const cmmUtils = (function () {
     setCKEditor: setCKEditor,
     initCalendar: initCalendar,
     setCalendarValue: setCalendarValue,
+    clearCalendarValue: clearCalendarValue,
     getCalendarValue: getCalendarValue,
     isValidDateRange: isValidDateRange,
     setExcelTippy: setExcelTippy,
@@ -1005,7 +1050,6 @@ const cmmUtils = (function () {
     verifyFileSize: verifyFileSize,
     verifySingleFileSize: verifySingleFileSize,
     downloadFile: downloadFile,
-    initInputSpinner: initInputSpinner,
     goToAlarmPage: goToAlarmPage,
     createAnalysisBar: createAnalysisBar,
     getRandomValue: getRandomValue,
@@ -1017,6 +1061,7 @@ const cmmUtils = (function () {
     getPrevQuarter: getPrevQuarter,
     addUnknownQuarters: addUnknownQuarters,
     getUnknownQuarters: getUnknownQuarters,
-    getUnknownQuartersReverse: getUnknownQuartersReverse
+    getUnknownQuartersReverse: getUnknownQuartersReverse,
+    initSpinner: initSpinner
   }
 })();

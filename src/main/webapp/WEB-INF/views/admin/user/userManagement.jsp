@@ -56,7 +56,7 @@
                                 <option value="ROLE_USER">일반 사용자</option>
                                 <option value="ROLE_STANDARD">스탠다드 사용자</option>
                                 <option value="ROLE_PREMIUM">프리미엄 사용자</option>
-                                <option value="ROLE_PREMIUM_PLUS">프리미엄 플러스</option>
+                                <option value="ROLE_PREMIUM_PLUS">프리미엄 플러스 사용자</option>
                                 <option value="ROLE_ADMIN">관리자</option>
                             </select>
                         </div>
