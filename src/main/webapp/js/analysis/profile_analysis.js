@@ -51,11 +51,7 @@ const main = (function() {
     if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
     if (document.getElementById('newTransferExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
     if (document.getElementById('soldOutExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
-    console.log('모지....', global.selectedProfileType);
-    if (global.selectedProfileType === '1') {
-      // 국내인 경우 오른쪽 차트 팝업 안내문구 추가
-      appendRightChartMsg();
-    }
+    if (global.selectedProfileType === '1') appendRightChartMsg(); // 국내인 경우 오른쪽 차트 팝업 안내문구 추가
   }
 
   function createBreadCrumb() {
@@ -404,6 +400,7 @@ const main = (function() {
       isTfoot: false,
       isPageLoader: false,
       singleSorting: true,
+      refreshHeader: true,
       fileName: global.selectedQuarterDate + '_신규편입',
       colModel: [
         {id: 'itemCode', isHidden: true},
@@ -414,7 +411,7 @@ const main = (function() {
         {id: 'buyingPrice', name: '매수가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
         {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
-        {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
+        {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true, refreshColumn: true}
       ]
     }
     newTransferGrid = new COMPONENTS.DataGrid(props);
@@ -459,6 +456,7 @@ const main = (function() {
       isTfoot: false,
       isPageLoader: false,
       singleSorting: true,
+      refreshHeader: true,
       fileName: global.selectedQuarterDate + '_전량매도',
       colModel: [
         {id: 'itemCode', isHidden: true},
@@ -1176,8 +1174,8 @@ const main = (function() {
       global['comparisonQuarter'] = counter;
       switch (tabIdx) {
         case 0: initProfileGrid(); break; // 일반 탭
-        case 1: initProfileGrid(); break; // 신규편입 탭
-        case 2: initProfileGrid(); break; // 전량매도 탭
+        case 1: initNewTransferGrid(); break; // 신규편입 탭
+        case 2: initSoldOutGrid(); break; // 전량매도 탭
       }
     }
     cmmUtils.initInputSpinner({eId: eId, counter: 1, limitCounter: 1, callback: callback});
