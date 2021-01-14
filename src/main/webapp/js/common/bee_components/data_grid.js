@@ -72,17 +72,16 @@ BeeComponents.modules.dataGrid = function(component) {
         cmmUtils.clearChildNodes(table);
         me.createThead(fragment, props);
         me.createTfoot(fragment, props);
+        me.createTbody(fragment, props); // Tbody 생성(Tbody 새롭게 생성)
       } else {
         cmmUtils.clearChildNodes(tbody ? tbody : table);
         if (!tbody) {
           me.createThead(fragment, props);
           me.createTfoot(fragment, props);
         }
+        me.createTbody(fragment, props, tbody); // Tbody 생성(기존에 있던 Tbody에)
       }
-      
-      // Tbody 생성
-      me.createTbody(fragment, props, tbody);
-      
+
       // 마지막으로 테이블에 추가
       table.appendChild(fragment);
       me.addTableEventListeners(table, props, tbody);
@@ -566,13 +565,12 @@ BeeComponents.modules.dataGrid = function(component) {
       default: changedDataSort = '0'; break; // 정렬해제
     }
     selectedTh.setAttribute('data-sort', changedDataSort);
+
     // svg 아이콘 클래스 변경
     const svgArr = selectedTh.querySelectorAll('svg');
     for (let j = 0; j < svgArr.length; j++) {
       const svg = svgArr[j];
-      changedDataSort === svg.getAttribute('data-sort')
-        ? svg.classList.remove('is-hidden')
-        : svg.classList.add('is-hidden');
+      changedDataSort === svg.dataset.sort ? svg.classList.remove('is-hidden') : svg.classList.add('is-hidden');
     }
 
     // 정렬 초기화
@@ -589,7 +587,10 @@ BeeComponents.modules.dataGrid = function(component) {
       // 아이콘 초기화
       const svgArr = table.querySelectorAll('svg');
       for (let i = 0; i < svgArr.length; i++) {
-        svgArr[i].classList.add('is-hidden');
+        const svg = svgArr[i];
+        if (svg.dataset.sort !== undefined) {
+          svgArr[i].classList.add('is-hidden');
+        }
       }
     }
   }

@@ -29,7 +29,7 @@
                 <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
                 <span>국내</span>
                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_STANDARD')">
-                    <span class="badge is-danger is-top-right">Premium</span>
+                    <span class="badge is-danger is-top-right">Premium Plus</span>
                 </sec:authorize>
             </a>
         </li>

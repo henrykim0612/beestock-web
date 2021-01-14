@@ -24,8 +24,8 @@ public class AnalysisController {
 
     @GetMapping("/profile/{profileType}/{profileId}")
     public String goToPricingTable(ModelMap model, @PathVariable int profileType, @PathVariable String profileId, Authentication auth) {
-        // 국내 프로필은 프리미엄 이상만 가능함
-        if (profileType == 1 && (cmmUtils.isUser(auth) || cmmUtils.isStandardUser(auth))) {
+        // 국내 프로필은 프리미엄 플러스만 가능함
+        if (profileType == 1 && (cmmUtils.isUser(auth) || cmmUtils.isStandardUser(auth) || cmmUtils.isPremiumUser(auth))) {
             return "home/pricingTable";
         } else {
             model.addAttribute("title", "포트폴리오 분석");

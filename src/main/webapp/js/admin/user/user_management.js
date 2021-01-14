@@ -45,13 +45,19 @@ const main = (function() {
       let innerHtml = '';
       switch (roleNm) {
         case 'ROLE_ADMIN':
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-warning is-light cursor">관리자</span>';
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-black cursor">관리자</span>';
           break;
-        case 'ROLE_SUBC':
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-success is-light cursor">구독자</span>';
+        case 'ROLE_PREMIUM_PLUS':
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-danger is-light cursor">프리미엄 플러스 사용자</span>';
+          break;
+        case 'ROLE_PREMIUM':
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-danger is-light cursor">프리미엄 사용자</span>';
+          break;
+        case 'ROLE_STANDARD':
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-info is-light cursor">스탠다드 사용자</span>';
           break;
         default:
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-info is-light cursor">일반사용자</span>';
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-warning is-light cursor">일반사용자</span>';
           break;
       }
       return innerHtml;
@@ -101,7 +107,7 @@ const main = (function() {
   }
 
   function changeSelAuth() {
-    this.value === 'ROLE_SUBC' ? cmmUtils.showElement('divExpDate') : cmmUtils.hideElement('divExpDate');
+    this.value !== 'ROLE_USER' ? cmmUtils.showElement('divExpDate') : cmmUtils.hideElement('divExpDate');
   }
 
   // 권한변경
@@ -129,11 +135,12 @@ const main = (function() {
     document.getElementById('labelModalAuth').textContent = loginId;
     const selBox = document.getElementById('modalSelAuth');
     cmmUtils.hideElement('divExpDate'); // 만료일은 구독자를 선택했을 경우만 보임
+    cmmUtils.clearCalendarValue('expDate');
     for (let i = 0; i < selBox.length; i++) {
       const option = selBox[i];
       if (option.value === roleNm) {
         option.selected = true;
-        if (roleNm === 'ROLE_SUBC') {
+        if (roleNm !== 'ROLE_USER') {
           cmmUtils.showElement('divExpDate');
         }
       }

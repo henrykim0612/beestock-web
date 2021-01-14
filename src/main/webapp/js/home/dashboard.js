@@ -22,7 +22,7 @@ const main = (function () {
       span.classList.add('badge');
       span.classList.add('is-danger');
       span.classList.add('is-top-right');
-      span.innerText = 'Premium';
+      span.innerText = 'Premium Plus';
       document.getElementById('tabInAnchor').appendChild(span);
     }
   }

@@ -2,7 +2,7 @@
 	Flex 
 */
 .flex-container {
-	display: flex;	
+	display: flex;
 }
 
 .flex-row {
@@ -328,4 +328,10 @@ table tfoot th {
 
 .min-screen-height {
 	min-height: 1080px;
+}
+
+.spinner {
+	width: 40px;
+	text-align: center;
+	font-weight: bold;
 }

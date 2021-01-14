@@ -54,9 +54,9 @@ const cmmProfileCard = (function () {
     card.setAttribute('name', 'profileCard');
     // 카드 클릭 이벤트
     card.addEventListener('click', function() {
-      if (data['profileType'] === 1 && (global.userRole === '[ROLE_USER]' || global.userRole === '[ROLE_STANDARD]')) {
-        // 국내 프로필은 프리미엄 이상만 이용가능
-        cmmUtils.showModal('premiumModal');
+      if (data['profileType'] === 1 && (global.userRole === '[ROLE_USER]' || global.userRole === '[ROLE_STANDARD]' || global.userRole === '[ROLE_PREMIUM]')) {
+        // 국내 프로필은 프리미엄 플러스만 이용가능
+        cmmUtils.showModal('premiumPlusModal');
       } else {
         const url = '/analysis/profile/' + data['profileType'] +'/' + data['profileId'];
         cmmUtils.goToPage(url);

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%--페이지 로더--%>
-<div id="pageLoader" class="pageloader is-warning is-light"><span class="title">잠시만 기다려 주세요..</span></div>
+<div id="pageLoader" class="pageloader is-warning is-light"><span class="title">Loading..</span></div>
 
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">
@@ -116,7 +116,7 @@
     <div class="modal-content">
         <article class="message is-link">
             <div class="message-header">
-                <p>열람 제한 안내</p>
+                <p>Standard 등급 이상 전용화면</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('standardModal')"></button>
             </div>
             <div class="message-body">
@@ -142,7 +142,7 @@
     <div class="modal-content">
         <article class="message is-danger">
             <div class="message-header">
-                <p>화면 제한 안내</p>
+                <p>Premium 등급 이상 전용화면</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumModal')"></button>
             </div>
             <div class="message-body has-text-dark">
@@ -163,12 +163,38 @@
     </div>
 </div>
 
+<div id="premiumPlusModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <article class="message is-danger">
+            <div class="message-header">
+                <p>Premium Plus 등급 전용화면</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumPlusModal')"></button>
+            </div>
+            <div class="message-body has-text-dark">
+                <div class="is-left mb-5">
+                    <p>해당 화면은<strong>Premium Plus</strong> 등급 구독자만 이용이 가능합니다.</p>
+                    <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
+                </div>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="buttons">
+                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">확인</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </article>
+    </div>
+</div>
+
 <div id="guideModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-link">
+        <article id="guideArticle" class="message">
             <div class="message-header">
-                <p>기능 제한 안내</p>
+                <p id="guideHeader"></p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('guideModal')"></button>
             </div>
             <div class="message-body has-text-dark">
