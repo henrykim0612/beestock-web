@@ -8,7 +8,7 @@ const cmmUtils = (function () {
   function axiosGet(props, callback) {
     if (props['loading'] != null) showLoadingElement(document.getElementById(props['loading']));
     if (props['isPageLoader'] != null && props['isPageLoader']) showPageLoader();
-    axios.get(CONTEXT_PATH + props['url'])
+    axios({url: CONTEXT_PATH + props['url'], method: 'get', timeout: 180000})
       .then(function(response) {
         verifyResponse(response);
         if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
@@ -25,7 +25,9 @@ const cmmUtils = (function () {
     const args = arguments.length;
     if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.showPageLoader();
     if (props['loading'] != null) cmmUtils.showLoadingElement(document.getElementById(props['loading']));
-    axios.post(CONTEXT_PATH + props['url'], props['body'] != null ? props['body'] : {})
+    const url = CONTEXT_PATH + props['url'];
+    const body = props['body'] != null ? props['body'] : {};
+    axios({url: url, method: 'post', data: body, timeout: 180000})
       .then(function(response) {
         if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
         if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
@@ -973,30 +975,49 @@ const cmmUtils = (function () {
     return unknownArr;
   }
 
-  function initSpinner(ele, callback) {
+  function initSpinner(callback) {
 
-    const btnMinus = ele.querySelector('.spinner-minus');
-    const btnPlus = ele.querySelector('.spinner-plus');
-    const counter = ele.querySelector('.spinner-count');
+    const spinnerDivs = document.getElementsByClassName('spinnerDiv');
+    const len = spinnerDivs.length;
+    // 스피너 개수만큼
+    for (let i = 0; i < len; i++) {
 
-    btnMinus.addEventListener('click', function() {
-      const value = parseInt(counter.value) - 1;
-      counter.value = value > 0 ? value : 1;
-      callback(value);
-    });
-    btnPlus.addEventListener('click', function() {
-      const value = parseInt(counter.value) + 1;
-      counter.value = value;
-      callback(value);
-    });
-    counter.addEventListener('keyup', function() {
-      const regexp = /^[0-9]*$/ // 숫자만
-      if (!this.value) this.value = 1;
-      if( !regexp.test(this.value) ) {
-        this.value = 1;
-      }
-      callback(this.value);
-    });
+      const spinnerDiv = spinnerDivs[i];
+      const btnMinus = spinnerDiv.querySelector('.spinner-minus');
+      const btnPlus = spinnerDiv.querySelector('.spinner-plus');
+      const counter = spinnerDiv.querySelector('.spinner-count');
+
+      btnMinus.addEventListener('click', function() {
+        const value = parseInt(counter.value) - 1;
+        for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
+          spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
+        }
+        callback(value, counter.dataset.idx);
+      });
+      btnPlus.addEventListener('click', function() {
+        const value = parseInt(counter.value) + 1;
+        for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
+          spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
+        }
+        callback(value, counter.dataset.idx);
+      });
+      counter.addEventListener('keyup', function() {
+        const regexp = /^[0-9]*$/ // 숫자만
+        let value = this.value;
+        if (!value) value = 1;
+        if( !regexp.test(value) ) {
+          value = 1;
+        }
+        for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
+          spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
+        }
+        callback(value, this.dataset.idx);
+      });
+    }
+  }
+
+  function openNewTab(url) {
+    window.open(CONTEXT_PATH + url, '_blank').focus();
   }
 
   return {
@@ -1062,6 +1083,7 @@ const cmmUtils = (function () {
     addUnknownQuarters: addUnknownQuarters,
     getUnknownQuarters: getUnknownQuarters,
     getUnknownQuartersReverse: getUnknownQuartersReverse,
-    initSpinner: initSpinner
+    initSpinner: initSpinner,
+    openNewTab: openNewTab
   }
 })();

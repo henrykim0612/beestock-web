@@ -125,7 +125,7 @@
     <div class="level-item has-text-centered">
         <div class="field loginField is-grouped is-grouped-centered">
             <div class="buttons">
-                <button class="button is-warning" onclick="main.showAgreeModal()"><strong>약관동의</strong></button>
+                <button class="button is-warning" onclick="main.showAgreeModal()"><strong>이용약관 확인</strong></button>
                 <button disabled id="btnSubmit" class="button is-primary" onclick="main.signup()"><strong>회원가입</strong></button>
             </div>
         </div>
@@ -174,7 +174,6 @@
     <div class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">이용약관</p>
-            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('agreeModal')"></button>
         </header>
         <section class="modal-card-body">
             <div class="content">
@@ -214,9 +213,12 @@
             </div>
         </section>
         <footer class="modal-card-foot">
-            <div class="field">
+            <div class="flex-row justify-content-start width-50-p">
                 <input id="chkAgreement" class="is-checkradio is-success" type="checkbox">
                 <label for="chkAgreement">약관을 확인했습니다</label>
+            </div>
+            <div class="field flex-row justify-content-end width-50-p">
+                <button id="btnAgreement" class="button is-warning"><strong>확인</strong></button>
             </div>
         </footer>
     </div>

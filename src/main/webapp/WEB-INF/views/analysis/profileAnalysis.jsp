@@ -153,9 +153,28 @@
 <%--그리드 탭--%>
 <div id="gridCont">
     <div class="flex-row">
-        <div class="flex-row width-100per justify-content-end">
-            <%--엑셀 다운로드--%>
-            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+        <%--X 분기 전 스피너--%>
+        <div class="spinnerDiv flex-row width-70-p justify-content-start">
+            <div>
+                <button class="button is-small spinner-minus">
+                    <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                </button>
+            </div>
+            <div class="control">
+                <input class="spinner input is-small spinner-count" type="text" value="1" maxlength="3" data-idx="0"/>
+            </div>
+            <div>
+                <button class="button is-small spinner-plus">
+                    <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                </button>
+            </div>
+            <div class="ml-3 flex-col justify-content-center">
+                <p class="title is-6">분기 전</p>
+            </div>
+        </div>
+        <%--엑셀 다운로드--%>
+        <div class="flex-row width-30-p justify-content-end">
+            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
                 <div class="flex-col justify-content-end">
                     <span id="gridExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(1)"><i class="fas fa-lg fa-file-download"></i></span>
                 </div>
@@ -168,9 +187,28 @@
 <%--신규편입 탭--%>
 <div id="newTransferGridCont" class="is-hidden">
     <div class="flex-row">
-        <div class="flex-row width-100per justify-content-end">
-            <%--엑셀 다운로드--%>
-            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+        <%--X 분기 전 스피너--%>
+        <div class="spinnerDiv flex-row width-70-p justify-content-start">
+            <div>
+                <button class="button is-small spinner-minus">
+                    <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                </button>
+            </div>
+            <div class="control">
+                <input class="spinner input is-small spinner-count" type="text" value="1" maxlength="3" data-idx="1"/>
+            </div>
+            <div>
+                <button class="button is-small spinner-plus">
+                    <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                </button>
+            </div>
+            <div class="ml-3 flex-col justify-content-center">
+                <p class="title is-6">분기 전</p>
+            </div>
+        </div>
+        <%--엑셀 다운로드--%>
+        <div class="flex-row width-30-p justify-content-end">
+            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
                 <div class="flex-col justify-content-end">
                     <span id="newTransferExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(2)"><i class="fas fa-lg fa-file-download"></i></span>
                 </div>
@@ -183,9 +221,28 @@
 <%--전량매도 탭--%>
 <div id="soldOutGridCont" class="is-hidden">
     <div class="flex-row">
-        <div class="flex-row width-100per justify-content-end">
-            <%--엑셀 다운로드--%>
-            <sec:authorize access="hasAnyRole('ROLE_SUBC', 'ROLE_ADMIN')">
+        <%--X 분기 전 스피너--%>
+        <div class="spinnerDiv flex-row width-70-p justify-content-start">
+            <div>
+                <button class="button is-small spinner-minus">
+                    <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                </button>
+            </div>
+            <div class="control">
+                <input class="spinner input is-small spinner-count" type="text" value="1" maxlength="3" data-idx="2"/>
+            </div>
+            <div>
+                <button class="button is-small spinner-plus">
+                    <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                </button>
+            </div>
+            <div class="ml-3 flex-col justify-content-center">
+                <p class="title is-6">분기 전</p>
+            </div>
+        </div>
+        <%--엑셀 다운로드--%>
+        <div class="flex-row width-70-p justify-content-end">
+            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
                 <div class="flex-col justify-content-end">
                     <span id="soldOutExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(3)"><i class="fas fa-lg fa-file-download"></i></span>
                 </div>

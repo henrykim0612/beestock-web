@@ -1,6 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/admin/latestprice/latest_price_management.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/admin/avg/avg_price_management.js" type="text/javascript"></script>
+
+<article class="message is-warning">
+    <div class="message-body">
+        평균주가를 업로드 하기전 <strong>포트폴리오 분기 데이터</strong>를 먼저 작업 후 진행해주세요.
+    </div>
+</article>
 
 <%--검색조건--%>
 <div class="columns">
@@ -13,46 +19,19 @@
         </div>
     </div>
 </div>
-<div class="level mr-3 mb-5">
-    <div class="level-left">
-        <div class="field has-addons">
-            <p class="control has-icons-left">
-                <span class="select">
-                        <select id="selSearch">
-                            <option value="1" selected>종목코드</option>
-                            <option value="2">종목명</option>
-                        </select>
-                    </span>
-                <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
-            </p>
-            <p class="control">
-                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다"/>
-            </p>
-            <p class="control">
-                <button id="btnSearch" class="button is-dark" onclick="main.reloadGrid()">
-                    <span class="icon is-small"><i class="fas fa-search"></i></span>
-                    <span>검색</span>
+
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <div class="level-right mb-4">
+        <div class="control ml-4">
+            <div class="buttons">
+                <button class="button is-primary is-small" onclick="main.showUploadModal()">
+                    <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
+                    <span>종목코드 업로드</span>
                 </button>
-            </p>
-        </div>
-    </div>
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <div class="level-right">
-            <div class="control ml-4">
-                <div class="buttons">
-                    <button class="button is-primary is-small" onclick="main.showUploadModal()">
-                        <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
-                        <span>국내 종목코드 업로드</span>
-                    </button>
-                    <button id="btnSyncSymbol" class="button is-primary is-small" onclick="main.syncSymbols()">
-                        <span class="icon is-small"><i class="fas fa-sync-alt"></i></span>
-                        <span>해외 종목코드 동기화</span>
-                    </button>
-                </div>
             </div>
         </div>
-    </sec:authorize>
-</div>
+    </div>
+</sec:authorize>
 
 <%--엑셀 다운로드--%>
 <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
@@ -71,10 +50,20 @@
         <div class="modal-background"></div>
         <div class="modal-card width900px">
             <header class="modal-card-head">
-                <p class="modal-card-title">국내 종목코드 업로드</p>
+                <p class="modal-card-title">평균주가 업로드</p>
                 <button class="delete" aria-label="close" onclick="main.hideUploadModal()"></button>
             </header>
             <section class="modal-card-body">
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <input type="radio" class="is-checkradio is-primary is-circle is-small" id="uploadType1" name="uploadType" value="1" checked="checked">
+                            <label for="uploadType1">국내</label>
+                            <input type="radio" class="is-checkradio is-primary is-circle is-small" id="uploadType2" name="uploadType" value="2">
+                            <label for="uploadType2">해외</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="columns">
                     <div class="column is-2 is-vertical-center">
                         <div class="field" id="fileField">
@@ -98,7 +87,7 @@
                 </div>
             </section>
             <footer class="modal-card-foot justify-content-center">
-                <button onclick="main.uploadStockItem()" class="button is-success is-small">
+                <button onclick="main.uploadData()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
@@ -114,20 +103,3 @@
         </div>
     </div>
 </sec:authorize>
-
-<%--Quick view--%>
-<div id="itemCodeQuickView" class="quickview">
-    <header class="quickview-header">
-        <p><strong id="qViewTitle"></strong></p>
-        <span class="delete" data-dismiss="quickview"></span>
-    </header>
-    <div class="quickview-body">
-        <div class="quickview-block">
-            <div id="qViewContent" class="tree ml-5 mt-5">
-            </div>
-        </div>
-    </div>
-    <footer class="quickview-footer">
-    </footer>
-</div>
-

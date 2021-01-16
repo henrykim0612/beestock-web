@@ -262,34 +262,6 @@ const main = (function() {
       return cmmUtils.createAnalysisBar(row['earnRate']);
     }
 
-    // xx 분기전 대비 보유수량 증감률 앞 추가 요소
-    const spinnerId = 'profileGridSpinner';
-    const addingFrontHeader = function(col, props) {
-      const div = document.createElement('div');
-      div.id = spinnerId;
-      div.classList.add('flex-row');
-      div.classList.add('justify-content-center');
-      div.classList.add('mr-3');
-      let html = '';
-      html = html + '<div id="spinner" class="flex-row justify-content-center">';
-      html = html + '  <div>';
-      html = html + '    <button class="button is-small spinner-minus">';
-      html = html + '      <span class="icon is-small"><i class="fas fa-minus"></i></span>';
-      html = html + '    </button>';
-      html = html + '  </div>';
-      html = html + '  <div class="control">';
-      html = html + '    <input class="spinner input is-small spinner-count" type="text" value="1" maxlength="3"/>';
-      html = html + '  </div>';
-      html = html + '  <div>';
-      html = html + '    <button class="button is-small spinner-plus">';
-      html = html + '      <span class="icon is-small"><i class="fas fa-plus"></i></span>';
-      html = html + '    </button>';
-      html = html + '  </div>';
-      html = html + '</div>';
-      div.innerHTML = html;
-      return div;
-    }
-
     // 증감율
     const incsRate = function(col, row) {
       let html = '';
@@ -346,25 +318,31 @@ const main = (function() {
       isTfoot: false,
       isPageLoader: false,
       singleSorting: true,
+      refreshHeader: true,
       fileName: global.selectedQuarterDate,
       colModel: [
         {id: 'itemCode', isHidden: true},
         {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', width: '240px', isSort: true, align: 'left', isExcel: true, isLink: true, userCustom: titleAnchor},
         {id: 'viewWeight', name: '비중', width: '100px', isSort: true, align: 'center', prefixText: '%', isExcel: true},
-        {id: 'quantity', name: '보유수량', width: '100px', isSort: true, align: 'center', isCurrency: true, isExcel: true},
-        {id: 'buyingPrice', name: '매수가', width: '110px', isSort: true, align: 'center', isCurrency: true, isExcel: true},
-        {id: 'currPrice', name: '현재가', width: '110px', isSort: true, align: 'center', isCurrency: true, isExcel: true},
+        {id: 'quantity', name: '보유수량', width: '100px', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'buyingPrice', name: '매수가', width: '110px', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'currPrice', name: '현재가', width: '110px', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', width: '170px', isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true},
-        {id: 'incsRate', name: '분기전 대비 보유수량 증감률', isSort: true, align: 'center', addingFrontHeader: addingFrontHeader, type: 'custom', userCustom: incsRate, isExcel: true}
+        {id: 'incsRate', name: global.comparisonQuarter + '분기전 QoQ 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
       ],
       success: function (data, _this) {
         global['gridData'] = data;
         if (!global['isInitialedSpinner']) {
-          cmmUtils.initSpinner(document.getElementById('spinner'), function(counter) {
+          cmmUtils.initSpinner(function(counter, idx) {
+            console.log(idx);
             // 카운트 변경시 재호출
             global['comparisonQuarter'] = counter;
-            initProfileGrid();
+            switch (idx) {
+              case '0': initProfileGrid(); break;
+              case '1': initNewTransferGrid(); break;
+              case '2': initSoldOutGrid(); break;
+            }
           });
         }
         global['isInitialedSpinner'] = true;
@@ -419,11 +397,11 @@ const main = (function() {
         {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true, isLink: true, userCustom: titleAnchor},
         {id: 'viewWeight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
-        {id: 'quantity', name: '보유수량', isSort: true, align: 'center', isCurrency: true, isExcel: true},
-        {id: 'buyingPrice', name: '매수가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
-        {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
+        {id: 'quantity', name: '보유수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'buyingPrice', name: '매수가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'currPrice', name: '현재가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
-        {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
+        {id: 'incsRate', name: global.comparisonQuarter + '분기전 QoQ 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
       ]
     }
     newTransferGrid = new COMPONENTS.DataGrid(props);
@@ -475,11 +453,11 @@ const main = (function() {
         {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', isSort: true, align: 'left', isExcel: true, isLink: true, userCustom: titleAnchor},
         {id: 'viewWeight', name: '비중', isSort: true, align: 'center', prefixText: '%', isExcel: true},
-        {id: 'quantity', name: '보유수량', isSort: true, align: 'center', isCurrency: true, isExcel: true},
-        {id: 'buyingPrice', name: '매수가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
-        {id: 'currPrice', name: '현재가', isSort: true, align: 'center', isCurrency: true, isExcel: true},
+        {id: 'quantity', name: '보유수량', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'buyingPrice', name: '매수가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
+        {id: 'currPrice', name: '현재가', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', isSort: true, align: 'center', width: '170px', type: 'node', userCustom: earnRate, isExcel: true},
-        {id: 'incsRate', name: global.comparisonQuarter + '분기전 대비 보유수량 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
+        {id: 'incsRate', name: global.comparisonQuarter + '분기전 QoQ 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
       ]
     }
     soldOutGrid = new COMPONENTS.DataGrid(props);

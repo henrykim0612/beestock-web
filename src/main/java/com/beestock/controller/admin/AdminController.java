@@ -56,10 +56,15 @@ public class AdminController {
     }
 
     @GetMapping("/latest-price-management")
-    public String goToStockItemManagement(ModelMap model) {
+    public String goToLatestPriceManagement(ModelMap model) {
         model.addAttribute("title", "Daily 주가 수동 업로드");
         return "admin/latestprice/latestPriceManagement";
     }
 
+    @GetMapping("/avg-price-management")
+    public String goToAvgManagement(ModelMap model) {
+        model.addAttribute("title", "평균주가 수동 업로드");
+        return "admin/avg/avgPriceManagement";
+    }
 
 }
