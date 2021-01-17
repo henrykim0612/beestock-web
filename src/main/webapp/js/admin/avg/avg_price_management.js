@@ -2,8 +2,10 @@ const COMPONENTS = BeeComponents('dataGrid', function(box) {});
 const main = (function() {
 
   let dataGrid;
+  let detailGrid;
   let global = {
     selectedProfileType: 1, // 기본은 국내
+    selectedQuarterDate: null,
     selectedFileName: null,
     gridData: undefined,
     fileArr: [], // uuid, fileId, fileSize, isRemoved
@@ -13,7 +15,7 @@ const main = (function() {
     createBreadCrumb();
     addProfileTypeEventListener();
     cmmUtils.setExcelTippy(['#icoExcelDownload']);
-    // initGrid();
+    initGrid();
     addFileEventListener();
   }
 
@@ -60,25 +62,64 @@ const main = (function() {
     let body = schFilter != null ? schFilter : {};
     body.pageSize = 100;
 
+    const titleAnchor = function(anchor, col, row) {
+      anchor.addEventListener('click', function() {
+        global['selectedQuarterDate'] = row['quarterDate'];
+        showDetailModal();
+      })
+    }
+
     const props = {
-      url: global.selectedProfileType === 1 ? '/api/v1/admin/stock/paging-in-stock-item-list' : '/api/v1/admin/stock/paging-out-stock-item-list',
+      url: '/api/v1/admin/avg-price/quarter',
       eId: 'dataGrid',
-      pId: 'dataPagination',
-      body: body,
-      fileName: '종목코드 리스트',
+      fileName: '평균주가',
+      body: {
+        orderBy: [{column: 'quarterDate', desc: true}],
+        profileType: global.selectedProfileType
+      },
       isThead: true,
       isTfoot: false,
-      loading: 'btnSearch',
       colModel: [
-        {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
-        {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'currPrice', name: '평균주가', isSort: true, isExcel: true, align: 'right', isCurrency: true}
+        {id: 'quarterDate', name: '분기', isSort: true, isExcel: true, align: 'center', isLink: true, userCustom: titleAnchor}
       ],
       success: function(data, _this) {
         global['gridData'] = data['rowData'];
       }
     }
     dataGrid = new COMPONENTS.DataGrid(props);
+  }
+  
+  // 상세정보 모달
+  function showDetailModal() {
+    document.getElementById('detailTitle').innerText = global['selectedQuarterDate'];
+    cmmUtils.showModal('detailModal');
+    initDetailGrid();
+  }
+
+  // 상세보기 그리드
+  function initDetailGrid() {
+    const props = {
+      url: '/api/v1/admin/avg-price/detail',
+      eId: 'detailDataGrid',
+      fileName: '평균주가',
+      body: {
+        orderBy: [{column: 'quarterDate', desc: true}],
+        profileType: global['selectedProfileType'],
+        quarterDate: global['selectedQuarterDate']
+      },
+      isThead: true,
+      isTfoot: false,
+      colModel: [
+        {id: 'quarterDate', name: '분기', isSort: true, isExcel: true, align: 'center'},
+        {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
+        {id: 'avgPrice', name: '평균주가', isSort: true, isExcel: true, align: 'right', isCurrency: true},
+        {id: 'uptDate', name: '업로드일', isSort: true, isExcel: true, align: 'center'}
+      ],
+      success: function(data, _this) {
+        global['gridData'] = data['rowData'];
+      }
+    }
+    detailGrid = new COMPONENTS.DataGrid(props);
   }
 
   function addFileEventListener() {

@@ -42,7 +42,28 @@
 
 <%--테이블 그리드--%>
 <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
-<nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+
+<%--상세 그리드 모달--%>
+<div id="detailModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card width900px">
+        <header class="modal-card-head">
+            <p class="modal-card-title" id="detailTitle"></p>
+            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('detailModal')"></button>
+        </header>
+        <section class="modal-card-body">
+            <table id="detailDataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+        </section>
+        <footer class="modal-card-foot justify-content-center">
+            <button onclick="cmmUtils.closeModal('detailModal')" class="button is-dark is-small">
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+                <span>닫기</span>
+            </button>
+        </footer>
+    </div>
+</div>
 
 <%--업로드 모달--%>
 <sec:authorize access="hasRole('ROLE_ADMIN')">

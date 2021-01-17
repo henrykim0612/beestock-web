@@ -256,10 +256,16 @@ const main = (function() {
   // 포트폴리오 그리드
   function initProfileGrid() {
 
-    // 수익률 막대 표2
+    // 수익률 막대 표
     const earnRate = function(col, row) {
       row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
       return cmmUtils.createAnalysisBar(row['earnRate']);
+    }
+
+    // 매수·금액 막대 표
+    const avgPrice = function(col, row) {
+      row['excelText'] = row['avgPrice'] + '%'; // 엑셀전용
+      return cmmUtils.createAnalysisBar(row['avgPrice']);
     }
 
     // 증감율
@@ -329,6 +335,7 @@ const main = (function() {
         {id: 'buyingPrice', name: '매수가', width: '110px', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'currPrice', name: '현재가', width: '110px', isSort: true, align: 'right', isCurrency: true, isExcel: true},
         {id: 'earnRate', name: '수익률', width: '170px', isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true},
+        {id: 'avgPrice', name: global.comparisonQuarter + '분기전 QoQ 매수·금액', isSort: true, align: 'center', type: 'custom', userCustom: avgPrice, isExcel: true},
         {id: 'incsRate', name: global.comparisonQuarter + '분기전 QoQ 증감률', isSort: true, align: 'center', type: 'custom', userCustom: incsRate, isExcel: true}
       ],
       success: function (data, _this) {
