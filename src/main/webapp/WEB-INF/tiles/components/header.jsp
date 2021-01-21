@@ -37,6 +37,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/icon-picker/bulma-iconpicker.min.css" type="text/css">
 <%--Swiper--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.css" type="text/css">
+<%--Tippy Animation--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/perspective.css" type="text/css">
+<%--Tippy Theme--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/translucent.css" type="text/css">
 
 <%--Common CSS--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/common.css" type="text/css">

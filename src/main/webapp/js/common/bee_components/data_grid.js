@@ -122,14 +122,12 @@ BeeComponents.modules.dataGrid = function(component) {
       if (col['isHidden'] == null || !col['isHidden']) {
         const th = document.createElement('th');
         const div = document.createElement('div');
-        const text = col['name'] != null ? col['name'] : '';
 
-        div.classList.add('has-text-centered');
-        if (col['id'] != null) {
-          div.setAttribute('data-ref-id', col['id']);
+        // Excel
+        if (col['isExcel'] != null && col['isExcel']) {
+          div.setAttribute('data-excel-header', 'true');
+          div.setAttribute('data-excel-value', col['name']);
         }
-        div.setAttribute('title', text);
-        div.innerText = text;
 
         // Width
         if (col['id'] != null && col['id'] === 'rowNum') {
@@ -140,27 +138,35 @@ BeeComponents.modules.dataGrid = function(component) {
           div.style.width = col['width'];
         }
 
-        // Excel
-        if (col['isExcel'] != null && col['isExcel']) {
-          div.setAttribute('data-excel-header', 'true');
-          div.setAttribute('data-excel-value', col['name']);
+        div.classList.add('has-text-centered');
+        if (col['id'] != null) {
+          div.setAttribute('data-ref-id', col['id']);
+        }
+        div.setAttribute('title', col['name'] != null ? col['name'] : '');
+
+        if (col['userCustomHeader'] != null) {
+          col['userCustomHeader'](div, col, props);
+        } else {
+          div.innerText = col['name'] != null ? col['name'] : '';
         }
 
         // Sorting 기능 추가
         this.createSortingIcons(col, div, props);
 
         // 앞에 추가적인 커스텀 요소가 있을 경우
-        if (col['addingFrontHeader'] != null) {
+        if (col['frontHeader'] != null) {
           const parentDiv = document.createElement('div');
           parentDiv.classList.add('flex-row');
           parentDiv.classList.add('justify-content-center');
-          parentDiv.appendChild(col['addingFrontHeader'](col, props));
+          parentDiv.appendChild(col['frontHeader'](col, props));
           parentDiv.appendChild(div);
           th.appendChild(parentDiv);
         } else {
           th.appendChild(div);
         }
+
         tr.appendChild(th);
+
       }
     }
     thead.appendChild(tr);
@@ -197,11 +203,11 @@ BeeComponents.modules.dataGrid = function(component) {
           }
 
           // 앞에 추가적인 커스텀 요소가 있을 경우
-          if (col['addingFrontHeader'] != null) {
+          if (col['frontHeader'] != null) {
             const parentDiv = document.createElement('div');
             parentDiv.classList.add('flex-row');
             parentDiv.classList.add('justify-content-center');
-            parentDiv.appendChild(col['addingFrontHeader'](col, props));
+            parentDiv.appendChild(col['frontHeader'](col, props));
             parentDiv.appendChild(div);
             th.appendChild(parentDiv);
           } else {
@@ -243,6 +249,12 @@ BeeComponents.modules.dataGrid = function(component) {
           value = col['prefixText'] != null ? value + col['prefixText'] : value;
           row['excelText'] = null; // 엑센전용으로 변경할 경우 사용
 
+          // Tooltip
+          if (col['hasTooltip'] != null) {
+            thOrTd.dataset.tooltip = row[col['hasTooltip']];
+            thOrTd.classList.add('has-tooltip-right');
+          }
+
           // Hidden cell
           if (col['isHidden'] != null || col['isHidden']) {
             thOrTd.classList.add('is-hidden');
@@ -268,10 +280,10 @@ BeeComponents.modules.dataGrid = function(component) {
           if (col['type'] != null) {
             // 태그타입
             if (col['type'] === 'custom') {
-              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row, thOrTd) : '<span class="tag is-dark">' + value + '</span>';
+              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row, thOrTd, props) : '<span class="tag is-dark">' + value + '</span>';
             }
             if (col['type'] === 'node') {
-              col['userCustom'] != null ? thOrTd.appendChild(col['userCustom'](col, row, thOrTd)) : '<span class="tag is-dark">' + value + '</span>';
+              col['userCustom'] != null ? thOrTd.appendChild(col['userCustom'](col, row, thOrTd, props)) : '<span class="tag is-dark">' + value + '</span>';
             }
           } else {
             // Link 타입
@@ -281,7 +293,7 @@ BeeComponents.modules.dataGrid = function(component) {
                 a.href = col['href'];
               }
               if (col['userCustom'] != null) {
-                col['userCustom'](a, col, row);
+                col['userCustom'](a, col, row, props);
               }
               a.innerHTML = value;
               thOrTd.appendChild(a);
@@ -573,7 +585,9 @@ BeeComponents.modules.dataGrid = function(component) {
     const svgArr = selectedTh.querySelectorAll('svg');
     for (let j = 0; j < svgArr.length; j++) {
       const svg = svgArr[j];
-      changedDataSort === svg.dataset.sort ? svg.classList.remove('is-hidden') : svg.classList.add('is-hidden');
+      if (svg.classList.contains('sortingIcon')) {
+        changedDataSort === svg.dataset.sort ? svg.classList.remove('is-hidden') : svg.classList.add('is-hidden');
+      }
     }
 
     // 정렬 초기화
@@ -624,14 +638,14 @@ BeeComponents.modules.dataGrid = function(component) {
       const defaultDataSort = this.getDefaultDataSort(col['id'], props);
       div.setAttribute('data-sort', defaultDataSort);
       // 내림차순
-      div.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up'], [{attrName: 'data-sort', value: '2'}], function(span) {
+      div.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-up', 'sortingIcon'], [{attrName: 'data-sort', value: '2'}], function(span) {
         span.classList.add('has-text-info'); // 파란색
         if (defaultDataSort !== '2') {
           span.classList.add('is-hidden');
         }
       }));
       // 오름차순순
-      div.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-down'], [{attrName: 'data-sort', value: '1'}], function(span) {
+      div.appendChild(cmmUtils.createIcon(['fas', 'fa-sort-alpha-down', 'sortingIcon'], [{attrName: 'data-sort', value: '1'}], function(span) {
         span.classList.add('has-text-info'); // 파란색
         if (defaultDataSort !== '1') {
           span.classList.add('is-hidden');

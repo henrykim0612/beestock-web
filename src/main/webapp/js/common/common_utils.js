@@ -537,7 +537,9 @@ const cmmUtils = (function () {
     for (let i = 0; i < selectorArr.length; i++) {
       tippy(selectorArr[i], {
         content: '엑셀 다운로드',
-        placement: 'top'
+        placement: 'top',
+        animation: 'perspective',
+        theme: 'translucent'
       });
     }
   }
@@ -547,7 +549,9 @@ const cmmUtils = (function () {
       const obj = selectorArr[i];
       tippy(obj.selector, {
         content: obj.content,
-        placement: 'top'
+        placement: obj.placement != null ? obj.placement : 'top',
+        animation: 'perspective',
+        theme: 'translucent'
       });
     }
   }
@@ -709,7 +713,10 @@ const cmmUtils = (function () {
   }
 
   // 포트폴리오 분석막대 생성
-  function createAnalysisBar(value) {
+  function createAnalysisBar(value, viewValue) {
+
+    const arg = arguments.length;
+
     if (Math.abs(value) === 100) value = Math.floor(value); // 100 이면 소수점 제거
     const mainDiv = document.createElement('div');
     mainDiv.classList.add('flex-row');
@@ -718,6 +725,7 @@ const cmmUtils = (function () {
     } else {
       appendBar(mainDiv, value);
     }
+
     return mainDiv;
 
     function appendBar(mainDiv, value) {
@@ -738,7 +746,7 @@ const cmmUtils = (function () {
         contDiv.classList.add('justify-content-center');
         const strong = document.createElement('strong');
         strong.style.color = '#0a0a0a';
-        strong.innerText = value + '%';
+        strong.innerText = arg === 2 ? viewValue : value + '%';
         contDiv.appendChild(strong);
         minusDiv.appendChild(contDiv);
         leftDiv.appendChild(minusDiv);
@@ -769,7 +777,7 @@ const cmmUtils = (function () {
         contDiv.style.width = value + '%';
         const strong = document.createElement('strong');
         strong.style.color = '#0a0a0a';
-        strong.innerText = value + '%';
+        strong.innerText = arg === 2 ? viewValue : value + '%';
         contDiv.appendChild(strong);
         rightDiv.appendChild(contDiv);
         mainDiv.appendChild(rightDiv);
@@ -781,7 +789,7 @@ const cmmUtils = (function () {
       mainDiv.classList.add('justify-content-center');
       mainDiv.classList.add('width-100per');
       const strong = document.createElement('strong');
-      strong.innerText = value + '%';
+      strong.innerText = arg === 2 ? viewValue : value + '%';
       mainDiv.appendChild(strong);
     }
   }
@@ -988,16 +996,18 @@ const cmmUtils = (function () {
       const counter = spinnerDiv.querySelector('.spinner-count');
 
       btnMinus.addEventListener('click', function() {
-        const value = parseInt(counter.value) - 1;
+        let value = parseInt(counter.value) - 1;
         for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
-          spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
+          value = value > 0 ? value : 1;
+          spinnerDivs[j].querySelector('.spinner-count').value = value;
         }
         callback(value, counter.dataset.idx);
       });
       btnPlus.addEventListener('click', function() {
-        const value = parseInt(counter.value) + 1;
+        let value = parseInt(counter.value) + 1;
+        value = value > 0 ? value : 1
         for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
-          spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
+          spinnerDivs[j].querySelector('.spinner-count').value = value;
         }
         callback(value, counter.dataset.idx);
       });
