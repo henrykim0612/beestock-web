@@ -17,15 +17,19 @@ const main = (function() {
   }
 
   function addEventListeners() {
+    // 약관 동의 체크박스
     document.getElementById('chkAgreement').addEventListener('click', function() {
       global['isAgreed'] = this.checked;
-      if (this.checked) {
+      document.getElementById('btnSubmit').disabled = !this.checked;
+    });
+    // 약관 동의 확인 버튼
+    document.getElementById('btnAgreement').addEventListener('click', function() {
+      if (document.getElementById('chkAgreement').checked) {
         cmmUtils.closeModal('agreeModal');
-        document.getElementById('btnSubmit').disabled = false;
       } else {
-        document.getElementById('btnSubmit').disabled = true;
+        cmmUtils.showWarningModal('약관동의 필수', '회원가입은 약관 동의가 필수 입니다.')
       }
-    })
+    });
   }
 
   function appendHintOptions(data) {

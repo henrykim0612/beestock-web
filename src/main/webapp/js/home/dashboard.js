@@ -12,6 +12,7 @@ const main = (function () {
     setSelectedTab();
     addTabListener();
     initCards();
+    setHelp();
   }
 
   // 게스트일 경우의 화면 처리
@@ -82,6 +83,13 @@ const main = (function () {
     }, function (response) {
       cmmProfileCard.appendCards(response, global['selectedTab'], global.userRole);
     });
+  }
+
+  function setHelp() {
+    const msg = 'Ctrl 키를 누른 후 포트폴리오를 클릭하면 <br/>새탭으로 볼 수 있습니다.';
+    cmmUtils.setTippy([
+      {selector: '#dashboardHelp', content: msg, placement: 'right', allowHTML: true}
+    ]);
   }
 
   function findProfile() {
