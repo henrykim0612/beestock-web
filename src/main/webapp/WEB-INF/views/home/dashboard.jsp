@@ -14,8 +14,12 @@
                 </span>
             </p>
         </div>
+        <div class="ml-3">
+            <span id="dashboardHelp" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>
+        </div>
     </div>
 </div>
+
 <div class="tabs is-centered">
     <ul class="mt-3">
         <li id="tabOut" name="tabs" data-cont-id="contOut" class="is-active">

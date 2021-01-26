@@ -125,6 +125,8 @@
 .width-95-p {width: 95%;}
 .width-100-p {width: 100%;}
 
+.height-24-px {height: 24px;}
+
 .mainContent {
 	height: 1200px;
 }
@@ -162,6 +164,10 @@
 
 .width1200px {
 	width: 1200px;
+}
+
+.width1500px {
+	width: 1500px;
 }
 
 .width1300px {
@@ -210,6 +216,10 @@
 
 .height700px {
 	height: 700px;
+}
+
+.height750px {
+	height: 750px;
 }
 
 .height800px {
@@ -335,3 +345,21 @@ table tfoot th {
 	text-align: center;
 	font-weight: bold;
 }
+
+
+/*Hover 이벤트*/
+.hover-sub {
+	display:none;
+}
+.hover-parent:hover .hover-main {
+	display:none;
+}
+.hover-parent:hover .hover-sub {
+	display:block;
+}
+
+/*숨겨져있던 엘리먼트를 보여줌*/
+.hover-type1:hover .hover-sub {
+	display:block;
+}
+

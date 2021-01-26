@@ -52,7 +52,13 @@
         <div class="tile is-child box">
             <div id="headerTabs" class="tabs">
                 <ul>
-                    <li id="introTab" name="tabs" class="is-active" data-view="grid" data-cont-id="introCont">
+                    <li id="ideaTab" name="tabs" class="is-active" data-view="barChart" data-cont-id="ideaCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                            <span>투자 아이디어</span>
+                        </a>
+                    </li>
+                    <li id="introTab" name="tabs" data-view="grid" data-cont-id="introCont">
                         <a>
                             <span class="icon"><i class="fas fa-id-badge"></i></span>
                             <span>소개</span>
@@ -64,33 +70,10 @@
                             <span>참고자료</span>
                         </a>
                     </li>
-                    <li id="ideaTab" name="tabs" data-view="barChart" data-cont-id="ideaCont">
-                        <a>
-                            <span class="icon"><i class="fas fa-lightbulb"></i></span>
-                            <span>투자 아이디어</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
-            <%--소개 탭--%>
-            <div id="introCont">
-                <div class="columns">
-                    <div class="column is-full">
-                        <div id="profileInfo"></div>
-                    </div>
-                </div>
-            </div>
-            <%--참고링크 탭--%>
-            <div id="linkCont" class="is-hidden">
-                <div class="columns">
-                    <div class="column is-full">
-                        <div id="profileLinkDiv" class="flex-col justify-content-center">
-                        </div>
-                    </div>
-                </div>
-            </div>
             <%--아이디어 탭--%>
-            <div id="ideaCont" class="is-hidden">
+            <div id="ideaCont">
                 <div class="columns is-flex-direction-row is-justify-content-flex-end">
                     <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
                         <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
@@ -103,6 +86,23 @@
                             <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
                         </div>
                         <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+                    </div>
+                </div>
+            </div>
+            <%--소개 탭--%>
+            <div id="introCont" class="is-hidden">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div id="profileInfo"></div>
+                    </div>
+                </div>
+            </div>
+            <%--참고링크 탭--%>
+            <div id="linkCont" class="is-hidden">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div id="profileLinkDiv" class="flex-col justify-content-center">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,12 +154,33 @@
 <div id="gridCont">
     <div class="flex-row">
         <div class="flex-row width-50-p justify-content-start">
-            <span id="tab1Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>
+<%--            <span id="tab1Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
         </div>
         <div class="flex-row width-50-p justify-content-end">
+            <%--분기조정 스피너--%>
+            <div class="spinnerDiv flex-row justify-content-center mr-3">
+                <div>
+                    <button class="button is-small spinner-minus">
+                        <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                    </button>
+                </div>
+                <div class="control">
+                    <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                </div>
+                <div>
+                    <button class="button is-small spinner-plus">
+                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-col justify-content-center">
+                <p name="spinnerTitle" class="title is-6 mr-5"></p>
+            </div>
             <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
-                <%--엑셀 다운로드--%>
-                <span id="gridExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(1)"><i class="fas fa-lg fa-file-download"></i></span>
+                <div class="flex-col justify-content-center">
+                        <%--엑셀 다운로드--%>
+                    <span id="gridExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(1)"><i class="fas fa-lg fa-file-download"></i></span>
+                </div>
             </sec:authorize>
         </div>
     </div>
@@ -172,36 +193,74 @@
 <div id="newTransferGridCont" class="is-hidden">
     <div class="flex-row">
         <div class="flex-row width-50-p justify-content-start">
-            <span id="tab2Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>
+<%--            <span id="tab2Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
         </div>
         <div class="flex-row width-50-p justify-content-end">
+            <%--분기조정 스피너--%>
+            <div class="spinnerDiv flex-row justify-content-center mr-3">
+                <div>
+                    <button class="button is-small spinner-minus">
+                        <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                    </button>
+                </div>
+                <div class="control">
+                    <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                </div>
+                <div>
+                    <button class="button is-small spinner-plus">
+                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-col justify-content-center">
+                <p name="spinnerTitle" class="title is-6 mr-5"></p>
+            </div>
             <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
-                <%--엑셀 다운로드--%>
-                <span id="newTransferExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(2)"><i class="fas fa-lg fa-file-download"></i></span>
+                <div class="flex-col justify-content-center">
+                        <%--엑셀 다운로드--%>
+                    <span id="newTransferExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(2)"><i class="fas fa-lg fa-file-download"></i></span>
+                </div>
             </sec:authorize>
         </div>
     </div>
-    <div class="table-container">
-        <table id="newTransferGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
-    </div>
+    <table id="newTransferGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--전량매도 탭--%>
 <div id="soldOutGridCont" class="is-hidden">
     <div class="flex-row">
         <div class="flex-row width-50-p justify-content-start">
-            <span id="tab3Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>
+<%--            <span id="tab3Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
         </div>
         <div class="flex-row width-50-p justify-content-end">
+            <%--분기조정 스피너--%>
+            <div class="spinnerDiv flex-row justify-content-center mr-3">
+                <div>
+                    <button class="button is-small spinner-minus">
+                        <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                    </button>
+                </div>
+                <div class="control">
+                    <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                </div>
+                <div>
+                    <button class="button is-small spinner-plus">
+                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-col justify-content-center">
+                <p name="spinnerTitle" class="title is-6 mr-5"></p>
+            </div>
             <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
-                <%--엑셀 다운로드--%>
-                <span id="soldOutExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(3)"><i class="fas fa-lg fa-file-download"></i></span>
+                <div class="flex-col justify-content-center">
+                        <%--엑셀 다운로드--%>
+                    <span id="soldOutExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(3)"><i class="fas fa-lg fa-file-download"></i></span>
+                </div>
             </sec:authorize>
         </div>
     </div>
-    <div class="table-container">
-        <table id="soldOutGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
-    </div>
+    <table id="soldOutGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
 </div>
 
 <%--차트 탭--%>
@@ -393,6 +452,9 @@
                             <div class="select is-small">
                                 <select id="selLineChartFilter">
                                     <option value="0" selected>보유수량</option>
+                                    <option value="1">시가평가액</option>
+                                    <option value="2">매수·매도금액</option>
+                                    <option value="3">평균매수가</option>
                                 </select>
                             </div>
                             <div class="icon is-small is-left">
@@ -402,7 +464,7 @@
                     </div>
                 </div>
                 <div class="flex-row justify-content-center">
-                    <div id="rightItemCodeChart" class="is-fullwidth width1200px height500px"></div>
+                    <div id="rightItemCodeChart" class="width1500px height600px"></div>
                 </div>
                 <div class="flex-row justify-content-center">
                     <article class="message is-warning">

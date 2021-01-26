@@ -251,8 +251,8 @@ BeeComponents.modules.dataGrid = function(component) {
 
           // Tooltip
           if (col['hasTooltip'] != null) {
-            thOrTd.dataset.tooltip = row[col['hasTooltip']];
-            thOrTd.classList.add('has-tooltip-right');
+            thOrTd.dataset.tooltip = row[col['hasTooltip']] + ' ' + col['name'];
+            thOrTd.classList.add('has-tooltip-left');
           }
 
           // Hidden cell

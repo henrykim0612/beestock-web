@@ -551,7 +551,8 @@ const cmmUtils = (function () {
         content: obj.content,
         placement: obj.placement != null ? obj.placement : 'top',
         animation: 'perspective',
-        theme: 'translucent'
+        theme: 'translucent',
+        allowHTML: obj.allowHTML != null ? obj.allowHTML : false
       });
     }
   }
@@ -626,7 +627,7 @@ const cmmUtils = (function () {
     if (arguments.length === 0) {
       bulmaToast.toast({
         message: '저장되었습니다.',
-        type: props.type != null? 'is-success is-light' : props.type,
+        type: props.type != null? 'is-dark is-light' : props.type,
         duration: 3000,
         position: 'bottom-right',
         dismissible: false,
@@ -635,7 +636,7 @@ const cmmUtils = (function () {
     } else {
       bulmaToast.toast({
         message: props['message'] != null ? props['message'] : '저장되었습니다.',
-        type: props['type'] != null ? props['type'] : 'is-success is-light',
+        type: props['type'] != null ? props['type'] : 'is-dark is-light',
         duration: props['duration'] != null ? props['duration'] : 3000,
         position: props['position'] != null ? props['position'] : 'bottom-right',
         dismissible: props['dismissible'] != null ? props['dismissible'] : false,
