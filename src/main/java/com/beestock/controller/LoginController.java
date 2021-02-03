@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //@SessionAttributes("loginSession")
 public class LoginController {
 
-    @RequestMapping(value={"/", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/index.do"}, method = RequestMethod.GET)
     public String goToIndex(ModelMap model) {
         model.addAttribute("title", "Main");
         return "home/dashboard";
     }
 
-    @RequestMapping(value="/login/login-home", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value="/login/login-home.do", method = {RequestMethod.GET, RequestMethod.POST})
     public String goToLogin(ModelMap model) {
         model.addAttribute("title", "Login");
         return "login/loginHome";
     }
 
-    @RequestMapping(value="/login/signup", method = RequestMethod.GET)
+    @RequestMapping(value="/login/signup.do", method = RequestMethod.GET)
     public String goToSignup(ModelMap model) {
         model.addAttribute("title", "Sign up");
         return "login/signUp";
     }
 
-    @RequestMapping(value="/login/finding-account", method = RequestMethod.GET)
+    @RequestMapping(value="/login/finding-account.do", method = RequestMethod.GET)
     public String goToFindingAccount(ModelMap model) {
         model.addAttribute("title", "Sign up");
         return "login/findingAccount";

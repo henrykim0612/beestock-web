@@ -23,7 +23,7 @@ const main = (function() {
     let html = '';
     html += '<ul>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard.do">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
     html += '    </a>';
@@ -41,7 +41,7 @@ const main = (function() {
   function initMyImage() {
     cmmUtils.axiosGet({url: '/api/v1/login/my-image'}, function(response) {
       const src = cmmUtils.nvl(response.data)
-        ? CONTEXT_PATH + '/common/image/' + response['data']
+        ? CONTEXT_PATH + '/common/image/' + response['data'] + '.do'
         : CONTEXT_PATH + '/resources/images/no-profile.png';
       const myImgFile = document.getElementById('myImage');
       myImgFile.setAttribute('src', src);
@@ -197,7 +197,7 @@ const main = (function() {
           }, function (response) {
             if (response.status === 'OK') {
               const myImage = document.getElementById('myImage');
-              const src = CONTEXT_PATH + '/common/image/' + response['data'];
+              const src = CONTEXT_PATH + '/common/image/' + response['data'] + '.do';
               myImage.setAttribute('src', src);
             } else {
               cmmUtils.showErrModal();

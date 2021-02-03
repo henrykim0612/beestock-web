@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class QaController {
 
     // Q&A 메인
-    @GetMapping("/qa")
+    @GetMapping("/qa.do")
     public String goToQa(ModelMap model) {
         model.addAttribute("title", "Q&A");
         return "bbs/qa/qa";
     }
     // Q&A 등록창
-    @GetMapping("/qa-form")
+    @GetMapping("/qa-form.do")
     public String goToQaForm(ModelMap model) {
         model.addAttribute("title", "Q&A 등록");
         return "bbs/qa/qaForm";
     }
     // Q&A 상세보기
-    @GetMapping("/qa/{qaId}")
+    @GetMapping("/qa/{qaId}.do")
     public String goToQaDetails(ModelMap model, @PathVariable String qaId) {
         model.addAttribute("title", "Q&A 상세보기");
         model.addAttribute("qaId", qaId);
@@ -31,7 +31,7 @@ public class QaController {
         // Q&A 수정페이지
     }
 
-    @GetMapping("/qa/modify/{qaId}")
+    @GetMapping("/qa/modify/{qaId}.do")
     public String goToQaModify(ModelMap model, @PathVariable String qaId) {
         model.addAttribute("title", "Q&A 수정");
         model.addAttribute("qaId", qaId);

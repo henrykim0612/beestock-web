@@ -24,13 +24,13 @@ const main = (function() {
     let html = '';
     html += '<ul>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard.do">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/admin/latest-price-management">';
+    html += '    <a href="' + CONTEXT_PATH + '/admin/latest-price-management.do">';
     html += '      <span class="icon is-small"><i class="fas fa-cogs" aria-hidden="true"></i></span>';
     html += '      <span>시스템관리</span>';
     html += '    </a>';

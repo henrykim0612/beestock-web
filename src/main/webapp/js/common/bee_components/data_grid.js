@@ -734,7 +734,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
     const table = document.getElementById(props['eId']);
     const form = document.createElement('form');
-    form.action = CONTEXT_PATH + '/common/download-excel';
+    form.action = CONTEXT_PATH + '/common/download-excel.do';
     form.method = 'POST';
 
     // Excel header

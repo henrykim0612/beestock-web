@@ -19,19 +19,19 @@ const main = (function() {
     let html = '';
     html += '<ul>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard.do">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/admin/code-management">';
+    html += '    <a href="' + CONTEXT_PATH + '/admin/code-management.do">';
     html += '      <span class="icon is-small"><i class="fas fa-cogs" aria-hidden="true"></i></span>';
     html += '      <span>시스템관리</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/admin/profile-management">';
+    html += '    <a href="' + CONTEXT_PATH + '/admin/profile-management.do">';
     html += '      <span class="icon is-small"><i class="fas fa-address-card"></i></span>';
     html += '      <span>포트폴리오 관리</span>';
     html += '    </a>';
@@ -65,7 +65,7 @@ const main = (function() {
 
   function setPreviewModal(response) {
     const previewImg = document.getElementById('previewImg');
-    const src = CONTEXT_PATH + '/common/image/' + response['fileId'];
+    const src = CONTEXT_PATH + '/common/image/' + response['fileId'] + '.do';
     previewImg.setAttribute('src', src);
     document.getElementById('previewTitle').innerText = cmmUtils.nvl(response['profileTitle']);
     document.getElementById('previewSubtitle').innerText = cmmUtils.nvl(response['profileSubtitle']);
@@ -216,7 +216,7 @@ const main = (function() {
   function downloadImg(_this) {
     const form = document.createElement('form');
     form.method = 'post';
-    form.action = CONTEXT_PATH + '/common/download-file';
+    form.action = CONTEXT_PATH + '/common/download-file.do';
     const input = document.createElement('input');
     input.type = 'hidden';
     input.name = 'fileId';
