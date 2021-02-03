@@ -28,7 +28,7 @@
     </appender>
 
     <logger name="com.beestock" additivity="false">
-        <level value="debug" />
+        <level value="info" />
         <appender-ref ref="rollingFile"/>
     </logger>
 
