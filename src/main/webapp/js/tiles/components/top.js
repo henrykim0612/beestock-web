@@ -227,7 +227,13 @@ const topMain = (function() {
   }
 
   function logout() {
-    cmmUtils.goToPage('/login/logout');
+    const argLen = arguments.length;
+    const form = document.createElement('form');
+    form.method = argLen === 2 ? 'post' : 'get';
+    form.action = CONTEXT_PATH + '/login/logout';
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
   }
 
   function login() {

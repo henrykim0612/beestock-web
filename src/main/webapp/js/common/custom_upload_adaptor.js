@@ -12,7 +12,7 @@ var ckeditor5CustomUploadAdapter = function () {
     // CKEditor5's FileLoader instance.
     this.loader = loader;
     // URL where to send files.
-    this.url = CONTEXT_PATH + "/common/ckeditor5/upload";
+    this.url = CONTEXT_PATH + "/common/ckeditor5/upload.do";
   }
   // Starts the upload process.
 
@@ -114,7 +114,7 @@ var ckeditor5CustomUploadAdapter = function () {
 
 
 function getCkeditor5DownloadUrl(item) {
-  return encodeURI(CONTEXT_PATH + "/common/image/" + item.linkId);
+  return encodeURI(CONTEXT_PATH + "/common/image/" + item.linkId + '.do');
 }
 
 'use strict';

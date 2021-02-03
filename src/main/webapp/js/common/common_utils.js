@@ -8,7 +8,7 @@ const cmmUtils = (function () {
   function axiosGet(props, callback) {
     if (props['loading'] != null) showLoadingElement(document.getElementById(props['loading']));
     if (props['isPageLoader'] != null && props['isPageLoader']) showPageLoader();
-    axios({url: CONTEXT_PATH + props['url'], method: 'get', timeout: 180000})
+    axios({url: CONTEXT_PATH + props['url'] + '.do', method: 'get', timeout: 180000})
       .then(function(response) {
         verifyResponse(response);
         if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
@@ -25,7 +25,7 @@ const cmmUtils = (function () {
     const args = arguments.length;
     if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.showPageLoader();
     if (props['loading'] != null) cmmUtils.showLoadingElement(document.getElementById(props['loading']));
-    const url = CONTEXT_PATH + props['url'];
+    const url = CONTEXT_PATH + props['url'] + '.do';
     const body = props['body'] != null ? props['body'] : {};
     axios({url: url, method: 'post', data: body, timeout: 180000})
       .then(function(response) {
@@ -116,7 +116,7 @@ const cmmUtils = (function () {
     }
 
     form.method = argLen === 2 ? 'post' : 'get';
-    form.action = CONTEXT_PATH + url;
+    form.action = CONTEXT_PATH + url + '.do';
     document.body.appendChild(form);
     form.submit();
     form.remove();
@@ -125,7 +125,7 @@ const cmmUtils = (function () {
   function goToLoginHome() {
     const form = document.createElement('form');
     form.method = 'get';
-    form.action = CONTEXT_PATH + '/login/login-home';
+    form.action = CONTEXT_PATH + '/login/login-home.do';
     document.body.appendChild(form);
     form.submit();
     form.remove();
@@ -688,7 +688,7 @@ const cmmUtils = (function () {
   function downloadFile(fileId) {
     const form = document.createElement('form');
     form.method = 'post';
-    form.action = CONTEXT_PATH + '/common/download-file';
+    form.action = CONTEXT_PATH + '/common/download-file.do';
     const input = document.createElement('input');
     input.type = 'hidden';
     input.name = 'fileId';

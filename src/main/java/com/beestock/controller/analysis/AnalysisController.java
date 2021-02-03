@@ -22,7 +22,7 @@ public class AnalysisController {
         this.cmmUtils = cmmUtils;
     }
 
-    @GetMapping("/profile/{profileType}/{profileId}")
+    @GetMapping("/profile/{profileType}/{profileId}.do")
     public String goToPricingTable(ModelMap model, @PathVariable int profileType, @PathVariable String profileId, Authentication auth) {
         // 국내 프로필은 프리미엄 플러스만 가능함
         if (profileType == 1 && (cmmUtils.isUser(auth) || cmmUtils.isStandardUser(auth) || cmmUtils.isPremiumUser(auth))) {

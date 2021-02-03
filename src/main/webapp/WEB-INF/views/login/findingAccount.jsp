@@ -137,7 +137,7 @@
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인 창으로 이동</strong></a>
+                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home.do"><strong>로그인 창으로 이동</strong></a>
             </div>
         </footer>
     </div>
@@ -155,7 +155,7 @@
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home"><strong>로그인 창으로 이동</strong></a>
+                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home.do"><strong>로그인 창으로 이동</strong></a>
             </div>
         </footer>
     </div>

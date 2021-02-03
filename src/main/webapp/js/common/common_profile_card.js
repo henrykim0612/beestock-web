@@ -78,7 +78,7 @@ const cmmProfileCard = (function () {
     figure.classList.add('is-square');
     const img = document.createElement('img');
     img.alt = 'Placeholder image';
-    img.src = CONTEXT_PATH + '/common/image/' + data['fileId'];
+    img.src = CONTEXT_PATH + '/common/image/' + data['fileId'] + '.do';
     figure.appendChild(img);
     cardImage.appendChild(figure);
     // 카드 타이틀

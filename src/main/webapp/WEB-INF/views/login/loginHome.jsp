@@ -56,7 +56,7 @@
                             </button>
                         </div>
                         <div class="flex-col justify-content-center">
-                            <a class="is-primary" href="${pageContext.request.contextPath}/login/finding-account"><strong>Email/Password 찾기</strong></a>
+                            <a class="is-primary" href="${pageContext.request.contextPath}/login/finding-account.do"><strong>Email/Password 찾기</strong></a>
                         </div>
                     </div>
                 </div>

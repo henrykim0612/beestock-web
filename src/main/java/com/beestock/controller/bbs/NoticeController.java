@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/bbs")
 public class NoticeController {
     // 공지사항 메인
-    @GetMapping("/notice")
+    @GetMapping("/notice.do")
     public String goToNotice(ModelMap model) {
         model.addAttribute("title", "공지사항");
         return "bbs/notice/notice";
     }
     // 공지사항 상세보기
-    @GetMapping("/notice/{noticeId}")
+    @GetMapping("/notice/{noticeId}.do")
     public String goToQaDetails(ModelMap model, @PathVariable String noticeId) {
         model.addAttribute("title", "공지사항 상세보기");
         model.addAttribute("noticeId", noticeId);
@@ -24,7 +24,7 @@ public class NoticeController {
     }
 
     // 공지사항 수정
-    @GetMapping("/notice/modify/{noticeId}")
+    @GetMapping("/notice/modify/{noticeId}.do")
     public String goToModify(ModelMap model, @PathVariable String noticeId) {
         model.addAttribute("title", "공지사항 수정");
         model.addAttribute("noticeId", noticeId);
@@ -32,7 +32,7 @@ public class NoticeController {
     }
 
     // 공지사항 등록창
-    @GetMapping("/notice-form")
+    @GetMapping("/notice-form.do")
     public String goToNoticeForm(ModelMap model) {
         model.addAttribute("title", "공지사항 등록");
         return "bbs/notice/noticeForm";

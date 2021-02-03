@@ -14,45 +14,45 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/errors")
 public class ErrorController {
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/403")
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/403.do")
     public String accessDenied(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
 //        AccessDeniedException ade = (AccessDeniedException) req.getAttribute(WebAttributes.ACCESS_DENIED_403);
         model.addAttribute("err", exceptionVo);
         return "errors/error403";
     }
 
-    @PostMapping("/404")
+    @PostMapping("/404.do")
     public String notFound(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
         model.addAttribute("err", exceptionVo);
         return "errors/error404";
     }
 
-    @PostMapping("/500")
+    @PostMapping("/500.do")
     public String internalServerError(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
         model.addAttribute("err", exceptionVo);
         return "errors/error500";
     }
 
-    @PostMapping("/io")
+    @PostMapping("/io.do")
     public String io(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
         model.addAttribute("err", exceptionVo);
         return "errors/exception";
     }
 
-    @PostMapping("/sql")
+    @PostMapping("/sql.do")
     public String sql(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
         model.addAttribute("err", exceptionVo);
         return "errors/exception";
     }
 
-    @PostMapping("/excel")
+    @PostMapping("/excel.do")
     public String excelException(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
         model.addAttribute("err", exceptionVo);
         return "errors/excelException";
     }
 
 
-    @PostMapping("/exception")
+    @PostMapping("/exception.do")
     public String exception(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {
         model.addAttribute("err", exceptionVo);
         return "errors/exception";

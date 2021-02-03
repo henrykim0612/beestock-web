@@ -12,56 +12,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping("/user-management")
+    @GetMapping("/user-management.do")
     public String goToUserManagement(ModelMap model) {
         model.addAttribute("title", "사용자관리");
         return "admin/user/userManagement";
     }
 
-    @GetMapping("/code-management")
+    @GetMapping("/code-management.do")
     public String goToCodeManagement(ModelMap model) {
         model.addAttribute("title", "시스템 코드관리");
         return "admin/code/codeManagement";
     }
 
-    @GetMapping("/profile-management")
+    @GetMapping("/profile-management.do")
     public String goToCodeProfileManagement(ModelMap model) {
         model.addAttribute("title", "포트폴리오 관리");
         return "admin/profile/profileManagement";
     }
 
-    @GetMapping("/profile-form")
+    @GetMapping("/profile-form.do")
     public String goToProfileForm(ModelMap model) {
         model.addAttribute("title", "포트폴리오 등록");
         return "admin/profile/profileForm";
     }
 
-    @GetMapping("/profile-details/{profileId}")
+    @GetMapping("/profile-details/{profileId}.do")
     public String goToProfileDetails(ModelMap model, @PathVariable String profileId) {
         model.addAttribute("title", "포트폴리오 상세");
         model.addAttribute("profileId", profileId);
         return "admin/profile/profileDetails";
     }
 
-    @GetMapping("/quarter-management")
+    @GetMapping("/quarter-management.do")
     public String goToQuarterManagement(ModelMap model) {
         model.addAttribute("title", "분기별 포트폴리오 관리");
         return "admin/quarter/quarterManagement";
     }
 
-    @GetMapping("/profile-order-management")
+    @GetMapping("/profile-order-management.do")
     public String goToProfileOrderManagement(ModelMap model) {
         model.addAttribute("title", "분기별 포트폴리오 관리");
         return "admin/profile/profileOrderManagement";
     }
 
-    @GetMapping("/latest-price-management")
+    @GetMapping("/latest-price-management.do")
     public String goToLatestPriceManagement(ModelMap model) {
         model.addAttribute("title", "Daily 주가 수동 업로드");
         return "admin/latestprice/latestPriceManagement";
     }
 
-    @GetMapping("/avg-price-management")
+    @GetMapping("/avg-price-management.do")
     public String goToAvgManagement(ModelMap model) {
         model.addAttribute("title", "평균주가 수동 업로드");
         return "admin/avg/avgPriceManagement";

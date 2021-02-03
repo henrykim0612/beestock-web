@@ -90,7 +90,7 @@ const main = (function() {
     let html = '';
     html += '<ul>';
     html += '  <li>';
-    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard">';
+    html += '    <a href="' + CONTEXT_PATH + '/home/dashboard.do">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
     html += '      <span>BeeStock</span>';
     html += '    </a>';
@@ -404,7 +404,7 @@ const main = (function() {
 
       document.getElementById('stackChartModalTitle').innerText = global['selectedItemName'] + ' 보유수량 비교';
       try {
-        const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event', {eventNum: 2});
+        const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event.do', {eventNum: 2});
         if (response.data) {
           cmmUtils.showModal('stackChartModal');
           initLeftItemCodeChart();
@@ -696,7 +696,7 @@ const main = (function() {
 
       document.getElementById('stackChartModalTitle').innerText = global['selectedItemName'] + ' 보유수량 비교';
       try {
-        const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event', {eventNum: 2});
+        const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event.do', {eventNum: 2});
         if (response.data) {
           cmmUtils.showModal('stackChartModal');
           initLeftItemCodeChart();
@@ -715,7 +715,7 @@ const main = (function() {
     // filterIdx => 0: 보유수량, 1:시가평가액, 2:매수매도금액, 3: 평균매수가
     const args = arguments.length;
     try {
-      const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event', {eventNum: 2});
+      const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event.do', {eventNum: 2});
       if (response.data) {
 
         setSelectedLineChartFilter(args === 3 ? filterIdx : 0); // 보유수량을 기본으로
@@ -1136,7 +1136,7 @@ const main = (function() {
   function setProfileHeader(data) {
     // 포트폴리오 이미지
     const profileImg = document.getElementById('profileImg');
-    profileImg.src = CONTEXT_PATH + '/common/image/' + data['fileId'];
+    profileImg.src = CONTEXT_PATH + '/common/image/' + data['fileId'] + '.do';
     // 타이틀
     const profileTitle = data['profileTitle'];
     document.getElementById('profileTitle').innerText = profileTitle;
@@ -1211,9 +1211,6 @@ const main = (function() {
     span.appendChild(icon);
     return span;
   }
-
-
-
 
   // 즐겨찾기 클릭 이벤트
   function addSpanStarEvent() {
