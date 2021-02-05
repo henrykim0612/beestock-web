@@ -176,7 +176,7 @@
             <div class="flex-col justify-content-center">
                 <p name="spinnerTitle" class="title is-6 mr-5"></p>
             </div>
-            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="flex-col justify-content-center">
                         <%--엑셀 다운로드--%>
                     <span id="gridExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(1)"><i class="fas fa-lg fa-file-download"></i></span>
@@ -215,7 +215,7 @@
             <div class="flex-col justify-content-center">
                 <p name="spinnerTitle" class="title is-6 mr-5"></p>
             </div>
-            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="flex-col justify-content-center">
                         <%--엑셀 다운로드--%>
                     <span id="newTransferExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(2)"><i class="fas fa-lg fa-file-download"></i></span>
@@ -252,7 +252,7 @@
             <div class="flex-col justify-content-center">
                 <p name="spinnerTitle" class="title is-6 mr-5"></p>
             </div>
-            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="flex-col justify-content-center">
                         <%--엑셀 다운로드--%>
                     <span id="soldOutExcel" class="icon has-text-success cursor" onclick="main.downloadProfileGrid(3)"><i class="fas fa-lg fa-file-download"></i></span>
