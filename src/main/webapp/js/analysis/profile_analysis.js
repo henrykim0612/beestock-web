@@ -1670,6 +1670,7 @@ const main = (function() {
   }
 }());
 
+
 document.addEventListener("DOMContentLoaded", function() {
   main.init();
 });
