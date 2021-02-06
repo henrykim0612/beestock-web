@@ -12,8 +12,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"  />
     <title>Insert title here</title>
     <script type="text/javascript">
-      const CONTEXT_PATH = "${pageContext.request.contextPath}";
-      location.href = CONTEXT_PATH + "/index.do";
+      function goToMain() {
+        const CONTEXT_PATH = "${pageContext.request.contextPath}";
+        const form = document.createElement('form');
+        form.action = CONTEXT_PATH + '/index.do';
+        document.body.appendChild(form);
+        form.submit();
+        form.remove();
+      }
     </script>
 </head>
+<body onload="goToMain()">
+</body>
 </html>

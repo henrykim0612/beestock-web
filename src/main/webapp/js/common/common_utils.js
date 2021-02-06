@@ -1031,6 +1031,11 @@ const cmmUtils = (function () {
     window.open(CONTEXT_PATH + url, '_blank').focus();
   }
 
+  function getCurrentTime() {
+    const date = new Date();
+    return date.getHours() + ':' + date.getMinutes();
+  }
+
   return {
     axiosGet: axiosGet,
     axiosPost: axiosPost,
@@ -1095,6 +1100,7 @@ const cmmUtils = (function () {
     getUnknownQuarters: getUnknownQuarters,
     getUnknownQuartersReverse: getUnknownQuartersReverse,
     initSpinner: initSpinner,
-    openNewTab: openNewTab
+    openNewTab: openNewTab,
+    getCurrentTime: getCurrentTime
   }
 })();

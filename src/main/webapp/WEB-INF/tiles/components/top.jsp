@@ -60,8 +60,8 @@
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-address-card"></i></span>포트폴리오 관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-database"></i></span>포트폴리오 분기 수동 업로드</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 변경</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-hand-holding-usd"></i></span>Daily 주가 수동 업로드</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/avg-price-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-hand-holding-usd"></i></span>평균주가 수동 업로드</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-upload"></i></span>종목코드 수동 업로드</a>
+<%--                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/avg-price-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-hand-holding-usd"></i></span>평균주가 수동 업로드</a>--%>
                     </div>
                 </div>
             </sec:authorize>
