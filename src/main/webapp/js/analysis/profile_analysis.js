@@ -38,7 +38,7 @@ const main = (function() {
       currPrice: '80px', // 현재가
       earnRate: '170px', // 수익률
       buyingSellingPrice: '170px', //매수매도금액
-      incsRate: '100px' // 증감률
+      incsRate: '120px' // 증감률
     },
     visualMap: {
       show: false,
@@ -53,13 +53,39 @@ const main = (function() {
       outOfRange: {
         color: '#F14668'
       }
-    }
+    },
+    defaultColorArr: [
+      // '#d43d51',
+      // '#dd584b',
+      // '#e37248',
+      // '#e68a49',
+      // '#e6a250',
+      // '#e5b95d',
+      // '#e2cf6f',
+      // '#bfc669',
+      // '#9dbb66',
+      // '#7caf67',
+      // '#5ba268',
+      // '#39956a',
+      // '#00876c',
+      '#5470c6',
+      '#91cc75',
+      '#fac858',
+      '#ee6666',
+      '#73c0de',
+      '#3ba272',
+      '#fc8452',
+      '#9a60b4',
+      '#ea7ccc'
+    ]
+
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
   let soldOutGrid = undefined;
   let newTransferGrid = undefined;
   let profileBarChart = undefined;
+  let profilePieChart = undefined;
   let leftItemCodeChart = undefined;
   let rightItemCodeChart = undefined;
   let clipboard = undefined;
@@ -75,14 +101,14 @@ const main = (function() {
     initTooltips();
     addTabEventListener();
     addBarChartSelectBoxListener();
+    addPieChartSelectBoxListener();
     addStackChartSelectBoxListener();
-    if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
-    if (document.getElementById('newTransferExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
-    if (document.getElementById('soldOutExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
+    setTooltips();
     if (global.selectedProfileType === '1') appendRightChartMsg(); // 국내인 경우 오른쪽 차트 팝업 안내문구 추가
     // setHelp();
     setSpinnerTitle();
     addSelectedLineChartFilterEvents();
+    addRefreshEvent();
   }
 
   function createBreadCrumb() {
@@ -104,6 +130,14 @@ const main = (function() {
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
   }
+
+  function setTooltips() {
+    cmmUtils.setTippy([{selector: '#refreshSwitchLabel', content: '활성화시 10분 간격으로 데이터를 새로고침하며<br/>최신 현재가를 반영하여 재계산합니다.', placement: 'right', allowHTML: true}]);
+    if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
+    if (document.getElementById('newTransferExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
+    if (document.getElementById('soldOutExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
+  }
+
 
   function setHelp() {
     const msg = '테이블표에서 Shift 키를 누른 후 마우스를 스크롤하면 횡스크롤이 가능합니다.';
@@ -298,6 +332,7 @@ const main = (function() {
       case 'barChart': initBarChart(); break;
       case 'soldOut': initSoldOutGrid(); break;
       case 'newTransfer': initNewTransferGrid(); break;
+      case 'pieChart': initPieChart(); break;
     }
   }
 
@@ -997,7 +1032,84 @@ const main = (function() {
   }
 
 
-  // 포트폴리오 차트탭
+  function setRoseType() {
+    const value = document.getElementById('selPieChartFilter').value;
+    return value === '' ? false : value;
+  }
+
+  function getWarterMarkImage() {
+    const waterMarkText = 'BEESTOCK';
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.height = 100;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.globalAlpha = 0.08;
+    ctx.font = '20px Microsoft Yahei';
+    ctx.translate(50, 50);
+    ctx.rotate(-Math.PI / 4);
+    ctx.fillText(waterMarkText, 0, 0);
+    return canvas;
+  }
+
+  // 포트폴리오 비중 파이차트
+  function initPieChart() {
+    getQuarterInfo(function(response) {
+      const props = {
+        eId: 'profilePieChart',
+        options: {
+          backgroundColor: {
+            type: 'pattern',
+            image: getWarterMarkImage(),
+            repeat: 'repeat'
+          },
+          color: global['defaultColorArr'],
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}'
+          },
+          roseType: setRoseType(),
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          series: [
+            {
+              type: 'pie',
+              selectedMode: 'single',
+              radius: ['20%', '80%'],
+              data: createData(response)
+            }
+          ]
+        }
+      }
+      if (!!profilePieChart) {
+        reloadPieChart(props.options);
+      } else {
+        profilePieChart = new COMPONENTS.Chart(props);
+      }
+    });
+
+    function createData(response) {
+      let result = [];
+      response.forEach(function (e, i) {
+        if (e.viewWeight >= 1) {
+          result.push({name: setName(e.itemName, e.viewWeight), value: e.viewWeight});
+        }
+      });
+      // 1% 미만의 종목코드는 기타로 분류함
+      const etcVal = _.sumBy(response, function (o) {
+        return o.viewWeight < 1 ? o.viewWeight : false;
+      });
+      result.push({name: setName('기타', etcVal), value: etcVal});
+      return result;
+    }
+    function setName(itemName, value) {
+      return itemName + '(' + value + '%)';
+    }
+  }
+
   function initBarChart() {
 
     // 3자리 콤마 설정
@@ -1011,15 +1123,20 @@ const main = (function() {
       const props = {
         eId: 'profileBarChart',
         options: {
+          backgroundColor: {
+            type: 'pattern',
+            image: getWarterMarkImage(),
+            repeat: 'repeat'
+          },
           toolbox: {
             show: true,
             feature: {
               dataZoom: {
                 yAxisIndex: 'none'
               },
-              magicType: {type: ['line', 'bar']},
               restore: {},
-              saveAsImage: {}
+              magicType: {type: ['line', 'bar']}
+              // saveAsImage: {}
             }
           },
           tooltip: {
@@ -1086,9 +1203,11 @@ const main = (function() {
   }
 
   function pushBarChartData(result, data, limitSize) {
+    // 위에서 정렬을 Acsending 으로 한 이유는 먼저 그려지는 객체가 화면에서는 가장 아래로 배치됨
     const argLen = arguments.length;
     const dataLen = data.length;
-    for (let i = argLen === 3 ? (dataLen - limitSize) : 0; i < dataLen; i++) {
+    const startIdx = argLen === 3 ? limitSize < dataLen ? (dataLen - limitSize) : 0 : 0;
+    for (let i = startIdx; i < dataLen; i++) {
       const row = data[i];
       result['xAxis'].push(row['itemName']);
       result['yAxis'].push(row[global.selectedBarChartFilter]);
@@ -1123,6 +1242,13 @@ const main = (function() {
     })
   }
 
+  // Pie 차트 필터 이벤트
+  function addPieChartSelectBoxListener() {
+    document.getElementById('selPieChartFilter').addEventListener('change', function() {
+      reloadPieChart({roseType: setRoseType()});
+    });
+  }
+
   function addStackChartSelectBoxListener() {
     document.getElementById('selStackChartFilter').addEventListener('change', initLeftItemCodeChart);
   }
@@ -1130,6 +1256,11 @@ const main = (function() {
   function reloadBarChart (options) {
     profileBarChart.resize();
     profileBarChart.setOption(options);
+  }
+
+  function reloadPieChart(options) {
+    profilePieChart.resize();
+    profilePieChart.setOption(options);
   }
 
   // 포트폴리오 헤더 생성
@@ -1504,6 +1635,23 @@ const main = (function() {
   function initClipboard() {
     if (!!clipboard) clipboard.destroy();
     clipboard = new ClipboardJS('.has-clipboard');
+  }
+
+  // 일정 간격으로 새로고침
+  function addRefreshEvent() {
+    // 최초 레이블 표기
+    setCurrentTimeLabel();
+    setInterval(function() {
+      if (document.getElementById('refreshSwitch').checked) { // 활성화시에만
+        setCurrentTimeLabel();
+        showTab();
+      }
+    }, (60 * 1000)) // 10분 간격
+  }
+
+  function setCurrentTimeLabel() {
+    const label = document.getElementById('refreshSwitchLabel');
+    label.innerText = '새로고침 시간:' + cmmUtils.getCurrentTime();
   }
 
   return {

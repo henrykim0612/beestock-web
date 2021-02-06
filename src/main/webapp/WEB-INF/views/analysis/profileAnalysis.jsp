@@ -120,12 +120,20 @@
     <div id="quarterPagination" class="swiper-pagination"></div>
 </div>
 
+<%--새로고침 활성화 버튼--%>
+<div class="flex-row justify-content-start mt-4">
+    <div class="field">
+        <input id="refreshSwitch" type="checkbox" name="switchColorSuccess" class="switch is-thin is-dark mr-3" checked="checked">
+        <label id="refreshSwitchLabel" for="refreshSwitch"></label>
+    </div>
+</div>
+
 <%--분석탭--%>
-<div id="bottomTabs" class="tabs mt-5">
+<div id="bottomTabs" class="tabs mt-5 flex-row">
     <ul>
         <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
             <a>
-                <span class="icon"><i class="fas fa-table"></i></span>
+                <span class="icon has-text-black"><i class="fas fa-table"></i></span>
                 <span>전체</span>
             </a>
         </li>
@@ -143,8 +151,14 @@
         </li>
         <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
             <a>
-                <span class="icon has-text-link"><i class="fas fa-chart-bar"></i></span>
+                <span class="icon has-text-black"><i class="fas fa-chart-bar"></i></span>
                 <span>막대차트</span>
+            </a>
+        </li>
+        <li id="pieTab" name="tabs" data-view="pieChart" data-cont-id="pieCont">
+            <a>
+                <span class="icon has-text-black"><i class="fas fa-chart-pie"></i></span>
+                <span>비중</span>
             </a>
         </li>
     </ul>
@@ -270,10 +284,10 @@
             <div class="control has-icons-left">
                 <div class="select is-small">
                     <select id="selBarChartRank">
-                        <option value="" selected>전체</option>
+                        <option value="">전체</option>
                         <option value="10">상위 10</option>
                         <option value="20">상위 20</option>
-                        <option value="30">상위 30</option>
+                        <option value="30" selected>상위 30</option>
                         <option value="40">상위 40</option>
                         <option value="50">상위 50</option>
                         <option value="60">상위 60</option>
@@ -307,6 +321,30 @@
         <div id="profileBarChart" class="is-fullwidth" style="width: 1400px;"></div>
     </div>
 </div>
+
+<%--파이차트--%>
+<div id="pieCont" class="is-hidden">
+    <div class="flex-row">
+        <div class="field ml-3">
+            <div class="control has-icons-left">
+                <div class="select is-small">
+                    <select id="selPieChartFilter">
+                        <option value="">Basic Pie</option>
+                        <option value="radious">Radious Pie</option>
+                        <option value="area">Area Pie</option>
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-eye"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-row justify-content-center">
+        <div id="profilePieChart" class="is-fullwidth" style="width: 1400px; height: 800px;"></div>
+    </div>
+</div>
+
 
 <%--아이디어 등록 모달--%>
 <div id="newIdeaModal" class="modal">
