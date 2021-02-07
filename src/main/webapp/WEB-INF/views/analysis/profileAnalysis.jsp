@@ -58,12 +58,12 @@
                             <span>투자 아이디어</span>
                         </a>
                     </li>
-                    <li id="introTab" name="tabs" data-view="grid" data-cont-id="introCont">
-                        <a>
-                            <span class="icon"><i class="fas fa-id-badge"></i></span>
-                            <span>소개</span>
-                        </a>
-                    </li>
+<%--                    <li id="introTab" name="tabs" data-view="grid" data-cont-id="introCont">--%>
+<%--                        <a>--%>
+<%--                            <span class="icon"><i class="fas fa-id-badge"></i></span>--%>
+<%--                            <span>소개</span>--%>
+<%--                        </a>--%>
+<%--                    </li>--%>
                     <li id="linkTab" name="tabs" data-view="grid" data-cont-id="linkCont">
                         <a>
                             <span class="icon"><i class="fas fa-link"></i></span>
@@ -90,13 +90,13 @@
                 </div>
             </div>
             <%--소개 탭--%>
-            <div id="introCont" class="is-hidden">
-                <div class="columns">
-                    <div class="column is-full">
-                        <div id="profileInfo"></div>
-                    </div>
-                </div>
-            </div>
+<%--            <div id="introCont" class="is-hidden">--%>
+<%--                <div class="columns">--%>
+<%--                    <div class="column is-full">--%>
+<%--                        <div id="profileInfo"></div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <%--참고링크 탭--%>
             <div id="linkCont" class="is-hidden">
                 <div class="columns">
@@ -167,8 +167,13 @@
 <%--전체 그리드 탭--%>
 <div id="gridCont">
     <div class="flex-row">
+        <%--종목 검색--%>
         <div class="flex-row width-50-p justify-content-start">
-<%--            <span id="tab1Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
+            <div class="field">
+                <div class="control is-small input-search">
+                    <input id="schItemName" class="input is-small" type="text" placeholder="종목명 검색">
+                </div>
+            </div>
         </div>
         <div class="flex-row width-50-p justify-content-end">
             <%--분기조정 스피너--%>
@@ -187,7 +192,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex-col justify-content-center">
+            <div class="flex-col justify-content-center mr-2">
                 <p name="spinnerTitle" class="title is-6 mr-5"></p>
             </div>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -201,6 +206,7 @@
     <div class="table-container">
         <table id="profileGrid" class="mt-3 table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
     </div>
+    <nav id="profileGridPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
 
 <%--신규편입 탭--%>
@@ -226,7 +232,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex-col justify-content-center">
+            <div class="flex-col justify-content-center mr-2">
                 <p name="spinnerTitle" class="title is-6 mr-5"></p>
             </div>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -263,7 +269,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex-col justify-content-center">
+            <div class="flex-col justify-content-center mr-2">
                 <p name="spinnerTitle" class="title is-6 mr-5"></p>
             </div>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
