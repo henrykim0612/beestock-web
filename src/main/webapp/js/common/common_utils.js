@@ -1033,7 +1033,7 @@ const cmmUtils = (function () {
 
   function getCurrentTime() {
     const date = new Date();
-    return date.getHours() + ':' + date.getMinutes();
+    return date.getHours() + '시 ' + date.getMinutes() + '분';
   }
 
   return {

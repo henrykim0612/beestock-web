@@ -62,6 +62,7 @@ BeeComponents.modules.dataGrid = function(component) {
       if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
 
       props['data'] = response; // 결과값을 추가함
+      props['rowData'] = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
 
       const table = document.getElementById(props['eId']);
       const tbody = table.querySelector('tbody');
@@ -235,7 +236,7 @@ BeeComponents.modules.dataGrid = function(component) {
    */
   component.DataGrid.prototype.createTbody = function(parentFragment, props, tbody) {
     const colModel = props['colModel'];
-    const rowData = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
+    const rowData = props['rowData'];
     const tbodyFragment = document.createDocumentFragment();
     if (rowData.length) {
       for (let i = 0; i < rowData.length; i++) {
@@ -386,7 +387,7 @@ BeeComponents.modules.dataGrid = function(component) {
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');
     select.setAttribute('data-custom', 'pageSel');
-    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500', '1000', '2000', '3000'];
+    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500', '1000', '2000', '3000', '5000'];
     for (let i = 0; i < sizeArr.length; i++) {
       const option = document.createElement('option');
       const optionSize  = sizeArr[i];

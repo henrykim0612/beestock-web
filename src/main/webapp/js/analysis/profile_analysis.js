@@ -55,19 +55,11 @@ const main = (function() {
       }
     },
     defaultColorArr: [
-      // '#d43d51',
-      // '#dd584b',
-      // '#e37248',
-      // '#e68a49',
-      // '#e6a250',
-      // '#e5b95d',
-      // '#e2cf6f',
-      // '#bfc669',
-      // '#9dbb66',
-      // '#7caf67',
-      // '#5ba268',
-      // '#39956a',
-      // '#00876c',
+      '#d43d51',
+      '#e68a49',
+      '#e5b95d',
+      '#bfc669',
+      '#5ba268',
       '#5470c6',
       '#91cc75',
       '#fac858',
@@ -75,8 +67,29 @@ const main = (function() {
       '#73c0de',
       '#3ba272',
       '#fc8452',
+      '#7caf67',
       '#9a60b4',
-      '#ea7ccc'
+      '#9dbb66',
+      '#ea7ccc',
+      '#e6a250',
+      '#fa4d56',
+      '#8a3ffc',
+      '#e37248',
+      '#33b1ff',
+      '#00876c',
+      '#dd584b',
+      '#007d79',
+      '#ff7eb6',
+      '#e2cf6f',
+      '#6fdc8c',
+      '#4589ff',
+      '#d12771',
+      '#39956a',
+      '#d2a106',
+      '#08bdba',
+      '#bae6ff',
+      '#ba4e00',
+      '#d4bbff'
     ]
 
   };
@@ -152,7 +165,7 @@ const main = (function() {
     const titleArr = document.getElementsByName('spinnerTitle');
     const len = titleArr.length;
     for (let i = 0; i < len; i++) {
-      titleArr[i].innerText = global.selectedQuarterDate;
+      titleArr[i].innerHTML = '<span class="is-green mr-2">A</span><span>' + global.selectedQuarterDate + '</span>';
     }
   }
 
@@ -345,7 +358,7 @@ const main = (function() {
   // 매수·금액 막대 표
   function buyingSellingPrice(col, row, thOrTd, props) {
     // 100분율 처리
-    const bspArr = props.data.map(function(p) {
+    const bspArr = props.rowData.map(function(p) {
       return parseInt(p.buyingSellingPrice);
     });
     const maxValue = _.max(bspArr);
@@ -500,7 +513,7 @@ const main = (function() {
     let html = '';
     html = html + '<div class="flex-row">';
     html = html + '  <div class="flex-col justify-content-center">';
-    html = html + '    <p class="title is-6 cpTitle">' + global['comparisonQuarterDate'] + ' C%</p>';
+    html = html + '    <p class="title is-6 cpTitle"><span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span></p>';
     html = html + '  </div>';
     html = html + '</div>';
     div.innerHTML = html;
@@ -534,18 +547,27 @@ const main = (function() {
     getComparisonQuarter(function(response) {
 
       global['comparisonQuarterDate'] = response.quarterDate;
+      const body = {
+        orderBy: [{column: 'viewWeight', desc: true}],
+        quarterId: global.quarterId,
+        profileId: global.profileId,
+        comparisonQuarter: global.comparisonQuarter,
+        selectedQuarterDate: global.selectedQuarterDate,
+        profileType: global.selectedProfileType
+      }
+      // 페이징 사이즈
+      const pagenation = document.getElementById('profileGridPagination').querySelector('[data-custom=pageSel]');
+      body.pageSize = pagenation != null ? pagenation.value : 100;
+      // 종목명 검색조건 추가
+      if (document.getElementById('schItemName').value) {
+        body.itemName = document.getElementById('schItemName').value;
+      }
 
       const props = {
-        url: '/api/v1/analysis/profile/quarter-info',
-        body: {
-          orderBy: [{column: 'viewWeight', desc: true}],
-          quarterId: global.quarterId,
-          profileId: global.profileId,
-          comparisonQuarter: global.comparisonQuarter,
-          selectedQuarterDate: global.selectedQuarterDate,
-          profileType: global.selectedProfileType
-        },
+        url: '/api/v1/analysis/profile/paging-quarter-info',
+        body: body,
         eId: 'profileGrid',
+        pId: 'profileGridPagination',
         isThead: true,
         isTfoot: false,
         isPageLoader: false,
@@ -580,14 +602,14 @@ const main = (function() {
               }
             });
             // Table tooptip
-            cmmUtils.setTippy([{selector: '#sphDiv1', content: 'C%: Change percent(대상기간의 보유수량 증감률)'}]);
+            cmmUtils.setTippy([{selector: '#sphDiv1', content: '<span class="is-green mr-2">A</span>와 <span class="is-orange">B</span> 기간의 주식수량을 비교하여 증감율을 표시합니다.', allowHTML: true}]);
             // Clipboard
             initClipboard();
           } else {
             const cpTitleArr = document.getElementsByClassName('cpTitle');
             const len = cpTitleArr.length;
             for (let i = 0; i < len; i++) {
-              cpTitleArr[i].innerText = global['comparisonQuarterDate'] + ' C%';
+              cpTitleArr[i].innerHTML = '<span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span>';
             }
           }
           global['isInitialedSpinner'] = true;
@@ -1078,7 +1100,7 @@ const main = (function() {
             {
               type: 'pie',
               selectedMode: 'single',
-              radius: ['20%', '80%'],
+              radius: ['20%', '70%'],
               data: createData(response)
             }
           ]
@@ -1102,11 +1124,11 @@ const main = (function() {
       const etcVal = _.sumBy(response, function (o) {
         return o.viewWeight < 1 ? o.viewWeight : false;
       });
-      result.push({name: setName('기타', etcVal), value: etcVal});
+      result.push({name: setName('기타', etcVal), value: etcVal.toFixed(1)});
       return result;
     }
     function setName(itemName, value) {
-      return itemName + '(' + value + '%)';
+      return itemName + '(' + value.toFixed(1) + '%)';
     }
   }
 
@@ -1275,7 +1297,7 @@ const main = (function() {
     global['profileTitle'] = profileTitle;
     // Information
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
-    initProfileInfo(data);
+    // initProfileInfo(data);
     initProfileLink(data);
     // 즐겨찾기
     createStar(data['isFavorite']);
@@ -1651,7 +1673,11 @@ const main = (function() {
 
   function setCurrentTimeLabel() {
     const label = document.getElementById('refreshSwitchLabel');
-    label.innerText = '새로고침 시간:' + cmmUtils.getCurrentTime();
+    label.innerText = '새로고침 시간: ' + cmmUtils.getCurrentTime();
+  }
+
+  function searchItemName() {
+    initProfileGrid();
   }
 
   return {
@@ -1666,11 +1692,14 @@ const main = (function() {
     downloadProfileGrid: downloadProfileGrid,
     saveIdea: saveIdea,
     modifyIdea: modifyIdea,
-    goToLinkPop: goToLinkPop
+    goToLinkPop: goToLinkPop,
+    searchItemName: searchItemName
   }
 }());
 
 
 document.addEventListener("DOMContentLoaded", function() {
   main.init();
+  // 사용자 검색 이벤트 리스너
+  document.getElementById('schItemName').addEventListener('keyup', main.searchItemName);
 });

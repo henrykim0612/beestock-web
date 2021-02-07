@@ -363,3 +363,10 @@ table tfoot th {
 	display:block;
 }
 
+.is-orange {
+	color: darkorange;
+}
+.is-green {
+	color: limegreen;
+}
+

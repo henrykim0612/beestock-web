@@ -34,23 +34,27 @@
 
     <logger name="org.springframework.core" additivity="false">
         <level value="info" />
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.beans" additivity="false">
         <level value="info" />
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.context" additivity="false">
         <level value="info" />
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.web" additivity="false">
         <level value="info" />
+        <appender-ref ref="rollingFile"/>
     </logger>
 
     <!-- Root Logger -->
     <root>
-        <priority value="off" />
+        <level value="OFF"/>
         <appender-ref ref="rollingFile" />
     </root>
 
