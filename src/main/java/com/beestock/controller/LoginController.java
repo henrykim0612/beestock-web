@@ -13,7 +13,6 @@ public class LoginController {
 
     @RequestMapping(value={"/index.do"}, method = RequestMethod.GET)
     public String goToIndex(ModelMap model) {
-        log.info("테스트");
         model.addAttribute("title", "Main");
         return "home/dashboard";
     }
