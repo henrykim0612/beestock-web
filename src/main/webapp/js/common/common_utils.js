@@ -885,57 +885,60 @@ const cmmUtils = (function () {
   }
 
   // 미공시 분기를 추가하여 리턴
-  function addUnknownQuarters(quarterArr, matchingDataArr) {
+  function addUnknownQuarters(categoryArr, seriesDataArr, selectedQuarterDate) {
 
     const argLen = arguments.length;
-    let newQuarterArr = [];
-    let newMatchingDataArr = [];
+    let newCategoryArr = [];
+    let newSeriesDataArr = [];
     let markArea = []; // EChart 에서 사용하는 미공시를 표시할 변수
-    let prevQuarter = quarterArr[0]; // 이전 분기와 현재분기를 비교할 값
-    const iLen = quarterArr.length;
+    let prevQuarter = categoryArr[0]; // 이전 분기와 현재분기를 비교할 값
+    const iLen = categoryArr.length;
 
     for (let i = 0; i < iLen; i++) {
 
-      const currentQuarter = quarterArr[i];
+      const currentQuarter = categoryArr[i];
 
       if (i === 0) {
-        newQuarterArr.push(currentQuarter)
+        newCategoryArr.push(currentQuarter)
         // 매치되는 데이터까지 인자값으로 넘어오면 같은 Index 에 추가
-        if (argLen === 2) newMatchingDataArr.push(matchingDataArr[i]);
+        if (1 < argLen) newSeriesDataArr.push(seriesDataArr[i]);
       } else {
         if (getPrevQuarter(currentQuarter) !== prevQuarter) { // 비어있는 분기를 비교하여 찾음
           const unknownQuarters = getUnknownQuarters(prevQuarter, currentQuarter);
           const jLen = unknownQuarters.length;
           // 미공시 분기 추가
           for (let j = 0; j < jLen; j++) {
-            newQuarterArr.push(unknownQuarters[j]);
+            newCategoryArr.push(unknownQuarters[j]);
             // 매치되는 데이터까지 인자값으로 넘어오면 같은 Index 에 0 추가
-            if (argLen === 2) newMatchingDataArr.push(0);
+            if (1 < argLen) newSeriesDataArr.push(0);
           }
           // markArea 추가
-          markArea.push([{name: '미공시', xAxis: quarterArr[i - 1], label: {color: '#888888'}}, {xAxis: quarterArr[i]}]);
+          markArea.push([{name: '미공시', xAxis: categoryArr[i - 1], label: {color: '#888888'}}, {xAxis: categoryArr[i]}]);
         }
         // 존재하는 분기 추가
-        newQuarterArr.push(currentQuarter)
-        if (argLen === 2) newMatchingDataArr.push(matchingDataArr[i]);
+        newCategoryArr.push(currentQuarter)
+        if (1 < argLen) newSeriesDataArr.push(seriesDataArr[i]);
         prevQuarter = currentQuarter;
       }
 
       // 마지막은 최근 분기가 맞는지 확인 후 아니면 미공시 추가
       if (i === iLen - 1) {
         const latestQuarter = getLatestQuarter();
-        if (currentQuarter !== latestQuarter) {
-          newQuarterArr.push(latestQuarter);
-          if (argLen === 2) newMatchingDataArr.push(0);
+        if ((currentQuarter !== latestQuarter) && (selectedQuarterDate === latestQuarter)) {
+          newCategoryArr.push(latestQuarter);
+          if (1 < argLen) newSeriesDataArr.push(0);
           // markArea 추가
           markArea.push([{name: '미공시', xAxis: currentQuarter, label: {color: '#888888'}}, {xAxis: latestQuarter}]);
         }
       }
     }
 
-    return argLen === 2
-      ? {quarters: newQuarterArr, data: newMatchingDataArr, markArea: markArea}
-      : {quarters: newQuarterArr, markArea: markArea};
+    // 분기 뒤에 Q 표시
+    newCategoryArr = newCategoryArr.map(function(e) { return e + 'Q'});
+
+    return 1 < argLen
+      ? {quarters: newCategoryArr, data: newSeriesDataArr, markArea: markArea}
+      : {quarters: newCategoryArr, markArea: markArea};
   }
 
   // From 부터 To 까지의 비어있는 분기를 리턴 (이전에서 최근순으로)
@@ -1036,6 +1039,33 @@ const cmmUtils = (function () {
     return date.getHours() + '시 ' + date.getMinutes() + '분';
   }
 
+  // 화폐단위 변경
+  function roundCurrency(value, idx) {
+    const split = value.toString().split('-'); // 마이너스 값 추출
+    let v = split.length === 2 ? split[1] : split[0];
+    if (idx < v.length) {
+      const startIdx = parseInt(idx.toString());
+      const roundValue = parseInt(v.substr((startIdx * -1), 1));
+      let result = parseInt(v.substr(0, (v.length - startIdx)));
+      if (5 < roundValue) result = result + 1;
+      if (split.length === 2) { // 음수 처리
+        return result * -1;
+      } else { // 양수 처리
+        return result;
+      }
+    } else {
+      return parseInt(value);
+    }
+  }
+
+  function convertDotText(text, size) {
+    if (size < text.length) {
+      return text.substr(0, size) + '...';
+    } else {
+      return text;
+    }
+  }
+
   return {
     axiosGet: axiosGet,
     axiosPost: axiosPost,
@@ -1101,6 +1131,8 @@ const cmmUtils = (function () {
     getUnknownQuartersReverse: getUnknownQuartersReverse,
     initSpinner: initSpinner,
     openNewTab: openNewTab,
-    getCurrentTime: getCurrentTime
+    getCurrentTime: getCurrentTime,
+    roundCurrency: roundCurrency,
+    convertDotText: convertDotText
   }
 })();

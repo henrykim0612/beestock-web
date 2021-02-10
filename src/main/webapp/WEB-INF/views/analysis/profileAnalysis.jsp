@@ -120,16 +120,18 @@
     <div id="quarterPagination" class="swiper-pagination"></div>
 </div>
 
-<%--새로고침 활성화 버튼--%>
-<div class="flex-row justify-content-start mt-4">
-    <div class="field">
-        <input id="refreshSwitch" type="checkbox" name="switchColorSuccess" class="switch is-thin is-dark mr-3" checked="checked">
-        <label id="refreshSwitchLabel" for="refreshSwitch"></label>
+<%--새로고침 타이머--%>
+<div class="flex-row justify-content-start">
+    <div>
+        <input id="switchRefresh" type="checkbox" name="switchRefresh" class="switch is-small is-thin is-dark" checked="checked">
+        <label id="switchRefreshLabel" for="switchRefresh"></label>
     </div>
+    <span class="icon-text has-text-danger"><span class="icon"><i class="fas fa-clock"></i></span></span>
+    <span id="clockSpan">2:00</span>
 </div>
 
 <%--분석탭--%>
-<div id="bottomTabs" class="tabs mt-5 flex-row">
+<div id="bottomTabs" class="tabs mt-2 flex-row">
     <ul>
         <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
             <a>
@@ -168,11 +170,15 @@
 <div id="gridCont">
     <div class="flex-row">
         <%--종목 검색--%>
-        <div class="flex-row width-50-p justify-content-start">
-            <div class="field">
-                <div class="control is-small input-search">
-                    <input id="schItemName" class="input is-small" type="text" placeholder="종목명 검색">
-                </div>
+        <div class="flex-row width-50-p justify-content-start align-content-center">
+            <div class="control is-small">
+                <input id="schItemName" class="input input-search is-small" type="text" placeholder="종목명 검색">
+            </div>
+            <div>
+                <button class="button is-small is-dark" onclick="main.searchItemName()">
+                    <span class="icon"><i class="fas fa-search-dollar"></i></span>
+                    <span>검색</span>
+                </button>
             </div>
         </div>
         <div class="flex-row width-50-p justify-content-end">

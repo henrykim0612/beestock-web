@@ -252,8 +252,16 @@ BeeComponents.modules.dataGrid = function(component) {
 
           // Tooltip
           if (col['hasTooltip'] != null) {
-            thOrTd.dataset.tooltip = row[col['hasTooltip']] + ' ' + col['name'];
-            thOrTd.classList.add('has-tooltip-left');
+            if (col.hasTooltip.valueOnly != null && col.hasTooltip.valueOnly) {
+              thOrTd.dataset.tooltip = row[col.hasTooltip.col];
+            } else {
+              thOrTd.dataset.tooltip = row[col.hasTooltip.col] + ' ' + col['name'];
+            }
+            if (col.hasTooltip.placement != null) {
+              thOrTd.classList.add('has-tooltip-' + col.hasTooltip.placement);
+            } else {
+              thOrTd.classList.add('has-tooltip-left');
+            }
           }
 
           // Hidden cell
@@ -387,7 +395,7 @@ BeeComponents.modules.dataGrid = function(component) {
     selectDiv.classList.add('mr-4');
     const select = document.createElement('select');
     select.setAttribute('data-custom', 'pageSel');
-    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500', '1000', '2000', '3000', '5000'];
+    const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500'];
     for (let i = 0; i < sizeArr.length; i++) {
       const option = document.createElement('option');
       const optionSize  = sizeArr[i];
@@ -724,6 +732,7 @@ BeeComponents.modules.dataGrid = function(component) {
         const selectBox = pageSelectBoxes[i];
         selectBox.addEventListener('change', function() {
           me.props['body']['pageSize'] = this.value;
+          me.props['body']['curPage'] = 1;
           me.init(me.props);
         })
       }

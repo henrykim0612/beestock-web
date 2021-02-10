@@ -92,13 +92,20 @@ const main = (function () {
     ]);
   }
 
-  function findProfile() {
-    initCards(this.value);
+  function inputSearchKeyup(e) {
+    if (e.key === 'Enter') {
+      initCards(this.value);
+    }
+  }
+
+  function seearchProfile() {
+    initCards(document.getElementById('inputSearch').value);
   }
 
   return {
     init: init,
-    findProfile: findProfile
+    inputSearchKeyup: inputSearchKeyup,
+    seearchProfile: seearchProfile
   }
 
 }());
@@ -106,5 +113,5 @@ const main = (function () {
 document.addEventListener("DOMContentLoaded", function () {
   main.init();
   // 사용자 검색 이벤트 리스너
-  document.getElementById('inputSearch').addEventListener('keyup', main.findProfile);
+  document.getElementById('inputSearch').addEventListener('keyup', main.inputSearchKeyup);
 });

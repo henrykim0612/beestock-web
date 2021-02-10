@@ -4,24 +4,30 @@
 <script src="${pageContext.request.contextPath}/js/common/common_profile_card.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/home/dashboard.js" type="text/javascript"></script>
 
-<div class="level mr-3 mb-3">
-    <div class="level-left">
-        <div>
-            <p class="control has-icons-left">
-                <input id="inputSearch" class="input input-search is-rounded" type="text" placeHolder="포트폴리오 검색"/>
-                <span class="icon is-left">
+<%--검색조건--%>
+<div class="flex-row justify-content-start mt-7">
+    <div>
+        <p class="control has-icons-left">
+            <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="포트폴리오 검색"/>
+            <span class="icon is-left">
                     <i class="fas fa-search" aria-hidden="true"></i>
                 </span>
-            </p>
-        </div>
-        <div class="ml-3">
-            <span id="dashboardHelp" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>
-        </div>
+        </p>
+    </div>
+    <div>
+        <button class="button is-dark is-small" onclick="main.seearchProfile()">
+            <span class="icon"><i class="fas fa-search"></i></span>
+            <span>검색</span>
+        </button>
+    </div>
+    <div class="ml-3">
+        <span id="dashboardHelp" class="icon has-text-info cursor"><i class="fas fa-lg fa-info-circle"></i></span>
     </div>
 </div>
 
+<%--포트폴리오 탭--%>
 <div class="tabs is-centered">
-    <ul class="mt-3">
+    <ul class="mt-2">
         <li id="tabOut" name="tabs" data-cont-id="contOut" class="is-active">
             <a>
                 <span class="icon is-small"><i class="fas fa-globe"></i></span>
