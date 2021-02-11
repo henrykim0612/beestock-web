@@ -18,7 +18,7 @@
         <dependency>
             <artifactId>beestock-core-dev</artifactId>
             <groupId>com.beestock</groupId>
-            <version>1.1.6-SNAPSHOT</version>
+            <version>1.1.7-SNAPSHOT</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring -->

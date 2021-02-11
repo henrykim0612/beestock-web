@@ -417,7 +417,7 @@ const main = (function() {
       percent = -1 < percent ? -1 : percent; // 0.xx 단위는 1로 처리
     }
 
-    const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 6).toLocaleString());
+    const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 1000000, 1).toLocaleString());
     // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
     barDiv.classList.add('width-100-p');
     barDiv.classList.add('hover-main');

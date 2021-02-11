@@ -1040,21 +1040,14 @@ const cmmUtils = (function () {
   }
 
   // 화폐단위 변경
-  function roundCurrency(value, idx) {
+  function roundCurrency(value, divide, round) {
     const split = value.toString().split('-'); // 마이너스 값 추출
     let v = split.length === 2 ? split[1] : split[0];
-    if (idx < v.length) {
-      const startIdx = parseInt(idx.toString());
-      const roundValue = parseInt(v.substr((startIdx * -1), 1));
-      let result = parseInt(v.substr(0, (v.length - startIdx)));
-      if (5 < roundValue) result = result + 1;
-      if (split.length === 2) { // 음수 처리
-        return result * -1;
-      } else { // 양수 처리
-        return result;
-      }
-    } else {
-      return parseInt(value);
+    let result = (v / divide).toFixed(round);
+    if (split.length === 2) { // 음수 처리
+      return parseFloat((result * -1));
+    } else { // 양수 처리
+      return parseFloat(result);
     }
   }
 
