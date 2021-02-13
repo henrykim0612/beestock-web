@@ -813,8 +813,23 @@ const cmmUtils = (function () {
   function goToErrorPage(err) {
     if (err['pageUrl'] != null) {
       goToPage(err['pageUrl'], err);
+    } else if (err.request.status) {
+      switch (err.request.status) {
+        case 404: goToPage('/errors/404', getErrOptions(err)); break;
+        case 500: goToPage('/errors/500', getErrOptions(err)); break;
+        default: goToPage('errors/exception', getErrOptions(err)); break;
+      }
     } else {
       showErrModal();
+    }
+
+    function getErrOptions(err) {
+      return {
+        exceptionName: 'Client error',
+        requestUrl: err.request.responseURL,
+        pageUrl: '',
+        message: err.request.statusText
+      }
     }
   }
 

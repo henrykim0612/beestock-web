@@ -260,13 +260,28 @@ const main = (function() {
     ideaGrid.reload();
   }
 
+  // 회원탈퇴
+  function withdrawal() {
+    cmmUtils.axiosPost({
+      url: '/api/v1/login/withdrawal',
+      loading: 'btnWithdrawal'
+    }, function (response) {
+      if (response) {
+        document.getElementById('spanLogout').click(); // 로그아웃
+      } else {
+        cmmUtils.goToErrorPage();
+      }
+    });
+  }
+
   return {
     init: init,
     goToModProfile: goToModProfile,
     keyupIpPwd: keyupIpPwd,
     onChangeImgFile: onChangeImgFile,
     modifyIdea: modifyIdea,
-    closeModIdeaModal: closeModIdeaModal
+    closeModIdeaModal: closeModIdeaModal,
+    withdrawal: withdrawal
   }
 }());
 

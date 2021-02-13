@@ -7,6 +7,7 @@ const topMain = (function() {
     bulmaQuickview.attach();
     initAlarmQuickView();
     initTooltips();
+    checkHumanUser();
   }
 
   function initBurgerMenu() {
@@ -56,6 +57,21 @@ const topMain = (function() {
       arr.push({selector: '#spanSignUp', content: '회원가입'});
     }
     cmmUtils.setTippy(arr);
+  }
+
+  // 휴먼 계정 해제 확인
+  function checkHumanUser() {
+    if (document.getElementById('humanAccount') && document.getElementById('humanAccount').value === '0') {
+      cmmUtils.axiosPost({
+        url: '/api/v1/login/unlock-user'
+      }, function (response) {
+        if (response) {
+          cmmUtils.showModal('unlockUserModal');
+        } else {
+          cmmUtils.goToErrorPage();
+        }
+      });
+    }
   }
 
   function showNoticeBadge() {

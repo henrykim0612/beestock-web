@@ -9,6 +9,7 @@
     <input type="hidden" id="loginId" value="<sec:authentication property="principal.username"/>"/>
     <input type="hidden" id="loginUserNm" value="<sec:authentication property="principal.userNm"/>"/>
     <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
+    <input type="hidden" id="humanAccount" value="<sec:authentication property="principal.humanAccount"/>"/>
 </sec:authorize>
 
 <nav class="is-fixed-top navbar is-black" role="navigation" aria-label="main navigation">
@@ -35,6 +36,14 @@
                 </div>
             </div>
 
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-user-tie"></i></span>프리미엄</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/itemcode.do"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>종목검색</a>
+                    </div>
+                </div>
+            </sec:authorize>
 
             <%--구독자, 관리자 전용--%>
             <%--<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
