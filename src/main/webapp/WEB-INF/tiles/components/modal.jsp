@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%--페이지 로더--%>
 <div id="pageLoader" class="pageloader is-bottom-to-top is-black"><span class="title">Loading..</span></div>
@@ -213,6 +214,31 @@
                         <div class="buttons">
                             <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
                             <button class="button is-dark is-small" onclick="cmmUtils.closeModal('guideModal')">확인</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </article>
+    </div>
+</div>
+
+<%--휴먼계정 해제 모달--%>
+<div id="unlockUserModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <article class="message is-success">
+            <div class="message-header">
+                <p>휴먼계정 해제완료</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('unlockUserModal')"></button>
+            </div>
+            <div class="message-body has-text-dark">
+                <div class="is-left mb-5">
+                    <p><strong>휴먼계정</strong>에서 해제되었습니다.</p>
+                </div>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="buttons">
+                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('unlockUserModal')">확인</button>
                         </div>
                     </div>
                 </nav>

@@ -98,10 +98,13 @@ const main = (function() {
     refreshTimer: function() {
 
       global['isRunInterval'] = true;
-      const minutes = (global['timerCount'] % 60) === 0 ? '00' : (global['timerCount'] % 60);
-      const text = Math.floor(global['timerCount'] / 60) === 0
+      const rVal = global['timerCount'] % 60;
+      const dVal = Math.floor(global['timerCount'] / 60);
+      const minutes = rVal < 10 ? '0' + rVal : rVal;
+
+      const text = dVal === 0
         ? minutes
-        : Math.floor(global['timerCount'] / 60) + ":" + minutes; // 남은 시간 계산
+        : dVal + ":" + minutes; // 남은 시간 계산
 
       document.getElementById('clockSpan').innerText = text;
       global['timerCount']--; // 1초씩 감소
@@ -397,49 +400,67 @@ const main = (function() {
 
   // 매수·금액 막대 표
   function buyingSellingPrice(col, row, thOrTd, props) {
-    // 100분율 처리
-    const bspArr = props.rowData.map(function(p) {
-      return parseInt(p.buyingSellingPrice); // 100만달러 단위
-    });
-    const maxValue = _.max(bspArr);
-    const minValue = _.min(bspArr);
+    const roleNm = props.data.roleNm;
+    // 매수매도금액은 프리미엄 사용자 이상부터 이용 가능
+    if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
 
-    // 비율 적용하여 결과값 생성
-    let percent = 0;
-    let v = parseInt(row.buyingSellingPrice); // 100만달러 단위
-    if (0 < v) { // 0 보다 큰경우
-      const rate = (maxValue / 100);
-      percent = (v / rate).toFixed(3);
-      percent = percent < 1 ? 1 : percent; // 0.xx 단위는 1로 처리
-    } else if (v < 0) { // 0 보다 작은경우
-      const rate = Math.abs((minValue / 100));
-      percent = (v / rate).toFixed(3);
-      percent = -1 < percent ? -1 : percent; // 0.xx 단위는 1로 처리
+      // 100분율 처리
+      const bspArr = props.rowData.map(function(p) {
+        return parseInt(p.buyingSellingPrice); // 100만달러 단위
+      });
+      const maxValue = _.max(bspArr);
+      const minValue = _.min(bspArr);
+
+      // 비율 적용하여 결과값 생성
+      let percent = 0;
+      let v = parseInt(row.buyingSellingPrice); // 100만달러 단위
+      if (0 < v) { // 0 보다 큰경우
+        const rate = (maxValue / 100);
+        percent = (v / rate).toFixed(3);
+        percent = percent < 1 ? 1 : percent; // 0.xx 단위는 1로 처리
+      } else if (v < 0) { // 0 보다 작은경우
+        const rate = Math.abs((minValue / 100));
+        percent = (v / rate).toFixed(3);
+        percent = -1 < percent ? -1 : percent; // 0.xx 단위는 1로 처리
+      }
+
+      const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 1000000, 1).toLocaleString());
+      // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
+      barDiv.classList.add('width-100-p');
+      barDiv.classList.add('hover-main');
+
+      const chartDiv = document.createElement('div');
+      chartDiv.classList.add('flex-row');
+      chartDiv.classList.add('justify-content-center');
+      chartDiv.classList.add('hover-sub');
+      chartDiv.classList.add('height-24-px');
+      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2)"><i class="fas fa-chart-line"></i></span>'
+
+      const resultDiv = document.createElement('div');
+      resultDiv.classList.add('flex-row');
+      resultDiv.classList.add('justify-content-center');
+      resultDiv.classList.add('hover-parent');
+      resultDiv.appendChild(barDiv);
+      resultDiv.appendChild(chartDiv);
+      return resultDiv;
+
+    } else {
+
+      // 이용 권한이 없으므로 잠금 표시됨
+      const lockDiv = document.createElement('div');
+      lockDiv.classList.add('flex-row');
+      lockDiv.classList.add('justify-content-center');
+      lockDiv.classList.add('height-24-px');
+      lockDiv.innerHTML = '<span class="icon cursor" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>'
+      return lockDiv;
+
     }
-
-    const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 6).toLocaleString());
-    // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
-    barDiv.classList.add('width-100-p');
-    barDiv.classList.add('hover-main');
-
-    const chartDiv = document.createElement('div');
-    chartDiv.classList.add('flex-row');
-    chartDiv.classList.add('justify-content-center');
-    chartDiv.classList.add('hover-sub');
-    chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2)"><i class="fas fa-chart-line"></i></span>'
-
-    const resultDiv = document.createElement('div');
-    resultDiv.classList.add('flex-row');
-    resultDiv.classList.add('justify-content-center');
-    resultDiv.classList.add('hover-parent');
-    resultDiv.appendChild(barDiv);
-    resultDiv.appendChild(chartDiv);
-    return resultDiv;
   }
 
   // 증감율
-  function incsRate(col, row) {
+  function incsRate(col, row, thOrTd, props) {
+    const roleNm = props.data.roleNm;
+    // 매수매도금액은 프리미엄 사용자 이상부터 이용 가능
     let html = '';
     let text = '';
     if (row['prevQuarterCnt'] === 0) {
@@ -465,8 +486,14 @@ const main = (function() {
           text = rate + '%';
           html = '<div class="flex-row justify-content-center hover-parent"><span class="has-text-danger hover-main">' + text + '</span>';
         }
-        // 차트 아이콘
-        html = html + '<span class="icon cursor hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span></div>';
+
+        if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
+          // 차트 아이콘
+          html = html + '<span class="icon cursor hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span></div>';
+        } else {
+          // 프리미엄 이상만 이용 가능함
+          html = html + '<span class="icon cursor hover-sub" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
+        }
       }
     }
     row['excelText'] = text;
@@ -624,7 +651,6 @@ const main = (function() {
   function initProfileGrid() {
     // 비교 날짜를 우선적으로 가져옴
     getComparisonQuarter(function(response) {
-
       global['comparisonQuarterDate'] = response.quarterDate;
       const body = {
         orderBy: [{column: 'viewWeight', desc: true}],
@@ -632,7 +658,8 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
-        profileType: global.selectedProfileType
+        profileType: global.selectedProfileType,
+        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate)
       }
       // 페이징 사이즈
       const pagenation = document.getElementById('profileGridPagination').querySelector('[data-custom=pageSel]');
@@ -700,12 +727,23 @@ const main = (function() {
   // 신규편입 그리드
   function initNewTransferGrid() {
     // 증감율
-    const newTransferIncsRate = function(col, row) {
+    const newTransferIncsRate = function(col, row, thOrTd, props) {
+      const roleNm = props.data.roleNm;
       let text = '';
-      let html = '<div class="flex-row align-content-center">';
-      html = html + '<span class="tag is-success is-light">신규편입</span>';
-      html = html + '<span class="icon cursor ml-1" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
-      html = html + '<div/>';
+      let html = '<div class="flex-row justify-content-center">';
+      html = html + '<div class="flex-row justify-content-center hover-parent">';
+      html = html + '<span class="tag is-success is-light hover-main">신규편입</span>';
+
+      if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
+        // 차트 아이콘
+        html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+      } else {
+        // 프리미엄 이상만 이용 가능함
+        html = html + '<span class="icon cursor hover-sub" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
+      }
+
+      html = html + '</div>';
+      html = html + '</div>';
       row['excelText'] = text;
       return html;
     }
@@ -726,6 +764,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
+        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
         itemStatus: 1
       },
       eId: 'newTransferGrid',
@@ -758,11 +797,22 @@ const main = (function() {
   // 전량매도 그리드
   function initSoldOutGrid() {
     // 증감율
-    const soldOutIncRate = function(col, row) {
+    const soldOutIncRate = function(col, row, thOrTd, props) {
+      const roleNm = props.data.roleNm;
       let text = '';
-      let html = '<div class="flex-row align-content-center">';
-      html = html + '<span class="tag is-danger is-light">전량매도</span>';
-      html = html + '<span class="icon cursor ml-1" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+      let html = '<div class="flex-row justify-content-center">';
+      html = html + '<div class="flex-row justify-content-center hover-parent">';
+      html = html + '<span class="tag is-danger is-light hover-main">전량매도</span>';
+
+      if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
+        // 차트 아이콘
+        html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+      } else {
+        // 프리미엄 이상만 이용 가능함
+        html = html + '<span class="icon cursor hover-sub" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
+      }
+
+      html = html + '</div>';
       html = html + '</div>';
       row['excelText'] = text;
       return html;
@@ -784,6 +834,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
+        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
         itemStatus: 2 // 전량매도
       },
       eId: 'soldOutGrid',
@@ -1166,7 +1217,7 @@ const main = (function() {
               type: 'pie',
               selectedMode: 'single',
               radius: ['20%', '70%'],
-              data: createData(response)
+              data: createData(response.rowData)
             }
           ]
         }
@@ -1276,8 +1327,8 @@ const main = (function() {
     }
 
     // 데이터 가공
-    function createData(dataArr) {
-      const sortedDataArr = _.orderBy(dataArr, [global.selectedBarChartFilter], ['asc']);
+    function createData(response) {
+      const sortedDataArr = _.orderBy(response.rowData, [global.selectedBarChartFilter], ['asc']);
       global['sortedDataArr'] = sortedDataArr;
       let result = {xAxis: [], yAxis: []};
       const rank = document.getElementById('selBarChartRank').value;

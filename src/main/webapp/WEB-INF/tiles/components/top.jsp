@@ -9,6 +9,7 @@
     <input type="hidden" id="loginId" value="<sec:authentication property="principal.username"/>"/>
     <input type="hidden" id="loginUserNm" value="<sec:authentication property="principal.userNm"/>"/>
     <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
+    <input type="hidden" id="humanAccount" value="<sec:authentication property="principal.humanAccount"/>"/>
 </sec:authorize>
 
 <nav class="is-fixed-top navbar is-black" role="navigation" aria-label="main navigation">
@@ -30,11 +31,19 @@
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-book"></i></span>소개</a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" href=""><span class="icon has-text-warning mr-1"><i class="fas fa-cog"></i></span>인사말</a>
-                    <a class="navbar-item" href=""><span class="icon has-text-warning mr-1"><i class="fas fa-cog"></i></span>가이드</a>
+                    <a class="navbar-item" href=""><span class="icon has-text-dark mr-1"><i class="fas fa-microphone"></i></span>인사말</a>
+                    <a class="navbar-item" href=""><span class="icon has-text-dark mr-1"><i class="fab fa-glide-g"></i></span>가이드</a>
                 </div>
             </div>
 
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-user-tie"></i></span>프리미엄</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/itemcode.do"><span class="icon has-text-dark mr-1"><i class="fas fa-search-dollar"></i></span>종목검색</a>
+                    </div>
+                </div>
+            </sec:authorize>
 
             <%--구독자, 관리자 전용--%>
             <%--<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
@@ -49,11 +58,11 @@
                 </a>
                 <div class="navbar-dropdown">
                     <a id="aNotice" class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice.do">
-                        <span class="icon has-text-warning mr-1"><i class="fas fa-flag"></i></span>
+                        <span class="icon has-text-dark mr-1"><i class="fas fa-flag"></i></span>
                         <span id="spanNotice">공지사항</span>
                     </a>
                     <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa.do">
-                        <span class="icon has-text-warning mr-1"><i class="fas fa-question-circle"></i></span>
+                        <span class="icon has-text-dark mr-1"><i class="fas fa-question-circle"></i></span>
                         <span>Q&A</span>
                     </a>
                 </div>
@@ -64,12 +73,12 @@
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-cogs"></i></span>시스템관리</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management.do"><span class="icon has-text-warning mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management.do"><span class="icon has-text-warning mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management.do"><span class="icon has-text-warning mr-1"><i class="fas fa-address-card"></i></span>포트폴리오 관리</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management.do"><span class="icon has-text-warning mr-1"><i class="fas fa-database"></i></span>포트폴리오 분기 수동 업로드</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management.do"><span class="icon has-text-warning mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 변경</a>
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management.do"><span class="icon has-text-warning mr-1"><i class="fas fa-upload"></i></span>종목코드 수동 업로드</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-address-card"></i></span>포트폴리오 관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-database"></i></span>포트폴리오 분기 수동 업로드</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-upload"></i></span>현재가 수동 업로드</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 변경</a>
 <%--                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/avg-price-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-hand-holding-usd"></i></span>평균주가 수동 업로드</a>--%>
                     </div>
                 </div>

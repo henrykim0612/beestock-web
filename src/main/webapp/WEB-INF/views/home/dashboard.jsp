@@ -20,7 +20,7 @@
             <span>검색</span>
         </button>
     </div>
-    <div class="ml-3">
+    <div class="ml-3 flex-col justify-content-center">
         <span id="dashboardHelp" class="icon has-text-info cursor"><i class="fas fa-lg fa-info-circle"></i></span>
     </div>
 </div>

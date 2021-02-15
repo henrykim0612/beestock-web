@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Slf4j
 @RequestMapping("/premium")
-public class StockItemController {
+public class PremiumController {
 
-    @GetMapping("/in-stock-item.do")
-    public String goToStockItemManagement(ModelMap model) {
-        model.addAttribute("title", "국내 종목코드 현황");
-        return "/premium/inStockItem";
+    @GetMapping("/itemcode.do")
+    public String goToItemCode(ModelMap model) {
+        model.addAttribute("title", "종목코드 검색");
+        return "/premium/itemCode";
     }
 
 }

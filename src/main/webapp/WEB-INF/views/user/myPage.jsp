@@ -108,6 +108,9 @@
                     <button class="button is-primary is-small" onclick="cmmUtils.showModal('confirmPwdModal')">
                         <span class="file-icon"><i class="fas fa-user-edit"></i></span>계정수정
                     </button>
+                    <button class="button is-danger is-small" onclick="cmmUtils.showModal('withdrawalModal')">
+                        <span class="file-icon"><i class="fas fa-user-slash"></i></span>회원탈퇴
+                    </button>
                 </div>
             </div>
         </div>
@@ -184,6 +187,26 @@
         </footer>
     </div>
 </div>
+
+<%--탈퇴모달--%>
+<div class="modal" id="withdrawalModal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">탈퇴 동의</p>
+            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('withdrawalModal')"></button>
+        </header>
+        <section class="modal-card-body">
+            <p><strong>BEESTOCK</strong> 회원을 탈퇴하시겠습니까?</p>
+            <p>탈퇴처리 후 계정은 <strong>1개월</strong>동안 <strong>휴먼계정</strong> 상태로 변경되어 복구 가능하며, <br/><strong>1개월</strong> 이후에는 계정내 저장된 모든 데이터는 <strong>삭제</strong>처리 됩니다.</p>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-danger" id="btnWithdrawal" onclick="main.withdrawal()">탈퇴</button>
+            <button class="button" onclick="cmmUtils.closeModal('withdrawalModal')">취소</button>
+        </footer>
+    </div>
+</div>
+
 
 <%--아이디어 수정모달--%>
 <div id="modIdeaModal" class="modal">

@@ -80,7 +80,9 @@ const main = (function() {
       ? [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
         {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true}
+        {id: 'itemName', name: '종목명', isSort: true, isExcel: true, align: 'center'},
+        {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true},
+        {id: 'fluctRate', name: '등락률', isSort: true, isExcel: true, align: 'center'}
       ]
       : [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
@@ -99,6 +101,7 @@ const main = (function() {
       fileName: '종목코드 리스트',
       isThead: true,
       isTfoot: false,
+      refreshHeader: true,
       loading: 'btnSearch',
       colModel: colModel,
       success: function(data, _this) {
@@ -215,7 +218,7 @@ const main = (function() {
 
   function reloadGrid() {
     const key = document.getElementById('selSearch').value === '1'
-      ? global.selectedProfileType === 1 ? 'symbol' : 'itemCode'
+      ? global.selectedProfileType === 1 ? 'itemCode' : 'symbol'
       : document.getElementById('selSearch').value;
     const props = {};
     props[key] = document.getElementById('inputSearch').value;
@@ -308,9 +311,6 @@ const main = (function() {
   }
 
   return {
-    test: function() {
-      return global.selectedProfileType;
-    },
     init: init,
     findStockItem: findStockItem,
     downloadExcel: downloadExcel,

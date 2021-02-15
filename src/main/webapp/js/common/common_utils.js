@@ -813,8 +813,23 @@ const cmmUtils = (function () {
   function goToErrorPage(err) {
     if (err['pageUrl'] != null) {
       goToPage(err['pageUrl'], err);
+    } else if (err.request.status) {
+      switch (err.request.status) {
+        case 404: goToPage('/errors/404', getErrOptions(err)); break;
+        case 500: goToPage('/errors/500', getErrOptions(err)); break;
+        default: goToPage('errors/exception', getErrOptions(err)); break;
+      }
     } else {
       showErrModal();
+    }
+
+    function getErrOptions(err) {
+      return {
+        exceptionName: 'Client error',
+        requestUrl: err.request.responseURL,
+        pageUrl: '',
+        message: err.request.statusText
+      }
     }
   }
 
@@ -843,6 +858,11 @@ const cmmUtils = (function () {
         break;
     }
     return currentYear + '-' + latestQuarter;
+  }
+
+  // 선택한 분기가 최근 분기인지 확인
+  function isLatestQuarter(selectedQuarterDate) {
+    return selectedQuarterDate === getLatestQuarter() ? 1 : 0;
   }
 
   function getQuarter(date) {
@@ -1031,7 +1051,7 @@ const cmmUtils = (function () {
   }
 
   function openNewTab(url) {
-    window.open(CONTEXT_PATH + url, '_blank').focus();
+    window.open(CONTEXT_PATH + url + '.do', '_blank').focus();
   }
 
   function getCurrentTime() {
@@ -1040,21 +1060,14 @@ const cmmUtils = (function () {
   }
 
   // 화폐단위 변경
-  function roundCurrency(value, idx) {
+  function roundCurrency(value, divide, round) {
     const split = value.toString().split('-'); // 마이너스 값 추출
     let v = split.length === 2 ? split[1] : split[0];
-    if (idx < v.length) {
-      const startIdx = parseInt(idx.toString());
-      const roundValue = parseInt(v.substr((startIdx * -1), 1));
-      let result = parseInt(v.substr(0, (v.length - startIdx)));
-      if (5 < roundValue) result = result + 1;
-      if (split.length === 2) { // 음수 처리
-        return result * -1;
-      } else { // 양수 처리
-        return result;
-      }
-    } else {
-      return parseInt(value);
+    let result = (v / divide).toFixed(round);
+    if (split.length === 2) { // 음수 처리
+      return parseFloat((result * -1));
+    } else { // 양수 처리
+      return parseFloat(result);
     }
   }
 
@@ -1064,6 +1077,10 @@ const cmmUtils = (function () {
     } else {
       return text;
     }
+  }
+
+  function isEmptyObject(param) {
+    return Object.keys(param).length === 0 && param.constructor === Object;
   }
 
   return {
@@ -1133,6 +1150,8 @@ const cmmUtils = (function () {
     openNewTab: openNewTab,
     getCurrentTime: getCurrentTime,
     roundCurrency: roundCurrency,
-    convertDotText: convertDotText
+    convertDotText: convertDotText,
+    isLatestQuarter: isLatestQuarter,
+    isEmptyObject: isEmptyObject
   }
 })();
