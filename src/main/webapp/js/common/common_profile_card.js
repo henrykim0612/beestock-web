@@ -63,7 +63,7 @@ const cmmProfileCard = (function () {
         cmmUtils.showModal('premiumPlusModal');
       } else {
         const url = '/analysis/profile/' + data['profileType'] +'/' + data['profileId'];
-        if (e.ctrlKey) {
+        if (e.ctrlKey || e.metaKey) { // metaKey 는 맥용
           cmmUtils.openNewTab(url); // 새탭으로
         } else {
           cmmUtils.goToPage(url);

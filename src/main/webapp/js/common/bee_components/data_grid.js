@@ -649,7 +649,7 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.createSortingIcons = function(col, div, props) {
     if (col['isSort'] != null && col['isSort']) { // 정렬을 선언한 키값만 추가
       div.setAttribute('data-custom', 'sortingDiv');
-      div.setAttribute('data-key', cmmUtils.getUUID()); // TODO
+      div.setAttribute('data-key', cmmUtils.getUUID());
       div.classList.add('hover');
       div.classList.add('cursor');
       const defaultDataSort = this.getDefaultDataSort(col['id'], props);

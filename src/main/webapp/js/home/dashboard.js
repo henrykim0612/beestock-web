@@ -86,7 +86,7 @@ const main = (function () {
   }
 
   function setHelp() {
-    const msg = 'Ctrl 키를 누른 후 포트폴리오를 클릭하면 <br/>새탭으로 볼 수 있습니다.';
+    const msg = '새탭으로 포트폴리오 열람<br/>Ctrl(MAC은 Command)키 + 마우스 왼쪽 클릭';
     cmmUtils.setTippy([
       {selector: '#dashboardHelp', content: msg, placement: 'right', allowHTML: true}
     ]);

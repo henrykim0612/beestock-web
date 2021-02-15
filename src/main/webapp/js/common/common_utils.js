@@ -1051,7 +1051,7 @@ const cmmUtils = (function () {
   }
 
   function openNewTab(url) {
-    window.open(CONTEXT_PATH + url, '_blank').focus();
+    window.open(CONTEXT_PATH + url + '.do', '_blank').focus();
   }
 
   function getCurrentTime() {

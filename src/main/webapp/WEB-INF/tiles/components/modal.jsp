@@ -222,6 +222,7 @@
     </div>
 </div>
 
+<%--휴먼계정 해제 모달--%>
 <div id="unlockUserModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
