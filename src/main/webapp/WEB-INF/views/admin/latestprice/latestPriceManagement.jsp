@@ -42,12 +42,12 @@
                 <div class="buttons">
                     <button class="button is-primary is-small" onclick="main.showUploadModal()">
                         <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
-                        <span>국내 종목코드 업로드</span>
+                        <span>국내 데일리 현재가 업로드</span>
                     </button>
-                    <button id="btnSyncSymbol" class="button is-primary is-small" onclick="main.syncSymbols()">
-                        <span class="icon is-small"><i class="fas fa-sync-alt"></i></span>
-                        <span>해외 종목코드 동기화</span>
-                    </button>
+<%--                    <button id="btnSyncSymbol" class="button is-primary is-small" onclick="main.syncSymbols()">--%>
+<%--                        <span class="icon is-small"><i class="fas fa-sync-alt"></i></span>--%>
+<%--                        <span>해외 종목코드 동기화</span>--%>
+<%--                    </button>--%>
                 </div>
             </div>
         </div>
