@@ -1,27 +1,9 @@
 /**
  * Bulma.css 기반으로한 그리드 컴포넌트
- * 파라미터정보
- *
- *
-   url: '/api/v1/code/paging-code-list',
-   body: {
-    orderBy: [{column: 'uptDate', desc: true}]
-   },
-   eId: 'dataGrid',
-   pId: 'dataPagination',
-   fileName: '코드리스트',
-   isThead: true,
-   isTfoot: false,
-   colModel: [
-   {id: 'rowNum', name: 'No', isSort: true, align: 'center'}...
-   ],
-   success: function(data, _this) {
-     addCodeTreeViewEventListener(data, _this); ...
-   }
- *
- *
  */
 BeeComponents.modules.dataGrid = function(component) {
+
+  let listeners = {};
 
   component.DataGrid = function(_props) {
 
@@ -43,6 +25,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid.prototype.init = function(props) {
     const me = this;
+    me.resetListeners();
     const body = props['body'];
     body['curPage'] = body['curPage'] != null ? body['curPage'] : 1;
 
@@ -85,6 +68,7 @@ BeeComponents.modules.dataGrid = function(component) {
 
       // 마지막으로 테이블에 추가
       table.appendChild(fragment);
+
       // 테이블 이벤트 추가
       me.addTableEventListeners(table, props, tbody);
 
@@ -103,6 +87,17 @@ BeeComponents.modules.dataGrid = function(component) {
 
   }
 
+  // 기존에 저장된 소팅 이벤트를 초기화한다(재생성 하면서 이벤트는 다시 생성됨).
+  component.DataGrid.prototype.resetListeners = function() {
+    if (!cmmUtils.isEmptyObject(listeners)) {
+      const divArr = document.querySelectorAll('div[data-custom=sortingDiv]');
+      divArr.forEach(function(e) {
+        e.removeEventListener('click', listeners[e.dataset.key]);
+      });
+      listeners = {};
+    }
+  }
+
   component.DataGrid.prototype.reload = function(me, body) {
     const argLen = arguments.length;
     const props = me.props;
@@ -117,8 +112,9 @@ BeeComponents.modules.dataGrid = function(component) {
     const colModel = props['colModel'];
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
+    const maxLen = colModel.length;
 
-    for(let i=0;i<colModel.length;i++) {
+    for (let i = 0; i < maxLen; i++) {
       const col = colModel[i];
       if (col['isHidden'] == null || !col['isHidden']) {
         const th = document.createElement('th');
@@ -179,8 +175,9 @@ BeeComponents.modules.dataGrid = function(component) {
       const colModel = props['colModel'];
       const tfoot = document.createElement('tfoot');
       const tr = document.createElement('tr');
+      const maxLen = colModel.length;
 
-      for (let i = 0; i < colModel.length; i++) {
+      for (let i = 0; i < maxLen; i++) {
         const col = colModel[i];
         if (col['isHidden'] == null || !col['isHidden']) {
           const th = document.createElement('th');
@@ -238,11 +235,13 @@ BeeComponents.modules.dataGrid = function(component) {
     const colModel = props['colModel'];
     const rowData = props['rowData'];
     const tbodyFragment = document.createDocumentFragment();
-    if (rowData.length) {
-      for (let i = 0; i < rowData.length; i++) {
+    const maxLen = rowData.length;
+    if (maxLen) {
+      for (let i = 0; i < maxLen; i++) {
         const row = rowData[i];
         const tr = document.createElement('tr');
-        for (let j = 0; j < colModel.length; j++) {
+        const maxColLen = colModel.length;
+        for (let j = 0; j < maxColLen; j++) {
 
           const col = colModel[j];
           const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
@@ -396,7 +395,9 @@ BeeComponents.modules.dataGrid = function(component) {
     const select = document.createElement('select');
     select.setAttribute('data-custom', 'pageSel');
     const sizeArr = ['10', '20', '30', '50', '100', '200', '300', '500'];
-    for (let i = 0; i < sizeArr.length; i++) {
+    const maxLen = sizeArr.length;
+
+    for (let i = 0; i < maxLen; i++) {
       const option = document.createElement('option');
       const optionSize  = sizeArr[i];
       option.value = optionSize;
@@ -542,17 +543,19 @@ BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid.prototype.showAndHideIconAndInit = function(table, clickedThRefId, props) {
     const theadDivArr = table.querySelector('thead').querySelectorAll('[data-ref-id=' + clickedThRefId + ']');
+    const maxLen = theadDivArr.length;
     // Thead 정렬 아이콘 변경
-    for (let i = 0; i < theadDivArr.length; i++) {
+    for (let i = 0; i < maxLen; i++) {
       this.changeIconClass(theadDivArr[i], table, props);
     }
   }
 
-  component.DataGrid.prototype.updateOrderByParam = function(table) {
-    const bodyData = this.props['body'];
+  component.DataGrid.prototype.updateOrderByParam = function(table, props) {
     const theadDivArr = table.querySelector('thead').querySelectorAll('div');
     const newOrderBy = [];
-    for (let i = 0; i < theadDivArr.length; i++) {
+    const maxLen = theadDivArr.length;
+
+    for (let i = 0; i < maxLen; i++) {
       const div = theadDivArr[i];
       if (div.hasAttribute('data-sort')) { // 정렬하겠다 선언한 컬럼만
         const dataSort = div.getAttribute('data-sort');
@@ -566,10 +569,10 @@ BeeComponents.modules.dataGrid = function(component) {
       }
     }
     if (newOrderBy.length) {
-      bodyData['orderBy'] = newOrderBy;
+      props.body.orderBy = newOrderBy;
     } else {
-      if (bodyData['orderBy'] != null) {
-        delete bodyData['orderBy'];
+      if (props.body.orderBy != null) {
+        delete props.body.orderBy;
       }
     }
   }
@@ -592,7 +595,8 @@ BeeComponents.modules.dataGrid = function(component) {
 
     // svg 아이콘 클래스 변경
     const svgArr = selectedTh.querySelectorAll('svg');
-    for (let j = 0; j < svgArr.length; j++) {
+    const maxLen = svgArr.length;
+    for (let j = 0; j < maxLen; j++) {
       const svg = svgArr[j];
       if (svg.classList.contains('sortingIcon')) {
         changedDataSort === svg.dataset.sort ? svg.classList.remove('is-hidden') : svg.classList.add('is-hidden');
@@ -603,8 +607,8 @@ BeeComponents.modules.dataGrid = function(component) {
     function resetSortingClasses(table, selectedTh) {
       // 정렬 값 초기화
       const sortingDiv = table.querySelectorAll('[data-custom=sortingDiv]');
-      let len = sortingDiv.length;
-      for (let i = 0; i < len; i++) {
+      let divLen = sortingDiv.length;
+      for (let i = 0; i < divLen; i++) {
         const div = sortingDiv[i];
         if (div.dataset.refId !== selectedTh.dataset.refId) { // 클릭한 th 가 아닌것만 초기화
           div.dataset.sort = '0'; // 초기화
@@ -612,7 +616,8 @@ BeeComponents.modules.dataGrid = function(component) {
       }
       // 아이콘 초기화
       const svgArr = table.querySelectorAll('svg');
-      for (let i = 0; i < svgArr.length; i++) {
+      const svgLen = svgArr.length;
+      for (let i = 0; i < svgLen; i++) {
         const svg = svgArr[i];
         if (svg.dataset.sort !== undefined) {
           svgArr[i].classList.add('is-hidden');
@@ -626,7 +631,9 @@ BeeComponents.modules.dataGrid = function(component) {
     if (props['body'] != null && props['body']['orderBy'] != null) {
       const orderBy = props['body']['orderBy'];
       let isExisted = false;
-      for (let i = 0; i < orderBy.length; i++) {
+      const maxLen =  orderBy.length;
+
+      for (let i = 0; i < maxLen; i++) {
         const sortObj = orderBy[i];
         if (refId === sortObj.column) {
           isExisted = true;
@@ -642,6 +649,7 @@ BeeComponents.modules.dataGrid = function(component) {
   component.DataGrid.prototype.createSortingIcons = function(col, div, props) {
     if (col['isSort'] != null && col['isSort']) { // 정렬을 선언한 키값만 추가
       div.setAttribute('data-custom', 'sortingDiv');
+      div.setAttribute('data-key', cmmUtils.getUUID()); // TODO
       div.classList.add('hover');
       div.classList.add('cursor');
       const defaultDataSort = this.getDefaultDataSort(col['id'], props);
@@ -663,51 +671,57 @@ BeeComponents.modules.dataGrid = function(component) {
     }
   }
 
-  component.DataGrid.prototype.changeGridPage = function(page) {
-    this.props['body']['curPage'] = page;
-    this.init(this.props);
+  component.DataGrid.prototype.changeGridPage = function(page, props) {
+    props['body']['curPage'] = page;
+    this.init(props);
   }
 
-  component.DataGrid.prototype.sortGrid = function(clickedThRefId) {
-    const eId = this.props['eId'];
+  component.DataGrid.prototype.sortGrid = function(clickedThRefId, props) {
+    const eId = props['eId'];
     const table = document.getElementById(eId);
-    this.showAndHideIconAndInit(table, clickedThRefId, this.props);
-    this.updateOrderByParam(table) // 전송데이터에 정렬값을 반영
-    this.init(this.props);
+    this.showAndHideIconAndInit(table, clickedThRefId, props);
+    this.updateOrderByParam(table, props) // 전송데이터에 정렬값을 반영
+    this.init(props);
   }
 
   component.DataGrid.prototype.addTableEventListeners = function(table, props, tbody) {
+
     const me = this;
-    addSelectingEvent(); // 선택 행
-    if (!tbody) addSortingEvent(); // 정렬
     // Row 클릭시 하이라이트 이벤트
-    function addSelectingEvent() {
-      const tbodyTrArr = table.querySelector('tbody').querySelectorAll('tr');
-      if (tbodyTrArr.length) {
-        // 선택한 Row 는 하이라이트
-        for (let i = 0; i < tbodyTrArr.length; i++) {
-          const tr = tbodyTrArr[i];
-          tr.addEventListener('click', function() { // Tr 클릭시 라이라이트
-            // 선택 초기화
-            for (let j = 0; j < tbodyTrArr.length; j++) {
-              tbodyTrArr[j].classList.remove('is-selected');
-            }
-            this.classList.add('is-selected');
-          });
-        }
+    const tbodyTrArr = table.querySelector('tbody').querySelectorAll('tr');
+    const tbodyTrLen = tbodyTrArr.length;
+
+    if (tbodyTrLen) {
+      // 선택한 Row 는 하이라이트
+      for (let i = 0; i < tbodyTrLen; i++) {
+        const tr = tbodyTrArr[i];
+        tr.addEventListener('click', function() { // Tr 클릭시 라이라이트
+          // 선택 초기화
+          for (let j = 0; j < tbodyTrLen; j++) {
+            tbodyTrArr[j].classList.remove('is-selected');
+          }
+          this.classList.add('is-selected');
+        });
       }
     }
 
     // Thead 또는 Tfoot 을 눌렀을경우 정렬 이벤트
-    function addSortingEvent() {
-      const divArr = table.querySelectorAll('div[data-custom=sortingDiv]');
-      for (let i = 0; i < divArr.length; i++) {
-        const div = divArr[i];
-        div.addEventListener('click', function() {
-          me.sortGrid(this.getAttribute('data-ref-id'));
-        });
-      }
+    const divArr = table.querySelectorAll('div[data-custom=sortingDiv]');
+    const divLen = divArr.length;
+    for (let i = 0; i < divLen; i++) {
+      const div = divArr[i];
+      const refId = div.getAttribute('data-ref-id');
+      const key = div.getAttribute('data-key');
+      // init 할때 이벤트 리스터는 모두 제거하고 새로 추가하는 방식으로
+      (function outerfunction(refId, props) {
+        const listener = function(e) {
+          me.sortGrid(refId, props);
+        }
+        div.addEventListener("click", listener);
+        listeners[key] = listener;
+      })(refId, props);
     }
+
   }
 
   component.DataGrid.prototype.addPaginationEventListeners = function(paginationBar, props) {
@@ -718,9 +732,10 @@ BeeComponents.modules.dataGrid = function(component) {
     // 페이지 변경 이벤트
     function addPageAnchor() {
       const pageAnchors = paginationBar.querySelectorAll('[data-custom=pageAnchor]');
-      for (let i = 0; i < pageAnchors.length; i++) {
+      const pageAnchorLen = pageAnchors.length;
+      for (let i = 0; i < pageAnchorLen; i++) {
         pageAnchors[i].addEventListener('click', function() {
-          me.changeGridPage(this.getAttribute('data-page'));
+          me.changeGridPage(this.getAttribute('data-page'), me.props);
         })
       }
     }
@@ -728,7 +743,8 @@ BeeComponents.modules.dataGrid = function(component) {
     // 페이지 사이즈수 변경 이벤트
     function addChangingPageSize() {
       const pageSelectBoxes = paginationBar.querySelectorAll('select[data-custom=pageSel]');
-      for (let i = 0; i < pageSelectBoxes.length; i++) {
+      const pageSelBoxLen = pageSelectBoxes.length;
+      for (let i = 0; i < pageSelBoxLen; i++) {
         const selectBox = pageSelectBoxes[i];
         selectBox.addEventListener('change', function() {
           me.props['body']['pageSize'] = this.value;
@@ -749,15 +765,18 @@ BeeComponents.modules.dataGrid = function(component) {
 
     // Excel header
     const header = table.querySelector('thead').querySelectorAll('[data-excel-header]');
-    for (let i = 0; i < header.length; i++) {
+    const headerLen = header.length;
+    for (let i = 0; i < headerLen; i++) {
       appendInputTag('header', header[i].getAttribute('data-excel-value'), form);
     }
     // Excel body
     const bodyTr = table.querySelector('tbody').querySelectorAll('tr');
-    for (let i = 0; i < bodyTr.length; i++) {
+    const trLen = bodyTr.length
+    for (let i = 0; i < trLen; i++) {
       const row = bodyTr[i];
       const excelCols = row.querySelectorAll('[data-excel-body=true]');
-      for (let j = 0; j < excelCols.length; j++) {
+      const colLen = excelCols.length;
+      for (let j = 0; j < colLen; j++) {
         const name = 'body[' + i + ']';
         appendInputTag(name, cmmUtils.nvl(excelCols[j].getAttribute('data-excel-value')), form);
       }

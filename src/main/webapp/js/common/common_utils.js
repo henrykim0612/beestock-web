@@ -860,6 +860,11 @@ const cmmUtils = (function () {
     return currentYear + '-' + latestQuarter;
   }
 
+  // 선택한 분기가 최근 분기인지 확인
+  function isLatestQuarter(selectedQuarterDate) {
+    return selectedQuarterDate === getLatestQuarter() ? 1 : 0;
+  }
+
   function getQuarter(date) {
     const month = date.getMonth() + 1;
     return (Math.ceil(month / 3));
@@ -1074,6 +1079,10 @@ const cmmUtils = (function () {
     }
   }
 
+  function isEmptyObject(param) {
+    return Object.keys(param).length === 0 && param.constructor === Object;
+  }
+
   return {
     axiosGet: axiosGet,
     axiosPost: axiosPost,
@@ -1141,6 +1150,8 @@ const cmmUtils = (function () {
     openNewTab: openNewTab,
     getCurrentTime: getCurrentTime,
     roundCurrency: roundCurrency,
-    convertDotText: convertDotText
+    convertDotText: convertDotText,
+    isLatestQuarter: isLatestQuarter,
+    isEmptyObject: isEmptyObject
   }
 })();

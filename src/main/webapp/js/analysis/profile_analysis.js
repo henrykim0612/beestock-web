@@ -624,7 +624,6 @@ const main = (function() {
   function initProfileGrid() {
     // 비교 날짜를 우선적으로 가져옴
     getComparisonQuarter(function(response) {
-
       global['comparisonQuarterDate'] = response.quarterDate;
       const body = {
         orderBy: [{column: 'viewWeight', desc: true}],
@@ -632,7 +631,8 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
-        profileType: global.selectedProfileType
+        profileType: global.selectedProfileType,
+        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate)
       }
       // 페이징 사이즈
       const pagenation = document.getElementById('profileGridPagination').querySelector('[data-custom=pageSel]');
@@ -726,6 +726,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
+        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
         itemStatus: 1
       },
       eId: 'newTransferGrid',
@@ -784,6 +785,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
+        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
         itemStatus: 2 // 전량매도
       },
       eId: 'soldOutGrid',
