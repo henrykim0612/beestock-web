@@ -97,22 +97,19 @@ const cmmUtils = (function () {
       input1.type = 'hidden';
       input1.name = 'exceptionName'
       input1.value = err['exceptionName'];
+      form.appendChild(input1);
+
       const input2 = document.createElement('input');
       input2.type = 'hidden';
       input2.name = 'message'
       input2.value = err['message'];
+      form.appendChild(input2);
+
       const input3 = document.createElement('input');
       input3.type = 'hidden';
-      input3.name = 'requestUrl'
-      input3.value = err['requestUrl'];
-      const input4 = document.createElement('input');
-      input4.type = 'hidden';
-      input4.name = 'pageUrl'
-      input4.value = err['pageUrl'];
-      form.appendChild(input1);
-      form.appendChild(input2);
+      input3.name = 'responseText'
+      input3.value = err['responseText'];
       form.appendChild(input3);
-      form.appendChild(input4);
     }
 
     form.method = argLen === 2 ? 'post' : 'get';
@@ -813,7 +810,7 @@ const cmmUtils = (function () {
   function goToErrorPage(err) {
     if (err['pageUrl'] != null) {
       goToPage(err['pageUrl'], err);
-    } else if (err.request.status) {
+    } else if (err.request != null && err.request.status != null) {
       switch (err.request.status) {
         case 404: goToPage('/errors/404', getErrOptions(err)); break;
         case 500: goToPage('/errors/500', getErrOptions(err)); break;
@@ -825,10 +822,9 @@ const cmmUtils = (function () {
 
     function getErrOptions(err) {
       return {
-        exceptionName: 'Client error',
-        requestUrl: err.request.responseURL,
-        pageUrl: '',
-        message: err.request.statusText
+        exceptionName: err.response.data.exceptionName,
+        message: err.response.data.message,
+        responseText: err.request.responseText
       }
     }
   }

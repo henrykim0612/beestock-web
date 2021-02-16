@@ -42,8 +42,7 @@
             <div class="flex-col">
                 <p>${err.exceptionName }</p>
                 <p>${err.message }</p>
-                <p>${err.requestUrl }</p>
-                <p>${err.pageUrl }</p>
+                <p>${err.responseText }</p>
             </div>
         </div>
     </sec:authorize>

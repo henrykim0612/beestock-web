@@ -17,7 +17,7 @@
                 <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
             </p>
             <p class="control">
-                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
+                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다" maxlength="200">
             </p>
             <p class="control">
                 <button id="btnSearch" class="button is-dark" onclick="main.reloadGrid()">

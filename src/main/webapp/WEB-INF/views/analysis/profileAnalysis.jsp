@@ -172,7 +172,7 @@
         <%--종목 검색--%>
         <div class="flex-row width-50-p justify-content-start align-content-center">
             <div class="control is-small">
-                <input id="schItemName" class="input input-search is-small" type="text" placeholder="종목명 검색">
+                <input id="schItemName" class="input input-search is-small" type="text" placeholder="종목명 검색" maxlength="300">
             </div>
             <div>
                 <button class="button is-small is-dark" onclick="main.searchItemName()">

@@ -27,7 +27,7 @@
             <div class="width-50per flex-col justify-content-center">
                 <p class="title is-spaced has-text-danger-dark" style="font-size: 4rem;">Excel Error</p>
                 <p class="subtitle is-4">${err.message }</p>
-                <p class="subtitle is-6">호출 경로 : ${err.requestUrl }</p>
+                <p class="subtitle is-6">호출 경로 : ${err.responseText }</p>
 
                 <div class="flex-row justify-content-start">
                     <div class="buttons mt-5">

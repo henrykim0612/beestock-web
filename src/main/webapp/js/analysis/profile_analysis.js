@@ -577,6 +577,7 @@ const main = (function() {
     div.innerText = '평균 매수가';
   }
 
+  // 현재가 헤더
   function currPriceHeader(div, col, props) {
     div.classList.add('flex-row');
     div.classList.add('justify-content-center');

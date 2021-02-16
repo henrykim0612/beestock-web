@@ -25,7 +25,7 @@ const main = (function() {
 document.addEventListener('DOMContentLoaded', function() {
 
   tippy('#labelRememberMe', {
-    content: '체크시 2주동안 자동 로그인 됩니다.',
+    content: '2주동안 자동 로그인 됩니다.', // TODO: 2주동안 진짜 되는건지 확인이 필요
     placement: 'right'
   });
 

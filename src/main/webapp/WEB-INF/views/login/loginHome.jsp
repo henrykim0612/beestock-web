@@ -4,6 +4,9 @@
 <script src="${pageContext.request.contextPath}/js/login/login_home.js" type="text/javascript"></script>
 
 <div class="height600px flex-col justify-content-center">
+    <div class="flex-row justify-content-center mb-3">
+        <img class="width-20-p" src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png">
+    </div>
     <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login/login-proc">
         <nav class="level">
             <div class="level-item has-text-left">
