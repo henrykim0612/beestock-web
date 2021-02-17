@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <%--Bulma Main--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.1/css/bulma.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.1/bulma-sass.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.2/css/bulma.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.2/bulma-sass.css" type="text/css">
 <%--Bulma-Extensions--%>
 <%--Calendar--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/calendar/bulma-calendar.min.css" type="text/css">

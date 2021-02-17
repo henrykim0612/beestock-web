@@ -8,7 +8,7 @@
 <div class="flex-row justify-content-start mt-7">
     <div>
         <p class="control has-icons-left">
-            <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="포트폴리오 검색"/>
+            <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="포트폴리오 검색" maxlength="200"/>
             <span class="icon is-left">
                     <i class="fas fa-search" aria-hidden="true"></i>
                 </span>
@@ -46,5 +46,5 @@
     </ul>
 </div>
 
-<div id="contIn" class="is-hidden"></div>
-<div id="contOut" class="is-hidden"></div>
+<div id="contIn" class="box is-hidden"></div>
+<div id="contOut" class="box is-hidden"></div>

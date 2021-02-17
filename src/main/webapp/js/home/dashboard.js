@@ -86,9 +86,9 @@ const main = (function () {
   }
 
   function setHelp() {
-    const msg = '새탭으로 포트폴리오 열람<br/>Ctrl(MAC은 Command)키 + 마우스 왼쪽 클릭';
+    const msg = '<span class="title is-6 has-text-white">새탭으로 포트폴리오 보기</span><br/>Windows: <span class="is-orange">Ctrl</span> + 마우스 <span class="is-orange">왼쪽</span>클릭<br/>Mac: <span class="is-orange">Command</span> + 마우스 <span class="is-orange">왼쪽</span>클릭';
     cmmUtils.setTippy([
-      {selector: '#dashboardHelp', content: msg, placement: 'right', allowHTML: true}
+      {selector: '#dashboardHelp', content: msg, placement: 'bottom', allowHTML: true}
     ]);
   }
 

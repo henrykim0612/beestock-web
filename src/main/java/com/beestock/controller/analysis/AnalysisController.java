@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 //@SessionAttributes("loginSession")
@@ -26,13 +27,19 @@ public class AnalysisController {
     }
 
     @GetMapping("/profile/{profileType}/{profileId}.do")
-    public String goToPricingTable(ModelMap model, @PathVariable int profileType, @PathVariable String profileId, Authentication auth) {
+    public String goToPricingTable(ModelMap model,
+                                   @PathVariable int profileType,
+                                   @PathVariable String profileId,
+                                   @RequestParam(required = false) String quarterDate,
+                                   Authentication auth) {
+
         // 국내 프로필은 프리미엄 플러스만 가능함
         if (profileType == 1 && (cmmUtils.isUser(auth) || cmmUtils.isStandardUser(auth) || cmmUtils.isPremiumUser(auth))) {
             return "home/pricingTable";
         } else {
             profileLogService.insertProfileLog(auth, profileType, profileId); // 포트폴리오 접근 로그 생성
             model.addAttribute("title", "포트폴리오 분석");
+            model.addAttribute("paramQuarterDate", quarterDate);
             model.addAttribute(profileService.selectOne(profileId));
             return "analysis/profileAnalysis";
         }

@@ -27,7 +27,7 @@
             <div class="field loginField">
                 <label class="label">Your Name</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임">
+                    <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임" maxlength="200">
                     <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -40,7 +40,7 @@
             <div class="field loginField">
                 <label class="label">Your Mobile</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()">
+                    <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()" maxlength="50">
                     <span class="icon is-small is-left">
                          <i class="fas fa-mobile-alt"></i>
                     </span>
@@ -105,7 +105,7 @@
             <div class="field loginField">
                 <label class="label">비밀번호 힌트 답변</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipHintAnswer" class="input" type="text" placeholder="비밀번호 힌트 질문 답변">
+                    <input id="ipHintAnswer" class="input" type="text" placeholder="비밀번호 힌트 질문 답변" maxlength="200">
                     <span class="icon is-small is-left">
                     <i class="fas fa-pencil-alt"></i>
                 </span>

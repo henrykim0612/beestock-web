@@ -17,7 +17,7 @@
                 <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
             </p>
             <p class="control">
-                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다">
+                <input id="inputSearch" class="input input-search" type="text" placeHolder="키보드 Enter 키 입력시 검색됩니다" maxlength="200">
             </p>
             <p class="control">
                 <button id="btnSearch" class="button is-dark" onclick="main.reloadGrid()">
@@ -41,11 +41,13 @@
     </sec:authorize>
 </div>
 
-<%--테이블 그리드--%>
-<div class="table-container mt-3">
-    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+<div class="box">
+    <%--테이블 그리드--%>
+    <div class="table-container mt-3">
+        <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+    </div>
+    <nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
-<nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
 <%--비밀글 모달--%>
 <div id="secretQaModal" class="modal">

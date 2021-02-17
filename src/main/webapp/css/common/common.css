@@ -351,6 +351,9 @@ table tfoot th {
 .hover-sub {
 	display:none;
 }
+.hover-parent:hover {
+	justify-content: center;
+}
 .hover-parent:hover .hover-main {
 	display:none;
 }

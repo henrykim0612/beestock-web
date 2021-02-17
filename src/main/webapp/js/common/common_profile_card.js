@@ -62,7 +62,7 @@ const cmmProfileCard = (function () {
         // 국내 프로필은 프리미엄 플러스만 이용가능
         cmmUtils.showModal('premiumPlusModal');
       } else {
-        const url = '/analysis/profile/' + data['profileType'] +'/' + data['profileId'];
+        const url = '/analysis/profile/' + data['profileType'] + '/' + data['profileId'];
         if (e.ctrlKey || e.metaKey) { // metaKey 는 맥용
           cmmUtils.openNewTab(url); // 새탭으로
         } else {

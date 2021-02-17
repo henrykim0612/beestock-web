@@ -222,6 +222,7 @@ const main = (function() {
       userPhone: userPhone,
       ipHintAnswer: ipHintAnswer
     }) ) {
+
       cmmUtils.axiosPost({
         url: '/api/v1/login/is-existed',
         body: {loginId: loginId.value},
@@ -240,6 +241,7 @@ const main = (function() {
           showModal(document.getElementById('dangerModal')); // 이메일 존재
         }
       });
+
     }
   }
 

@@ -29,6 +29,12 @@ BeeComponents.modules.dataGrid = function(component) {
     const body = props['body'];
     body['curPage'] = body['curPage'] != null ? body['curPage'] : 1;
 
+    // 페이징 사이즈
+    if (props['pId'] != null) {
+      const pagenation = document.getElementById(props['pId']).querySelector('[data-custom=pageSel]');
+      body['pageSize'] = pagenation != null ? pagenation.value : 100;
+    }
+
     if (props['loading'] != null) {
       cmmUtils.showLoadingElement(document.getElementById(props['loading']));
     }
