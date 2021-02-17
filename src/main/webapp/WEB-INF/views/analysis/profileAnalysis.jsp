@@ -4,6 +4,7 @@
 <script src="${pageContext.request.contextPath}/js/analysis/profile_analysis.js" type="text/javascript"></script>
 <input type="hidden" id="profileId" value="${profileVo.profileId}"/>
 <input type="hidden" id="profileType" value="${profileVo.profileType}"/>
+<input type="hidden" id="paramQuarterDate" value="${paramQuarterDate}"/>
 
 <div class="flex-row justify-content-end mb-2">
     <div>
@@ -167,7 +168,7 @@
 </div>
 
 <%--전체 그리드 탭--%>
-<div id="gridCont">
+<div id="gridCont" class="box">
     <div class="flex-row">
         <%--종목 검색--%>
         <div class="flex-row width-50-p justify-content-start align-content-center">
@@ -216,7 +217,7 @@
 </div>
 
 <%--신규편입 탭--%>
-<div id="newTransferGridCont" class="is-hidden">
+<div id="newTransferGridCont" class="box is-hidden">
     <div class="flex-row">
         <div class="flex-row width-50-p justify-content-start">
 <%--            <span id="tab2Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
@@ -253,7 +254,7 @@
 </div>
 
 <%--전량매도 탭--%>
-<div id="soldOutGridCont" class="is-hidden">
+<div id="soldOutGridCont" class="box is-hidden">
     <div class="flex-row">
         <div class="flex-row width-50-p justify-content-start">
 <%--            <span id="tab3Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
@@ -290,7 +291,7 @@
 </div>
 
 <%--차트 탭--%>
-<div id="barCont" class="is-hidden">
+<div id="barCont" class="box is-hidden">
     <div class="flex-row">
         <div class="field">
             <div class="control has-icons-left">
@@ -335,7 +336,7 @@
 </div>
 
 <%--파이차트--%>
-<div id="pieCont" class="is-hidden">
+<div id="pieCont" class="box is-hidden">
     <div class="flex-row">
         <div class="field ml-3">
             <div class="control has-icons-left">

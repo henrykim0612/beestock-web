@@ -113,7 +113,27 @@ const cmmUtils = (function () {
     }
 
     form.method = argLen === 2 ? 'post' : 'get';
-    form.action = CONTEXT_PATH + url + '.do';
+
+    if (url.indexOf('?') !== -1) {
+      // 파라미터가 있는 경우
+      const splitUrl = url.split('?');
+      form.action = CONTEXT_PATH + splitUrl[0] + '.do';
+
+      const params = splitUrl[1].split('&');
+      params.forEach(function(e) {
+        const info = e.split('=');
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = info[0];
+        input.value = info[1];
+        form.appendChild(input);
+      });
+
+    } else {
+      // 없는경우
+      form.action = CONTEXT_PATH + url + '.do';
+    }
+
     document.body.appendChild(form);
     form.submit();
     form.remove();
@@ -705,7 +725,7 @@ const cmmUtils = (function () {
         goToPage('/bbs/qa/' + linkId);
         break;
       case 'M0003': // 포트폴리오
-        goToPage('/analysis/profile/' + linkId);
+        goToPage('/analysis/profile/' + linkId); // TODO: URL 변경해야함
         break;
     }
   }
@@ -1079,6 +1099,11 @@ const cmmUtils = (function () {
     return Object.keys(param).length === 0 && param.constructor === Object;
   }
 
+  function hasKoreanWord(value) {
+    const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    return korean.test(value);
+  }
+
   return {
     axiosGet: axiosGet,
     axiosPost: axiosPost,
@@ -1148,6 +1173,7 @@ const cmmUtils = (function () {
     roundCurrency: roundCurrency,
     convertDotText: convertDotText,
     isLatestQuarter: isLatestQuarter,
-    isEmptyObject: isEmptyObject
+    isEmptyObject: isEmptyObject,
+    hasKoreanWord: hasKoreanWord
   }
 })();

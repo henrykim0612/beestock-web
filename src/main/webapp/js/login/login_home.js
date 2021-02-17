@@ -1,8 +1,21 @@
 const main = (function() {
 
   function login() {
-    const form = document.getElementById('loginForm');
-    form.submit();
+    if (isRightPassword()) {
+      const form = document.getElementById('loginForm');
+      form.submit();
+    }
+  }
+
+  // 패스워드 검증
+  function isRightPassword() {
+    const loginPwd = document.getElementById('loginPwd');
+    if (cmmUtils.hasKoreanWord(loginPwd.value)) {
+      cmmUtils.showIpModal('한글을 포함한 패스워드', '패스워드에 한글이 포함되어 있습니다.');
+      return false;
+    } else {
+      return true;
+    }
   }
 
   function keyupEvent(e) {

@@ -46,5 +46,5 @@
     </ul>
 </div>
 
-<div id="contIn" class="is-hidden"></div>
-<div id="contOut" class="is-hidden"></div>
+<div id="contIn" class="box is-hidden"></div>
+<div id="contOut" class="box is-hidden"></div>

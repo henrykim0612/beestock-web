@@ -13,10 +13,17 @@
         </p>
         <p class="control has-icons-left">
             <span class="select">
-                <select id="selType">
-                    <option selected value="1">국내</option>
-                    <option value="2">해외</option>
-                </select>
+                <sec:authorize access="hasRole('ROLE_PREMIUM')">
+                    <select id="selType">
+                        <option value="2">해외</option>
+                    </select>
+                </sec:authorize>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM_PLUS')">
+                    <select id="selType">
+                        <option value="1">국내</option>
+                        <option selected value="2">해외</option>
+                    </select>
+                </sec:authorize>
             </span>
             <span class="icon is-left"><i class="fas fa-globe"></i></span>
         </p>
@@ -32,10 +39,13 @@
     </div>
 </div>
 
-<div class="table-container">
-    <table id="profileGrid" class="mt-3 table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
+<div class="box mt-3">
+    <p id="initParagraph">종목을 검색하세요.</p>
+    <div class="table-container">
+        <table id="profileGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
+    </div>
+    <nav id="profileGridPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
-<nav id="profileGridPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
 <div id="colLineChartModal" class="modal">
     <div class="modal-background" onclick="main.closeColLineChartModal()"></div>
