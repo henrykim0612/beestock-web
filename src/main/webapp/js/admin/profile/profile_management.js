@@ -69,10 +69,9 @@ const main = (function() {
         {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
         {id: 'profileSubtitle', name: '보조명', isSort: true, isExcel: true, width: '250px'},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
+        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true},
         {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
-        {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '250px', isExcel: true},
-        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true},
-        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true}
+        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true}
       ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);

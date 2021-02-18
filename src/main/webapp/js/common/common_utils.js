@@ -725,7 +725,7 @@ const cmmUtils = (function () {
         goToPage('/bbs/qa/' + linkId);
         break;
       case 'M0003': // 포트폴리오
-        goToPage('/analysis/profile/' + linkId); // TODO: URL 변경해야함
+        goToPage('/analysis/profile/' + linkId);
         break;
     }
   }
