@@ -28,27 +28,27 @@
     </appender>
 
     <logger name="com.beestock" additivity="false">
-        <level value="info" />
+        <level value="error" />
         <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.core" additivity="false">
-        <level value="info" />
+        <level value="error" />
         <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.beans" additivity="false">
-        <level value="info" />
+        <level value="error" />
         <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.context" additivity="false">
-        <level value="info" />
+        <level value="error" />
         <appender-ref ref="rollingFile"/>
     </logger>
 
     <logger name="org.springframework.web" additivity="false">
-        <level value="info" />
+        <level value="error" />
         <appender-ref ref="rollingFile"/>
     </logger>
 
