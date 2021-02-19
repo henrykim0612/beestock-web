@@ -27,8 +27,17 @@
             </span>
             <span class="icon is-left"><i class="fas fa-globe"></i></span>
         </p>
+        <p class="control has-icons-left">
+            <span class="select">
+                <select id="schType">
+                    <option value="1">종목명</option>
+                    <option value="2">종목코드</option>
+                </select>
+            </span>
+            <span class="icon is-left"><i class="fas fa-filter"></i></span>
+        </p>
         <p class="control">
-            <input id="inputSearch" class="input input-search" type="text" maxlength="200" placeHolder="종목명 입력">
+            <input id="inputSearch" class="input input-search" type="text" maxlength="200" placeHolder="종목명 또는 종목코드 입력">
         </p>
         <p class="control">
             <button id="btnSearch" class="button is-dark" onclick="main.initGrid()">

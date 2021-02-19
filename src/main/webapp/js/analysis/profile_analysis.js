@@ -19,6 +19,7 @@ const main = (function() {
     selectedBarChartFilterText: '시가평가액',
     selectedItemName: null,
     selectedItemCode: null,
+    selectedStackChartGridProfileId: null,
     leftItemCodeChartData: undefined,
     rightItemCodeChartData: undefined,
     sortedDataArr: [],
@@ -32,6 +33,7 @@ const main = (function() {
     paramQuarterDate: null,
     matchedQuarterSliderIdx: 0, // 다른 화면에서 링크되어 넘어왔을 경우에 이 값이 변경됨
     width: {
+      profileTitle: '250px', // 포트폴리오
       itemName: '280px', // 종목명
       viewWeight: '60px', // 비중
       quantity: '110px', // 보유수량
@@ -126,6 +128,7 @@ const main = (function() {
   let leftItemCodeChart = undefined;
   let rightItemCodeChart = undefined;
   let clipboard = undefined;
+  let stackChartGrid = undefined; // 왼쪽 차트모달 그리드
 
   function init() {
     createBreadCrumb();
@@ -581,6 +584,7 @@ const main = (function() {
         if (response.data) {
           cmmUtils.showModal('stackChartModal');
           initLeftItemCodeChart();
+          initStackChartGrid();
         } else {
           // 이용할 수 없음
           cmmUtils.showGuideModal({color: 'is-danger', header: 'Premium 등급 이상 전용화면'});
@@ -703,8 +707,9 @@ const main = (function() {
       }
 
       // 종목명 검색조건 추가
-      if (document.getElementById('schItemName').value) {
-        body.itemName = document.getElementById('schItemName').value;
+      if (document.getElementById('schWord').value) {
+        body.schType = getSearchType();
+        body.schWord = getSearchWord();
       }
 
       const props = {
@@ -902,6 +907,163 @@ const main = (function() {
     soldOutGrid = new COMPONENTS.DataGrid(props);
   }
 
+
+  // 왼쪽 차트모달 그리드 종목명
+  function stackChartGridtitleAnchor(col, row) {
+
+    const div = document.createElement('div');
+    div.classList.add('flex-row');
+    div.classList.add('justify-content-start');
+    div.classList.add('hover-type1');
+
+    const textDiv = document.createElement('div');
+    textDiv.innerText = row['profileTitle'];
+    textDiv.classList.add('mr-3');
+
+    div.appendChild(textDiv);
+    return div;
+  }
+
+  // 왼쪽 차트모달 그리드 보유수량
+  function stackChartGridQuantity(col, row) {
+
+    const div = document.createElement('div');
+    div.classList.add('flex-row');
+    div.classList.add('justify-content-end');
+    div.classList.add('hover-parent');
+
+    const span = document.createElement('span');
+    span.classList.add('hover-main')
+    span.innerText = row['quantity'].toLocaleString();
+
+    const chartDiv = document.createElement('div');
+    chartDiv.classList.add('hover-sub');
+    chartDiv.classList.add('height-24-px');
+    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0, \'' + row['profileId'] + '\')"><i class="fas fa-chart-line"></i></span>'
+
+    div.appendChild(span);
+    div.appendChild(chartDiv);
+    return div;
+  }
+
+  // 왼쪽 차트모달 그리드 평균 매수가
+  function stackChartGridBp(col, row) {
+
+    const div = document.createElement('div');
+    div.classList.add('flex-row');
+    div.classList.add('justify-content-end');
+    div.classList.add('hover-parent');
+
+    const span = document.createElement('span');
+    span.classList.add('hover-main')
+    span.innerText = row['buyingPrice'].toLocaleString();
+
+    const chartDiv = document.createElement('div');
+    chartDiv.classList.add('hover-sub');
+    chartDiv.classList.add('height-24-px');
+    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3, \'' + row['profileId'] + '\')"><i class="fas fa-chart-line"></i></span>'
+
+    div.appendChild(span);
+    div.appendChild(chartDiv);
+    return div;
+  }
+
+  // 왼쪽 차트모달 그리드 매수매도금액
+  function stackChartBuyingSellingPrice(col, row, thOrTd, props) {
+    const roleNm = props.data.roleNm;
+    // 매수매도금액은 프리미엄 사용자 이상부터 이용 가능
+    if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
+
+      // 100분율 처리
+      const bspArr = props.rowData.map(function(p) {
+        return parseInt(p.buyingSellingPrice); // 100만달러 단위
+      });
+      const maxValue = _.max(bspArr);
+      const minValue = _.min(bspArr);
+
+      // 비율 적용하여 결과값 생성
+      let percent = 0;
+      let v = parseInt(row.buyingSellingPrice); // 100만달러 단위
+      if (0 < v) { // 0 보다 큰경우
+        const rate = (maxValue / 100);
+        percent = (v / rate).toFixed(3);
+        percent = percent < 1 ? 1 : percent; // 0.xx 단위는 1로 처리
+      } else if (v < 0) { // 0 보다 작은경우
+        const rate = Math.abs((minValue / 100));
+        percent = (v / rate).toFixed(3);
+        percent = -1 < percent ? -1 : percent; // 0.xx 단위는 1로 처리
+      }
+
+      const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 1000000, 1).toLocaleString());
+      // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
+      barDiv.classList.add('width-100-p');
+      barDiv.classList.add('hover-main');
+
+      const chartDiv = document.createElement('div');
+      chartDiv.classList.add('flex-row');
+      chartDiv.classList.add('justify-content-center');
+      chartDiv.classList.add('hover-sub');
+      chartDiv.classList.add('height-24-px');
+      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2, \'' + row['profileId'] + '\')"><i class="fas fa-chart-line"></i></span>'
+
+      const resultDiv = document.createElement('div');
+      resultDiv.classList.add('flex-row');
+      resultDiv.classList.add('justify-content-center');
+      resultDiv.classList.add('hover-parent');
+      resultDiv.appendChild(barDiv);
+      resultDiv.appendChild(chartDiv);
+      return resultDiv;
+
+    } else {
+
+      // 이용 권한이 없으므로 잠금 표시됨
+      const lockDiv = document.createElement('div');
+      lockDiv.classList.add('flex-row');
+      lockDiv.classList.add('justify-content-center');
+      lockDiv.classList.add('height-24-px');
+      lockDiv.innerHTML = '<span class="icon cursor" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>'
+      return lockDiv;
+
+    }
+  }
+
+
+  // 왼쪽 차트모달 그리드
+ function initStackChartGrid() {
+    const body = {
+      orderBy: [{column: 'viewWeight', desc: true}],
+      selectedQuarterDate: global.selectedQuarterDate,
+      profileType: global.selectedProfileType,
+      isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
+      schType: 2,
+      schWord: global.selectedItemCode
+    }
+
+    const props = {
+      url: '/api/v1/premium/itemcode',
+      body: body,
+      eId: 'stackChartGrid',
+      isThead: true,
+      isTfoot: false,
+      isPageLoader: true,
+      singleSorting: true,
+      refreshHeader: true,
+      fileName: global.selectedQuarterDate,
+      colModel: [
+        {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
+        {id: 'profileTitle', name: '포트폴리오', width: global.width.profileTitle, isSort: true, align: 'left', isExcel: true, type: 'node', userCustom: stackChartGridtitleAnchor},
+        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: stackChartGridQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: stackChartGridBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: stackChartBuyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}}
+      ]
+    }
+    stackChartGrid = new COMPONENTS.DataGrid(props);
+  }
+
+
   function setLeftChartModalTitle() {
     if (80 < global['selectedItemName'].length) {
       return global['selectedItemName'].substr(0, 80) + '...' + ' 보유수량 비교';
@@ -920,18 +1082,21 @@ const main = (function() {
 
 
   // 종목명 클릭시
-  async function showColLineChartModal(itemCode, itemName, filterIdx) {
+  async function showColLineChartModal(itemCode, itemName, filterIdx, profileId) {
     // filterIdx => 0: 보유수량, 1:시가평가액, 2:매수매도금액, 3: 평균매수가
     const args = arguments.length;
     try {
       const response = await axios.post(CONTEXT_PATH + '/api/v1/analysis/profile/is-available-event.do', {eventNum: 2});
       if (response.data) {
 
-        setSelectedLineChartFilter(args === 3 ? filterIdx : 0); // 보유수량을 기본으로
+        setSelectedLineChartFilter(2 < args ? filterIdx : 0); // 보유수량을 기본으로
         cmmUtils.showModal('colLineChartModal');
         global.selectedItemCode = itemCode;
         global.selectedItemName = itemName;
         document.getElementById('lineChartModalTitle').innerText = setRightChartModalTitle();
+        if (profileId != null) { // 왼쪽 차트 모달 그리드에서 호출되었을 경우
+          global.selectedStackChartGridProfileId = profileId;
+        }
         initRightItemCodeChart();
 
       } else {
@@ -1007,7 +1172,6 @@ const main = (function() {
           yAxis:  {
             type: 'value',
           },
-          visualMap: global.visualMap,
           series: cmmUtils.isEmpty(response['seriesList']) ? [] : createSeriesArr(response['seriesList'])
         }
       };
@@ -1145,6 +1309,7 @@ const main = (function() {
 
   function closeColLineChartModal() {
     document.getElementById('selLineChartFilter')[0].selected = true;
+    global.selectedStackChartGridProfileId = null; // 왼쪽 차트 모달 그리드에서 선택했던 프로필 아이디 초기화
     cmmUtils.closeModal('colLineChartModal');
   }
 
@@ -1200,7 +1365,7 @@ const main = (function() {
       url: '/api/v1/analysis/profile/line-chart/item-code',
       body: {
         selectedQuarterDate: global.selectedQuarterDate,
-        profileId: global.profileId,
+        profileId: global.selectedStackChartGridProfileId != null ? global.selectedStackChartGridProfileId : global.profileId,
         profileType: global.selectedProfileType,
         itemCode: global.selectedItemCode,
         filterNum: getSelectedLineChartFilter()
@@ -1838,10 +2003,19 @@ const main = (function() {
   function searchItemName(e) {
     initProfileGrid();
   }
+
   function searchInputKeyup(e) {
     if (e.key === 'Enter') {
       initProfileGrid();
     }
+  }
+
+  function getSearchType() {
+    return parseInt(document.getElementById('schType').value);
+  }
+
+  function getSearchWord() {
+    return document.getElementById('schWord').value;
   }
 
   return {
@@ -1867,6 +2041,6 @@ const main = (function() {
 document.addEventListener("DOMContentLoaded", function() {
   main.init();
   // 사용자 검색 이벤트 리스너
-  document.getElementById('schItemName').addEventListener('keyup', main.searchInputKeyup);
+  document.getElementById('schWord').addEventListener('keyup', main.searchInputKeyup);
   document.getElementById('switchRefresh').addEventListener('change', main.changeRefreshSwitch);
 });
