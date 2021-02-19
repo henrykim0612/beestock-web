@@ -172,14 +172,25 @@
     <div class="flex-row">
         <%--종목 검색--%>
         <div class="flex-row width-50-p justify-content-start align-content-center">
-            <div class="control is-small">
-                <input id="schItemName" class="input input-search is-small" type="text" placeholder="종목명 검색" maxlength="300">
-            </div>
-            <div>
-                <button class="button is-small is-dark" onclick="main.searchItemName()">
-                    <span class="icon"><i class="fas fa-search-dollar"></i></span>
-                    <span>검색</span>
-                </button>
+            <div class="field has-addons">
+                <p class="control has-icons-left">
+                    <span class="select is-small">
+                       <select id="schType">
+                            <option value="1">종목명</option>
+                            <option value="2">종목코드</option>
+                        </select>
+                    </span>
+                    <span class="icon is-left"><i class="fas fa-filter" aria-hidden="true"></i></span>
+                </p>
+                <p class="control is-small">
+                    <input id="schWord" class="input input-search is-small" type="text" placeholder="종목명 또는 종목코드 검색" maxlength="300">
+                </p>
+                <p class="control">
+                    <button class="button is-small is-dark" onclick="main.searchItemName()">
+                        <span class="icon"><i class="fas fa-search-dollar"></i></span>
+                        <span>검색</span>
+                    </button>
+                </p>
             </div>
         </div>
         <div class="flex-row width-50-p justify-content-end">
@@ -482,6 +493,11 @@
                 </div>
                 <div class="flex-row justify-content-center">
                     <div id="leftItemCodeChart" class="is-fullwidth" style="width: 1200px; height: 500px;"></div>
+                </div>
+                <div class="flex-row justify-content-center height500px">
+                    <div class="table-container overflowY-auto">
+                        <table id="stackChartGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
+                    </div>
                 </div>
             </div>
         </section>

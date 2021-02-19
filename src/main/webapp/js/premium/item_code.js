@@ -265,6 +265,7 @@ const main = (function () {
       selectedQuarterDate: global.selectedQuarterDate,
       profileType: global.selectedProfileType,
       isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
+      schType: getSearchType(),
       schWord: getSearchWord()
     }
 
@@ -428,6 +429,10 @@ const main = (function () {
     } else {
       return global['selectedItemName'];
     }
+  }
+
+  function getSearchType() {
+    return parseInt(document.getElementById('schType').value);
   }
 
   function getSearchWord() {
