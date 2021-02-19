@@ -373,3 +373,7 @@ table tfoot th {
 	color: limegreen;
 }
 
+.badge {
+	z-index: 99999;
+}
+
