@@ -53,6 +53,36 @@ const main = (function() {
       })
     }
 
+    const titleAnchor2 = function(col, row) {
+
+      const div = document.createElement('div');
+      div.classList.add('flex-row');
+      div.classList.add('justify-content-start');
+      div.classList.add('hover-type1');
+
+      const anchor = document.createElement('a');
+      anchor.innerText = row['profileTitle'];
+      anchor.addEventListener('click', async function() {
+        global['selectedProfileId'] = row['profileId'];
+        goToDetails();
+      });
+      div.appendChild(anchor);
+
+      if (row['isPublic'] === 0) {
+        const span = document.createElement('span');
+        span.classList.add('tag');
+        span.classList.add('is-danger');
+        span.classList.add('is-light');
+        span.classList.add('ml-2');
+        span.innerText = '비공개';
+        div.appendChild(span);
+      }
+
+      return div;
+    }
+
+
+
     const props = {
       url: '/api/v1/admin/profile/paging-profile-list',
       eId: 'dataGrid',
@@ -66,12 +96,12 @@ const main = (function() {
       loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, align: 'center', isStrong: true},
-        {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '250px', isLink: true, userCustom: titleAnchor},
-        {id: 'profileSubtitle', name: '보조명', isSort: true, isExcel: true, width: '250px'},
+        {id: 'profileTitle', name: '포트폴리오명', isSort: true, isExcel: true, width: '300px', type: 'node', userCustom: titleAnchor2},
+        {id: 'profileSubtitle', name: '보조명', isSort: true, isExcel: true, width: '270px'},
         {id: 'profileType', name: '타입', isSort: true, align: 'center', isExcel: true, type: 'custom', userCustom: customProfileType, width: '50px'},
-        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '250px', isExcel: true},
-        {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '150px', isExcel: true},
-        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '150px', isExcel: true}
+        {id: 'uptLoginId', name: '수정자', isSort: true, align: 'center', width: '240px', isExcel: true},
+        {id: 'regDate', name: '등록일', isSort: true, align: 'center', width: '120px', isExcel: true},
+        {id: 'uptDate', name: '수정일', isSort: true, align: 'center', width: '120px', isExcel: true}
       ]
     }
     dataGrid = new COMPONENTS.DataGrid(props);

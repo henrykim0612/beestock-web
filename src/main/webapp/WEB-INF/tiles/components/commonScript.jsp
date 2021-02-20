@@ -26,7 +26,8 @@
 <%--CKEditor--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/ckeditor5/build/ckeditor.js" type="text/javascript"></script>
 <%--ECharts--%>
-<script src="${pageContext.request.contextPath}/resources/vendors/echarts/echarts-en.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/echarts/5.0.2/echarts.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/echarts/theme/roma.js" type="text/javascript"></script>
 <%--Swiper--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.js" type="text/javascript"></script>
 <%--Clipboard--%>

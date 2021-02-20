@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%--페이지 로더--%>
-<div id="pageLoader" class="pageloader is-bottom-to-top is-black"><span class="title">Loading..</span></div>
+<div id="pageLoader" class="pageloader is-black"><span class="title">Loading...</span></div>
 
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">

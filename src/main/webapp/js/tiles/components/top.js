@@ -56,6 +56,9 @@ const topMain = (function() {
     if (document.getElementById('spanSignUp')) {
       arr.push({selector: '#spanSignUp', content: '회원가입'});
     }
+    if (document.getElementById('spanFeedback')) {
+      arr.push({selector: '#spanFeedback', content: '피드백'});
+    }
     cmmUtils.setTippy(arr);
   }
 

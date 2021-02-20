@@ -11,7 +11,7 @@ const main = (function() {
   function init() {
     global['profileId'] = document.getElementById('profileId').value;
     createBreadCrumb();
-    drawDetails();
+    initDetails();
   }
 
   function createBreadCrumb() {
@@ -46,7 +46,7 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function drawDetails() {
+  function initDetails() {
     const profileId = global['profileId'];
     const url = '/api/v1/admin/profile/' + profileId;
     cmmUtils.axiosGet({url: url}, function(response) {
@@ -123,6 +123,7 @@ const main = (function() {
       profileSubtitle: document.getElementById('profileSubtitle').value,
       profileInfo: global['ckEditProfileInfo'].getData(),
       profileType: cmmUtils.getCheckedValues('profileType')[0],
+      isPublic: cmmUtils.getCheckedValues('isPublic')[0],
       profileLink: createLinkStr()
     }
   }
@@ -137,6 +138,7 @@ const main = (function() {
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
+    formData.append('isPublic', cmmUtils.getCheckedValues('isPublic')[0]);
     createLinkStr(formData);
     return formData;
   }

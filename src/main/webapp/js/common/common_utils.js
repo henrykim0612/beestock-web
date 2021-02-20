@@ -644,19 +644,19 @@ const cmmUtils = (function () {
     if (arguments.length === 0) {
       bulmaToast.toast({
         message: '저장되었습니다.',
-        type: props.type != null? 'is-dark is-light' : props.type,
+        type: 'is-success',
         duration: 3000,
-        position: 'bottom-right',
-        dismissible: false,
+        position: 'top-right',
+        dismissible: true,
         animate: { in: 'fadeIn', out: 'fadeOut' }
       });
     } else {
       bulmaToast.toast({
         message: props['message'] != null ? props['message'] : '저장되었습니다.',
-        type: props['type'] != null ? props['type'] : 'is-dark is-light',
+        type: props['type'] != null ? props['type'] : 'is-success',
         duration: props['duration'] != null ? props['duration'] : 3000,
-        position: props['position'] != null ? props['position'] : 'bottom-right',
-        dismissible: props['dismissible'] != null ? props['dismissible'] : false,
+        position: props['position'] != null ? props['position'] : 'top-right',
+        dismissible: props['dismissible'] != null ? props['dismissible'] : true,
         animate: { in: 'fadeIn', out: 'fadeOut' }
       });
     }

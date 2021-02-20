@@ -183,7 +183,7 @@ const main = (function() {
     if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
     if (document.getElementById('newTransferExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
     if (document.getElementById('soldOutExcel')) cmmUtils.setExcelTippy(['#soldOutExcel']);
-    cmmUtils.setTippy([{selector: '#switchRefreshLabel', content: '새로고침하여 최신 현재가로 데이터를 재계산합니다.'}]);
+    cmmUtils.setTippy([{selector: '#switchRefreshLabel', content: '자동 새로고침하여 최신 현재가로 데이터를 재계산합니다.'}]);
   }
 
 
@@ -1150,13 +1150,13 @@ const main = (function() {
           },
           grid: {
             left: '2%',
-            right: '28%',
+            right: '23%',
             containLabel: true
           },
           legend: {
             type: 'scroll',
             orient: 'vertical',
-            left: '75%',
+            left: '80%',
             right: '1%',
             top: '9%',
             bottom: '5%',
@@ -1336,6 +1336,7 @@ const main = (function() {
   function getQuarterInfo(callback) {
     cmmUtils.axiosPost({
       url: '/api/v1/analysis/profile/quarter-info',
+      isPageLoader: true,
       body: {
         quarterId: global.quarterId,
         profileId: global.profileId,
@@ -1405,14 +1406,14 @@ const main = (function() {
             image: getWarterMarkImage(),
             repeat: 'repeat'
           },
-          color: global['defaultColorArr'],
+          // color: global['defaultColorArr'],
           tooltip: {
             trigger: 'item',
             formatter: '{b}'
           },
           roseType: setRoseType(),
           itemStyle: {
-            borderRadius: 10,
+            borderRadius: 5,
             borderColor: '#fff',
             borderWidth: 2
           },
@@ -1420,7 +1421,19 @@ const main = (function() {
             {
               type: 'pie',
               selectedMode: 'single',
-              radius: ['20%', '70%'],
+              radius: ['20%', '60%'],
+              label: {
+                fontSize: 15,
+                fontWeight: 'bold'
+              },
+              labelLine: {
+                // lineStyle: {
+                //   color: 'rgba(255, 255, 255, 0.3)'
+                // },
+                smooth: 0.2,
+                length: 50,
+                length2: 100
+              },
               data: createData(response.rowData)
             }
           ]
@@ -1492,24 +1505,37 @@ const main = (function() {
             name: global['selectedBarChartFilterText'],
             nameLocation: 'middle',
             nameGap: 30,
-            boundaryGap: [0, 0.1]
+            boundaryGap: [0, 0.1],
+            nameTextStyle: {
+              fontWeight: 'bold'
+            },
+            axisLabel: {
+              fontWeight: 'bold'
+            }
           },
           yAxis: {
             type: 'category',
-            data: chartData['xAxis']
+            data: chartData['xAxis'],
+            nameTextStyle: {
+              fontWeight: 'bold'
+            },
+            axisLabel: {
+              fontWeight: 'bold'
+            }
           },
           series: [
             {
               type: 'bar',
               barWidth: '20px',
-              color: '#3273DC',
+              // color: '#001852',
               label: {
                 show: true,
                 formatter: function (params) { // 3자리 콤마 설정
                   return lableFommater(params.value);
                 },
                 position: 'right',
-                color: '#2f2f2f'
+                color: '#2f2f2f',
+                fontWeight: 'bold'
               },
               data: chartData['yAxis']
             }
@@ -1982,9 +2008,17 @@ const main = (function() {
 
   // 일정 간격으로 새로고침
   function runRefreshTimer() {
-    removeRefreshInterval(); // 타이머 해제
-    global['timerCount'] = global['resetTime'];
-    global['timerObj'] = setInterval(global.refreshTimer,1000)
+
+    // 현재는 해외만.. 국내는 새로고침이 의미가 없어서 제거
+    if (global.selectedProfileType === '2') {
+      removeRefreshInterval(); // 타이머 해제
+      global['timerCount'] = global['resetTime'];
+      global['timerObj'] = setInterval(global.refreshTimer,1000)
+    } else {
+      // 제거
+      document.getElementById('timerDiv').remove();
+    }
+
   }
 
   function changeRefreshSwitch() {

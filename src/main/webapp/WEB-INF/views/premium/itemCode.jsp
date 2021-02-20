@@ -53,7 +53,7 @@
     <div class="table-container">
         <table id="profileGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
     </div>
-    <nav id="profileGridPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+    <nav id="profileGridPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
 
 <div id="colLineChartModal" class="modal">
