@@ -1,7 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<script data-ad-client="ca-pub-2108550815805791" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
 <%--<title>${title}</title>--%>
 <title>BEESTOCK</title>
 <meta charset="UTF-8">
