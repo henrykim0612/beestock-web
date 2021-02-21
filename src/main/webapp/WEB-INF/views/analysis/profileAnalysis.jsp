@@ -128,7 +128,7 @@
         <label id="switchRefreshLabel" for="switchRefresh"></label>
     </div>
     <span class="icon-text has-text-danger"><span class="icon"><i class="fas fa-clock"></i></span></span>
-    <span id="clockSpan">2:00</span>
+    <span id="clockSpan"></span>
 </div>
 
 <%--분석탭--%>

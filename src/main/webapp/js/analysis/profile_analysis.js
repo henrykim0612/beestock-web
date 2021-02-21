@@ -97,8 +97,8 @@ const main = (function() {
     ],
     timerObj: undefined,
     // 새로고침 타이머 관련
-    resetTime: 120,
-    timerCount: 120,
+    resetTime: 60,
+    timerCount: 60,
     refreshTimer: function() {
 
       global['isRunInterval'] = true;
