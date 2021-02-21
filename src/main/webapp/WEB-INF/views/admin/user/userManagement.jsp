@@ -34,7 +34,7 @@
 </div>
 
 <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
-<nav id="dataPagination" class="pagination is-rounded is-small" role="navigation" aria-label="pagination"></nav>
+<nav id="dataPagination" class="pagination is-small" role="navigation" aria-label="pagination"></nav>
 
 <%--권한변경 모달--%>
 <div id="authModal" class="modal">

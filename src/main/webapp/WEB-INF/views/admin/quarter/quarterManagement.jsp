@@ -48,12 +48,12 @@
 <div class="table-container mt-3">
     <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
 </div>
-<nav id="dataPagination" class="pagination is-rounded is-small ml-3 mr-3 mb-6" role="navigation" aria-label="pagination"></nav>
+<nav id="dataPagination" class="pagination is-small ml-3 mr-3 mb-6" role="navigation" aria-label="pagination"></nav>
 
 
 <%--분기 데이터 테이블--%>
 <table id="quarterGrid" class="mt-3 table is-narrow is-hoverable is-fullwidth"></table>
-<nav id="quarterPagination" class="pagination is-rounded is-small ml-3 mr-3 mb-6" role="navigation" aria-label="pagination"></nav>
+<nav id="quarterPagination" class="pagination is-small ml-3 mr-3 mb-6" role="navigation" aria-label="pagination"></nav>
 
 
 <%--업로드 모달--%>

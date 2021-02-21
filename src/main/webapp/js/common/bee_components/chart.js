@@ -9,7 +9,7 @@ BeeComponents.modules.chart = function(component) {
   }
 
   component.Chart.prototype.init = function(props) {
-    const chart = echarts.init(document.getElementById(props['eId']));
+    const chart = echarts.init(document.getElementById(props['eId']), 'roma');
     chart.showLoading();
     chart.setOption(props['options']);
     chart.hideLoading();

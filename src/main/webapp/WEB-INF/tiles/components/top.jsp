@@ -89,6 +89,12 @@
             <div class="navbar-item">
                 <div class="buttons">
                     <sec:authorize access="isAuthenticated()">
+                        <%--피드백--%>
+                        <button id="spanFeedback" class="button is-black" onclick="">
+                            <span class="icon has-text-success is-medium has-tooltip-bottom">
+                                <i class="fas fa-comment-dots"></i>
+                            </span>
+                        </button>
                         <%--알림 아이콘--%>
                         <button class="button is-black" data-show="quickview" data-target="alarmQuickView">
                             <span id="spanAlarm" class="icon has-text-warning is-medium has-tooltip-bottom">
@@ -149,7 +155,10 @@
 <%--Tree view--%>
 <div id="alarmQuickView" class="quickview">
     <header class="quickview-header is-black">
-        <p class="title"><span class="icon has-text-warning mr-3"><i class="fas fa-bell"></i></span>알림</p>
+        <p>
+            <span class="icon has-text-warning mr-3"><i class="fas fa-bell"></i></span>
+            <span class="has-text-white">알림</span>
+        </p>
         <span id="delQuickView" class="delete" data-dismiss="quickview" onclick="topMain.initAlarmQuickView()"></span>
     </header>
     <div class="quickview-body">

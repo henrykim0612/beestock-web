@@ -86,7 +86,7 @@
                         <div class="table-container mt-3">
                             <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
                         </div>
-                        <nav id="ideaPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+                        <nav id="ideaPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
                     </div>
                 </div>
             </div>
@@ -122,13 +122,13 @@
 </div>
 
 <%--새로고침 타이머--%>
-<div class="flex-row justify-content-start">
+<div id="timerDiv" class="flex-row justify-content-start">
     <div>
-        <input id="switchRefresh" type="checkbox" name="switchRefresh" class="switch is-small is-thin is-dark" checked="checked">
+        <input id="switchRefresh" type="checkbox" name="switchRefresh" class="switch is-small is-thin is-black" checked="checked">
         <label id="switchRefreshLabel" for="switchRefresh"></label>
     </div>
     <span class="icon-text has-text-danger"><span class="icon"><i class="fas fa-clock"></i></span></span>
-    <span id="clockSpan">2:00</span>
+    <span id="clockSpan"></span>
 </div>
 
 <%--분석탭--%>
@@ -224,7 +224,7 @@
     <div class="table-container">
         <table id="profileGrid" class="mt-3 table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
     </div>
-    <nav id="profileGridPagination" class="pagination is-rounded is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
+    <nav id="profileGridPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
 
 <%--신규편입 탭--%>

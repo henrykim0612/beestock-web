@@ -60,6 +60,11 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <!--세션 60분 유지-->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
     <!-- error 페이지 설정 -->
     <error-page>
         <error-code>403</error-code>

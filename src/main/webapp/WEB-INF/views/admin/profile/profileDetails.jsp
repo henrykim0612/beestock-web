@@ -104,6 +104,19 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
+            <label id="labelPublic" class="label">공개</label>
+        </div>
+        <div class="column">
+            <div class="field">
+                <input type="radio" class="is-checkradio is-primary is-circle" id="isPublic1" name="isPublic" value="1" data-bind="true" data-id="isPublic">
+                <label for="isPublic1">공개</label>
+                <input type="radio" class="is-checkradio is-primary is-circle" id="isPublic2" name="isPublic" value="0" data-bind="true" data-id="isPublic">
+                <label for="isPublic2">비공개</label>
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label id="labelModUptLoginId" class="label" for="modUptLoginId">등록자</label>
         </div>
         <div class="column">
