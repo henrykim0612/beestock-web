@@ -453,13 +453,44 @@ const main = (function() {
 
   // 등락률
   function fluctRate(col, row) {
+
     const div = document.createElement('div');
     div.classList.add('flex-row');
     div.classList.add('justify-content-center');
-    const span = document.createElement('span');
-    span.innerText = '준비중';
-    div.appendChild(span);
-    return div;
+
+    if (row['fluctRate'] === 0) {
+      const span = document.createElement('span');
+      span.innerText = row['fluctRate'] + '%';
+      div.appendChild(span);
+      return div;
+    } else {
+      const span = document.createElement('span');
+      const iconDiv = document.createElement('div');
+      iconDiv.classList.add('height-24-px');
+      if (row['fluctRate'] < 0) {
+        // 하향
+        if (row['fluctRate'] < -15) {
+          iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-long-arrow-alt-up"></i></span>'
+        } else {
+          iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-caret-up"></i></span>'
+        }
+        span.classList.add('has-text-danger');
+        span.innerText = row['fluctRate'] + '%';
+      } else {
+        // 상향
+        if (row['fluctRate'] < 15) {
+          iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-up"></i></span>'
+        } else {
+          iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-up"></i></span>'
+        }
+        span.classList.add('has-text-info');
+        span.innerText = row['fluctRate'] + '%';
+      }
+
+      div.appendChild(iconDiv);
+      div.appendChild(span);
+      return div;
+    }
   }
 
   // 매수·금액 막대 표
@@ -825,6 +856,7 @@ const main = (function() {
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: newTransferSpinnerHeader, userCustom: newTransferIncsRate, isExcel: true, hasTooltip: {col: 'itemName'}}
