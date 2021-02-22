@@ -32,7 +32,9 @@ BeeComponents.modules.dataGrid = function(component) {
     // 페이징 사이즈
     if (props['pId'] != null) {
       const pagenation = document.getElementById(props['pId']).querySelector('[data-custom=pageSel]');
-      body['pageSize'] = pagenation != null ? pagenation.value : 100;
+      if (body['pageSize'] == null) {
+        body['pageSize'] = pagenation != null ? pagenation.value : 100;
+      }
     }
 
     if (props['loading'] != null) {
@@ -252,6 +254,11 @@ BeeComponents.modules.dataGrid = function(component) {
           const col = colModel[j];
           const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
           let value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
+
+          if (col['toFixed'] != null) {
+            value = value.toFixed(col['toFixed']);
+          }
+
           value = col['prefixText'] != null ? value + col['prefixText'] : value;
           row['excelText'] = null; // 엑센전용으로 변경할 경우 사용
 
