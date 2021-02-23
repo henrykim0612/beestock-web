@@ -715,7 +715,7 @@ const main = (function() {
     }]);
     cmmUtils.setTippy([{
       selector: '.currPriceHeader',
-      content: '장 중 10분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
+      content: '장 중 1분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
       allowHTML: true
     }]);
     cmmUtils.setTippy([{selector: '.bpHeader', content: '단위: 달러'}]);
@@ -758,7 +758,7 @@ const main = (function() {
           {id: 'itemCode', isHidden: true},
           {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
           {id: 'itemName', name: '종목명', width: global.width.itemName, isSort: true, align: 'left', isExcel: true, type: 'node', userCustom: titleAnchor, hasTooltip: {col: 'itemName', placement: 'right', valueOnly: true}},
-          {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', isExcel: true, hasTooltip: {col: 'itemName'}},
+          {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
@@ -852,7 +852,7 @@ const main = (function() {
         {id: 'itemCode', isHidden: true},
         {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', width: global.width.itemName, isSort: true, align: 'left', isExcel: true, type: 'node', userCustom: titleAnchor, hasTooltip: {col: 'itemName'}},
-        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
@@ -923,7 +923,7 @@ const main = (function() {
         {id: 'itemCode', isHidden: true},
         {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
         {id: 'itemName', name: '종목명', width: global.width.itemName, isSort: true, align: 'left', isExcel: true, type: 'node', userCustom: titleAnchor, hasTooltip: {col: 'itemName'}},
-        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
