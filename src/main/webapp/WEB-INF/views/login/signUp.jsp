@@ -30,7 +30,7 @@
         <div class="field loginField">
             <label class="label">Password</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern()" maxlength="20">
+                <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern(this)" maxlength="20">
                 <span class="icon is-small is-left">
                      <i class="fas fa-lock"></i>
                 </span>

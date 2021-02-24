@@ -39,6 +39,40 @@ const cmmUtils = (function () {
       })
   }
 
+  async function awaitAxiosGet(props) {
+    if (props['loading'] != null) showLoadingElement(document.getElementById(props['loading']));
+    if (props['isPageLoader'] != null && props['isPageLoader']) showPageLoader();
+    let response = null;
+    try {
+      response = await axios({url: CONTEXT_PATH + props['url'] + '.do', method: 'get', timeout: 180000});
+      verifyResponse(response);
+      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
+    } catch (err) {
+      console.error(err);
+      goToErrorPage(err);
+    }
+    return response != null ? response.data : null;
+  }
+
+  async function awaitAxiosPost(props) {
+    if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.showPageLoader();
+    if (props['loading'] != null) cmmUtils.showLoadingElement(document.getElementById(props['loading']));
+    const url = CONTEXT_PATH + props['url'] + '.do';
+    const body = props['body'] != null ? props['body'] : {};
+    let response = null;
+    try {
+      response = await axios({url: url, method: 'post', data: body, timeout: 180000});
+      verifyResponse(response);
+      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
+    } catch (err) {
+      console.error(err);
+      goToErrorPage(err);
+    }
+    return response != null ? response.data : null;
+  }
+
   function showModal(eleOrId) {
     typeof eleOrId === 'object'
       ? eleOrId.classList.add('is-active')
@@ -828,7 +862,7 @@ const cmmUtils = (function () {
   }
 
   function goToErrorPage(err) {
-    if (err['pageUrl'] != null) {
+    if (err != null && err['pageUrl'] != null) {
       goToPage(err['pageUrl'], err);
     } else if (err.request != null && err.request.status != null) {
       switch (err.request.status) {
@@ -1106,7 +1140,9 @@ const cmmUtils = (function () {
 
   return {
     axiosGet: axiosGet,
+    awaitAxiosGet: awaitAxiosGet,
     axiosPost: axiosPost,
+    awaitAxiosPost: awaitAxiosPost,
     showLoadingElement: showLoadingElement,
     hideLoadingElement: hideLoadingElement,
     showModal: showModal,
