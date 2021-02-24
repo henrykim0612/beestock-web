@@ -159,7 +159,7 @@
     <div class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">Email 중복</p>
-            <button class="delete" aria-label="close" onclick="main.focusIpEmail('dangerModal')"></button>
+            <button class="delete" aria-label="close" onclick="main.closeModal('dangerModal', 'ipEmail')"></button>
         </header>
         <section class="modal-card-body">
             <h2>현재 사용중인 이메일 입니다. 다른 이메일을 입력해주세요.</h2>
