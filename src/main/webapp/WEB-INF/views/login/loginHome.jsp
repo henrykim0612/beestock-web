@@ -36,9 +36,7 @@
                     <label class="label">Password</label>
                     <div class="control has-icons-left has-icons-right">
                         <input id="loginPwd" name="password" class="input" type="password" placeholder="Password" value="${password}">
-                        <span class="icon is-small is-left">
-                         <i class="fas fa-lock"></i>
-                    </span>
+                        <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
                     </div>
                     <p id="helpPwd" class="help is-info is-hidden">Caps Lock 키가 켜져있습니다.</p>
                 </div>

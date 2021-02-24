@@ -30,7 +30,7 @@
         <div class="field loginField">
             <label class="label">Password</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern()" maxlength="20">
+                <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern(this)" maxlength="20">
                 <span class="icon is-small is-left">
                      <i class="fas fa-lock"></i>
                 </span>
@@ -125,8 +125,14 @@
     <div class="level-item has-text-centered">
         <div class="field loginField is-grouped is-grouped-centered">
             <div class="buttons">
-                <button class="button is-warning" onclick="main.showAgreeModal()"><strong>이용약관 확인</strong></button>
-                <button disabled id="btnSubmit" class="button is-primary" onclick="main.signup()"><strong>회원가입</strong></button>
+                <button class="button is-warning" onclick="main.showAgreeModal()">
+                    <span class="icon"><i class="fas fa-check"></i></span>
+                    <span>이용약관 확인</span>
+                </button>
+                <button disabled id="btnSubmit" class="button is-primary" onclick="main.signup()">
+                    <span class="icon"><i class="fas fa-user-plus"></i></span>
+                    <span>회원가입</span>
+                </button>
             </div>
         </div>
     </div>
@@ -147,7 +153,10 @@
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home.do"><strong>로그인 창으로 이동</strong></a>
+                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home.do">
+                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                    <strong>로그인 창으로 이동</strong>
+                </a>
             </div>
         </footer>
     </div>
@@ -159,7 +168,7 @@
     <div class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">Email 중복</p>
-            <button class="delete" aria-label="close" onclick="main.focusIpEmail('dangerModal')"></button>
+            <button class="delete" aria-label="close" onclick="main.closeModal('dangerModal', 'ipEmail')"></button>
         </header>
         <section class="modal-card-body">
             <h2>현재 사용중인 이메일 입니다. 다른 이메일을 입력해주세요.</h2>
@@ -175,7 +184,7 @@
         <header class="modal-card-head">
             <p class="modal-card-title">이용약관</p>
         </header>
-        <section class="modal-card-body">
+        <section class="modal-card-body height500px">
             <div class="content">
                 <h1>Hello World</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.</p>
@@ -218,7 +227,10 @@
                 <label for="chkAgreement">약관을 확인했습니다</label>
             </div>
             <div class="field flex-row justify-content-end width-50-p">
-                <button id="btnAgreement" class="button is-warning"><strong>확인</strong></button>
+                <button id="btnAgreement" class="button is-warning">
+                    <span class="icon"><i class="fas fa-check"></i></span>
+                    <span>확인</span>
+                </button>
             </div>
         </footer>
     </div>

@@ -67,26 +67,29 @@ const main = (function() {
   }
 
   function isSamePassword() {
-
     const ipCfPwd = document.getElementById('ipCfPwd');
     const ipPwd = document.getElementById('ipPwd');
     const helpCfPwd = document.getElementById('helpCfPwd');
     const icoCfPwdCheck = document.getElementById('icoCfPwdCheck');
     const icoCfPwdTriangle = document.getElementById('icoCfPwdTriangle');
-    clearClasses([ipCfPwd, helpCfPwd]);
-
-    if (ipPwd.value === ipCfPwd.value) {
-      appendInfoClasses([ipCfPwd, helpCfPwd], true);
-      removeHiddenClass([icoCfPwdCheck]);
-      appendHiddenClass([icoCfPwdTriangle, helpCfPwd]);
+    if (ipCfPwd.value) {
+      clearClasses([ipCfPwd, helpCfPwd]);
+      if (ipPwd.value === ipCfPwd.value) {
+        appendInfoClasses([ipCfPwd, helpCfPwd], true);
+        removeHiddenClass([icoCfPwdCheck]);
+        appendHiddenClass([icoCfPwdTriangle, helpCfPwd]);
+      } else {
+        appendInfoClasses([ipCfPwd, helpCfPwd], false);
+        removeHiddenClass([icoCfPwdTriangle]);
+        appendHiddenClass([icoCfPwdCheck]);
+      }
     } else {
-      appendInfoClasses([ipCfPwd, helpCfPwd], false);
-      removeHiddenClass([icoCfPwdTriangle]);
-      appendHiddenClass([icoCfPwdCheck]);
+      removeHighlightClassAll([ipCfPwd]);
+      appendHiddenClass([icoCfPwdTriangle, helpCfPwd]);
     }
   }
 
-  function isPwdPattern() {
+  function isPwdPattern(e) {
 
     const ipPwd = document.getElementById('ipPwd');
     const helpPwd = document.getElementById('helpPwd');
@@ -107,6 +110,8 @@ const main = (function() {
     } else {
       appendHiddenClass([icoPwdCheck, icoPwdTriangle, helpPwd]);
     }
+
+    isEmptyPwd(e);
   }
 
   function isUserPhonePattern() {
@@ -132,6 +137,28 @@ const main = (function() {
     }
   }
 
+  function isEmptyPwd(e) {
+    const helpCfPwd = document.getElementById('helpCfPwd');
+    const icoCfPwdTriangle = document.getElementById('icoCfPwdTriangle');
+    const icoCfPwdCheck = document.getElementById('icoCfPwdCheck');
+    const ipCfPwd = document.getElementById('ipCfPwd');
+    if (!e.value) {
+      appendHiddenClass([icoCfPwdTriangle, icoCfPwdCheck, helpCfPwd]);
+      removeHighlightClassAll([ipCfPwd]);
+    } else {
+      if (ipCfPwd.value) {
+        isSamePassword();
+      }
+    }
+  }
+
+  function removeHighlightClassAll(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.remove('is-success');
+      ele.classList.remove('is-danger');
+    }
+  }
 
   function removeHiddenClass(eleArr) {
     for (let i = 0; i < eleArr.length; i++) {
