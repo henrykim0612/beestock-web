@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%--페이지 로더--%>
-<div id="pageLoader" class="pageloader is-black"><span class="title">Loading...</span></div>
+<div id="pageLoader" class="pageloader is-white"><span class="title">Loading...</span></div>
 
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">
@@ -242,6 +242,43 @@
                         </div>
                     </div>
                 </nav>
+            </div>
+        </article>
+    </div>
+</div>
+
+<%--피드백 모달--%>
+<div id="feedbackModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('feedbackModal')"></div>
+    <div class="modal-content">
+        <article class="message is-success">
+            <div class="message-header">
+                <p>피드백 보내기</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('feedbackModal')"></button>
+            </div>
+            <div class="message-body has-text-dark">
+                <div class="flex-row justify-content-start">
+                    <div class="select is-small">
+                        <select id="feedbackSelBox">
+                            <option value="1">데이터 오류신고</option>
+                            <option value="2">신규 포트폴리오 요청</option>
+                            <option value="3">기타</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex-row justify-content-start mt-3">
+                    <textarea id="feedbackContent" class="textarea" placeholder="고객의 피드벡을 받아 더 좋은 사이트로 보답하겠습니다."></textarea>
+                </div>
+                <div class="flex-row justify-content-center mt-3">
+                    <button class="button is-dark is-small" onclick="">
+                        <span class="icon"><i class="fas fa-paper-plane"></i></span>
+                        <span>전송</span>
+                    </button>
+                    <button class="button is-dark is-small ml-2" onclick="cmmUtils.closeModal('feedbackModal')">
+                        <span class="icon"><i class="fas fa-times-circle"></i></span>
+                        <span>닫기</span>
+                    </button>
+                </div>
             </div>
         </article>
     </div>

@@ -678,7 +678,7 @@ const cmmUtils = (function () {
     if (arguments.length === 0) {
       bulmaToast.toast({
         message: '저장되었습니다.',
-        type: 'is-success',
+        type: 'is-warning',
         duration: 3000,
         position: 'top-right',
         dismissible: true,
@@ -687,7 +687,7 @@ const cmmUtils = (function () {
     } else {
       bulmaToast.toast({
         message: props['message'] != null ? props['message'] : '저장되었습니다.',
-        type: props['type'] != null ? props['type'] : 'is-success',
+        type: props['type'] != null ? props['type'] : 'is-warning',
         duration: props['duration'] != null ? props['duration'] : 3000,
         position: props['position'] != null ? props['position'] : 'top-right',
         dismissible: props['dismissible'] != null ? props['dismissible'] : true,

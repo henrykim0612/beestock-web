@@ -32,6 +32,7 @@ const main = (function() {
     isInitialedSpinner: false, // 스피너 생성 되었는지 확인
     paramQuarterDate: null,
     matchedQuarterSliderIdx: 0, // 다른 화면에서 링크되어 넘어왔을 경우에 이 값이 변경됨
+    latestQuarterDate: null, // 해당 프로필의 가장 최신분기
     width: {
       profileTitle: '250px', // 포트폴리오
       itemName: '280px', // 종목명
@@ -227,6 +228,8 @@ const main = (function() {
     const fragment = document.createDocumentFragment();
     const len = response.length;
     for (let i = 0; i < len; i++) {
+      // 첫번째 분기는 해당 프로필의 가장 최신 분기값이됨
+      global.latestQuarterDate = response[0].quarterDate;
       // 비어있는 분기를 확인함
       createDummyQuarter(i, response, fragment);
       // 존재하는 분기생성
@@ -242,13 +245,7 @@ const main = (function() {
     let isExisted = true;
     let loopNum;
     // 비어있는(미공시된) 분기를 체크하여 더미를 생성해줌
-    if (i === 0) {
-      if (response[i]['quarterDate'] !== cmmUtils.getLatestQuarter()) {
-        // 최근 분기가 없음
-        isExisted = false;
-        loopNum = 1;
-      }
-    } else {
+    if (0 < i) {
       if (response[i - 1]['quarterDate'] !== cmmUtils.getFrontQuarter(response[i]['quarterDate'])) {
         isExisted = false;
         loopNum = cmmUtils.getUnknownQuartersReverse(response[i - 1]['quarterDate'], response[i]['quarterDate']).length;
@@ -458,36 +455,44 @@ const main = (function() {
     div.classList.add('flex-row');
     div.classList.add('justify-content-center');
 
-    if (row['fluctRate'] === 0) {
-      const span = document.createElement('span');
-      span.innerText = row['fluctRate'] + '%';
-      div.appendChild(span);
-      return div;
+    if (global.selectedQuarterDate === global.latestQuarterDate) {
+      // 최근 분기에 대해서만 등락률을 표시함
+      if (row['fluctRate'] === 0) {
+        const span = document.createElement('span');
+        span.innerText = row['fluctRate'] + '%';
+        div.appendChild(span);
+        return div;
+      } else {
+        const span = document.createElement('span');
+        const iconDiv = document.createElement('div');
+        iconDiv.classList.add('height-24-px');
+        if (row['fluctRate'] < 0) {
+          // 하향
+          if (row['fluctRate'] < -15) {
+            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-up"></i></span>'
+          } else {
+            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-up"></i></span>'
+          }
+          span.classList.add('has-text-info');
+          span.innerText = row['fluctRate'] + '%';
+        } else {
+          // 상향
+          if (row['fluctRate'] < 15) {
+            iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-caret-up"></i></span>'
+          } else {
+            iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-long-arrow-alt-up"></i></span>'
+          }
+          span.classList.add('has-text-danger');
+          span.innerText = row['fluctRate'] + '%';
+        }
+
+        div.appendChild(iconDiv);
+        div.appendChild(span);
+        return div;
+      }
     } else {
       const span = document.createElement('span');
-      const iconDiv = document.createElement('div');
-      iconDiv.classList.add('height-24-px');
-      if (row['fluctRate'] < 0) {
-        // 하향
-        if (row['fluctRate'] < -15) {
-          iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-long-arrow-alt-up"></i></span>'
-        } else {
-          iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-caret-up"></i></span>'
-        }
-        span.classList.add('has-text-danger');
-        span.innerText = row['fluctRate'] + '%';
-      } else {
-        // 상향
-        if (row['fluctRate'] < 15) {
-          iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-up"></i></span>'
-        } else {
-          iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-up"></i></span>'
-        }
-        span.classList.add('has-text-info');
-        span.innerText = row['fluctRate'] + '%';
-      }
-
-      div.appendChild(iconDiv);
+      span.innerText = '0%';
       div.appendChild(span);
       return div;
     }
@@ -734,7 +739,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
-        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate)
+        isLatestQuarter: isLatestQuarterDate()
       }
 
       // 종목명 검색조건 추가
@@ -838,7 +843,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
-        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
+        isLatestQuarter: isLatestQuarterDate(),
         itemStatus: 1
       },
       eId: 'newTransferGrid',
@@ -909,7 +914,7 @@ const main = (function() {
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
         profileType: global.selectedProfileType,
-        isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
+        isLatestQuarter: isLatestQuarterDate(),
         itemStatus: 2 // 전량매도
       },
       eId: 'soldOutGrid',
@@ -1066,7 +1071,7 @@ const main = (function() {
       orderBy: [{column: 'viewWeight', desc: true}],
       selectedQuarterDate: global.selectedQuarterDate,
       profileType: global.selectedProfileType,
-      isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
+      isLatestQuarter: isLatestQuarterDate(),
       schType: 2,
       schWord: global.selectedItemCode
     }
@@ -1143,8 +1148,8 @@ const main = (function() {
 
   // 왼쪽 종목코드 클릭 차트
   function initLeftItemCodeChart() {
+    removeRefreshTimer(); // 타이머 해제
     getLeftItemCodeChartInfo(function(response) {
-
       // 분기에 Q 값 표시
       response['categories'] = response['categories'].map(function(e) { return e + 'Q'; });
 
@@ -1170,7 +1175,7 @@ const main = (function() {
           },
           toolbox: {
             show: true,
-            left: '85%',
+            left: '63%',
             feature: {
               dataZoom: {
                 yAxisIndex: 'none'
@@ -1202,7 +1207,7 @@ const main = (function() {
             }
           },
           yAxis:  {
-            type: 'value',
+            type: 'value'
           },
           series: cmmUtils.isEmpty(response['seriesList']) ? [] : createSeriesArr(response['seriesList'])
         }
@@ -1245,7 +1250,11 @@ const main = (function() {
       series.push({
         name: '합계',
         type: 'line',
+        itemStyle: {
+          color: '#d2d2d2'
+        },
         lineStyle: {
+          color: '#d2d2d2',
           type: 'dashed' // 'dotted', 'solid'
         },
         data: lineData
@@ -1255,6 +1264,7 @@ const main = (function() {
   }
 
   function initRightItemCodeChart() {
+    removeRefreshTimer();
     getRightItemCodeChartInfo(function(response) {
       // 미공시 데이터를 추가로 가공함
       const modifiedChartData = cmmUtils.addUnknownQuarters(response.categories, response.seriesList[0].data, global.selectedQuarterDate);
@@ -1276,6 +1286,7 @@ const main = (function() {
           },
           toolbox: {
             show: true,
+            left: '76%',
             feature: {
               dataZoom: {
                 yAxisIndex: 'none'
@@ -1335,11 +1346,13 @@ const main = (function() {
   }
 
   function closeStackChartModal() {
+    runRefreshTimer();
     document.getElementById('selStackChartFilter')[0].selected = true;
     cmmUtils.closeModal('stackChartModal');
   }
 
   function closeColLineChartModal() {
+    runRefreshTimer();
     document.getElementById('selLineChartFilter')[0].selected = true;
     global.selectedStackChartGridProfileId = null; // 왼쪽 차트 모달 그리드에서 선택했던 프로필 아이디 초기화
     cmmUtils.closeModal('colLineChartModal');
@@ -2043,7 +2056,7 @@ const main = (function() {
 
     // 현재는 해외만.. 국내는 새로고침이 의미가 없어서 제거
     if (global.selectedProfileType === '2') {
-      removeRefreshInterval(); // 타이머 해제
+      removeRefreshTimer(); // 타이머 해제
       global['timerCount'] = global['resetTime'];
       global['timerObj'] = setInterval(global.refreshTimer,1000)
     } else {
@@ -2057,12 +2070,12 @@ const main = (function() {
     if (this.checked) {
       runRefreshTimer();
     } else {
-      removeRefreshInterval(); // 타이머 해제
+      removeRefreshTimer(); // 타이머 해제
     }
   }
 
   // 타이머 해제
-  function removeRefreshInterval() {
+  function removeRefreshTimer() {
     clearInterval(global.timerObj); // 타이머 해제
   }
 
@@ -2082,6 +2095,11 @@ const main = (function() {
 
   function getSearchWord() {
     return document.getElementById('schWord').value;
+  }
+
+  // 호출할 분기가 최신 분가가 맞는지 리턴
+  function isLatestQuarterDate() {
+    return global.selectedQuarterDate === global.latestQuarterDate ? 1 : 0;
   }
 
   return {
