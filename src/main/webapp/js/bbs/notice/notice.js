@@ -29,7 +29,7 @@ const main = (function() {
     html += '  </li>';
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
-    html += '      <span class="icon is-small"><i class="fas fa-flag"></i></span>';
+    html += '      <span class="icon is-small"><i class="fas fa-bullhorn"></i></span>';
     html += '      <span>공지사항</span>';
     html += '    </a>';
     html += '  </li>';

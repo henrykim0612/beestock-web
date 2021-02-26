@@ -41,9 +41,9 @@ const main = (function() {
       buyingPrice: '100px', // 평균 매수가
       currPrice: '80px', // 현재가
       fluctRate: '80px', // 등락률
-      earnRate: '140px', // 수익률
-      buyingSellingPrice: '140px', //매수매도금액
-      incsRate: '120px' // 증감률
+      earnRate: '120px', // 수익률
+      buyingSellingPrice: '120px', //매수매도금액
+      incsRate: '110px' // 증감률
     },
     visualMap: {
       show: false,
@@ -139,6 +139,7 @@ const main = (function() {
     getProfileDetails();
     initQuarterSlider();
     addSpanStarEvent();
+    initBenchmarkChart();
     initInvestIdea();
     initTooltips();
     addTabEventListener();
@@ -1786,6 +1787,11 @@ const main = (function() {
     icon.classList.add('fa-lg');
     icon.classList.add('fa-star');
     span.appendChild(icon);
+  }
+
+  // 벤치마크 지수 차트 생성
+  function initBenchmarkChart() {
+
   }
 
   // 투자 아이디어

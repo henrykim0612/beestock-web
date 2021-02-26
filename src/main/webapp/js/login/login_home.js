@@ -1,5 +1,9 @@
 const main = (function() {
 
+  function init() {
+    document.getElementById('loginId').focus();
+  }
+
   function login() {
     if (isRightPassword()) {
       const form = document.getElementById('loginForm');
@@ -30,12 +34,15 @@ const main = (function() {
   }
 
   return {
+    init: init,
     login: login,
     keyupEvent: keyupEvent
   }
 }());
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  main.init();
 
   tippy('#labelRememberMe', {
     content: '2주동안 자동 로그인 됩니다.',
