@@ -53,7 +53,13 @@
         <div class="tile is-child box">
             <div id="headerTabs" class="tabs">
                 <ul>
-                    <li id="ideaTab" name="tabs" class="is-active" data-view="barChart" data-cont-id="ideaCont">
+                    <li id="benchmarkTab" name="tabs" class="is-active" data-view="barChart" data-cont-id="benchmarkCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-chart-line"></i></span>
+                            <span>벤치마크 지수</span>
+                        </a>
+                    </li>
+                    <li id="ideaTab" name="tabs" data-view="barChart" data-cont-id="ideaCont">
                         <a>
                             <span class="icon"><i class="fas fa-lightbulb"></i></span>
                             <span>투자 아이디어</span>
@@ -73,9 +79,19 @@
                     </li>
                 </ul>
             </div>
+            <%--벤치마크지수 내용--%>
+            <div id="benchmarkCont">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div class="flex-col justify-content-center">
+                            <div id="benchmarkChart" class="is-fullwidth" style="width: 1000px; height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <%--아이디어 탭--%>
             <div id="ideaCont">
-                <div class="columns is-flex-direction-row is-justify-content-flex-end">
+                <div class="columns is-flex-direction-row is-justify-content-flex-end is-hidden">
                     <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
                         <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
                         <span>아이디어 추가</span>

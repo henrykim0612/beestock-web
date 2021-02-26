@@ -58,7 +58,7 @@
                 </a>
                 <div class="navbar-dropdown">
                     <a id="aNotice" class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice.do">
-                        <span class="icon has-text-dark mr-1"><i class="fas fa-flag"></i></span>
+                        <span class="icon has-text-dark mr-1"><i class="fas fa-bullhorn"></i></span>
                         <span id="spanNotice">공지사항</span>
                     </a>
                     <a class="navbar-item" href="${pageContext.request.contextPath}/bbs/qa.do">

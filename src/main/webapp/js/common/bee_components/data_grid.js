@@ -49,9 +49,6 @@ BeeComponents.modules.dataGrid = function(component) {
       body: body
     }, function (response) {
 
-      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
-      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
-
       props['data'] = response; // 결과값을 추가함
       props['rowData'] = props['data']['rowData'] != null ? props['data']['rowData'] : props['data'];
 
@@ -91,6 +88,10 @@ BeeComponents.modules.dataGrid = function(component) {
       if (props['success'] != null) {
         props['success'](response, me);
       }
+
+      if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
+      if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
+
     });
 
   }
@@ -127,6 +128,8 @@ BeeComponents.modules.dataGrid = function(component) {
       if (col['isHidden'] == null || !col['isHidden']) {
         const th = document.createElement('th');
         const div = document.createElement('div');
+        div.classList.add('flex-row');
+        div.classList.add('justify-content-center');
 
         // Excel
         if (col['isExcel'] != null && col['isExcel']) {
@@ -137,10 +140,12 @@ BeeComponents.modules.dataGrid = function(component) {
         // Width
         if (col['id'] != null && col['id'] === 'rowNum') {
           th.style.width = '60px';
-        }
-        if (col['width'] != null) {
-          th.style.width = col['width'];
-          div.style.width = col['width'];
+          div.style.width = '60px';
+        } else {
+          if (col['width'] != null) {
+            th.style.width = col['width'];
+            div.style.width = col['width'];
+          }
         }
 
         div.classList.add('has-text-centered');
@@ -506,51 +511,47 @@ BeeComponents.modules.dataGrid = function(component) {
 
   component.DataGrid.prototype.createPreviousButton = function(props, fragment) {
     const data = props['data'];
-    if ( (props['isNextButton'] == null) || (props['isNextButton'] != null && props['isNextButton']) ) {
-      if (data['curPage'] !== 1) {
-        const button = document.createElement('button');
-        button.classList.add('button');
-        button.classList.add('pagination-previous');
-        button.setAttribute('data-custom', 'pageAnchor');
-        button.setAttribute('data-page', data['prevPage']);
-        const iconSpan = document.createElement('span');
-        iconSpan.classList.add('icon');
-        iconSpan.classList.add('is-small');
-        const i = document.createElement('i');
-        i.classList.add('fas');
-        i.classList.add('fa-arrow-alt-circle-left');
-        iconSpan.appendChild(i);
-        const textSpan = document.createElement('span');
-        textSpan.innerText = '이전';
-        button.appendChild(iconSpan);
-        button.appendChild(textSpan);
-        fragment.appendChild(button);
-      }
+    if (data['curPage'] !== 1) {
+      const button = document.createElement('button');
+      button.classList.add('button');
+      button.classList.add('pagination-previous');
+      button.setAttribute('data-custom', 'pageAnchor');
+      button.setAttribute('data-page', data['prevPage']);
+      const iconSpan = document.createElement('span');
+      iconSpan.classList.add('icon');
+      iconSpan.classList.add('is-small');
+      const i = document.createElement('i');
+      i.classList.add('fas');
+      i.classList.add('fa-arrow-alt-circle-left');
+      iconSpan.appendChild(i);
+      const textSpan = document.createElement('span');
+      textSpan.innerText = '이전';
+      button.appendChild(iconSpan);
+      button.appendChild(textSpan);
+      fragment.appendChild(button);
     }
   }
 
   component.DataGrid.prototype.createNextButton = function(props, fragment) {
     const data = props['data'];
-    if ( (props['isNextButton'] == null) || (props['isNextButton'] != null && props['isNextButton']) ) {
-      if (data['nextPage'] <= data['pageCnt']) {
-        const button = document.createElement('button');
-        button.classList.add('button');
-        button.classList.add('pagination-next');
-        button.setAttribute('data-custom', 'pageAnchor');
-        button.setAttribute('data-page', data['nextPage']);
-        const iconSpan = document.createElement('span');
-        iconSpan.classList.add('icon');
-        iconSpan.classList.add('is-small');
-        const i = document.createElement('i');
-        i.classList.add('fas');
-        i.classList.add('fa-arrow-alt-circle-right');
-        iconSpan.appendChild(i);
-        const textSpan = document.createElement('span');
-        textSpan.innerText = '다음';
-        button.appendChild(iconSpan);
-        button.appendChild(textSpan);
-        fragment.appendChild(button);
-      }
+    if (data['nextPage'] <= data['pageCnt']) {
+      const button = document.createElement('button');
+      button.classList.add('button');
+      button.classList.add('pagination-next');
+      button.setAttribute('data-custom', 'pageAnchor');
+      button.setAttribute('data-page', data['nextPage']);
+      const iconSpan = document.createElement('span');
+      iconSpan.classList.add('icon');
+      iconSpan.classList.add('is-small');
+      const i = document.createElement('i');
+      i.classList.add('fas');
+      i.classList.add('fa-arrow-alt-circle-right');
+      iconSpan.appendChild(i);
+      const textSpan = document.createElement('span');
+      textSpan.innerText = '다음';
+      button.appendChild(iconSpan);
+      button.appendChild(textSpan);
+      fragment.appendChild(button);
     }
   }
 
