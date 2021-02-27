@@ -98,8 +98,8 @@ const main = (function() {
     ],
     timerObj: undefined,
     // 새로고침 타이머 관련
-    resetTime: 60,
-    timerCount: 60,
+    resetTime: 120,
+    timerCount: 120,
     refreshTimer: function() {
 
       global['isRunInterval'] = true;
@@ -720,7 +720,7 @@ const main = (function() {
     }]);
     cmmUtils.setTippy([{
       selector: '.currPriceHeader',
-      content: '장 중 1분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
+      content: '장 중 ' + (global.resetTime / 60) + '분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
       allowHTML: true
     }]);
     cmmUtils.setTippy([{selector: '.bpHeader', content: '단위: 달러'}]);

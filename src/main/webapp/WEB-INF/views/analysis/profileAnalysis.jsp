@@ -90,7 +90,7 @@
                 </div>
             </div>
             <%--아이디어 탭--%>
-            <div id="ideaCont">
+            <div id="ideaCont" class="is-hidden">
                 <div class="columns is-flex-direction-row is-justify-content-flex-end is-hidden">
                     <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
                         <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
