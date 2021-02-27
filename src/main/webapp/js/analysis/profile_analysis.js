@@ -460,31 +460,30 @@ const main = (function() {
       // 최근 분기에 대해서만 등락률을 표시함
       if (row['fluctRate'] === 0) {
         const span = document.createElement('span');
-        span.innerText = row['fluctRate'] + '%';
+        span.innerText = '0%';
         div.appendChild(span);
         return div;
       } else {
         const span = document.createElement('span');
         const iconDiv = document.createElement('div');
         iconDiv.classList.add('height-24-px');
-        if (row['fluctRate'] < 0) {
-          // 하향
-          if (row['fluctRate'] < -15) {
-            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-up"></i></span>'
+        const fluctRate = parseInt(row['fluctRate']);
+        if (fluctRate < 0) { // 하향
+          if (fluctRate < -15) {
+            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-down"></i></span>'
           } else {
-            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-up"></i></span>'
+            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-down"></i></span>'
           }
           span.classList.add('has-text-info');
           span.innerText = row['fluctRate'] + '%';
-        } else {
-          // 상향
-          if (row['fluctRate'] < 15) {
+        } else { // 상향
+          if (fluctRate < 15) {
             iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-caret-up"></i></span>'
           } else {
             iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-long-arrow-alt-up"></i></span>'
           }
           span.classList.add('has-text-danger');
-          span.innerText = row['fluctRate'] + '%';
+          span.innerText = fluctRate + '%';
         }
 
         div.appendChild(iconDiv);
