@@ -98,8 +98,8 @@ const main = (function() {
     ],
     timerObj: undefined,
     // 새로고침 타이머 관련
-    resetTime: 60,
-    timerCount: 60,
+    resetTime: 120,
+    timerCount: 120,
     refreshTimer: function() {
 
       global['isRunInterval'] = true;
@@ -460,31 +460,30 @@ const main = (function() {
       // 최근 분기에 대해서만 등락률을 표시함
       if (row['fluctRate'] === 0) {
         const span = document.createElement('span');
-        span.innerText = row['fluctRate'] + '%';
+        span.innerText = '0%';
         div.appendChild(span);
         return div;
       } else {
         const span = document.createElement('span');
         const iconDiv = document.createElement('div');
         iconDiv.classList.add('height-24-px');
-        if (row['fluctRate'] < 0) {
-          // 하향
-          if (row['fluctRate'] < -15) {
-            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-up"></i></span>'
+        const fluctRate = parseInt(row['fluctRate']);
+        if (fluctRate < 0) { // 하향
+          if (fluctRate < -15) {
+            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-down"></i></span>'
           } else {
-            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-up"></i></span>'
+            iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-caret-down"></i></span>'
           }
           span.classList.add('has-text-info');
           span.innerText = row['fluctRate'] + '%';
-        } else {
-          // 상향
-          if (row['fluctRate'] < 15) {
+        } else { // 상향
+          if (fluctRate < 15) {
             iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-caret-up"></i></span>'
           } else {
             iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-long-arrow-alt-up"></i></span>'
           }
           span.classList.add('has-text-danger');
-          span.innerText = row['fluctRate'] + '%';
+          span.innerText = fluctRate + '%';
         }
 
         div.appendChild(iconDiv);
@@ -721,7 +720,7 @@ const main = (function() {
     }]);
     cmmUtils.setTippy([{
       selector: '.currPriceHeader',
-      content: '장 중 1분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
+      content: '장 중 ' + (global.resetTime / 60) + '분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
       allowHTML: true
     }]);
     cmmUtils.setTippy([{selector: '.bpHeader', content: '단위: 달러'}]);
