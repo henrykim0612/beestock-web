@@ -54,15 +54,11 @@ const cmmProfileCard = (function () {
     card.setAttribute('name', 'profileCard');
     // 카드 클릭 이벤트
     card.addEventListener('click', function(e) {
-      if (cmmUtils.nvl(global.userRole) === '') {
-        cmmUtils.goToLoginHome(); // 게스트는 로그인 페이지로
-        return false;
-      }
-      if (data['profileType'] === 1 && (global.userRole === '[ROLE_USER]' || global.userRole === '[ROLE_STANDARD]' || global.userRole === '[ROLE_PREMIUM]')) {
+      if (data['profileType'] === 1 && global.userRole !== '[ROLE_PREMIUM_PLUS]') {
         // 국내 프로필은 프리미엄 플러스만 이용가능
         cmmUtils.showModal('premiumPlusModal');
       } else {
-        const url = '/analysis/profile/' + data['profileType'] + '/' + data['profileId'];
+        const url = '/analysis/profile/details?profileType=' + data['profileType'] + '&profileId=' + data['profileId'];
         if (e.ctrlKey || e.metaKey) { // metaKey 는 맥용
           cmmUtils.openNewTab(url); // 새탭으로
         } else {

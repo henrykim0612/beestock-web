@@ -36,13 +36,8 @@
                 </div>
             </div>
 
-            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-user-tie"></i></span>프리미엄</a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/premium/itemcode.do"><span class="icon has-text-dark mr-1"><i class="fas fa-search-dollar"></i></span>종목검색</a>
-                    </div>
-                </div>
+            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM_PLUS')">
+                <a class="navbar-item" href="${pageContext.request.contextPath}/premium/plus/itemcode.do"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>종목검색</a>
             </sec:authorize>
 
             <%--구독자, 관리자 전용--%>
@@ -107,8 +102,8 @@
                                 <i class="fas fa-user-alt"></i>
                             </span>
                         </button>
-                        <sec:authorize access="hasRole('ROLE_USER')">
-                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(일반 사용자)"/>
+                        <sec:authorize access="hasRole('ROLE_BASIC')">
+                            <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(베이직 사용자)"/>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_STANDARD')">
                             <input type="hidden" id="myPageTooltip" value="<sec:authentication property="principal.userNm"/>(스탠다드 사용자)"/>

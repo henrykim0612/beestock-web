@@ -42,7 +42,7 @@
             </div>
             <div class="columns">
                 <div class="column">
-                    <sec:authorize access="hasRole('ROLE_USER')">
+                    <sec:authorize access="hasRole('ROLE_BASIC')">
                         <div class="flex-col justify-content-center">
                             <div class="flex-row">
                                 <span class="icon has-text-dark mr-2">

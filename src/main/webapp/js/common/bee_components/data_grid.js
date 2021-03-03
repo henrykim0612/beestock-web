@@ -140,11 +140,11 @@ BeeComponents.modules.dataGrid = function(component) {
         // Width
         if (col['id'] != null && col['id'] === 'rowNum') {
           th.style.width = '60px';
-          div.style.width = '60px';
+          // div.style.width = '60px';
         } else {
           if (col['width'] != null) {
             th.style.width = col['width'];
-            div.style.width = col['width'];
+            // div.style.width = col['width'];
           }
         }
 

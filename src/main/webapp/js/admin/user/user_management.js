@@ -107,7 +107,7 @@ const main = (function() {
   }
 
   function changeSelAuth() {
-    this.value !== 'ROLE_USER' ? cmmUtils.showElement('divExpDate') : cmmUtils.hideElement('divExpDate');
+    this.value !== 'ROLE_BASIC' ? cmmUtils.showElement('divExpDate') : cmmUtils.hideElement('divExpDate');
   }
 
   // 권한변경
@@ -140,7 +140,7 @@ const main = (function() {
       const option = selBox[i];
       if (option.value === roleNm) {
         option.selected = true;
-        if (roleNm !== 'ROLE_USER') {
+        if (roleNm !== 'ROLE_BASIC') {
           cmmUtils.showElement('divExpDate');
         }
       }

@@ -42,9 +42,7 @@
 
 <%--테이블 그리드--%>
 <div class="box">
-    <div class="table-container mt-3">
-        <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
-    </div>
+    <table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
     <nav id="dataPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 </div>
 

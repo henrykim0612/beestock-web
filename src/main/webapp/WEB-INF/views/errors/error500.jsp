@@ -26,7 +26,7 @@
                 </div>
                 <div class="width-50per flex-col justify-content-center">
                     <p class="title is-spaced has-text-danger-dark" style="font-size: 4rem;">500</p>
-                    <p class="subtitle is-3">서버와 통신도중 문제가 발생했습니다.</p>
+                    <p class="subtitle is-3">서버 에러가 발생했습니다.<br/>불편을 드려 죄송합니다.</p>
                     <div class="flex-row justify-content-start">
                         <div class="buttons mt-5">
                             <button class="button" onclick="cmmUtils.goToPage('/home/dashboard')">

@@ -28,7 +28,7 @@
     <div class="flex-row justify-content-end width-50per">
         <div class="tags has-addons is-small">
             <span class="tag is-dark">version</span>
-            <span class="tag is-success">1.2.8</span>
+            <span class="tag is-success">1.2.9</span>
         </div>
     </div>
 </div>
@@ -46,7 +46,7 @@
             <a id="tabInAnchor">
                 <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
                 <span>국내</span>
-                <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_STANDARD')">
+                <sec:authorize access="hasAnyRole('ROLE_BASIC', 'ROLE_STANDARD')">
                     <span class="badge is-danger is-top-right">Premium Plus</span>
                 </sec:authorize>
             </a>

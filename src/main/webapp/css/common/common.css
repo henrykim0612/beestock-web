@@ -375,7 +375,7 @@ table tfoot th {
 	color: limegreen;
 }
 
-.badge {
+#spanAlarm {
 	z-index: 99999;
 }
 

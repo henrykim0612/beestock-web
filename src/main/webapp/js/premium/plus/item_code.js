@@ -56,7 +56,7 @@ const main = (function () {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-user-tie" aria-hidden="true"></i></span>';
-    html += '      <span>Premium</span>';
+    html += '      <span>Premium Plus</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';
@@ -100,7 +100,7 @@ const main = (function () {
     anchor.classList.add('mr-3');
     anchor.addEventListener('click', function() {
       global['selectedProfileId'] = row['profileId'];
-      const url = '/analysis/profile/' + row['profileType'] + '/' + row['profileId'] + '?quarterDate=' + global.selectedQuarterDate;
+      const url = '/analysis/profile/details?profileType=' + row['profileType'] + '&profileId=' + row['profileId'] + '&quarterDate=' + global.selectedQuarterDate;
       cmmUtils.goToPage(url);
     });
 
