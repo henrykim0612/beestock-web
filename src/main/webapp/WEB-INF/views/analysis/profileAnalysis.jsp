@@ -5,6 +5,7 @@
 <input type="hidden" id="profileId" value="${profileVo.profileId}"/>
 <input type="hidden" id="profileType" value="${profileVo.profileType}"/>
 <input type="hidden" id="paramQuarterDate" value="${paramQuarterDate}"/>
+<input type="hidden" id="limitQuarter" value="${limitQuarter}"/>
 
 <div class="flex-row justify-content-end mb-2">
     <div>
@@ -35,9 +36,11 @@
                 </div>
                 <div class="card-content">
                     <div class="media">
-                        <div class="media-left">
-                            <span id="spanStar" class="icon has-text-warning cursor"></span>
-                        </div>
+                        <sec:authorize access="isAuthenticated()">
+                            <div class="media-left">
+                                <span id="spanStar" class="icon has-text-warning cursor"></span>
+                            </div>
+                        </sec:authorize>
                         <div class="media-content">
                             <p id="profileTitle" class="title is-6"></p>
                         </div>
@@ -53,25 +56,21 @@
         <div class="tile is-child box">
             <div id="headerTabs" class="tabs">
                 <ul>
-                    <li id="benchmarkTab" name="tabs" class="is-active" data-view="barChart" data-cont-id="benchmarkCont">
+                    <li id="benchmarkTab" name="tabs" class="is-active" data-cont-id="benchmarkCont">
                         <a>
-                            <span class="icon"><i class="fas fa-chart-line"></i></span>
+                            <span class="icon"><i class="fas fa-gem"></i></span>
                             <span>벤치마크 지수</span>
                         </a>
                     </li>
-                    <li id="ideaTab" name="tabs" data-view="barChart" data-cont-id="ideaCont">
-                        <a>
-                            <span class="icon"><i class="fas fa-lightbulb"></i></span>
-                            <span>투자 아이디어</span>
-                        </a>
-                    </li>
-<%--                    <li id="introTab" name="tabs" data-view="grid" data-cont-id="introCont">--%>
-<%--                        <a>--%>
-<%--                            <span class="icon"><i class="fas fa-id-badge"></i></span>--%>
-<%--                            <span>소개</span>--%>
-<%--                        </a>--%>
-<%--                    </li>--%>
-                    <li id="linkTab" name="tabs" data-view="grid" data-cont-id="linkCont">
+                    <sec:authorize access="isAuthenticated()">
+                        <li id="ideaTab" name="tabs" data-cont-id="ideaCont">
+                            <a>
+                                <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                                <span>투자 아이디어</span>
+                            </a>
+                        </li>
+                    </sec:authorize>
+                    <li id="linkTab" name="tabs" data-cont-id="linkCont">
                         <a>
                             <span class="icon"><i class="fas fa-link"></i></span>
                             <span>참고자료</span>
@@ -84,36 +83,30 @@
                 <div class="columns">
                     <div class="column is-full">
                         <div class="flex-col justify-content-center">
-                            <div id="benchmarkChart" class="is-fullwidth" style="width: 1000px; height: 300px;"></div>
+                            <div id="benchmarkChart" class="is-fullwidth" style="width: 950px; height: 350px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <%--아이디어 탭--%>
-            <div id="ideaCont" class="is-hidden">
-                <div class="columns is-flex-direction-row is-justify-content-flex-end is-hidden">
-                    <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
-                        <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
-                        <span>아이디어 추가</span>
-                    </button>
-                </div>
-                <div class="columns">
-                    <div class="column is-full height250px">
-                        <div class="table-container mt-3">
-                            <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+            <sec:authorize access="isAuthenticated()">
+                <%--아이디어 탭--%>
+                <div id="ideaCont" class="is-hidden">
+                    <div class="columns is-flex-direction-row is-justify-content-flex-end">
+                        <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
+                            <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
+                            <span>아이디어 추가</span>
+                        </button>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-full height250px">
+                            <div class="table-container mt-3">
+                                <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+                            </div>
+                            <nav id="ideaPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
                         </div>
-                        <nav id="ideaPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
                     </div>
                 </div>
-            </div>
-            <%--소개 탭--%>
-<%--            <div id="introCont" class="is-hidden">--%>
-<%--                <div class="columns">--%>
-<%--                    <div class="column is-full">--%>
-<%--                        <div id="profileInfo"></div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
+            </sec:authorize>
             <%--참고링크 탭--%>
             <div id="linkCont" class="is-hidden">
                 <div class="columns">
@@ -210,25 +203,27 @@
             </div>
         </div>
         <div class="flex-row width-50-p justify-content-end">
-            <%--분기조정 스피너--%>
-            <div class="spinnerDiv flex-row justify-content-center mr-3">
-                <div>
-                    <button class="button is-small spinner-minus">
-                        <span class="icon is-small"><i class="fas fa-minus"></i></span>
-                    </button>
+            <sec:authorize access="hasAnyRole('ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
+                <%--분기조정 스피너--%>
+                <div class="spinnerDiv flex-row justify-content-center mr-3">
+                    <div>
+                        <button class="button is-small spinner-minus">
+                            <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                    </div>
+                    <div>
+                        <button class="button is-small spinner-plus">
+                            <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </div>
                 </div>
-                <div class="control">
-                    <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                <div class="flex-col justify-content-center mr-1">
+                    <p name="spinnerTitle" class="title is-6 mr-5"></p>
                 </div>
-                <div>
-                    <button class="button is-small spinner-plus">
-                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-col justify-content-center mr-2">
-                <p name="spinnerTitle" class="title is-6 mr-5"></p>
-            </div>
+            </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="flex-col justify-content-center">
                         <%--엑셀 다운로드--%>
@@ -250,25 +245,27 @@
 <%--            <span id="tab2Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
         </div>
         <div class="flex-row width-50-p justify-content-end">
-            <%--분기조정 스피너--%>
-            <div class="spinnerDiv flex-row justify-content-center mr-3">
-                <div>
-                    <button class="button is-small spinner-minus">
-                        <span class="icon is-small"><i class="fas fa-minus"></i></span>
-                    </button>
+            <sec:authorize access="hasAnyRole('ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
+                <%--분기조정 스피너--%>
+                <div class="spinnerDiv flex-row justify-content-center mr-3">
+                    <div>
+                        <button class="button is-small spinner-minus">
+                            <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                    </div>
+                    <div>
+                        <button class="button is-small spinner-plus">
+                            <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </div>
                 </div>
-                <div class="control">
-                    <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                <div class="flex-col justify-content-center mr-2">
+                    <p name="spinnerTitle" class="title is-6 mr-5"></p>
                 </div>
-                <div>
-                    <button class="button is-small spinner-plus">
-                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-col justify-content-center mr-2">
-                <p name="spinnerTitle" class="title is-6 mr-5"></p>
-            </div>
+            </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="flex-col justify-content-center">
                         <%--엑셀 다운로드--%>
@@ -287,25 +284,27 @@
 <%--            <span id="tab3Help" class="icon has-text-warning cursor"><i class="fas fa-lg fa-info-circle"></i></span>--%>
         </div>
         <div class="flex-row width-50-p justify-content-end">
-            <%--분기조정 스피너--%>
-            <div class="spinnerDiv flex-row justify-content-center mr-3">
-                <div>
-                    <button class="button is-small spinner-minus">
-                        <span class="icon is-small"><i class="fas fa-minus"></i></span>
-                    </button>
+            <sec:authorize access="hasAnyRole('ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS', 'ROLE_ADMIN')">
+                <%--분기조정 스피너--%>
+                <div class="spinnerDiv flex-row justify-content-center mr-3">
+                    <div>
+                        <button class="button is-small spinner-minus">
+                            <span class="icon is-small"><i class="fas fa-minus"></i></span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                    </div>
+                    <div>
+                        <button class="button is-small spinner-plus">
+                            <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                        </button>
+                    </div>
                 </div>
-                <div class="control">
-                    <input class="spinner input is-small spinner-count" type="text" value="1" maxLength="3" data-idx="0"/>
+                <div class="flex-col justify-content-center mr-2">
+                    <p name="spinnerTitle" class="title is-6 mr-5"></p>
                 </div>
-                <div>
-                    <button class="button is-small spinner-plus">
-                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-col justify-content-center mr-2">
-                <p name="spinnerTitle" class="title is-6 mr-5"></p>
-            </div>
+            </sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="flex-col justify-content-center">
                         <%--엑셀 다운로드--%>

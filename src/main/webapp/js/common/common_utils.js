@@ -8,7 +8,7 @@ const cmmUtils = (function () {
   function axiosGet(props, callback) {
     if (props['loading'] != null) showLoadingElement(document.getElementById(props['loading']));
     if (props['isPageLoader'] != null && props['isPageLoader']) showPageLoader();
-    axios({url: CONTEXT_PATH + props['url'] + '.do', method: 'get', timeout: 180000})
+    axios({url: CONTEXT_PATH + props['url'] + '.do', method: 'get', params: props.params != null ? props.params : {}, timeout: 180000})
       .then(function(response) {
         verifyResponse(response);
         if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
@@ -44,7 +44,7 @@ const cmmUtils = (function () {
     if (props['isPageLoader'] != null && props['isPageLoader']) showPageLoader();
     let response = null;
     try {
-      response = await axios({url: CONTEXT_PATH + props['url'] + '.do', method: 'get', timeout: 180000});
+      response = await axios({url: CONTEXT_PATH + props['url'] + '.do', method: 'get', params: props.params != null ? props.params : {}, timeout: 180000});
       verifyResponse(response);
       if (props['loading'] != null) cmmUtils.hideLoadingElement(document.getElementById(props['loading']));
       if (props['isPageLoader'] != null && props['isPageLoader']) cmmUtils.hidePageLoader();
@@ -759,7 +759,8 @@ const cmmUtils = (function () {
         goToPage('/bbs/qa/' + linkId);
         break;
       case 'M0003': // 포트폴리오
-        goToPage('/analysis/profile/' + linkId);
+        // 알람을 만들때 linkId 는 ?profileType=x&profileId=xx 형태임
+        goToPage('/analysis/profile/details' + linkId);
         break;
     }
   }
@@ -1058,45 +1059,46 @@ const cmmUtils = (function () {
   }
 
   function initSpinner(callback) {
-
     const spinnerDivs = document.getElementsByClassName('spinnerDiv');
-    const len = spinnerDivs.length;
-    // 스피너 개수만큼
-    for (let i = 0; i < len; i++) {
+    if (spinnerDivs.length) {
+      const len = spinnerDivs.length;
+      // 스피너 개수만큼
+      for (let i = 0; i < len; i++) {
 
-      const spinnerDiv = spinnerDivs[i];
-      const btnMinus = spinnerDiv.querySelector('.spinner-minus');
-      const btnPlus = spinnerDiv.querySelector('.spinner-plus');
-      const counter = spinnerDiv.querySelector('.spinner-count');
+        const spinnerDiv = spinnerDivs[i];
+        const btnMinus = spinnerDiv.querySelector('.spinner-minus');
+        const btnPlus = spinnerDiv.querySelector('.spinner-plus');
+        const counter = spinnerDiv.querySelector('.spinner-count');
 
-      btnMinus.addEventListener('click', function() {
-        let value = parseInt(counter.value) - 1;
-        for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
-          value = value > 0 ? value : 1;
-          spinnerDivs[j].querySelector('.spinner-count').value = value;
-        }
-        callback(value, counter.dataset.idx);
-      });
-      btnPlus.addEventListener('click', function() {
-        let value = parseInt(counter.value) + 1;
-        value = value > 0 ? value : 1
-        for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
-          spinnerDivs[j].querySelector('.spinner-count').value = value;
-        }
-        callback(value, counter.dataset.idx);
-      });
-      counter.addEventListener('keyup', function() {
-        const regexp = /^[0-9]*$/ // 숫자만
-        let value = this.value;
-        if (!value) value = 1;
-        if( !regexp.test(value) ) {
-          value = 1;
-        }
-        for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
-          spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
-        }
-        callback(value, this.dataset.idx);
-      });
+        btnMinus.addEventListener('click', function() {
+          let value = parseInt(counter.value) - 1;
+          for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
+            value = value > 0 ? value : 1;
+            spinnerDivs[j].querySelector('.spinner-count').value = value;
+          }
+          callback(value, counter.dataset.idx);
+        });
+        btnPlus.addEventListener('click', function() {
+          let value = parseInt(counter.value) + 1;
+          value = value > 0 ? value : 1
+          for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
+            spinnerDivs[j].querySelector('.spinner-count').value = value;
+          }
+          callback(value, counter.dataset.idx);
+        });
+        counter.addEventListener('keyup', function() {
+          const regexp = /^[0-9]*$/ // 숫자만
+          let value = this.value;
+          if (!value) value = 1;
+          if( !regexp.test(value) ) {
+            value = 1;
+          }
+          for (let j = 0; j < len; j++) { // 다른 스피너와 값 동기화
+            spinnerDivs[j].querySelector('.spinner-count').value = value > 0 ? value : 1;
+          }
+          callback(value, this.dataset.idx);
+        });
+      }
     }
   }
 
@@ -1136,6 +1138,11 @@ const cmmUtils = (function () {
   function hasKoreanWord(value) {
     const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     return korean.test(value);
+  }
+
+  function getRole() {
+    const auth = document.getElementById('authority');
+    return auth != null ? auth : null;
   }
 
   return {
@@ -1210,6 +1217,7 @@ const cmmUtils = (function () {
     convertDotText: convertDotText,
     isLatestQuarter: isLatestQuarter,
     isEmptyObject: isEmptyObject,
-    hasKoreanWord: hasKoreanWord
+    hasKoreanWord: hasKoreanWord,
+    getRole: getRole
   }
 })();

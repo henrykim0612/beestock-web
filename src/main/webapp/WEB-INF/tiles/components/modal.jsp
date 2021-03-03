@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%--페이지 로더--%>
 <div id="pageLoader" class="pageloader is-white"><span class="title"></span></div>
@@ -128,7 +129,10 @@
                 <nav class="level">
                     <div class="level-item has-text-centered">
                         <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
+                            <sec:authorize access="isAuthenticated()">
+                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            </sec:authorize>
                             <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">확인</button>
                         </div>
                     </div>
@@ -154,7 +158,10 @@
                 <nav class="level">
                     <div class="level-item has-text-centered">
                         <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
+                            <sec:authorize access="isAuthenticated()">
+                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            </sec:authorize>
                             <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumModal')">확인</button>
                         </div>
                     </div>
@@ -180,7 +187,10 @@
                 <nav class="level">
                     <div class="level-item has-text-centered">
                         <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
+                            <sec:authorize access="isAuthenticated()">
+                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            </sec:authorize>
                             <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">확인</button>
                         </div>
                     </div>
@@ -212,7 +222,10 @@
                 <nav class="level">
                     <div class="level-item has-text-centered">
                         <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
+                            <sec:authorize access="isAuthenticated()">
+                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
+                            </sec:authorize>
                             <button class="button is-dark is-small" onclick="cmmUtils.closeModal('guideModal')">확인</button>
                         </div>
                     </div>

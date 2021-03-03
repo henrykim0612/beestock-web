@@ -87,7 +87,7 @@ const main = (function() {
 
     const profileTitleAnchor = function(anchor, col, row) {
       anchor.addEventListener('click', function() {
-        const url = '/analysis/profile/' + row['profileType'] + '/' + row['profileId'];
+        const url = '/analysis/profile/details?profileType=' + row['profileType'] + '&profileId=' + row['profileId'];
         cmmUtils.goToPage(url);
       })
     }

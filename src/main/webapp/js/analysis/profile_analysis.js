@@ -130,6 +130,7 @@ const main = (function() {
   let rightItemCodeChart = undefined;
   let clipboard = undefined;
   let stackChartGrid = undefined; // 왼쪽 차트모달 그리드
+  let benchmarkChart = undefined;
 
   function init() {
     createBreadCrumb();
@@ -139,7 +140,6 @@ const main = (function() {
     getProfileDetails();
     initQuarterSlider();
     addSpanStarEvent();
-    initBenchmarkChart();
     initInvestIdea();
     initTooltips();
     addTabEventListener();
@@ -200,9 +200,11 @@ const main = (function() {
 
   function setSpinnerTitle() {
     const titleArr = document.getElementsByName('spinnerTitle');
-    const len = titleArr.length;
-    for (let i = 0; i < len; i++) {
-      titleArr[i].innerHTML = '<span class="is-green mr-2">A</span><span>' + global.selectedQuarterDate + '</span>';
+    if (titleArr.length) {
+      const len = titleArr.length;
+      for (let i = 0; i < len; i++) {
+        titleArr[i].innerHTML = '<span class="is-green mr-2">A</span><span>' + global.selectedQuarterDate + '</span>';
+      }
     }
   }
 
@@ -228,13 +230,14 @@ const main = (function() {
   function createQuarterSlider(response) {
     const fragment = document.createDocumentFragment();
     const len = response.length;
+    const limitQuarter = parseInt(document.getElementById('limitQuarter').value);
     for (let i = 0; i < len; i++) {
       // 첫번째 분기는 해당 프로필의 가장 최신 분기값이됨
       global.latestQuarterDate = response[0].quarterDate;
       // 비어있는 분기를 확인함
       createDummyQuarter(i, response, fragment);
       // 존재하는 분기생성
-      createExistedQuarter(response[i], fragment, i);
+      createExistedQuarter(response[i], fragment, i, limitQuarter);
     }
     const quarterCont = document.getElementById('quarterCont');
     quarterCont.appendChild(fragment);
@@ -279,11 +282,17 @@ const main = (function() {
     }
   }
 
-  function createExistedQuarter(quarter, fragment, idx) {
+  function createExistedQuarter(quarter, fragment, idx, limitQuarter) {
     // 슬라이드 생성
     const slide = document.createElement('div');
     slide.classList.add('swiper-slide');
     const button = document.createElement('button');
+
+    // 게스트, 베이직 사용자는 제한된 분기밖에 이용할 수 없음
+    if (limitQuarter !== -1 && (limitQuarter - 1) < idx) {
+      button.disabled = true;
+    }
+
     button.classList.add('button');
     // button.classList.add('is-small');
     button.classList.add('is-dark');
@@ -406,7 +415,8 @@ const main = (function() {
   }
 
   // 보유수량
-  function customQuantity(col, row) {
+  function customQuantity(col, row, thOrTd, props) {
+    const roleNm = props.data.roleNm;
 
     const div = document.createElement('div');
     div.classList.add('flex-row');
@@ -420,7 +430,14 @@ const main = (function() {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span>'
+
+    if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
+      // 차트 아이콘
+      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span>'
+    } else {
+      // 프리미엄 이상만 이용 가능함
+      chartDiv.innerHTML = '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
+    }
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -428,8 +445,9 @@ const main = (function() {
   }
 
   // 평균 매수가
-  function customBp(col, row) {
+  function customBp(col, row, thOrTd, props) {
 
+    const roleNm = props.data.roleNm;
     const div = document.createElement('div');
     div.classList.add('flex-row');
     div.classList.add('justify-content-end');
@@ -442,7 +460,14 @@ const main = (function() {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3)"><i class="fas fa-chart-line"></i></span>'
+
+    if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
+      // 차트 아이콘
+      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3)"><i class="fas fa-chart-line"></i></span>'
+    } else {
+      // 프리미엄 이상만 이용 가능함
+      chartDiv.innerHTML = '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
+    }
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -551,7 +576,7 @@ const main = (function() {
       lockDiv.classList.add('flex-row');
       lockDiv.classList.add('justify-content-center');
       lockDiv.classList.add('height-24-px');
-      lockDiv.innerHTML = '<span class="icon cursor" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>'
+      lockDiv.innerHTML = '<span class="icon cursor has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>'
       return lockDiv;
 
     }
@@ -592,7 +617,7 @@ const main = (function() {
           html = html + '<span class="icon cursor hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span></div>';
         } else {
           // 프리미엄 이상만 이용 가능함
-          html = html + '<span class="icon cursor hover-sub" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
+          html = html + '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
         }
       }
     }
@@ -706,18 +731,35 @@ const main = (function() {
     let html = '';
     html = html + '<div class="flex-row">';
     html = html + '  <div class="flex-col justify-content-center">';
-    html = html + '    <p class="title is-6 cpTitle"><span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span></p>';
+
+    if (document.getElementById('authority') != null
+      && document.getElementById('authority').value !== '[ROLE_BASIC]'
+      && document.getElementById('authority').value !== '[ROLE_STANDARD]') {
+
+      html = html + '    <p class="title is-6 cpTitle"><span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span></p>';
+
+    } else {
+      html = html + '    <p class="title is-6 cpTitle"><span>' + global['comparisonQuarterDate'] + '</span></p>';
+    }
+
     html = html + '  </div>';
     html = html + '</div>';
     return html;
   }
 
   function setGridTooptips() {
-    cmmUtils.setTippy([{
-      selector: '.sphDiv',
-      content: '<span class="is-green mr-2">A</span>와 <span class="is-orange">B</span> 기간의 주식수량을 비교하여 증감율을 표시합니다.',
-      allowHTML: true
-    }]);
+
+    if (document.getElementById('authority') != null
+      && document.getElementById('authority').value !== '[ROLE_BASIC]'
+      && document.getElementById('authority').value !== '[ROLE_STANDARD]') {
+
+      cmmUtils.setTippy([{
+        selector: '.sphDiv',
+        content: '<span class="is-green mr-2">A</span>와 <span class="is-orange">B</span> 기간의 주식수량을 비교하여 증감율을 표시합니다.',
+        allowHTML: true
+      }]);
+    }
+
     cmmUtils.setTippy([{
       selector: '.currPriceHeader',
       content: '장 중 ' + (global.resetTime / 60) + '분마다 최신 현재주가를 반영하여<br/>비중, 수익률이 재계산됩니다.<br/>※ 국내는 서비스 준비중 입니다.',
@@ -791,9 +833,17 @@ const main = (function() {
           } else {
             const cpTitleArr = document.getElementsByClassName('cpTitle');
             const len = cpTitleArr.length;
-            for (let i = 0; i < len; i++) {
-              cpTitleArr[i].innerHTML = '<span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span>';
+
+            if (document.getElementById('authority') != null
+              && document.getElementById('authority').value !== '[ROLE_BASIC]'
+              && document.getElementById('authority').value !== '[ROLE_STANDARD]') {
+
+              for (let i = 0; i < len; i++) {
+                cpTitleArr[i].innerHTML = '<span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span>';
+              }
+
             }
+
           }
           global['isInitialedSpinner'] = true;
           runRefreshTimer();
@@ -818,7 +868,7 @@ const main = (function() {
         html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
       } else {
         // 프리미엄 이상만 이용 가능함
-        html = html + '<span class="icon cursor hover-sub" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
+        html = html + '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
       }
 
       html = html + '</div>';
@@ -889,7 +939,7 @@ const main = (function() {
         html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
       } else {
         // 프리미엄 이상만 이용 가능함
-        html = html + '<span class="icon cursor hover-sub" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
+        html = html + '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
       }
 
       html = html + '</div>';
@@ -1058,15 +1108,14 @@ const main = (function() {
       lockDiv.classList.add('flex-row');
       lockDiv.classList.add('justify-content-center');
       lockDiv.classList.add('height-24-px');
-      lockDiv.innerHTML = '<span class="icon cursor" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>'
+      lockDiv.innerHTML = '<span class="icon cursor has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>'
       return lockDiv;
 
     }
   }
 
-
   // 왼쪽 차트모달 그리드
- function initStackChartGrid() {
+  function initStackChartGrid() {
     const body = {
       orderBy: [{column: 'viewWeight', desc: true}],
       selectedQuarterDate: global.selectedQuarterDate,
@@ -1099,7 +1148,6 @@ const main = (function() {
     }
     stackChartGrid = new COMPONENTS.DataGrid(props);
   }
-
 
   function setLeftChartModalTitle() {
     if (80 < global['selectedItemName'].length) {
@@ -1209,7 +1257,7 @@ const main = (function() {
           yAxis:  {
             type: 'value'
           },
-          series: cmmUtils.isEmpty(response['seriesList']) ? [] : createSeriesArr(response['seriesList'])
+          series: cmmUtils.isEmpty(response['seriesList']) ? [] : createLeftChartSeries(response['seriesList'])
         }
       };
 
@@ -1220,47 +1268,48 @@ const main = (function() {
         leftItemCodeChart = new COMPONENTS.Chart(props);
       }
     })
+  }
 
-    function createSeriesArr(dataArr) {
-      let series = [];
-      let lineData = [];
-      for (let i = 0; i < dataArr[0].data.length; i++) {
-        lineData[i] = 0; //초기화
-      }
-      for (let i = 0; i < dataArr.length; i++) {
-        const seriesData = dataArr[i];
-        series.push({
-          name: seriesData.name,
-          type: 'bar',
-          stack: 'stack',
-          barWidth: '20px',
-          label: {
-            show: false,
-            position: 'insideRight'
-          },
-          data: seriesData.data
-        })
-
-        // 라인차트 데이터
-        for (let j = 0; j < lineData.length; j++) {
-          lineData[j] = lineData[j] + seriesData.data[j] // 누적
-        }
-      }
-      // 라인차트 추가
-      series.push({
-        name: '합계',
-        type: 'line',
-        itemStyle: {
-          color: '#d2d2d2'
-        },
-        lineStyle: {
-          color: '#d2d2d2',
-          type: 'dashed' // 'dotted', 'solid'
-        },
-        data: lineData
-      })
-      return series;
+  function createLeftChartSeries(dataArr) {
+    let series = [];
+    let lineData = [];
+    for (let i = 0; i < dataArr[0].data.length; i++) {
+      lineData[i] = 0; //초기화
     }
+    for (let i = 0; i < dataArr.length; i++) {
+      const seriesData = dataArr[i];
+      series.push({
+        name: seriesData.name,
+        type: 'bar',
+        stack: 'stack',
+        barWidth: '20px',
+        label: {
+          show: false,
+          position: 'insideRight'
+        },
+        data: seriesData.data
+      })
+
+      // 라인차트 데이터
+      for (let j = 0; j < lineData.length; j++) {
+        lineData[j] = lineData[j] + seriesData.data[j] // 누적
+      }
+    }
+    // 라인차트 추가
+    series.push({
+      name: '합계',
+      type: 'line',
+      showSymbol: false,
+      itemStyle: {
+        color: '#d2d2d2'
+      },
+      lineStyle: {
+        color: '#d2d2d2',
+        type: 'solid' // 'dotted', 'solid'
+      },
+      data: lineData
+    })
+    return series;
   }
 
   function initRightItemCodeChart() {
@@ -1311,7 +1360,7 @@ const main = (function() {
             type: 'value',
           },
           visualMap: global.visualMap,
-          series: createSeriesArr(response.seriesList[0].name, modifiedChartData)
+          series: createRightChartSeries(response.seriesList[0].name, modifiedChartData)
         }
       };
       if (!!rightItemCodeChart) {
@@ -1323,7 +1372,7 @@ const main = (function() {
     })
   }
 
-  function createSeriesArr(name, modifiedChartData) {
+  function createRightChartSeries(name, modifiedChartData) {
     return [
       {
         name: name,
@@ -1332,6 +1381,7 @@ const main = (function() {
           show: false,
           position: 'insideRight'
         },
+        showSymbol: false,
         data: modifiedChartData.data,
         markArea: {
           silent: true,
@@ -1524,6 +1574,7 @@ const main = (function() {
           },
           toolbox: {
             show: true,
+            right: '3%',
             feature: {
               dataZoom: {
                 yAxisIndex: 'none'
@@ -1541,7 +1592,7 @@ const main = (function() {
           },
           grid: {
             left: '1%',
-            // right: '5%',
+            right: '3%',
             // bottom: '1%',
             containLabel: true
           },
@@ -1571,7 +1622,7 @@ const main = (function() {
           series: [
             {
               type: 'bar',
-              barWidth: '20px',
+              // barWidth: '20px',
               // color: '#001852',
               label: {
                 show: true,
@@ -1689,10 +1740,16 @@ const main = (function() {
     global['profileTitle'] = profileTitle;
     // Information
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
-    // initProfileInfo(data);
+    console.log(data);
+    // 참고자료 링크
     initProfileLink(data);
+    // 벤치마크 지수
+    initBenchmarkChart(data['profileId'], data['profileType'], data['profileTitle']);
+
     // 즐겨찾기
-    createStar(data['isFavorite']);
+    if ((data['isFavorite'])) {
+      createStar(data['isFavorite']);
+    }
   }
 
   // 포트폴리오 소개
@@ -1702,7 +1759,7 @@ const main = (function() {
     });
   }
 
-  // 포트폴리오 링크
+  // 포트폴리오 참고자료 링크
   function initProfileLink(data) {
     const profileLinkDiv = document.getElementById('profileLinkDiv');
     if (data['profileLink']) {
@@ -1759,20 +1816,22 @@ const main = (function() {
 
   // 즐겨찾기 클릭 이벤트
   function addSpanStarEvent() {
-    document.getElementById('spanStar').addEventListener('click', function() {
-      const favoriteVal = parseInt(this.getAttribute('data-favorite')) === 1 ? 2 : 1;
-      this.setAttribute('data-favorite', ''+favoriteVal);
-      cmmUtils.axiosPost({
-        url: '/api/v1/analysis/profile/favorite',
-        body: {
-          profileId: global.profileId,
-          isFavorite: favoriteVal
-        }
-      }, function (response) {
-        cmmUtils.showToast({message: favoriteVal === 1 ? '즐겨찾기 되었습니다.' : '즐겨찾기가 해제되었습니다.'});
-        createStar(favoriteVal);
-      });
-    })
+    if (cmmUtils.getRole()) {
+      document.getElementById('spanStar').addEventListener('click', function() {
+        const favoriteVal = parseInt(this.getAttribute('data-favorite')) === 1 ? 2 : 1;
+        this.setAttribute('data-favorite', ''+favoriteVal);
+        cmmUtils.axiosPost({
+          url: '/api/v1/analysis/profile/favorite',
+          body: {
+            profileId: global.profileId,
+            isFavorite: favoriteVal
+          }
+        }, function (response) {
+          cmmUtils.showToast({message: favoriteVal === 1 ? '즐겨찾기 되었습니다.' : '즐겨찾기가 해제되었습니다.'});
+          createStar(favoriteVal);
+        });
+      })
+    }
   }
 
   // 즐겨찾기
@@ -1789,45 +1848,117 @@ const main = (function() {
   }
 
   // 벤치마크 지수 차트 생성
-  function initBenchmarkChart() {
+  async function initBenchmarkChart(profileId, profileType, profileTitle) {
 
+    const response = await cmmUtils.awaitAxiosGet({
+      url: '/api/v1/analysis/profile/benchmark',
+      params: {
+        profileId: profileId,
+        profileType: profileType,
+        profileTitle: profileTitle
+      }
+    });
+
+    // 분기에 Q 값 표시
+    response['categories'] = response['categories'].map(function(e) { return e + 'Q'; });
+
+    const props = {
+      eId: 'benchmarkChart',
+      options: {
+        tooltip: {
+          trigger: 'axis',
+          confine: true,
+          axisPointer: {
+            type: 'cross',
+            axis: 'auto',
+            crossStyle: {
+              color: '#999'
+            }
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '3%',
+          containLabel: true
+        },
+        legend: {
+          data: response['legend']
+        },
+        xAxis:  {
+          type: 'category',
+          data: response['categories'],
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        yAxis:  {
+          type: 'value'
+        },
+        series: createBenchmarkSeries(response['seriesList'])
+      }
+    };
+
+    benchmarkChart = new COMPONENTS.Chart(props);
   }
+
+  function createBenchmarkSeries(dataArr) {
+    let series = [];
+    for (let i = 0; i < dataArr.length; i++) {
+      const seriesData = dataArr[i];
+      series.push({
+        name: seriesData.name,
+        type: 'line',
+        label: {
+          show: false,
+          position: 'insideRight'
+        },
+        showSymbol: false,
+        data: seriesData.data
+      })
+    }
+    return series;
+  }
+
+
 
   // 투자 아이디어
   function initInvestIdea() {
-    const ideaGridTable = document.getElementById('ideaGrid');
-    if (ideaGridTable) {
-      // 데이터 그리드
-      const ideaAnchor = function(anchor, col, row) {
-        anchor.setAttribute('data-custom', 'ideaAnchor');
-        anchor.setAttribute('data-idea-id', row['ideaId']);
-      }
-      const props = {
-        url: '/api/v1/analysis/profile/idea-list',
-        body: {
-          orderBy: [{column: 'uptDate', desc: true}],
-          profileId: global.profileId,
-          pageSize: 5 //  기본 5개로 설정
-        },
-        eId: 'ideaGrid',
-        pId: 'ideaPagination',
-        isThead: true,
-        isTfoot: false,
-        showPageSelectBox: false,
-        colModel: [
-          {id: 'ideaId', isHidden: true},
-          {id: 'ideaTitle', name: '아이디어 제목', width: '800px', isSort: true, isLink: true, userCustom: ideaAnchor},
-          {id: 'uptDate', name: '최근 수정일', width: '150px', isSort: true, align: 'center'}
-        ],
-        emptyRowMsg: '아이디어가 없습니다.',
-        success: function (data, _this) {
-          addTitleAnchorEvent(data, _this);
-        }
-      }
-      ideaGrid = new COMPONENTS.DataGrid(props);
 
-      // 에디터
-      initCKEditor();
+    if (cmmUtils.getRole() != null) {
+      const ideaGridTable = document.getElementById('ideaGrid');
+      if (ideaGridTable) {
+        // 데이터 그리드
+        const ideaAnchor = function(anchor, col, row) {
+          anchor.setAttribute('data-custom', 'ideaAnchor');
+          anchor.setAttribute('data-idea-id', row['ideaId']);
+        }
+        const props = {
+          url: '/api/v1/analysis/profile/idea-list',
+          body: {
+            orderBy: [{column: 'uptDate', desc: true}],
+            profileId: global.profileId,
+            pageSize: 5 //  기본 5개로 설정
+          },
+          eId: 'ideaGrid',
+          pId: 'ideaPagination',
+          isThead: true,
+          isTfoot: false,
+          showPageSelectBox: false,
+          colModel: [
+            {id: 'ideaId', isHidden: true},
+            {id: 'ideaTitle', name: '아이디어 제목', width: '800px', isSort: true, isLink: true, userCustom: ideaAnchor},
+            {id: 'uptDate', name: '최근 수정일', width: '150px', isSort: true, align: 'center'}
+          ],
+          emptyRowMsg: '아이디어가 없습니다.',
+          success: function (data, _this) {
+            addTitleAnchorEvent(data, _this);
+          }
+        }
+        ideaGrid = new COMPONENTS.DataGrid(props);
+
+        // 에디터
+        initCKEditor();
+      }
     }
 
     function addTitleAnchorEvent(data, _this) {
@@ -1918,6 +2049,7 @@ const main = (function() {
   // 탭 이벤트
   function addTabEventListener() {
 
+    // 상단탭
     const headerTabs = document.getElementById('headerTabs').querySelectorAll('[name=tabs]');
     for (let i = 0; i < headerTabs.length; i++) {
       // 탭 클릭 이벤트
@@ -1927,10 +2059,11 @@ const main = (function() {
         this.classList.add('is-active');
         document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
         setActiveTabInfo(this);
-        showTab();
+        // showTab();
       })
     }
 
+    // 분석 탭
     const bottomTabs = document.getElementById('bottomTabs').querySelectorAll('[name=tabs]');
     for (let i = 0; i < bottomTabs.length; i++) {
       // 탭 클릭 이벤트
@@ -2066,7 +2199,11 @@ const main = (function() {
       global['timerObj'] = setInterval(global.refreshTimer,1000)
     } else {
       // 제거
-      document.getElementById('timerDiv').remove();
+      const timerDiv = document.getElementById('timerDiv');
+      if (timerDiv) {
+        timerDiv.remove();
+      }
+
     }
 
   }

@@ -8,6 +8,7 @@ const topMain = (function() {
     initAlarmQuickView();
     initTooltips();
     checkHumanUser();
+    removeModalLoginButtons();
   }
 
   function initBurgerMenu() {
@@ -262,6 +263,16 @@ const topMain = (function() {
   function signUp() {
     cmmUtils.goToPage('/login/signup');
   }
+
+  // 모달에 붙어있는 로그인 버튼을 로그인 했을 경우에는 제거함
+  function removeModalLoginButtons() {
+    if (cmmUtils.getRole() != null) {
+      document.querySelectorAll('button[name="btnModalLogin"]').forEach(function(e) {
+        e.remove();
+      })
+    }
+  }
+
 
   return {
     init: init,

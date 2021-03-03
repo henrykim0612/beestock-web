@@ -66,17 +66,17 @@ const main = (function() {
     const colModel = document.getElementById('loginId')
       ? [
         {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
-        {name: '', type: 'custom', userCustom: pinned, width: '30px', align: 'center'},
-        {name:'', type: 'custom', userCustom: dday, width: '60px', align: 'center'},
-        {id: 'noticeTitle', name: '제목', isSort: true, width: '1000px', isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'},
-        {id: 'regDate', name: '게시일',isSort: true, width: '100px'}
+        {name: '', type: 'custom', userCustom: pinned, width: '50px', align: 'center'},
+        {name:'', type: 'custom', userCustom: dday, width: '50px', align: 'center'},
+        {id: 'noticeTitle', name: '제목', isSort: true, isLink: true, userCustom: titleAnchor, hasBadge: 'isRead', hasBadgeText: 'New'},
+        {id: 'regDate', name: '게시일',isSort: true, width: '120px', align: 'center'}
       ]
       : [
         {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
-        {name: '', type: 'custom', userCustom: pinned, width: '60px', align: 'center'},
-        {name:'', type: 'custom', userCustom: dday, width: '70px', align: 'center'},
-        {id: 'noticeTitle', name: '제목', isSort: true, width: '1000px', isLink: true, userCustom: titleAnchor},
-        {id: 'regDate', name: '게시일',isSort: true, width: '100px'}
+        {name: '', type: 'custom', userCustom: pinned, width: '50px', align: 'center'},
+        {name:'', type: 'custom', userCustom: dday, width: '50px', align: 'center'},
+        {id: 'noticeTitle', name: '제목', isSort: true, isLink: true, userCustom: titleAnchor},
+        {id: 'regDate', name: '게시일',isSort: true, width: '120px', align: 'center'}
       ];
 
     const props = {
