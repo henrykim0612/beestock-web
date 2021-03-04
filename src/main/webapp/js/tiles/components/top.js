@@ -273,6 +273,23 @@ const topMain = (function() {
     }
   }
 
+  // 피드백 전송
+  async function sendFeedback() {
+
+    const response = await cmmUtils.awaitAxiosPost({
+      url: '/api/v1/feedback/mail',
+      body: {
+        title: document.getElementById('feedbackSelBox').value,
+        content: document.getElementById('feedbackContent').value
+      }
+    });
+
+    cmmUtils.closeModal('feedbackModal')
+    if (response) {
+      cmmUtils.showModal('feedbackSuccessModal');
+    }
+
+  }
 
   return {
     init: init,
@@ -281,7 +298,8 @@ const topMain = (function() {
     login: login,
     signUp: signUp,
     initAlarmQuickView: initAlarmQuickView,
-    closeAlarmBoxAll: closeAlarmBoxAll
+    closeAlarmBoxAll: closeAlarmBoxAll,
+    sendFeedback: sendFeedback
   }
 
 }());

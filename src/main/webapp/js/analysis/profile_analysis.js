@@ -130,7 +130,7 @@ const main = (function() {
   let rightItemCodeChart = undefined;
   let clipboard = undefined;
   let stackChartGrid = undefined; // 왼쪽 차트모달 그리드
-  let benchmarkChart = undefined;
+  let fundamentalChart = undefined;
 
   function init() {
     createBreadCrumb();
@@ -1743,8 +1743,8 @@ const main = (function() {
     console.log(data);
     // 참고자료 링크
     initProfileLink(data);
-    // 벤치마크 지수
-    initBenchmarkChart(data['profileId'], data['profileType'], data['profileTitle']);
+    // Fundamental 지수
+    initFundamentalChart(data['profileId'], data['profileType'], data['profileTitle']);
 
     // 즐겨찾기
     if ((data['isFavorite'])) {
@@ -1847,11 +1847,11 @@ const main = (function() {
     span.appendChild(icon);
   }
 
-  // 벤치마크 지수 차트 생성
-  async function initBenchmarkChart(profileId, profileType, profileTitle) {
+  // Fundamental 지수 차트 생성
+  async function initFundamentalChart(profileId, profileType, profileTitle) {
 
     const response = await cmmUtils.awaitAxiosGet({
-      url: '/api/v1/analysis/profile/benchmark',
+      url: '/api/v1/analysis/profile/fundamental',
       params: {
         profileId: profileId,
         profileType: profileType,
@@ -1898,7 +1898,7 @@ const main = (function() {
       }
     };
 
-    benchmarkChart = new COMPONENTS.Chart(props);
+    fundamentalChart = new COMPONENTS.Chart(props);
   }
 
   function createBenchmarkSeries(dataArr) {

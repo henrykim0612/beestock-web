@@ -71,7 +71,7 @@ const main = (function () {
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
         {id: 'qaNo', name: '등록번호', width: '80px', align: 'center'},
-        {name: '비밀글', type: 'custom', userCustom: locker, width: '50px', align: 'center'},
+        {name: '비밀글', type: 'custom', userCustom: locker, width: '80px', align: 'center'},
         {id: 'qaTitle', name: '제목', isSort: true, width: '600px', isLink: true, userCustom: titleAnchor},
         {name: '답변상태', type: 'custom', userCustom: answerMark, width: '80px', align: 'center'},
         {id: 'regLoginId', name: '등록자', isSort: true, align: 'center', width: '200px', isExcel: true},
