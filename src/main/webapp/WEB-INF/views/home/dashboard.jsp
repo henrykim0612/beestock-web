@@ -28,7 +28,7 @@
     <div class="flex-row justify-content-end width-50per">
         <div class="tags has-addons is-small">
             <span class="tag is-dark">version</span>
-            <span class="tag is-success">1.2.9</span>
+            <span class="tag is-success">1.2.10</span>
         </div>
     </div>
 </div>

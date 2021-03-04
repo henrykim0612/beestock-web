@@ -264,7 +264,7 @@
 <div id="feedbackModal" class="modal">
     <div class="modal-background" onclick="cmmUtils.closeModal('feedbackModal')"></div>
     <div class="modal-content">
-        <article class="message is-success">
+        <article class="message is-warning">
             <div class="message-header">
                 <p>피드백 보내기</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('feedbackModal')"></button>
@@ -273,9 +273,9 @@
                 <div class="flex-row justify-content-start">
                     <div class="select is-small">
                         <select id="feedbackSelBox">
-                            <option value="1">데이터 오류신고</option>
-                            <option value="2">신규 포트폴리오 요청</option>
-                            <option value="3">기타</option>
+                            <option value="데이터 오류신고">데이터 오류신고</option>
+                            <option value="신규 프트요청">신규 포트폴리오 요청</option>
+                            <option value="기타">기타</option>
                         </select>
                     </div>
                 </div>
@@ -283,11 +283,34 @@
                     <textarea id="feedbackContent" class="textarea" placeholder="고객의 피드벡을 받아 더 좋은 사이트로 보답하겠습니다."></textarea>
                 </div>
                 <div class="flex-row justify-content-center mt-3">
-                    <button class="button is-dark is-small" onclick="">
+                    <button class="button is-dark is-small" onclick="topMain.sendFeedback()">
                         <span class="icon"><i class="fas fa-paper-plane"></i></span>
                         <span>전송</span>
                     </button>
                     <button class="button is-dark is-small ml-2" onclick="cmmUtils.closeModal('feedbackModal')">
+                        <span class="icon"><i class="fas fa-times-circle"></i></span>
+                        <span>닫기</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+
+<div id="feedbackSuccessModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('feedbackSuccessModal')"></div>
+    <div class="modal-content">
+        <article class="message is-success">
+            <div class="message-header">
+                <p>피드백 전송완료</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('feedbackSuccessModal')"></button>
+            </div>
+            <div class="message-body has-text-dark">
+                <div class="flex-row justify-content-start mt-3">
+                    <p>소중한 의견 감사합니다. 더 좋은 사이트가 되도록 노력하겠습니다.</p>
+                </div>
+                <div class="flex-row justify-content-center mt-3">
+                    <button class="button is-dark is-small ml-2" onclick="cmmUtils.closeModal('feedbackSuccessModal')">
                         <span class="icon"><i class="fas fa-times-circle"></i></span>
                         <span>닫기</span>
                     </button>

@@ -86,7 +86,7 @@
                     <sec:authorize access="isAuthenticated()">
                         <%--피드백--%>
                         <button id="spanFeedback" class="button is-black" onclick="cmmUtils.showModal('feedbackModal')">
-                            <span class="icon has-text-success is-medium has-tooltip-bottom">
+                            <span class="icon has-text-warning is-medium has-tooltip-bottom">
                                 <i class="fas fa-comment-dots"></i>
                             </span>
                         </button>
