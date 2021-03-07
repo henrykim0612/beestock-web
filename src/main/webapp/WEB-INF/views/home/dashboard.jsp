@@ -27,8 +27,10 @@
     </div>
     <div class="flex-row justify-content-end width-50per">
         <div class="tags has-addons is-small">
-            <span class="tag is-dark">version</span>
-            <span class="tag is-success">1.2.10</span>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <span class="tag is-dark">version</span>
+                <span class="tag is-success">1.2.11</span>
+            </sec:authorize>
         </div>
     </div>
 </div>

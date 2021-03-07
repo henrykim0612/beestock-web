@@ -59,7 +59,7 @@
                     <li id="benchmarkTab" name="tabs" class="is-active" data-cont-id="benchmarkCont">
                         <a>
                             <span class="icon"><i class="fas fa-gem"></i></span>
-                            <span>벤치마크 지수</span>
+                            <span>Fundamental 지수</span>
                         </a>
                     </li>
                     <sec:authorize access="isAuthenticated()">
