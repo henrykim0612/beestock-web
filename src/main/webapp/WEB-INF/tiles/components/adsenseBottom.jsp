@@ -13,7 +13,9 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
+                  window.onload = function() {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                  }
                 </script>
             </td>
             <td style="width: 50%;">
@@ -26,7 +28,9 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
+                  window.onload = function() {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                  }
                 </script>
             </td>
         </tr>
