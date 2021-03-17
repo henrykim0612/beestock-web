@@ -2,6 +2,7 @@ const topMain = (function() {
 
   function init() {
     initBurgerMenu();
+    initPageloaderPosition();
     setLayout();
     // showNoticeBadge();
     bulmaQuickview.attach();
@@ -30,6 +31,13 @@ const topMain = (function() {
         });
       });
     }
+  }
+
+  function initPageloaderPosition() {
+    const y = window.screen.height / 2;
+    const pageLoader = document.getElementById('pageLoader');
+    pageLoader.style.top = y + 'px';
+    pageLoader.style.left = '50%';
   }
 
   // 로그인되면 로그인버튼은 숨김

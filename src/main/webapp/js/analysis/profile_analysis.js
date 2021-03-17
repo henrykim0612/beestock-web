@@ -33,17 +33,21 @@ const main = (function() {
     paramQuarterDate: null,
     matchedQuarterSliderIdx: 0, // 다른 화면에서 링크되어 넘어왔을 경우에 이 값이 변경됨
     latestQuarterDate: null, // 해당 프로필의 가장 최신분기
+    maxEarnRate: null,
+    maxBsp: null,
+    itemCodeAutoCompleteList: [],
+    itemNameAutoCompleteList: [],
     width: {
       profileTitle: '250px', // 포트폴리오
-      itemName: '280px', // 종목명
+      itemName: '320px', // 종목명
       viewWeight: '60px', // 비중
-      quantity: '110px', // 보유수량
+      quantity: '90px', // 보유수량
       buyingPrice: '100px', // 평균 매수가
       currPrice: '80px', // 현재가
       fluctRate: '80px', // 등락률
       earnRate: '120px', // 수익률
       buyingSellingPrice: '120px', //매수매도금액
-      incsRate: '110px' // 증감률
+      incsRate: '90px' // 증감률
     },
     visualMap: {
       show: false,
@@ -131,9 +135,12 @@ const main = (function() {
   let clipboard = undefined;
   let stackChartGrid = undefined; // 왼쪽 차트모달 그리드
   let fundamentalChart = undefined;
+  let benchmarkChart = undefined;
+  let autoComplete = undefined;
 
   function init() {
     createBreadCrumb();
+    initTabs();
     setParamQuarterDate();
     global.profileId = document.getElementById('profileId').value;
     global.selectedProfileType = document.getElementById('profileType').value;
@@ -142,10 +149,12 @@ const main = (function() {
     addSpanStarEvent();
     initInvestIdea();
     initTooltips();
+    initAutoComplete();
     addTabEventListener();
     addBarChartSelectBoxListener();
     addPieChartSelectBoxListener();
     addStackChartSelectBoxListener();
+    addSearchWordEventListener();
     setTooltips();
     if (global.selectedProfileType === '1') appendRightChartMsg(); // 국내인 경우 오른쪽 차트 팝업 안내문구 추가
     // setHelp();
@@ -180,6 +189,20 @@ const main = (function() {
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
   }
+
+  function initTabs() {
+    if (document.getElementById('profileType').value === '1') {
+      // 국내는 Benchmark 지수 탭이 없음
+      document.getElementById('benchmarkTab').remove();
+      document.getElementById('benchmarkCont').remove();
+    }
+  }
+
+  function initAutoComplete() {
+    const element = document.getElementById("schWord");
+    autoComplete = new Awesomplete(element);
+  }
+
 
   function setTooltips() {
     if (document.getElementById('gridExcel')) cmmUtils.setExcelTippy(['#gridExcel']);
@@ -409,9 +432,21 @@ const main = (function() {
   }
 
   // 수익률 막대 표
-  function earnRate(col, row) {
+  function earnRate(col, row, thOrTd, props) {
+
+    if (global.maxEarnRate == null) {
+      global.maxEarnRate = _.maxBy(props.rowData, function(o) { return o.earnRate; }).earnRate;
+    }
+    let percent = (row['earnRate'] !== 0) ? (100 * row['earnRate']) / global.maxEarnRate : 0;
+    if (0 < percent && percent < 1) {
+      percent = 1;
+    }
+    if (-1 < percent && percent < 0) {
+      percent = -1;
+    }
+
     row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
-    return cmmUtils.createAnalysisBar(row['earnRate']);
+    return cmmUtils.createAnalysisBar(parseInt(percent.toFixed(1)), row['earnRate']);
   }
 
   // 보유수량
@@ -525,31 +560,26 @@ const main = (function() {
 
   // 매수·금액 막대 표
   function buyingSellingPrice(col, row, thOrTd, props) {
+
     const roleNm = props.data.roleNm;
+
     // 매수매도금액은 프리미엄 사용자 이상부터 이용 가능
     if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
 
-      // 100분율 처리
-      const bspArr = props.rowData.map(function(p) {
-        return parseInt(p.buyingSellingPrice); // 100만달러 단위
-      });
-      const maxValue = _.max(bspArr);
-      const minValue = _.min(bspArr);
-
-      // 비율 적용하여 결과값 생성
-      let percent = 0;
-      let v = parseInt(row.buyingSellingPrice); // 100만달러 단위
-      if (0 < v) { // 0 보다 큰경우
-        const rate = (maxValue / 100);
-        percent = (v / rate).toFixed(3);
-        percent = percent < 1 ? 1 : percent; // 0.xx 단위는 1로 처리
-      } else if (v < 0) { // 0 보다 작은경우
-        const rate = Math.abs((minValue / 100));
-        percent = (v / rate).toFixed(3);
-        percent = -1 < percent ? -1 : percent; // 0.xx 단위는 1로 처리
+      if (global.maxBsp == null) {
+        global.maxBsp = _.maxBy(props.rowData, function(o) { return o.buyingSellingPrice; }).buyingSellingPrice;
       }
 
-      const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 1000000, 1).toLocaleString());
+      let percent = (row['buyingSellingPrice'] !== 0) ? (100 * row['buyingSellingPrice']) / global.maxBsp : 0;
+      if (0 < percent && percent < 1) {
+        percent = 1;
+      }
+      if (-1 < percent && percent < 0) {
+        percent = -1;
+      }
+
+      const barDiv = cmmUtils.createAnalysisBar(parseInt(percent.toFixed(1)),  cmmUtils.roundCurrency(row['buyingSellingPrice'], 1000000, 1).toLocaleString());
+
       // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
       barDiv.classList.add('width-100-p');
       barDiv.classList.add('hover-main');
@@ -625,9 +655,21 @@ const main = (function() {
     return html;
   }
 
+  function makeAutoCompleteList(row) {
+    global.itemCodeAutoCompleteList.push(row.itemCode);
+    global.itemNameAutoCompleteList.push(row.itemName);
+  }
+
+  function setAutoCompleteList() {
+    autoComplete.list = (getSearchType() === 1)
+      ? global.itemNameAutoCompleteList
+      : global.itemCodeAutoCompleteList;
+  }
+
   // 종목명
   function titleAnchor(col, row) {
 
+    makeAutoCompleteList(row);
     const div = document.createElement('div');
     div.classList.add('flex-row');
     div.classList.add('justify-content-start');
@@ -816,6 +858,7 @@ const main = (function() {
         ],
         success: function (data, _this) {
           global['gridData'] = data;
+          setAutoCompleteList();
           if (!global['isInitialedSpinner']) {
             // 분기 스피너 생성
             cmmUtils.initSpinner(function(counter, idx) {
@@ -843,7 +886,6 @@ const main = (function() {
               }
 
             }
-
           }
           global['isInitialedSpinner'] = true;
           runRefreshTimer();
@@ -1718,6 +1760,10 @@ const main = (function() {
     document.getElementById('selStackChartFilter').addEventListener('change', initLeftItemCodeChart);
   }
 
+  function addSearchWordEventListener() {
+    document.getElementById('schType').addEventListener('change', setAutoCompleteList);
+  }
+
   function reloadBarChart (options) {
     profileBarChart.resize();
     profileBarChart.setOption(options);
@@ -1740,12 +1786,13 @@ const main = (function() {
     global['profileTitle'] = profileTitle;
     // Information
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
-    console.log(data);
     // 참고자료 링크
     initProfileLink(data);
     // Fundamental 지수
     initFundamentalChart(data['profileId'], data['profileType'], data['profileTitle']);
-
+    if (document.getElementById('benchmarkTab')) {
+      initBenchmarkChart(data['profileId'], data['profileType'], data['profileTitle']);
+    }
     // 즐겨찾기
     if ((data['isFavorite'])) {
       createStar(data['isFavorite']);
@@ -1847,11 +1894,11 @@ const main = (function() {
     span.appendChild(icon);
   }
 
-  // Fundamental 지수 차트 생성
-  async function initFundamentalChart(profileId, profileType, profileTitle) {
+  // Benchmark 지수 차트 생성
+  async function initBenchmarkChart(profileId, profileType, profileTitle) {
 
     const response = await cmmUtils.awaitAxiosGet({
-      url: '/api/v1/analysis/profile/fundamental',
+      url: '/api/v1/analysis/profile/benchmark',
       params: {
         profileId: profileId,
         profileType: profileType,
@@ -1882,6 +1929,62 @@ const main = (function() {
           containLabel: true
         },
         legend: {
+          data: response['legend']
+        },
+        xAxis:  {
+          type: 'category',
+          data: response['categories'],
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        yAxis:  {
+          type: 'value'
+        },
+        series: createBenchmarkSeries(response['seriesList'])
+      }
+    };
+
+    benchmarkChart = new COMPONENTS.Chart(props);
+  }
+
+
+  // Fundamental 지수 차트 생성
+  async function initFundamentalChart(profileId, profileType, profileTitle) {
+
+    const response = await cmmUtils.awaitAxiosGet({
+      url: '/api/v1/analysis/profile/fundamental',
+      params: {
+        profileId: profileId,
+        profileType: profileType,
+        profileTitle: profileTitle
+      }
+    });
+
+    // 분기에 Q 값 표시
+    response['categories'] = response['categories'].map(function(e) { return e + 'Q'; });
+
+    const props = {
+      eId: 'fundamentalChart',
+      options: {
+        tooltip: {
+          trigger: 'axis',
+          confine: true,
+          axisPointer: {
+            type: 'cross',
+            axis: 'auto',
+            crossStyle: {
+              color: '#999'
+            }
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '3%',
+          containLabel: true
+        },
+        legend: {
+          show: false,
           data: response['legend']
         },
         xAxis:  {

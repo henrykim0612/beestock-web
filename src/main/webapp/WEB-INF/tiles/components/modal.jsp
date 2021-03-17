@@ -3,7 +3,8 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%--페이지 로더--%>
-<div id="pageLoader" class="pageloader is-white"><span class="title"></span></div>
+<div id="pageLoader" class="dot-spin is-hidden" style="position: fixed;"></div>
+<%--<div id="pageLoader" class="pageloader is-white"><span class="title"></span></div>--%>
 
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">
@@ -20,22 +21,26 @@
 <div id="saveModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-success">
+        <article class="message">
             <div class="message-header">
-                <p>완료</p>
+                <div class="icon-text">
+                    <span class="icon has-text-success"><i class="fas fa-check-square"></i></span>
+                    <span>Success</span>
+                </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('saveModal')"></button>
             </div>
             <div class="message-body">
                 <div class="is-left mb-5">
                     저장 되었습니다.
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('saveModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('saveModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -45,20 +50,21 @@
 <div id="inputModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-warning">
+        <article class="message">
             <div class="message-header">
                 <p id="ipModalTitle"></p>
                 <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('inputModal')"></button>
             </div>
             <div class="message-body">
                 <div id="ipModalContent" class="is-left mb-5"></div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('inputModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('inputModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -70,21 +76,28 @@
     <div class="modal-content">
         <article id="confirmArticle" class="message is-warning">
             <div class="message-header">
-                <p><span class="icon has-text-dark"><i class="fas fa-exclamation-triangle"></i></span>알림</p>
+                <div class="icon-text">
+                    <span class="icon has-text-black"><i class="fas fa-exclamation-triangle"></i></span>
+                    <span>Warning</span>
+                </div>
                 <button class="delete" aria-label="delete" onclick="cmmConfirm.closeModal()"></button>
             </div>
             <div class="message-body">
                 <div id="confirmTextDiv" class="is-left mb-5">
                     코드를 삭제합니다. 삭제 후 복구 할 수 없습니다.
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmConfirm.confirm()">확인</button>
-                            <button class="button is-dark is-small" onclick="cmmConfirm.closeModal()">취소</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmConfirm.confirm()">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
+                        <button class="button is-dark is-small" onclick="cmmConfirm.closeModal()">
+                            <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                            <span>취소</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -101,13 +114,14 @@
             <div class="message-body">
                 <div id="warningModalCont" class="is-left mb-5">
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('warningModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('warningModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -116,9 +130,12 @@
 <div id="standardModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-link">
+        <article class="message">
             <div class="message-header">
-                <p>Standard 등급 이상 전용화면</p>
+                <div class="icon-text">
+                    <span class="icon has-text-danger"><i class="fas fa-ban"></i></span>
+                    <span>Standard 등급 이상 전용화면</span>
+                </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('standardModal')"></button>
             </div>
             <div class="message-body">
@@ -126,17 +143,24 @@
                     <p><strong>Standard</strong> 등급 이상의 구독자만 열람 가능합니다.</p>
                     <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
-                            <sec:authorize access="isAuthenticated()">
-                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
-                            </sec:authorize>
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
+                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span>로그인 화면으로</span>
+                        </button>
+                        <sec:authorize access="isAuthenticated()">
+                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
+                                <span>구독 화면으로</span>
+                            </button>
+                        </sec:authorize>
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -147,7 +171,10 @@
     <div class="modal-content">
         <article class="message is-danger">
             <div class="message-header">
-                <p>Premium 등급 이상 전용화면</p>
+                <div class="icon-text">
+                    <span class="icon has-text-danger"><i class="fas fa-ban"></i></span>
+                    <span>Premium 등급 이상 전용화면</span>
+                </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumModal')"></button>
             </div>
             <div class="message-body has-text-dark">
@@ -155,17 +182,24 @@
                     <p>해당 화면은<strong>Premium</strong> 등급 이상의 구독자만 이용이 가능합니다.</p>
                     <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
-                            <sec:authorize access="isAuthenticated()">
-                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
-                            </sec:authorize>
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
+                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span>로그인 화면으로</span>
+                        </button>
+                        <sec:authorize access="isAuthenticated()">
+                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
+                                <span>구독 화면으로</span>
+                            </button>
+                        </sec:authorize>
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -176,7 +210,10 @@
     <div class="modal-content">
         <article class="message is-danger">
             <div class="message-header">
-                <p>Premium Plus 등급 전용화면</p>
+                <div class="icon-text">
+                    <span class="icon has-text-danger"><i class="fas fa-ban"></i></span>
+                    <span>Premium Plus 등급 전용화면</span>
+                </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumPlusModal')"></button>
             </div>
             <div class="message-body has-text-dark">
@@ -184,17 +221,24 @@
                     <p>해당 화면은<strong>Premium Plus</strong> 등급 구독자만 이용이 가능합니다.</p>
                     <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
-                            <sec:authorize access="isAuthenticated()">
-                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
-                            </sec:authorize>
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
+                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span>로그인 화면으로</span>
+                        </button>
+                        <sec:authorize access="isAuthenticated()">
+                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
+                                <span>구독 화면으로</span>
+                            </button>
+                        </sec:authorize>
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -219,17 +263,24 @@
                         </figure>
                     </div>
                 </nav>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">로그인 화면으로</button>
-                            <sec:authorize access="isAuthenticated()">
-                                <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">구독 화면으로</button>
-                            </sec:authorize>
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('guideModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
+                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span>로그인 화면으로</span>
+                        </button>
+                        <sec:authorize access="isAuthenticated()">
+                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
+                                <span>구독 화면으로</span>
+                            </button>
+                        </sec:authorize>
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('guideModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -239,22 +290,26 @@
 <div id="unlockUserModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-success">
+        <article class="message">
             <div class="message-header">
-                <p>휴먼계정 해제완료</p>
+                <div class="icon-text">
+                    <span class="icon has-text-success"><i class="fas fa-unlock-alt"></i></span>
+                    <span>휴먼계정 해제완료</span>
+                </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('unlockUserModal')"></button>
             </div>
             <div class="message-body has-text-dark">
                 <div class="is-left mb-5">
                     <p><strong>휴먼계정</strong>에서 해제되었습니다.</p>
                 </div>
-                <nav class="level">
-                    <div class="level-item has-text-centered">
-                        <div class="buttons">
-                            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('unlockUserModal')">확인</button>
-                        </div>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('unlockUserModal')">
+                            <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                            <span>확인</span>
+                        </button>
                     </div>
-                </nav>
+                </div>
             </div>
         </article>
     </div>
@@ -264,7 +319,7 @@
 <div id="feedbackModal" class="modal">
     <div class="modal-background" onclick="cmmUtils.closeModal('feedbackModal')"></div>
     <div class="modal-content">
-        <article class="message is-warning">
+        <article class="message">
             <div class="message-header">
                 <p>피드백 보내기</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('feedbackModal')"></button>
@@ -282,15 +337,17 @@
                 <div class="flex-row justify-content-start mt-3">
                     <textarea id="feedbackContent" class="textarea" placeholder="고객의 피드벡을 받아 더 좋은 사이트로 보답하겠습니다."></textarea>
                 </div>
-                <div class="flex-row justify-content-center mt-3">
-                    <button class="button is-dark is-small" onclick="topMain.sendFeedback()">
-                        <span class="icon"><i class="fas fa-paper-plane"></i></span>
-                        <span>전송</span>
-                    </button>
-                    <button class="button is-dark is-small ml-2" onclick="cmmUtils.closeModal('feedbackModal')">
-                        <span class="icon"><i class="fas fa-times-circle"></i></span>
-                        <span>닫기</span>
-                    </button>
+                <div class="flex-row justify-content-end mt-3">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="topMain.sendFeedback()">
+                            <span class="icon has-text-link"><i class="fas fa-paper-plane"></i></span>
+                            <span>전송</span>
+                        </button>
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('feedbackModal')">
+                            <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                            <span>닫기</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </article>
@@ -300,7 +357,7 @@
 <div id="feedbackSuccessModal" class="modal">
     <div class="modal-background" onclick="cmmUtils.closeModal('feedbackSuccessModal')"></div>
     <div class="modal-content">
-        <article class="message is-success">
+        <article class="message">
             <div class="message-header">
                 <p>피드백 전송완료</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('feedbackSuccessModal')"></button>
@@ -310,9 +367,9 @@
                     <p>소중한 의견 감사합니다. 더 좋은 사이트가 되도록 노력하겠습니다.</p>
                 </div>
                 <div class="flex-row justify-content-center mt-3">
-                    <button class="button is-dark is-small ml-2" onclick="cmmUtils.closeModal('feedbackSuccessModal')">
-                        <span class="icon"><i class="fas fa-times-circle"></i></span>
-                        <span>닫기</span>
+                    <button class="button is-dark is-small" onclick="cmmUtils.closeModal('feedbackSuccessModal')">
+                        <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                        <span>확인</span>
                     </button>
                 </div>
             </div>

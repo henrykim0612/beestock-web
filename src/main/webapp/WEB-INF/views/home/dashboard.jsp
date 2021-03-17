@@ -7,19 +7,16 @@
 <%--검색조건--%>
 <div class="flex-row mt-7">
     <div class="flex-row justify-content-start width-50per">
-        <div>
-            <p class="control has-icons-left">
+        <div class="field has-addons">
+            <div class="control">
                 <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="포트폴리오 검색" maxlength="200"/>
-                <span class="icon is-left">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                </span>
-            </p>
-        </div>
-        <div>
-            <button class="button is-dark is-small" onclick="main.seearchProfile()">
-                <span class="icon"><i class="fas fa-search"></i></span>
-                <span>검색</span>
-            </button>
+            </div>
+            <div class="control">
+                <button class="button is-dark is-small" onclick="main.seearchProfile()">
+                    <span class="icon"><i class="fas fa-search"></i></span>
+                    <span>검색</span>
+                </button>
+            </div>
         </div>
         <div class="ml-3 flex-col justify-content-center">
             <span id="dashboardHelp" class="icon has-text-info cursor"><i class="fas fa-lg fa-info-circle"></i></span>
@@ -29,7 +26,7 @@
         <div class="tags has-addons is-small">
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <span class="tag is-dark">version</span>
-                <span class="tag is-success">1.2.11</span>
+                <span class="tag is-success">1.3.0</span>
             </sec:authorize>
         </div>
     </div>

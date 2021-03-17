@@ -10,11 +10,14 @@
 	flex-direction: row;
 }
 
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
 .flex-row-reverse {
 	display: flex;
 	flex-direction: row-reverse;
 }
-
 
 .flex-col {
 	display: flex;
@@ -64,6 +67,14 @@
 
 .align-content-space-between {
 	align-content: space-between;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.align-items-end {
+	align-items: flex-end;
 }
 
 .is-vertical-center {
@@ -379,3 +390,6 @@ table tfoot th {
 	z-index: 99999;
 }
 
+#pageLoader {
+	z-index: 99999;
+}

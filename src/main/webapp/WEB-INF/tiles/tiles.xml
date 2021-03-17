@@ -12,6 +12,8 @@
         <put-attribute name="banner" value="/WEB-INF/tiles/components/banner.jsp" />
         <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
         <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
+        <put-attribute name="adsenseTop" value="/WEB-INF/tiles/components/adsenseTop.jsp" />
+        <put-attribute name="adsenseBottom" value="/WEB-INF/tiles/components/adsenseBottom.jsp" />
     </definition>
 
     <definition name="layout-without-footer" template="/WEB-INF/tiles/layouts/layoutWithoutFooter.jsp">
@@ -24,14 +26,6 @@
     <definition name="error-layout" template="/WEB-INF/tiles/layouts/errorLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
-    </definition>
-
-    <definition name="sortable-list-layout" template="/WEB-INF/tiles/layouts/sortableListLayout.jsp">
-        <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
-        <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
-        <put-attribute name="top" value="/WEB-INF/tiles/components/top.jsp" />
-        <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
     </definition>
 
     <!--패턴 정의-->
