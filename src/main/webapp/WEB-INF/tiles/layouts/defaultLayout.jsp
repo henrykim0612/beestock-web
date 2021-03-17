@@ -13,7 +13,7 @@
             <tiles:insertAttribute name="content"/>
         </div>
         <tiles:insertAttribute name="modal" />
-        <tiles:insertAttribute name="footer" />
         <tiles:insertAttribute name="adsenseBottom" />
+        <tiles:insertAttribute name="footer" />
     </body>
 </html>

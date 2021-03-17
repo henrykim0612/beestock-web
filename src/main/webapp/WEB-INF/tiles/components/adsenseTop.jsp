@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div style="min-width: 1000px; min-height: 100px">
+<div style="min-width: 1000px; min-height: 100px;">
     <table style="width: 100%;">
         <tbody>
         <tr>
