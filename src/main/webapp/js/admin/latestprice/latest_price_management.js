@@ -319,7 +319,7 @@ const main = (function() {
       });
       cmmUtils.showToast({
         message: (response) ? '종가 반영완료.' : '종가 반영실패.',
-        type: (response) ? 'is-black' : 'is-danger',
+        type: (response) ? 'is-success' : 'is-danger',
         position: 'top-center'
       });
     });

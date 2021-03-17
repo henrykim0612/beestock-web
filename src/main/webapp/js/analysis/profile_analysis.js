@@ -1979,7 +1979,6 @@ const main = (function() {
           }
         },
         grid: {
-          top: '3%',
           left: '3%',
           right: '3%',
           containLabel: true
