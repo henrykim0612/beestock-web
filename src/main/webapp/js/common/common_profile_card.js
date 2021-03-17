@@ -54,7 +54,7 @@ const cmmProfileCard = (function () {
     card.setAttribute('name', 'profileCard');
     // 카드 클릭 이벤트
     card.addEventListener('click', function(e) {
-      if (data['profileType'] === 1 && global.userRole !== '[ROLE_PREMIUM_PLUS]') {
+      if (data['profileType'] === 1 && (global.userRole !== '[ROLE_PREMIUM_PLUS]' && global.userRole !== '[ROLE_ADMIN]')) {
         // 국내 프로필은 프리미엄 플러스만 이용가능
         cmmUtils.showModal('premiumPlusModal');
       } else {

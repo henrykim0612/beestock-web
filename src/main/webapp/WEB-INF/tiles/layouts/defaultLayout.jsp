@@ -8,10 +8,12 @@
     <body>
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
+        <tiles:insertAttribute name="adsenseTop" />
         <div class="container is-fullhd mt-6 min-screen-height">
             <tiles:insertAttribute name="content"/>
         </div>
         <tiles:insertAttribute name="modal" />
+        <tiles:insertAttribute name="adsenseBottom" />
         <tiles:insertAttribute name="footer" />
     </body>
 </html>

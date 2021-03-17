@@ -56,10 +56,16 @@
         <div class="tile is-child box">
             <div id="headerTabs" class="tabs">
                 <ul>
-                    <li id="benchmarkTab" name="tabs" class="is-active" data-cont-id="benchmarkCont">
+                    <li id="fundamentalTab" name="tabs" class="is-active" data-cont-id="fundamentalCont">
                         <a>
                             <span class="icon"><i class="fas fa-gem"></i></span>
                             <span>Fundamental 지수</span>
+                        </a>
+                    </li>
+                    <li id="benchmarkTab" name="tabs" data-cont-id="benchmarkCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-gem"></i></span>
+                            <span>Benchmark 지수</span>
                         </a>
                     </li>
                     <sec:authorize access="isAuthenticated()">
@@ -78,8 +84,18 @@
                     </li>
                 </ul>
             </div>
-            <%--벤치마크지수 내용--%>
-            <div id="benchmarkCont">
+            <%--Fundamental 내용--%>
+            <div id="fundamentalCont">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div class="flex-col justify-content-center">
+                            <div id="fundamentalChart" class="is-fullwidth" style="width: 950px; height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%--Benchmark 내용--%>
+            <div id="benchmarkCont" class="is-hidden">
                 <div class="columns">
                     <div class="column is-full">
                         <div class="flex-col justify-content-center">
@@ -145,7 +161,7 @@
     <ul>
         <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
             <a>
-                <span class="icon has-text-black"><i class="fas fa-table"></i></span>
+                <span class="icon has-text-primary-dark"><i class="fas fa-table"></i></span>
                 <span>전체</span>
             </a>
         </li>
@@ -163,13 +179,13 @@
         </li>
         <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
             <a>
-                <span class="icon has-text-black"><i class="fas fa-chart-bar"></i></span>
+                <span class="icon has-text-primary-dark"><i class="fas fa-chart-bar"></i></span>
                 <span>막대차트</span>
             </a>
         </li>
         <li id="pieTab" name="tabs" data-view="pieChart" data-cont-id="pieCont">
             <a>
-                <span class="icon has-text-black"><i class="fas fa-chart-pie"></i></span>
+                <span class="icon has-text-primary-dark"><i class="fas fa-chart-pie"></i></span>
                 <span>비중</span>
             </a>
         </li>

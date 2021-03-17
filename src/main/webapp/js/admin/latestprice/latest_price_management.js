@@ -310,6 +310,21 @@ const main = (function() {
     });
   }
 
+  // 해외 종가를 저장
+  function saveLastPrice() {
+    cmmConfirm.show({msg: '종가를 저장하시겠습니까? 해외 장이 열리는 시간에 저장하면 등락률에 문제가 발생합니다.', color: 'is-warning'}, async function() {
+      const response = await cmmUtils.awaitAxiosPost({
+        url: '/api/v1/admin/stock/lastprice',
+        loading: 'btnLastPrice'
+      });
+      cmmUtils.showToast({
+        message: (response) ? '종가 반영완료.' : '종가 반영실패.',
+        type: (response) ? 'is-black' : 'is-danger',
+        position: 'top-center'
+      });
+    });
+  }
+
   return {
     init: init,
     findStockItem: findStockItem,
@@ -319,7 +334,8 @@ const main = (function() {
     hideUploadModal: hideUploadModal,
     uploadStockItem: uploadStockItem,
     removeFileTag: removeFileTag,
-    reloadGrid: reloadGrid
+    reloadGrid: reloadGrid,
+    saveLastPrice: saveLastPrice,
   }
 }());
 

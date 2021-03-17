@@ -667,11 +667,11 @@ const cmmUtils = (function () {
 
 
   function showPageLoader() {
-    document.getElementById('pageLoader').classList.add('is-active');
+    document.getElementById('pageLoader').classList.remove('is-hidden');
   }
 
   function hidePageLoader() {
-    document.getElementById('pageLoader').classList.remove('is-active');
+    document.getElementById('pageLoader').classList.add('is-hidden');
   }
 
   function showToast(props) {
@@ -778,7 +778,6 @@ const cmmUtils = (function () {
     } else {
       appendBar(mainDiv, value);
     }
-
     return mainDiv;
 
     function appendBar(mainDiv, value) {

@@ -42,6 +42,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/perspective.css" type="text/css">
 <%--Tippy Theme--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/translucent.css" type="text/css">
+<%--Autocomplete--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/autocomplete/awesomplete.css" type="text/css">
+<%--Page loader--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/pageloader/pageloader.css" type="text/css">
 
 <%--Common CSS--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/common.css" type="text/css">

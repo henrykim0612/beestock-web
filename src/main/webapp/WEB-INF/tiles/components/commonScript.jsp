@@ -32,6 +32,9 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.js" type="text/javascript"></script>
 <%--Clipboard--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/clipboard/2.0.6/clipboard.min.js" type="text/javascript"></script>
+<%--Autocomplete--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/autocomplete/awesomplete.min.js" type="text/javascript"></script>
+
 <%--common--%>
 <script src="${pageContext.request.contextPath}/js/common/custom_upload_adaptor.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>

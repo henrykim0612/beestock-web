@@ -3,16 +3,39 @@ const main = (function () {
   let global = {
     userRole: null,
     selectedTab: null,
-    splitNum: 4
+    splitNum: 4,
+    autocompleteValues: {
+      in: [], // 국내
+      out: [] // 해외
+    }
   }
+  let __autocomplete = undefined;
 
   function init() {
     setGuestLayout();
+    initAutoComplete()
     setUserRole();
     setSelectedTab();
     addTabListener();
     initCards();
     setHelp();
+  }
+
+  async function initAutoComplete() {
+    const element = document.getElementById("inputSearch");
+
+    const response = await cmmUtils.awaitAxiosGet({
+      url: '/api/v1/dashboard/profile/autocomplete'
+    });
+    response.forEach(function(e) {
+      if (e.profileType === 1) {
+        global.autocompleteValues.in.push(e.profileTitle)
+      } else {
+        global.autocompleteValues.out.push(e.profileTitle)
+      }
+    });
+    __autocomplete = new Awesomplete(element);
+    __autocomplete.list = global.autocompleteValues.out; // 기본은 해외
   }
 
   // 게스트일 경우의 화면 처리
@@ -54,6 +77,7 @@ const main = (function () {
         resetTabs();
         this.classList.add('is-active');
         const contId = this.getAttribute('data-cont-id');
+        __autocomplete.list = (contId === 'contIn') ? global.autocompleteValues.in : global.autocompleteValues.out;
         global['selectedTab'] = contId;
         document.getElementById(contId).classList.remove('is-hidden');
         initCards();

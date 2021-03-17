@@ -44,10 +44,10 @@
                         <span class="icon is-small"><i class="fas fa-file-upload"></i></span>
                         <span>국내 데일리 현재가 업로드</span>
                     </button>
-<%--                    <button id="btnSyncSymbol" class="button is-primary is-small" onclick="main.syncSymbols()">--%>
-<%--                        <span class="icon is-small"><i class="fas fa-sync-alt"></i></span>--%>
-<%--                        <span>해외 종목코드 동기화</span>--%>
-<%--                    </button>--%>
+                    <button id="btnLastPrice" class="button is-danger is-small" onclick="main.saveLastPrice()">
+                        <span class="icon is-small"><i class="fas fa-stamp"></i></span>
+                        <span>해외 종가 저장</span>
+                    </button>
                 </div>
             </div>
         </div>
