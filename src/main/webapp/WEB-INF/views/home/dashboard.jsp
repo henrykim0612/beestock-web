@@ -26,7 +26,7 @@
         <div class="tags has-addons is-small">
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <span class="tag is-dark">version</span>
-                <span class="tag is-success">1.2.11</span>
+                <span class="tag is-success">1.3.0</span>
             </sec:authorize>
         </div>
     </div>
