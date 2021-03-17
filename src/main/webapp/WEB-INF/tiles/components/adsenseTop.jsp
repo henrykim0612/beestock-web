@@ -29,19 +29,6 @@
                   (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </td>
-            <td style="width: 30%;">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- 상단3 -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-8183196412584390"
-                     data-ad-slot="4726284661"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </td>
         </tr>
         </tbody>
     </table>
