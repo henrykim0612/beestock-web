@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div class="flex-row justify-content-center" style="width: 100%; height: 250px;">
+<div class="flex-row justify-content-center" style="min-width: 1200px; min-height: 250px;">
     <p>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- 상단1 -->
@@ -10,7 +10,9 @@
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
+          window.onload = function() {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          }
         </script>
     </p>
 </div>
