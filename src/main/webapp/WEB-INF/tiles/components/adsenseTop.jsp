@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div style="min-width: 1200px; min-height: 250px;">
+<div style="min-width: 1200px; min-height: 150px; float: left">
     <div style="width: 500px;">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- 상단1 -->
