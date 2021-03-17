@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div class="flex-row justify-content-center">
+<div class="flex-row justify-content-center" style="height: 250px;">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- 상단1 -->
     <ins class="adsbygoogle"
