@@ -22,6 +22,14 @@
         <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
     </definition>
 
+    <definition name="layout-without-adsense" template="/WEB-INF/tiles/layouts/layoutWithoutAdsense.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
+        <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
+        <put-attribute name="top" value="/WEB-INF/tiles/components/top.jsp" />
+        <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
+    </definition>
+
     <definition name="error-layout" template="/WEB-INF/tiles/layouts/errorLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
@@ -32,12 +40,18 @@
         <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
     </definition>
 
+    <!--광고가 없는 화면-->
     <definition name="login/findingAccount" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/login/findingAccount.jsp" />
     </definition>
-
     <definition name="login/loginHome" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/login/loginHome.jsp" />
+    </definition>
+    <definition name="login/signUp" extends="layout-without-adsense">
+        <put-attribute name="content" value="/WEB-INF/views/login/signUp.jsp" />
+    </definition>
+    <definition name="home/pricingTable" extends="layout-without-adsense">
+        <put-attribute name="content" value="/WEB-INF/views/home/pricingTable.jsp" />
     </definition>
 
     <definition name="errors/*" extends="error-layout">

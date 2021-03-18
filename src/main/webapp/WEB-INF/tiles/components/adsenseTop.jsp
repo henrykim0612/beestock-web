@@ -4,11 +4,11 @@
         <tbody>
         <tr>
             <td style="width: 10%"></td>
-            <td style="width: 80%;">
+            <td style="width: 80%; text-align: center">
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- 상단수평1 -->
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:728px;height:90px"
+                     style="display:inline-block;width:1000px;height:90px"
                      data-ad-client="ca-pub-8183196412584390"
                      data-ad-slot="2075004933"></ins>
                 <script>
