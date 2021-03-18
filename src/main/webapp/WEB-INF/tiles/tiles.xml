@@ -10,6 +10,7 @@
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
         <put-attribute name="top" value="/WEB-INF/tiles/components/top.jsp" />
         <put-attribute name="adsenseTop" value="/WEB-INF/tiles/components/adsenseTop.jsp" />
+        <put-attribute name="adsenseBottom" value="/WEB-INF/tiles/components/adsenseBottom.jsp" />
         <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
         <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
     </definition>

@@ -11,6 +11,7 @@
         <div class="container is-fullhd mt-6 min-screen-height">
             <tiles:insertAttribute name="adsenseTop" />
             <tiles:insertAttribute name="content"/>
+            <tiles:insertAttribute name="adsenseBottom" />
         </div>
         <tiles:insertAttribute name="modal" />
         <tiles:insertAttribute name="footer" />
