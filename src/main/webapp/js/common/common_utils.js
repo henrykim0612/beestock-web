@@ -1144,6 +1144,15 @@ const cmmUtils = (function () {
     return auth != null ? auth : null;
   }
 
+  function addZeroStr(str) {
+    const arr = str.split('.');
+    if (arr.length === 1) {
+      return str + '.00';
+    } else {
+      return (arr[1].length === 1) ? str + '0' : str;
+    }
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1217,6 +1226,7 @@ const cmmUtils = (function () {
     isLatestQuarter: isLatestQuarter,
     isEmptyObject: isEmptyObject,
     hasKoreanWord: hasKoreanWord,
-    getRole: getRole
+    getRole: getRole,
+    addZeroStr: addZeroStr
   }
 })();

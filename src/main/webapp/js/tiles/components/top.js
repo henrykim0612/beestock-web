@@ -286,6 +286,7 @@ const topMain = (function() {
 
     const response = await cmmUtils.awaitAxiosPost({
       url: '/api/v1/feedback/mail',
+      loading: 'btnFeedback',
       body: {
         title: document.getElementById('feedbackSelBox').value,
         content: document.getElementById('feedbackContent').value

@@ -245,10 +245,12 @@ BeeComponents.modules.dataGrid = function(component) {
     isSort: true // 오름차순, 내림차순 기능
    */
   component.DataGrid.prototype.createTbody = function(parentFragment, props, tbody) {
+
     const colModel = props['colModel'];
     const rowData = props['rowData'];
     const tbodyFragment = document.createDocumentFragment();
     const maxLen = rowData.length;
+
     if (maxLen) {
       for (let i = 0; i < maxLen; i++) {
         const row = rowData[i];
@@ -259,6 +261,9 @@ BeeComponents.modules.dataGrid = function(component) {
           const col = colModel[j];
           const thOrTd = col['isStrong'] != null && col['isStrong'] ? document.createElement('th') : document.createElement('td');
           let value = col['isCurrency'] != null ? row[col['id']].toLocaleString() : row[col['id']];
+          if (col['zeroRpad'] != null && col['zeroRpad']) {
+            value = cmmUtils.addZeroStr(value);
+          }
 
           if (col['toFixed'] != null) {
             value = value.toFixed(col['toFixed']);

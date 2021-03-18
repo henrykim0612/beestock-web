@@ -74,7 +74,7 @@
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-database"></i></span>포트폴리오 분기 수동 업로드</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-upload"></i></span>현재가 수동 업로드</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 변경</a>
-<%--                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/avg-price-management.do"><span class="icon has-text-primary mr-1"><i class="fas fa-hand-holding-usd"></i></span>평균주가 수동 업로드</a>--%>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/userlog.do"><span class="icon has-text-dark mr-1"><i class="fas fa-user-secret"></i></span>사용자 로그분석</a>
                     </div>
                 </div>
             </sec:authorize>
