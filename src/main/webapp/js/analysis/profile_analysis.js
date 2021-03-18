@@ -39,29 +39,38 @@ const main = (function() {
     itemNameAutoCompleteList: [],
     width: {
       profileTitle: '250px', // 포트폴리오
-      itemName: '320px', // 종목명
-      viewWeight: '60px', // 비중
-      quantity: '90px', // 보유수량
-      buyingPrice: '100px', // 평균 매수가
-      currPrice: '80px', // 현재가
-      fluctRate: '80px', // 등락률
-      earnRate: '120px', // 수익률
-      buyingSellingPrice: '120px', //매수매도금액
-      incsRate: '90px' // 증감률
+      itemName: '250px', // 종목명
+      viewWeight: '100px', // 비중
+      quantity: '120px', // 보유수량
+      buyingPrice: '120px', // 평균 매수가
+      currPrice: '100px', // 현재가
+      fluctRate: '100px', // 등락률
+      earnRate: '140px', // 수익률
+      buyingSellingPrice: '140px', //매수매도금액
+      incsRate: '120px' // 증감률
     },
     visualMap: {
       show: false,
-      pieces: [{
-        gt: 0,
-        lte: 1,
-        color: '#3273DC'
-      }, {
-        gt: 1,
-        color: '#3273DC'
-      }],
-      outOfRange: {
-        color: '#F14668'
-      }
+      min: 0,
+      max: 1,
+      inRange: {
+        color: ['#3273DC', '#F14668']
+      },
+      // show: false,
+      // pieces: [{
+      //   value: 0,
+      //   color: '#F14668'
+      // },{
+      //   gt: 0,
+      //   lte: 1,
+      //   color: '#F14668'
+      // }, {
+      //   gt: 1,
+      //   color: '#F14668'
+      // }],
+      // outOfRange: {
+      //   color: '#3273DC'
+      // }
     },
     defaultColorArr: [
       '#d43d51',
@@ -490,7 +499,7 @@ const main = (function() {
 
     const span = document.createElement('span');
     span.classList.add('hover-main')
-    span.innerText = row['buyingPrice'].toLocaleString();
+    span.innerText = cmmUtils.addZeroStr(row['buyingPrice'].toLocaleString());
 
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
@@ -543,7 +552,7 @@ const main = (function() {
             iconDiv.innerHTML = '<span class="icon cursor has-text-danger"><i class="fas fa-long-arrow-alt-up"></i></span>'
           }
           span.classList.add('has-text-danger');
-          span.innerText = fluctRate + '%';
+          span.innerText = cmmUtils.addZeroStr(fluctRate) + '%';
         }
 
         div.appendChild(iconDiv);
@@ -636,10 +645,10 @@ const main = (function() {
           html = '<div class="flex-row justify-content-center hover-parent"><span class="is-dark hover-main">' + text + '</span>';
         } else if (0 < rate) {
           text = rate + '%';
-          html = '<div class="flex-row justify-content-center hover-parent"><span class="has-text-link hover-main">' + text + '</span>';
+          html = '<div class="flex-row justify-content-center hover-parent"><span class="has-text-danger hover-main">' + text + '</span>';
         } else {
           text = rate + '%';
-          html = '<div class="flex-row justify-content-center hover-parent"><span class="has-text-danger hover-main">' + text + '</span>';
+          html = '<div class="flex-row justify-content-center hover-parent"><span class="has-text-link hover-main">' + text + '</span>';
         }
 
         if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
@@ -676,7 +685,7 @@ const main = (function() {
     div.classList.add('hover-type1');
 
     const anchor = document.createElement('a');
-    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 30);
+    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 23);
     anchor.classList.add('mr-3');
     anchor.addEventListener('click', async function() {
       global['selectedItemName'] = row['itemName'];
@@ -850,7 +859,7 @@ const main = (function() {
           {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-          {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+          {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, zeroRpad: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
@@ -952,7 +961,7 @@ const main = (function() {
         {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: true, userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
@@ -1023,7 +1032,7 @@ const main = (function() {
         {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: true, userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: soldOutSpinnerHeader, userCustom: soldOutIncRate, isExcel: true, hasTooltip: {col: 'itemName'}}
@@ -1276,7 +1285,7 @@ const main = (function() {
             }
           },
           grid: {
-            left: '2%',
+            left: '8%',
             right: '23%',
             containLabel: true
           },

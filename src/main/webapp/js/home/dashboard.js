@@ -23,7 +23,6 @@ const main = (function () {
 
   async function initAutoComplete() {
     const element = document.getElementById("inputSearch");
-
     const response = await cmmUtils.awaitAxiosGet({
       url: '/api/v1/dashboard/profile/autocomplete'
     });

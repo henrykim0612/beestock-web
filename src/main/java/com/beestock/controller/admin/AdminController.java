@@ -67,4 +67,10 @@ public class AdminController {
         return "admin/avg/avgPriceManagement";
     }
 
+    @GetMapping("/userlog.do")
+    public String goToUserLog(ModelMap model) {
+        model.addAttribute("title", "사용자 로그분석");
+        return "admin/log/userLog";
+    }
+
 }

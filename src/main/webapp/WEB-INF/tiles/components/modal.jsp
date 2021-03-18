@@ -305,7 +305,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('unlockUserModal')">
-                            <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
                             <span>확인</span>
                         </button>
                     </div>
@@ -339,7 +339,7 @@
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
-                        <button class="button is-dark is-small" onclick="topMain.sendFeedback()">
+                        <button id="btnFeedback" class="button is-dark is-small" onclick="topMain.sendFeedback()">
                             <span class="icon has-text-link"><i class="fas fa-paper-plane"></i></span>
                             <span>전송</span>
                         </button>
@@ -368,7 +368,7 @@
                 </div>
                 <div class="flex-row justify-content-center mt-3">
                     <button class="button is-dark is-small" onclick="cmmUtils.closeModal('feedbackSuccessModal')">
-                        <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                        <span class="icon has-text-success"><i class="fas fa-check"></i></span>
                         <span>확인</span>
                     </button>
                 </div>
