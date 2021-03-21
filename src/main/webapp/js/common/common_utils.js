@@ -1145,7 +1145,8 @@ const cmmUtils = (function () {
   }
 
   function addZeroStr(str) {
-    const arr = str.split('.');
+    const result = (typeof str === 'number') ? str.toString() : str;
+    const arr = result.split('.');
     if (arr.length === 1) {
       return str + '.00';
     } else {
