@@ -7,7 +7,7 @@
 <%--검색조건--%>
 <div class="flex-row mt-7">
     <div class="flex-row justify-content-start width-50per">
-        <div class="field has-addons">
+        <div class="field has-addons" style="margin: 0;">
             <div class="control">
                 <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="포트폴리오 검색" maxlength="200"/>
             </div>
