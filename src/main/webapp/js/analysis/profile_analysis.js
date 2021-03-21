@@ -396,7 +396,7 @@ const main = (function() {
               setSpinnerTitle();
               resetButtons(slideButtons);
               activeButton(that);
-              showTab();
+              showBottomTab();
             } else {
               // 이용할 수 없음
               cmmUtils.showModal('standardModal');
@@ -420,7 +420,7 @@ const main = (function() {
     }
   }
 
-  function showTab() {
+  function showBottomTab() {
     switch (global.tabView) {
       case 'grid': initProfileGrid(); break;
       case 'newTransfer': initNewTransferGrid(); break;
@@ -2162,7 +2162,7 @@ const main = (function() {
   function addTabEventListener() {
 
     // 상단탭
-    const headerTabs = document.getElementById('headerTabs').querySelectorAll('[name=tabs]');
+    const headerTabs = document.getElementById('headerTabs').querySelectorAll('.topTabs');
     for (let i = 0; i < headerTabs.length; i++) {
       // 탭 클릭 이벤트
       headerTabs[i].addEventListener('click', function() {
@@ -2170,13 +2170,11 @@ const main = (function() {
         // 선택 탭 활성화
         this.classList.add('is-active');
         document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
-        setActiveTabInfo(this);
-        // showTab();
       })
     }
 
     // 분석 탭
-    const bottomTabs = document.getElementById('bottomTabs').querySelectorAll('[name=tabs]');
+    const bottomTabs = document.getElementById('bottomTabs').querySelectorAll('.bottomTabs');
     for (let i = 0; i < bottomTabs.length; i++) {
       // 탭 클릭 이벤트
       bottomTabs[i].addEventListener('click', function() {
@@ -2184,8 +2182,8 @@ const main = (function() {
         // 선택 탭 활성화
         this.classList.add('is-active');
         document.getElementById(this.getAttribute('data-cont-id')).classList.remove('is-hidden');
-        setActiveTabInfo(this);
-        showTab();
+        setActiveBottomTabInfo(this);
+        showBottomTab();
       })
     }
 
@@ -2199,7 +2197,7 @@ const main = (function() {
     }
   }
 
-  function setActiveTabInfo(el) {
+  function setActiveBottomTabInfo(el) {
     global.tabView = el.getAttribute('data-view');
   }
 

@@ -56,27 +56,27 @@
         <div class="tile is-child box">
             <div id="headerTabs" class="tabs">
                 <ul>
-                    <li id="fundamentalTab" name="tabs" class="is-active" data-cont-id="fundamentalCont">
+                    <li id="fundamentalTab" class="is-active topTabs" data-cont-id="fundamentalCont">
                         <a>
                             <span class="icon"><i class="fas fa-gem"></i></span>
                             <span>Fundamental 지수</span>
                         </a>
                     </li>
-                    <li id="benchmarkTab" name="tabs" data-cont-id="benchmarkCont">
+                    <li id="benchmarkTab" class="topTabs" data-cont-id="benchmarkCont">
                         <a>
                             <span class="icon"><i class="fas fa-gem"></i></span>
                             <span>Benchmark 지수</span>
                         </a>
                     </li>
                     <sec:authorize access="isAuthenticated()">
-                        <li id="ideaTab" name="tabs" data-cont-id="ideaCont">
+                        <li id="ideaTab" class="topTabs" data-cont-id="ideaCont">
                             <a>
                                 <span class="icon"><i class="fas fa-lightbulb"></i></span>
                                 <span>투자 아이디어</span>
                             </a>
                         </li>
                     </sec:authorize>
-                    <li id="linkTab" name="tabs" data-cont-id="linkCont">
+                    <li id="linkTab" class="topTabs" data-cont-id="linkCont">
                         <a>
                             <span class="icon"><i class="fas fa-link"></i></span>
                             <span>참고자료</span>
@@ -89,7 +89,7 @@
                 <div class="columns">
                     <div class="column is-full">
                         <div class="flex-col justify-content-center">
-                            <div id="fundamentalChart" class="is-fullwidth" style="width: 950px; height: 350px;"></div>
+                            <div id="fundamentalChart" class="is-fullwidth" style="width: 950px; height: 300px;"></div>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="columns">
                     <div class="column is-full">
                         <div class="flex-col justify-content-center">
-                            <div id="benchmarkChart" class="is-fullwidth" style="width: 950px; height: 350px;"></div>
+                            <div id="benchmarkChart" class="is-fullwidth" style="width: 950px; height: 300px;"></div>
                         </div>
                     </div>
                 </div>
@@ -159,31 +159,31 @@
 <%--분석탭--%>
 <div id="bottomTabs" class="tabs mt-2 flex-row">
     <ul>
-        <li id="gridTab" name="tabs" class="is-active" data-view="grid" data-cont-id="gridCont">
+        <li id="gridTab" class="is-active bottomTabs" data-view="grid" data-cont-id="gridCont">
             <a>
                 <span class="icon has-text-primary-dark"><i class="fas fa-table"></i></span>
                 <span>전체</span>
             </a>
         </li>
-        <li id="newTransferTab" name="tabs" data-view="newTransfer" data-cont-id="newTransferGridCont">
+        <li id="newTransferTab" class="bottomTabs" data-view="newTransfer" data-cont-id="newTransferGridCont">
             <a>
                 <span class="icon has-text-success"><i class="fas fa-plus-circle"></i></span>
                 <span>신규편입</span>
             </a>
         </li>
-        <li id="soldOutTab" name="tabs" data-view="soldOut" data-cont-id="soldOutGridCont">
+        <li id="soldOutTab" class="bottomTabs" data-view="soldOut" data-cont-id="soldOutGridCont">
             <a>
                 <span class="icon has-text-danger"><i class="fas fa-minus-circle"></i></span>
                 <span>전량매도</span>
             </a>
         </li>
-        <li id="barTab" name="tabs" data-view="barChart" data-cont-id="barCont">
+        <li id="barTab" class="bottomTabs" data-view="barChart" data-cont-id="barCont">
             <a>
                 <span class="icon has-text-primary-dark"><i class="fas fa-chart-bar"></i></span>
                 <span>막대차트</span>
             </a>
         </li>
-        <li id="pieTab" name="tabs" data-view="pieChart" data-cont-id="pieCont">
+        <li id="pieTab" class="bottomTabs" data-view="pieChart" data-cont-id="pieCont">
             <a>
                 <span class="icon has-text-primary-dark"><i class="fas fa-chart-pie"></i></span>
                 <span>비중</span>

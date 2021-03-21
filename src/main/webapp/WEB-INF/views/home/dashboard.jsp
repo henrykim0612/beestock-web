@@ -7,7 +7,7 @@
 <%--검색조건--%>
 <div class="flex-row mt-7">
     <div class="flex-row justify-content-start width-50per">
-        <div class="field has-addons">
+        <div class="field has-addons" style="margin: 0;">
             <div class="control">
                 <input id="inputSearch" class="input input-search is-small" type="text" placeHolder="포트폴리오 검색" maxlength="200"/>
             </div>
@@ -26,7 +26,7 @@
         <div class="tags has-addons is-small">
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <span class="tag is-dark">version</span>
-                <span class="tag is-success">1.3.3</span>
+                <span class="tag is-success">1.3.4</span>
             </sec:authorize>
         </div>
     </div>
