@@ -38,6 +38,7 @@ const main = (function () {
 
   function init() {
     createBreadCrumb();
+    initAutoComplete();
     initQuarterSelbox();
     focusSchWord();
     addSelectedLineChartFilterEvents();
@@ -67,6 +68,10 @@ const main = (function () {
     html += '  </li>';
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
+  }
+
+  function initAutoComplete() {
+
   }
 
   // 존재하는 분기 검색
@@ -151,7 +156,7 @@ const main = (function () {
 
     const span = document.createElement('span');
     span.classList.add('hover-main')
-    span.innerText = row['buyingPrice'].toLocaleString();
+    span.innerText = cmmUtils.addZeroStr(row['buyingPrice'].toLocaleString());
 
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
@@ -288,7 +293,7 @@ const main = (function () {
         {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: true, isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}}
       ]
