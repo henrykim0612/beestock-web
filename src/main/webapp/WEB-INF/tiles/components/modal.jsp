@@ -146,7 +146,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
                             <span>로그인 화면으로</span>
                         </button>
                         <sec:authorize access="isAuthenticated()">
@@ -185,7 +185,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
                             <span>로그인 화면으로</span>
                         </button>
                         <sec:authorize access="isAuthenticated()">
@@ -224,7 +224,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
                             <span>로그인 화면으로</span>
                         </button>
                         <sec:authorize access="isAuthenticated()">
@@ -266,7 +266,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-link"><i class="fas fa-sign-in-alt"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
                             <span>로그인 화면으로</span>
                         </button>
                         <sec:authorize access="isAuthenticated()">

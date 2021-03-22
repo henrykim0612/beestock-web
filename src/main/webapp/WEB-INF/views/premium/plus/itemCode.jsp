@@ -49,7 +49,7 @@
 </div>
 
 <div class="box mt-3">
-    <p id="initParagraph">종목을 검색하세요.</p>
+    <p id="initParagraph" class="has-text-grey-light">종목을 검색하세요.</p>
     <div class="table-container">
         <table id="profileGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
     </div>
