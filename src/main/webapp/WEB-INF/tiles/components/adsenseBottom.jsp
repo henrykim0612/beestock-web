@@ -7,7 +7,7 @@
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- 하단수평1 -->
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:500px;height:90px"
+                     style="display:inline-block;width:600px;height:90px"
                      data-ad-client="ca-pub-8183196412584390"
                      data-ad-slot="8967716341"></ins>
                 <script>
@@ -18,7 +18,7 @@
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- 하단수평2 -->
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:500px;height:90px"
+                     style="display:inline-block;width:600px;height:90px"
                      data-ad-client="ca-pub-8183196412584390"
                      data-ad-slot="4726284661"></ins>
                 <script>
