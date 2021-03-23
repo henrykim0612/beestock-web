@@ -48,16 +48,16 @@ const main = (function() {
           innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-black cursor">관리자</span>';
           break;
         case 'ROLE_PREMIUM_PLUS':
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-danger is-light cursor">프리미엄 플러스 사용자</span>';
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-danger cursor">프리미엄 플러스 사용자</span>';
           break;
         case 'ROLE_PREMIUM':
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-danger is-light cursor">프리미엄 사용자</span>';
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-warning cursor">프리미엄 사용자</span>';
           break;
         case 'ROLE_STANDARD':
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-info is-light cursor">스탠다드 사용자</span>';
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-info cursor">스탠다드 사용자</span>';
           break;
         default:
-          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-warning is-light cursor">일반사용자</span>';
+          innerHtml = '<span onclick="main.showAuthModal(this)" data-role-nm="' + roleNm + '" data-login-id="' + row['loginId'] + '" class="tag is-primary cursor">일반사용자</span>';
           break;
       }
       return innerHtml;

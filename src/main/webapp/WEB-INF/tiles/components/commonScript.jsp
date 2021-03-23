@@ -36,6 +36,8 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/autocomplete/awesomplete.min.js" type="text/javascript"></script>
 
 <%--common--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/iamport/1.1.5/iamport.payment-1.1.5.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/custom_upload_adaptor.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
