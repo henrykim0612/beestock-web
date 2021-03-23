@@ -10,7 +10,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Email</label>
+            <label class="label">이메일</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipEmail" class="input" type="email" placeholder="Email 형식" onblur="main.isEmailPattern()" maxlength="50">
                 <span class="icon is-small is-left">
@@ -28,7 +28,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Password</label>
+            <label class="label">패스워드</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern(this)" maxlength="20">
                 <span class="icon is-small is-left">
@@ -46,7 +46,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Confirm password</label>
+            <label class="label">패스워드 확인</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipCfPwd" class="input" type="password" placeholder="패스워드 확인" onblur="main.isSamePassword()" maxlength="20">
                 <span class="icon is-small is-left">
@@ -64,7 +64,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Your Name</label>
+            <label class="label">사용자명</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임" maxlength="50">
                 <span class="icon is-small is-left">
@@ -77,7 +77,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Your Mobile</label>
+            <label class="label">핸드폰 번호</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()" maxlength="50">
                 <span class="icon is-small is-left">

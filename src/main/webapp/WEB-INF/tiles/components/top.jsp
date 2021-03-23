@@ -68,7 +68,7 @@
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-cogs"></i></span>시스템관리</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-cog"></i></span>사용자관리</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/user-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-user"></i></span>사용자관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/code-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-cog"></i></span>시스템 코드관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-address-card"></i></span>포트폴리오 관리</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/quarter-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-database"></i></span>포트폴리오 분기 수동 업로드</a>

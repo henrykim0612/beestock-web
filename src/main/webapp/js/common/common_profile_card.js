@@ -87,7 +87,7 @@ const cmmProfileCard = (function () {
     mediaContent.classList.add('has-text-centered');
     const title = document.createElement('p');
     title.classList.add('title');
-    title.classList.add('is-6');
+    title.classList.add('is-7');
 
     // 오늘 읽었으면 색상 변경(1:읽음, 2:읽지않음)
     if (data['isRead'] === 1) {

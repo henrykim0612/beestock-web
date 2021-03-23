@@ -45,50 +45,40 @@
                     <sec:authorize access="hasRole('ROLE_BASIC')">
                         <div class="flex-col justify-content-center">
                             <div class="flex-row">
-                                <span class="icon has-text-dark mr-2">
-                                <i class="fas fa-lg fa-id-card"></i>
-                            </span>
-                                <span>Basic 등급</span>
+                                <span class="icon has-text-primary mr-2"><i class="fas fa-lg fa-id-card"></i></span>
+                                <span class="subtitle">Basic 등급</span>
                             </div>
                         </div>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_STANDARD')">
                         <div class="flex-col justify-content-center">
                             <div class="flex-row">
-                                <span class="icon has-text-link mr-2">
-                                <i class="fas fa-lg fa-id-card"></i>
-                            </span>
-                                <span>Standard 등급</span>
+                                <span class="icon has-text-info mr-2"><i class="fas fa-lg fa-id-card"></i></span>
+                                <span class="subtitle">Standard 등급</span>
                             </div>
                         </div>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_PREMIUM')">
                         <div class="flex-col justify-content-center">
                             <div class="flex-row">
-                                <span class="icon has-text-danger mr-2">
-                                <i class="fas fa-lg fa-id-card"></i>
-                            </span>
-                                <span>Premium 등급</span>
+                                <span class="icon has-text-warning mr-2"><i class="fas fa-lg fa-id-card"></i></span>
+                                <span class="subtitle">Premium 등급</span>
                             </div>
                         </div>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_PREMIUM_PLUS')">
                         <div class="flex-col justify-content-center">
                             <div class="flex-row">
-                                <span class="icon has-text-warning mr-2">
-                                <i class="fas fa-lg fa-id-card"></i>
-                            </span>
-                                <span>Premium plus</span>
+                                <span class="icon has-text-danger mr-2"><i class="fas fa-lg fa-id-card"></i></span>
+                                <span class="subtitle">Premium plus</span>
                             </div>
                         </div>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <div class="flex-col justify-content-center">
                             <div class="flex-row">
-                                <span class="icon has-text-primary mr-2">
-                                <i class="fas fa-lg fa-id-card"></i>
-                            </span>
-                                <span>Administrator</span>
+                                <span class="icon has-text-black mr-2"><i class="fas fa-lg fa-id-card"></i></span>
+                                <span class="subtitle">관리자</span>
                             </div>
                         </div>
                     </sec:authorize>
@@ -96,10 +86,9 @@
             </div>
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
                 <div class="columns">
-                    <div class="column">
-                        <p class="subtitle">
-                            <span class="icon has-text-danger mr-2"><i class="fas fa-user-clock"></i></span><sec:authentication property="principal.expDate"/> 구독 만료
-                        </p>
+                    <div class="column flex-row align-items-center">
+                        <span class="icon has-text-grey mr-2"><i class="fas fa-hourglass-end"></i></span>
+                        <span class="has-text-grey"><sec:authentication property="principal.expDate"/> 까지 구독</span>
                     </div>
                 </div>
             </sec:authorize>
@@ -122,16 +111,16 @@
             <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-star"></i></span>즐겨찾기한 포트폴리오</p>
             <div class="tabs is-centered">
                 <ul>
+                    <li id="tabOut" name="tabs" data-cont-id="contOut">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-globe"></i></span>
+                            <span>해외</span>
+                        </a>
+                    </li>
                     <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">
                         <a>
                             <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
                             <span>국내</span>
-                        </a>
-                    </li>
-                    <li id="tabOut" name="tabs" data-cont-id="contOut">
-                        <a>
-                            <span class="icon is-small"><i class="fas fa-globe"></i></span>
-                            <span>국외</span>
                         </a>
                     </li>
                 </ul>
