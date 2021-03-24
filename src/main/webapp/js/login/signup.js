@@ -43,23 +43,33 @@ const main = (function() {
     }
   }
 
-  function isEmailPattern() {
+  async function isEmailPattern() {
 
     const ipEmail = document.getElementById('ipEmail');
     const helpEmail = document.getElementById('helpEmail');
     const icoEmailCheck = document.getElementById('icoEmailCheck');
     const icoEmailTriangle = document.getElementById('icoEmailTriangle');
     clearClasses([ipEmail, helpEmail]);
-
     if (ipEmail.value) {
-      if ( isEmail(ipEmail.value) ) {
-        appendInfoClasses([ipEmail, helpEmail], true);
-        removeHiddenClass([icoEmailCheck]);
-        appendHiddenClass([icoEmailTriangle, helpEmail]);
-      } else { // 이메일 패턴이 아니라면
+
+      const isExistedLoginId = await cmmUtils.awaitAxiosPost({url: '/api/v1/login/is-existed', body: {loginId: ipEmail.value}});
+      if (isExistedLoginId) {
+        // 사용중인 이메일
         appendInfoClasses([ipEmail, helpEmail], false);
         removeHiddenClass([icoEmailTriangle]);
+        helpEmail.innerText = '이미 사용중인 이메일입니다.';
         appendHiddenClass([icoEmailCheck]);
+      } else {
+        if ( isEmail(ipEmail.value) ) {
+          appendInfoClasses([ipEmail, helpEmail], true);
+          removeHiddenClass([icoEmailCheck]);
+          appendHiddenClass([icoEmailTriangle, helpEmail]);
+        } else { // 이메일 패턴이 아니라면
+          appendInfoClasses([ipEmail, helpEmail], false);
+          removeHiddenClass([icoEmailTriangle]);
+          helpEmail.innerText = '입력하신 값은 이메일 형식이 아닙니다.';
+          appendHiddenClass([icoEmailCheck]);
+        }
       }
     } else {
       appendHiddenClass([icoEmailCheck, icoEmailTriangle, helpEmail]);
