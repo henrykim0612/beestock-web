@@ -397,3 +397,10 @@ table tfoot th {
 #pageLoader {
 	z-index: 99999;
 }
+
+.plan-item {
+	height: 50px !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

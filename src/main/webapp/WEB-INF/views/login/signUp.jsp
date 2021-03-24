@@ -21,7 +21,7 @@
                     <i id="icoEmailTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                 </span>
             </div>
-            <p id="helpEmail" class="help is-hidden">입력하신 값은 이메일 형식이 아닙니다.</p>
+            <p id="helpEmail" class="help is-hidden"></p>
         </div>
     </div>
 </nav>
