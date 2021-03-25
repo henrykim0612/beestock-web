@@ -16,20 +16,12 @@ const main = (function() {
     });
   }
 
+  // 전체동의 체크 이벤트
   function addEventListeners() {
-    // 약관 동의 체크박스
-    document.getElementById('chkAgreement').addEventListener('click', function() {
-      global['isAgreed'] = this.checked;
-      document.getElementById('btnSubmit').disabled = !this.checked;
-    });
-    // 약관 동의 확인 버튼
-    document.getElementById('btnAgreement').addEventListener('click', function() {
-      if (document.getElementById('chkAgreement').checked) {
-        cmmUtils.closeModal('agreeModal');
-      } else {
-        cmmUtils.showWarningModal('약관동의 필수', '회원가입은 약관 동의가 필수 입니다.')
-      }
-    });
+    document.getElementById('chk4p').addEventListener('click', function() {
+      document.getElementById('chk1p').checked = this.checked;
+      document.getElementById('chk2p').checked = this.checked;
+    })
   }
 
   function appendHintOptions(data) {
@@ -203,7 +195,7 @@ const main = (function() {
   function verifyInputData(params) {
 
     if (!global['isAgreed']) {
-      cmmUtils.showIpModal('이용약관', '이용약관 확인을 체크해주세요.');
+      cmmUtils.showIpModal('약관동의', '약관동의 필수 항목들을 체크해주세요.');
       return false;
     }
 
@@ -250,6 +242,7 @@ const main = (function() {
     const userPhone = document.getElementById('ipUserPhone');
     const selHintCode = document.getElementById('selHintCode');
     const ipHintAnswer = document.getElementById('ipHintAnswer');
+    const chkMarketing = document.getElementById('chk3p')
 
     if ( verifyInputData({
       loginId: loginId,
@@ -272,7 +265,8 @@ const main = (function() {
             userNm: userNm.value,
             userPhone: userPhone.value,
             hintCode: selHintCode.value,
-            hintAnswer: ipHintAnswer.value
+            hintAnswer: ipHintAnswer.value,
+            agrMarketing: chkMarketing.checked ? 1 : 0
           });
         } else {
           showModal(document.getElementById('dangerModal')); // 이메일 존재
@@ -342,6 +336,20 @@ const main = (function() {
     cmmUtils.showModal('agreeModal');
   }
 
+  function checkAgreement() {
+    const chk1 = document.getElementById('chk1p').checked;
+    const chk2 = document.getElementById('chk2p').checked;
+    if (chk1 && chk2) {
+      cmmUtils.closeModal('agreeModal');
+      document.getElementById('btnSubmit').disabled = false;
+      global.isAgreed = true;
+    } else {
+      cmmUtils.showWarningModal('약관동의', '약관동의 필수 항목들을 체크해주세요.')
+      document.getElementById('btnSubmit').disabled = true;
+      global.isAgreed = false;
+    }
+  }
+
   return {
     init: init,
     isEmailPattern: isEmailPattern,
@@ -351,7 +359,8 @@ const main = (function() {
     signup: signup,
     closeModal: closeModal,
     showAgreeModal: showAgreeModal,
-    focusIpEmail: focusIpEmail
+    focusIpEmail: focusIpEmail,
+    checkAgreement: checkAgreement
   }
 
 }())

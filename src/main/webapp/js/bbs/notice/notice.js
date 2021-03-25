@@ -24,7 +24,7 @@ const main = (function() {
     html += '  <li>';
     html += '    <a href="' + CONTEXT_PATH + '/bbs/notice.do">';
     html += '      <span class="icon is-small"><i class="fas fa-info" aria-hidden="true"></i></span>';
-    html += '      <span>고객센터</span>';
+    html += '      <span>고객지원</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li class="is-active">';

@@ -31,7 +31,7 @@
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-book"></i></span>소개</a>
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" href=""><span class="icon has-text-dark mr-1"><i class="fas fa-microphone"></i></span>인사말</a>
+                    <a class="navbar-item" href="${pageContext.request.contextPath}/home/about.do"><span class="icon has-text-dark mr-1"><i class="fas fa-microphone"></i></span>소개</a>
                     <a class="navbar-item" href=""><span class="icon has-text-dark mr-1"><i class="fab fa-glide-g"></i></span>가이드</a>
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="navbar-item has-dropdown is-hoverable">
                 <a id="aServiceCenter" class="navbar-link">
                     <span class="icon has-text-warning mr-1"><i class="fas fa-info"></i></span>
-                    <span id="spanServiceCenter">고객센터</span>
+                    <span id="spanServiceCenter">고객지원</span>
                 </a>
                 <div class="navbar-dropdown">
                     <a id="aNotice" class="navbar-item" href="${pageContext.request.contextPath}/bbs/notice.do">
