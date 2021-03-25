@@ -5,13 +5,6 @@
     <div class="field has-addons">
         <p class="control has-icons-left">
             <span class="select">
-                <select id="selQuarter">
-                </select>
-            </span>
-            <span class="icon is-left"><i class="far fa-calendar-alt"></i></span>
-        </p>
-        <p class="control has-icons-left">
-            <span class="select">
                 <select id="schType">
                     <option value="loginId">아이디</option>
                     <option value="userNm">이름</option>

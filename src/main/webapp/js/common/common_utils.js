@@ -680,7 +680,7 @@ const cmmUtils = (function () {
         message: '저장되었습니다.',
         type: 'is-warning',
         duration: 3000,
-        position: 'top-right',
+        position: 'top-center',
         dismissible: true,
         animate: { in: 'fadeIn', out: 'fadeOut' }
       });
@@ -689,7 +689,7 @@ const cmmUtils = (function () {
         message: props['message'] != null ? props['message'] : '저장되었습니다.',
         type: props['type'] != null ? props['type'] : 'is-warning',
         duration: props['duration'] != null ? props['duration'] : 3000,
-        position: props['position'] != null ? props['position'] : 'top-right',
+        position: props['position'] != null ? props['position'] : 'top-center',
         dismissible: props['dismissible'] != null ? props['dismissible'] : true,
         animate: { in: 'fadeIn', out: 'fadeOut' }
       });

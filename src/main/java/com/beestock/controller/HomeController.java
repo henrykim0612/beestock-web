@@ -21,6 +21,12 @@ public class HomeController {
         return "home/documentation";
     }
 
+    @GetMapping("/about.do")
+    public String goToAbout(ModelMap model) {
+        model.addAttribute("title", "소개");
+        return "home/about";
+    }
+
     @GetMapping("/pricing-table.do")
     public String goToPricingTable(ModelMap model) {
         model.addAttribute("title", "구독");
