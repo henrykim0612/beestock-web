@@ -3,26 +3,37 @@
 <script src="${pageContext.request.contextPath}/js/tiles/components/footer.js" type="text/javascript"></script>
 
 <footer class="flex-col justify-content-center" style="height: 250px; background-color: #fafafa;">
-    <div class="has-text-centered mt-2 mb-4">
+
+    <div class="has-text-centered mt-4">
         <button class="button is-text" onclick="footerMain.openModal1()">이용약관</button>
         <button class="button is-text" onclick="footerMain.openModal2()">법적고지</button>
         <button class="button is-text" onclick="footerMain.openModal3()">개인정보 처리방침</button>
     </div>
+
     <div class="flex-row justify-content-center" >
-        <div class="flex-col">
-            <div>
-                <span class="has-text-grey">상호명 </span><span><strong>허니비 소프트</strong></span>
-                <span class="has-text-grey">사업장 소재지 </span><span><strong>대전광역시 서구 월평동로 83</strong></span>
-                <span class="has-text-grey">고객지원 </span><span><strong>support@beestock.co.kr</strong></span>
-                <span class="has-text-grey">대표 </span><span><strong>유병덕, 김형종</strong></span>
-                <span class="has-text-grey">대표번호 </span><span><strong></strong></span>
+        <div class="flex-row justify-content-end align-items-center" style="width: 47%;">
+            <img style="width: 14%; height: 50%; margin-right: 3%;" src="${pageContext.request.contextPath}/resources/images/logo/vertical/logo-vertical.png">
+        </div>
+        <div class="flex-row align-items-center" style="width: 53%;">
+            <div class="flex-col">
+                <div>
+                    <span class="has-text-grey">상호명 </span><span><strong>허니비 소프트</strong></span>
+                    <span class="has-text-grey">대표 </span><span><strong>유병덕, 김형종</strong></span>
+                </div>
+                <div><span class="has-text-grey">사업장 소재지 </span><span><strong>대전광역시 서구 월평동로 83</strong></span></div>
+                <div>
+                    <span class="has-text-grey">고객지원 </span><span><strong>support@beestock.co.kr</strong></span>
+                    <span class="has-text-grey">대표번호 </span><span><strong></strong></span>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="flex-col justify-content-center align-items-center">
         <p>본 사이트에 게재되는 정보는 오류 및 지연이 있을 수 있으며, 그 이용에 관한 책임은 이용자 본인에게 있습니다.</p>
         <p>Copyright © <strong>HoneyBee Soft</strong> 2021 All rights reserved.</p>
     </div>
+
 </footer>
 
 

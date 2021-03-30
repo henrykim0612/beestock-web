@@ -36,6 +36,16 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
+            <label class="label" for="bcmkStQuarterDate">시점 값</label>
+        </div>
+        <div class="column">
+            <div class="control">
+                <input id="bcmkStQuarterDate" class="input is-info" type="text" maxlength="6" placeholder="YYYY-1~4" data-bind="true" data-id="bcmkStQuarterDate">
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label id="labelCont" class="label" for="profileInfo">설명</label>
         </div>
         <div class="column">

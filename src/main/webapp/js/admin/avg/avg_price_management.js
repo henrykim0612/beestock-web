@@ -260,7 +260,7 @@ const main = (function() {
           cmmUtils.showIpModal('파일 확장자', fileName + '파일의 확장자를 확인해주세요(.xlsx 확장자만 업로드 가능합니다).');
           return false;
         }
-        if (!cmmUtils.checkQuarterPattern(fileName)) {
+        if (!cmmUtils.checkQuarterExcelFilePattern(fileName)) {
           cmmUtils.showIpModal('파일명', fileName + '파일은 업로드 파일 형식이 아닙니다.(예시: 2020-[1~4].xlsx');
           return false;
         }
