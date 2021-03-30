@@ -309,7 +309,7 @@ const main = (function() {
       const fileObj = global.fileArr[i];
       if (fileObj.isRemoved == null || !fileObj.isRemoved) {
         const fileName = fileObj.file.name;
-        if (!cmmUtils.checkQuarterPattern(fileName)) {
+        if (!cmmUtils.checkQuarterExcelFilePattern(fileName)) {
           cmmUtils.showIpModal('파일명', fileName + '파일은 업로드 파일 형식이 아닙니다.(예시: 2020-[1~4].xlsx');
           return false;
         }

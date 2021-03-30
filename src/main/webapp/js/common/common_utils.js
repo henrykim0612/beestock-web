@@ -629,7 +629,12 @@ const cmmUtils = (function () {
   }
 
   // 분기 형식 체크(2020-1, 2020-4..)
-  function checkQuarterPattern(quarter) {
+  function checkQuarterDatePattern(quarter) {
+    const dayRegExp = /^(19|20)\d{2}-([1-4])$/;
+    return dayRegExp.test(quarter);
+  }
+
+  function checkQuarterExcelFilePattern(quarter) {
     const dayRegExp = /^(19|20)\d{2}-([1-4])\.(xlsx)$/;
     return dayRegExp.test(quarter);
   }
@@ -1198,7 +1203,8 @@ const cmmUtils = (function () {
     getToday: getToday,
     checkExcelExtension: checkExcelExtension,
     checkImageExtension: checkImageExtension,
-    checkQuarterPattern: checkQuarterPattern,
+    checkQuarterExcelFilePattern: checkQuarterExcelFilePattern,
+    checkQuarterDatePattern: checkQuarterDatePattern,
     checkYYYYMMDDPattern: checkYYYYMMDDPattern,
     showPageLoader: showPageLoader,
     hidePageLoader: hidePageLoader,

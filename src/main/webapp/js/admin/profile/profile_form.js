@@ -105,6 +105,11 @@ const main = (function() {
         }
       }
     }
+    const bcmkStQuarterDate = document.getElementById('bcmkStQuarterDate').value;
+    if (bcmkStQuarterDate !== '' && !cmmUtils.checkQuarterDatePattern(bcmkStQuarterDate)) {
+      cmmUtils.showIpModal('시점값', '올바른 패턴의 시점값을 입력해주세요.');
+      return false;
+    }
     return true;
   }
 
@@ -114,6 +119,7 @@ const main = (function() {
     formData.append('filerId', document.getElementById('filerId').value);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
+    formData.append('bcmkStQuarterDate', document.getElementById('bcmkStQuarterDate').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);
     formData.append('isPublic', cmmUtils.getCheckedValues('isPublic')[0]);
