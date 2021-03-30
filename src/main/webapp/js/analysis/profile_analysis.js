@@ -1,5 +1,4 @@
 const COMPONENTS = BeeComponents('dataGrid', 'chart', function(box) {});
-
 const main = (function() {
 
   let global = {
