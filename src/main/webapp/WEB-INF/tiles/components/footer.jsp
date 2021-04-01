@@ -17,13 +17,13 @@
         <div class="flex-row align-items-center" style="width: 53%;">
             <div class="flex-col">
                 <div>
-                    <span class="has-text-grey">상호명 </span><span><strong>허니비 소프트</strong></span>
+                    <span class="has-text-grey">상호명 </span><span><strong>허니비소프트(주)</strong></span>
                     <span class="has-text-grey">대표 </span><span><strong>유병덕, 김형종</strong></span>
                 </div>
                 <div><span class="has-text-grey">사업장 소재지 </span><span><strong>대전광역시 서구 월평동로 83</strong></span></div>
                 <div>
                     <span class="has-text-grey">고객지원 </span><span><strong>support@beestock.co.kr</strong></span>
-                    <span class="has-text-grey">대표번호 </span><span><strong></strong></span>
+                    <span class="has-text-grey">대표번호 </span><span><strong>070-7798-1719</strong></span>
                 </div>
             </div>
         </div>

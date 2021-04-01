@@ -160,12 +160,7 @@ const main = (function() {
       }
     }, function (response) {
       if (response) {
-        const form = document.createElement('form');
-        form.method = 'get';
-        form.action = CONTEXT_PATH + '/user/mod-account';
-        document.body.appendChild(form);
-        form.submit();
-        form.remove();
+        cmmUtils.goToPage('/user/mod-account');
       } else {
         const helpPwd = document.getElementById('helpPwd');
         helpPwd.classList.remove('is-hidden');

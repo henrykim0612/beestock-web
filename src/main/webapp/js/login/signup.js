@@ -21,6 +21,7 @@ const main = (function() {
     document.getElementById('chk4p').addEventListener('click', function() {
       document.getElementById('chk1p').checked = this.checked;
       document.getElementById('chk2p').checked = this.checked;
+      document.getElementById('chk3p').checked = this.checked;
     })
   }
 
