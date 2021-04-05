@@ -2,7 +2,7 @@
 
 <script src="${pageContext.request.contextPath}/js/tiles/components/footer.js" type="text/javascript"></script>
 
-<footer class="flex-col justify-content-center" style="height: 250px; background-color: #fafafa;">
+<footer class="flex-col justify-content-center mt-6" style="height: 250px; background-color: #fafafa;">
 
     <div class="has-text-centered mt-4">
         <button class="button is-text" onclick="footerMain.openModal1()">이용약관</button>

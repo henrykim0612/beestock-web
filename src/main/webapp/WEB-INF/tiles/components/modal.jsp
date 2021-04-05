@@ -17,6 +17,16 @@
     </div>
 </div>
 
+<div id="customErrModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="notification is-danger">
+            <button class="delete" onclick="cmmUtils.closeModal('customErrModal')"></button>
+            <p id="customErrMsg"></p>
+        </div>
+    </div>
+</div>
+
 <%--저장 모달--%>
 <div id="saveModal" class="modal">
     <div class="modal-background"></div>

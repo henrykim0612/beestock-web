@@ -119,6 +119,7 @@ const main = (function() {
     formData.append('filerId', document.getElementById('filerId').value);
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
+    formData.append('tooltipTxt', document.getElementById('tooltipTxt').value);
     formData.append('bcmkStQuarterDate', document.getElementById('bcmkStQuarterDate').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);

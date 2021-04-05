@@ -124,6 +124,7 @@ const main = (function() {
       filerId: document.getElementById('filerId').value,
       profileSubtitle: document.getElementById('profileSubtitle').value,
       bcmkStQuarterDate: document.getElementById('bcmkStQuarterDate').value,
+      tooltipTxt: document.getElementById('tooltipTxt').value,
       profileInfo: global['ckEditProfileInfo'].getData(),
       profileType: cmmUtils.getCheckedValues('profileType')[0],
       isPublic: cmmUtils.getCheckedValues('isPublic')[0],
@@ -139,6 +140,7 @@ const main = (function() {
     formData.append('profileTitle', document.getElementById('profileTitle').value);
     formData.append('filerId', document.getElementById('filerId').value);
     formData.append('profileSubtitle', document.getElementById('profileSubtitle').value);
+    formData.append('tooltipTxt', document.getElementById('tooltipTxt').value);
     formData.append('bcmkStQuarterDate', document.getElementById('bcmkStQuarterDate').value);
     formData.append('profileInfo', global['ckEditProfileInfo'].getData());
     formData.append('profileType', cmmUtils.getCheckedValues('profileType')[0]);

@@ -1,5 +1,9 @@
 const main = (function () {
 
+  let __loginId = null;
+  let __hintCode = null;
+  let __hintAnswer = null;
+
   function init() {
     // 비밀번호 힌트 리스트 생성
     cmmUtils.axiosGet({url: '/api/v1/code/children/Q0000', loading: 'selHintCode'}, function(response) {
@@ -82,18 +86,11 @@ const main = (function () {
     }, function (response) {
       if (!response.data) { // 이메일 없음
         showPwdModal(response.data);
-      } else { // 확인했으면 새로운 비밀번호 발급
-        cmmUtils.axiosPost({
-          url: '/api/v1/login/gen-pwd',
-          body: {
-            loginId: ipEmail.value,
-            hintCode: selHintCode.value,
-            hintAnswer: ipHintAnswer.value
-          },
-          loading: 'btnPwd'
-        }, function (response) {
-          showPwdModal(response.data);
-        });
+      } else { // 확인했으면 새로운 비밀번호 모달창 호출
+        __loginId = ipEmail.value;
+        __hintCode = selHintCode.value;
+        __hintAnswer = ipHintAnswer.value;
+        cmmUtils.showModal('newPwdModal');
       }
     });
   }
@@ -170,6 +167,153 @@ const main = (function () {
     }
   }
 
+  function isPwdPattern(e) {
+
+    const ipPwd = document.getElementById('ipPwd');
+    const helpPwd = document.getElementById('helpPwd');
+    const icoPwdCheck = document.getElementById('icoPwdCheck');
+    const icoPwdTriangle = document.getElementById('icoPwdTriangle');
+    clearClasses([ipPwd, helpPwd]);
+
+    if (ipPwd.value) {
+      if ( isJobPassword(ipPwd.value) ) {
+        appendInfoClasses([ipPwd, helpPwd], true);
+        removeHiddenClass([icoPwdCheck]);
+        appendHiddenClass([icoPwdTriangle, helpPwd]);
+      } else {
+        appendInfoClasses([ipPwd, helpPwd], false);
+        removeHiddenClass([icoPwdTriangle]);
+        appendHiddenClass([icoPwdCheck]);
+      }
+    } else {
+      appendHiddenClass([icoPwdCheck, icoPwdTriangle, helpPwd]);
+    }
+
+    isEmptyPwd(e);
+  }
+
+  function clearClasses(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.remove('is-hidden');
+      ele.classList.remove('is-success');
+      ele.classList.remove('is-danger');
+    }
+  }
+
+  function removeHiddenClass(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.remove('is-hidden');
+    }
+  }
+
+  function appendHiddenClass(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.add('is-hidden');
+    }
+  }
+
+  function appendInfoClasses(eleArr, isSuccess) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.add(isSuccess ? 'is-success' : 'is-danger');
+    }
+  }
+
+  function isEmptyPwd(e) {
+    const helpCfPwd = document.getElementById('helpCfPwd');
+    const icoCfPwdTriangle = document.getElementById('icoCfPwdTriangle');
+    const icoCfPwdCheck = document.getElementById('icoCfPwdCheck');
+    const ipCfPwd = document.getElementById('ipCfPwd');
+    if (!e.value) {
+      appendHiddenClass([icoCfPwdTriangle, icoCfPwdCheck, helpCfPwd]);
+      removeHighlightClassAll([ipCfPwd]);
+    } else {
+      if (ipCfPwd.value) {
+        isSamePassword();
+      }
+    }
+  }
+
+  function removeHighlightClassAll(eleArr) {
+    for (let i = 0; i < eleArr.length; i++) {
+      const ele = eleArr[i];
+      ele.classList.remove('is-success');
+      ele.classList.remove('is-danger');
+    }
+  }
+
+  function isSamePassword() {
+    const ipCfPwd = document.getElementById('ipCfPwd');
+    const ipPwd = document.getElementById('ipPwd');
+    const helpCfPwd = document.getElementById('helpCfPwd');
+    const icoCfPwdCheck = document.getElementById('icoCfPwdCheck');
+    const icoCfPwdTriangle = document.getElementById('icoCfPwdTriangle');
+    if (ipCfPwd.value) {
+      clearClasses([ipCfPwd, helpCfPwd]);
+      if (ipPwd.value === ipCfPwd.value) {
+        appendInfoClasses([ipCfPwd, helpCfPwd], true);
+        removeHiddenClass([icoCfPwdCheck]);
+        appendHiddenClass([icoCfPwdTriangle, helpCfPwd]);
+      } else {
+        appendInfoClasses([ipCfPwd, helpCfPwd], false);
+        removeHiddenClass([icoCfPwdTriangle]);
+        appendHiddenClass([icoCfPwdCheck]);
+      }
+    } else {
+      removeHighlightClassAll([ipCfPwd]);
+      appendHiddenClass([icoCfPwdTriangle, helpCfPwd]);
+    }
+  }
+
+  function isJobPassword(asValue) {
+    const regExp = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/; //  8 ~ 16자 영문, 숫자, 특수문자 조합
+    return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+  }
+
+  // 비밀번호 변경
+  async function changePwd() {
+    const pwd = document.getElementById('ipPwd');
+    const cfPwd = document.getElementById('ipCfPwd');
+    if (isValidPwd(pwd, cfPwd)) {
+
+      const response = await cmmUtils.awaitAxiosPost({
+        url: '/api/v1/login/change-pwd',
+        body: {
+          loginId: __loginId,
+          hintCode: __hintCode,
+          hintAnswer: __hintAnswer,
+          loginPwd: pwd.value
+        }
+      });
+
+      if (response) {
+        cmmUtils.closeModal('newPwdModal');
+        cmmUtils.showModal('sucModal');
+      } else {
+        cmmUtils.showCustomErrModal('비밀번호 변경에 실패했습니다.');
+      }
+
+    }
+  }
+
+  function isValidPwd(pwd, cfPwd) {
+
+    if (!cfPwd.value || pwd.classList.contains('is-danger')) {
+      cmmUtils.showIpModal('비밀번호');
+      return false;
+    }
+
+    if (!cfPwd.value || cfPwd.classList.contains('is-danger')) {
+      cmmUtils.showIpModal('비밀번호 확인');
+      return false;
+    }
+
+    return true;
+
+  }
 
   return {
     init: init,
@@ -178,6 +322,9 @@ const main = (function () {
     findPassword: findPassword,
     isEmailPattern: isEmailPattern,
     isUserPhonePattern: isUserPhonePattern,
+    isPwdPattern: isPwdPattern,
+    isSamePassword: isSamePassword,
+    changePwd: changePwd
   }
 }());
 

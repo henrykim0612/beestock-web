@@ -34,6 +34,16 @@
     </div>
     <div class="columns">
         <div class="column is-1 is-vertical-center">
+            <label id="labelTooltip" class="label" for="profileSubtitle">툴팁 명칭</label>
+        </div>
+        <div class="column">
+            <div class="control">
+                <input id="tooltipTxt" class="input is-info" type="text" maxlength="200" placeholder="툴팁으로 사용될 텍스트. 최대 200자리 입력(미입력 가능)">
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-1 is-vertical-center">
             <label class="label" for="bcmkStQuarterDate">시점 값</label>
         </div>
         <div class="column">
