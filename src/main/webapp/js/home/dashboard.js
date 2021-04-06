@@ -13,7 +13,7 @@ const main = (function () {
 
   function init() {
     setGuestLayout();
-    initAutoComplete()
+    initAutoComplete();
     setUserRole();
     setSelectedTab();
     addTabListener();
