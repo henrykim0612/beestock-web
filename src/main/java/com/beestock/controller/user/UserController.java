@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/my-page")
+    @GetMapping("/my-page.do")
     public String goToMyPage(ModelMap model) {
         model.addAttribute("title", "마이페이지");
         return "user/myPage";
     }
 
-    @GetMapping("/mod-account")
+    @GetMapping("/mod-account.do")
     public String goToModProfile(ModelMap model) {
         model.addAttribute("title", "마이페이지 수정");
         return "user/modAccount";

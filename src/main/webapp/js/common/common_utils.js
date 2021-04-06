@@ -113,6 +113,11 @@ const cmmUtils = (function () {
     showModal('errModal');
   }
 
+  function showCustomErrModal(msg) {
+    document.getElementById('customErrMsg').innerText = msg;
+    showModal('customErrModal');
+  }
+
   function showLoadingElement(ele) {
     ele.classList.add('is-loading');
   }
@@ -278,7 +283,7 @@ const cmmUtils = (function () {
     const ipModalContent = document.getElementById('ipModalContent');
 
     ipModalTitle.innerText = text + ' 입력 확인필요';
-    ipModalContent.innerText = argLen === 2 ? customText : text + ' 입력값은 필수 입력항목 입니다.';
+    ipModalContent.innerText = argLen === 2 ? customText : text + ' 입력값은 필수값 또는 패턴이 일치해야 합니다.';
     showModal(ipModal);
   }
 
@@ -672,7 +677,9 @@ const cmmUtils = (function () {
 
 
   function showPageLoader() {
-    document.getElementById('pageLoader').classList.remove('is-hidden');
+    const pageLoader = document.getElementById('pageLoader');
+    pageLoader.style.top = window.pageYOffset + 300 + 'px'
+    pageLoader.classList.remove('is-hidden');
   }
 
   function hidePageLoader() {
@@ -1171,6 +1178,7 @@ const cmmUtils = (function () {
     showWarningModal: showWarningModal,
     closeModal: closeModal,
     showErrModal: showErrModal,
+    showCustomErrModal: showCustomErrModal,
     goToPage: goToPage,
     goToLoginHome: goToLoginHome,
     goToLinkPop: goToLinkPop,

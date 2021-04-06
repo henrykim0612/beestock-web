@@ -31,6 +31,10 @@ const main = (function () {
       outOfRange: {
         color: '#F14668'
       }
+    },
+    autocomplete: {
+      instance: undefined,
+      data: undefined
     }
   }
   let profileGrid;
@@ -39,6 +43,7 @@ const main = (function () {
   function init() {
     createBreadCrumb();
     initAutoComplete();
+    initFilterEventListeners();
     initQuarterSelbox();
     focusSchWord();
     addSelectedLineChartFilterEvents();
@@ -70,8 +75,27 @@ const main = (function () {
     breadCrumbNav.innerHTML = html;
   }
 
-  function initAutoComplete() {
+  async function initAutoComplete() {
+    global.autocomplete.data = await cmmUtils.awaitAxiosGet({url: '/api/v1/premium/autocomplete'});
+    global.autocomplete.instance = new Awesomplete(document.getElementById('inputSearch'));
+    global.autocomplete.instance.list = global.autocomplete.data.outStockItemNameList; // 기본은 해외종목명
+  }
 
+  function initFilterEventListeners() {
+    document.getElementById('selType').addEventListener('change', changeAutocompleteList);
+    document.getElementById('schType').addEventListener('change', changeAutocompleteList);
+  }
+
+  function changeAutocompleteList() {
+    const filter1 = document.getElementById('selType').value;
+    const filter2 = document.getElementById('schType').value;
+    if (filter1 === '1') {
+      // 국내
+      global.autocomplete.instance.list = (filter2 === '1') ? global.autocomplete.data.inStockItemNameList : global.autocomplete.data.inStockItemCodeList;
+    } else {
+      // 해외
+      global.autocomplete.instance.list = (filter2 === '1') ? global.autocomplete.data.outStockItemNameList : global.autocomplete.data.outStockItemCodeList;
+    }
   }
 
   // 존재하는 분기 검색

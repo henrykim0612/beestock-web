@@ -57,7 +57,10 @@
         <div class="level-item has-text-centered">
             <div class="field loginField is-grouped is-grouped-centered">
                 <div class="control">
-                    <button id="btnEmail" class="button is-info" onclick="main.findEmail()"><strong>이메일 찾기</strong></button>
+                    <button id="btnEmail" class="button is-warning" onclick="main.findEmail()">
+                        <span class="icon is-small"><i class="fas fa-search"></i></span>
+                        <span>이메일 찾기</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -117,7 +120,10 @@
         <div class="level-item has-text-centered">
             <div class="field loginField is-grouped is-grouped-centered">
                 <div class="control">
-                    <button id="btnPwd" class="button is-info" onclick="main.findPassword()"><strong>임시 비밀번호 생성</strong></button>
+                    <button id="btnPwd" class="button is-warning" onclick="main.findPassword()">
+                        <span class="icon is-small"><i class="fas fa-search"></i></span>
+                        <span>비밀번호 변경</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -143,19 +149,77 @@
     </div>
 </div>
 
-<%--Email 확인 모달--%>
-<div id="pwdModal" class="modal">
+<div class="modal" id="newPwdModal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">Password 확인 결과</p>
-            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('pwdModal')"></button>
+            <p class="modal-card-title">새로운 비밀번호 입력</p>
+            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('newPwdModal')"></button>
         </header>
-        <section id="pwdModalSect" class="modal-card-body">
+        <section class="modal-card-body">
+            <div class="content">
+                <nav class="level">
+                    <div class="level-item has-text-left">
+                        <div class="field loginField">
+                            <label class="label">패스워드</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern(this)" maxlength="20">
+                                <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                                <span class="icon is-small is-right">
+                                    <i id="icoPwdCheck" class="fas fa-check is-hidden"></i>
+                                    <i id="icoPwdTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
+                                </span>
+                            </div>
+                            <p id="helpPwd" class="help is-hidden">패스워드 형식을 다시 확인해주세요(8 ~ 16자 영문, 숫자, 특수문자 조합).</p>
+                        </div>
+                    </div>
+                </nav>
+                <nav class="level">
+                    <div class="level-item has-text-left">
+                        <div class="field loginField">
+                            <label class="label">패스워드 확인</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input id="ipCfPwd" class="input" type="password" placeholder="패스워드 확인" onblur="main.isSamePassword()" maxlength="20">
+                                <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                                <span class="icon is-small is-right">
+                                    <i id="icoCfPwdCheck" class="fas fa-check is-hidden"></i>
+                                    <i id="icoCfPwdTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
+                                </span>
+                            </div>
+                            <p id="helpCfPwd" class="help is-hidden">패스워드가 일치하지 않습니다.</p>
+                        </div>
+                    </div>
+                </nav>
+            </div>
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home.do"><strong>로그인 창으로 이동</strong></a>
+                <button class="button is-warning" onclick="main.changePwd()">
+                    <span class="icon"><i class="fas fa-key"></i></span>
+                    <strong>비밀번호 변경</strong>
+                </button>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<div id="sucModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">비밀번호 변경완료</p>
+            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('sucModal')"></button>
+        </header>
+        <section class="modal-card-body">
+            <h2>비밀번호가 변경되었습니다.</h2>
+            <p>로그인 페이지로 이동하여 변경된 비밀번호로 접속하십시오.</p>
+        </section>
+        <footer class="modal-card-foot justify-content-center">
+            <div class="buttons">
+                <a class="button is-warning is-small" href="${pageContext.request.contextPath}/login/login-home.do">
+                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                    <strong>로그인 창으로 이동</strong>
+                </a>
             </div>
         </footer>
     </div>

@@ -3,8 +3,14 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%--페이지 로더--%>
-<div id="pageLoader" class="dot-spin is-hidden" style="position: fixed;"></div>
-<%--<div id="pageLoader" class="pageloader is-white"><span class="title"></span></div>--%>
+<div id="pageLoader" class="showbox is-hidden">
+    <div class="pageLoader">
+        <svg class="circular" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+        </svg>
+    </div>
+</div>
+
 
 <%--에러 입력관련 모달--%>
 <div id="errModal" class="modal">
@@ -13,6 +19,16 @@
         <div class="notification is-danger">
             <button class="delete" onclick="cmmUtils.closeModal('errModal')"></button>
             페이지에 에러가 발생했습니다. <br/>이용에 불편을 드려 죄송합니다.
+        </div>
+    </div>
+</div>
+
+<div id="customErrModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="notification is-danger">
+            <button class="delete" onclick="cmmUtils.closeModal('customErrModal')"></button>
+            <p id="customErrMsg"></p>
         </div>
     </div>
 </div>

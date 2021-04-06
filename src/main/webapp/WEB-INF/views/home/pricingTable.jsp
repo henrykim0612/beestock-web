@@ -5,7 +5,7 @@
 
 <article class="message is-dark">
     <div class="message-body">
-        <p>등급을 올려 더 많은 포트폴리오와 정리된 시각화 화면으로 시간을 절약하십시오.</p>
+        <p>등급별 이용가능한 항목을 확인하시고, 본인에게 맞는 등급으로 업그레이드하여 더욱 강력한 서비스를 이용하십시오.</p>
         <sec:authorize access="hasRole('ROLE_BASIC')">
             <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-primary">Basic</strong>등급을 이용하고 계십니다.</p>
         </sec:authorize>
@@ -29,9 +29,9 @@
         <div class="plan-items">
             <div class="plan-item">광고제거</div>
             <div class="plan-item">해외 포트폴리오</div>
-            <div class="plan-item">해외 포트폴리오 시각화자료 팝업</div>
+            <div class="plan-item">해외 포트폴리오 종목별 시각화자료</div>
             <div class="plan-item">국내 포트폴리오</div>
-            <div class="plan-item">국내 포트폴리오 시각화자료 팝업</div>
+            <div class="plan-item">국내 포트폴리오 종목별 시각화자료</div>
             <div class="plan-item">포트폴리오별 종목 검색</div>
         </div>
         <div class="plan-footer">
@@ -43,7 +43,7 @@
         <div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency"></span>무료</span>/월</div>
         <div class="plan-items">
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
-            <div class="plan-item"><span class="icon-text has-text-success is-small"><span class="icon"><i class="fas fa-check"></i></span><span class="has-text-danger">최근 8분기 자료만 공개</span></span></div>
+            <div class="plan-item"><span class="has-text-danger">최근 8분기 자료만 공개</span></div>
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
@@ -65,7 +65,7 @@
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
         </div>
         <div class="plan-footer">
-            <button class="button is-fullwidth">결제하기</button>
+            <button class="button is-fullwidth" onclick="main.payment()">결제하기</button>
         </div>
     </div>
 
@@ -81,7 +81,7 @@
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
         </div>
         <div class="plan-footer">
-            <button class="button is-fullwidth">결제하기</button>
+            <button class="button is-fullwidth" onclick="main.payment()">결제하기</button>
         </div>
     </div>
 
@@ -97,9 +97,7 @@
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
         </div>
         <div class="plan-footer">
-            <button class="button is-fullwidth">결제하기</button>
+            <button class="button is-fullwidth" onclick="main.payment()">결제하기</button>
         </div>
     </div>
 </div>
-
-<button class="button" onclick="main.showPayment()">Button</button>
