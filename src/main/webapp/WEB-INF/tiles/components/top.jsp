@@ -32,7 +32,7 @@
                 <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-book"></i></span>소개</a>
                 <div class="navbar-dropdown">
                     <a class="navbar-item" href="${pageContext.request.contextPath}/home/about.do"><span class="icon has-text-dark mr-1"><i class="fas fa-microphone"></i></span>소개</a>
-                    <a class="navbar-item" href=""><span class="icon has-text-dark mr-1"><i class="fab fa-glide-g"></i></span>가이드</a>
+<%--                    <a class="navbar-item" href=""><span class="icon has-text-dark mr-1"><i class="fab fa-glide-g"></i></span>가이드</a>--%>
                 </div>
             </div>
 
@@ -75,6 +75,7 @@
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/latest-price-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-upload"></i></span>현재가 수동 업로드</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/profile-order-management.do"><span class="icon has-text-dark mr-1"><i class="fas fa-sort-numeric-up"></i></span>포트폴리오 순서 변경</a>
                         <a class="navbar-item" href="${pageContext.request.contextPath}/admin/userlog.do"><span class="icon has-text-dark mr-1"><i class="fas fa-user-secret"></i></span>사용자 로그분석</a>
+                        <a class="navbar-item" href="${pageContext.request.contextPath}/admin/feedback.do"><span class="icon has-text-dark mr-1"><i class="fas fa-paper-plane"></i></span>피드백 확인</a>
                     </div>
                 </div>
             </sec:authorize>

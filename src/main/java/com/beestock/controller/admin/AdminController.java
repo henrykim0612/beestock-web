@@ -73,4 +73,11 @@ public class AdminController {
         return "admin/log/userLog";
     }
 
+    @GetMapping("/feedback.do")
+    public String goToFeedback(ModelMap model) {
+        model.addAttribute("title", "피드백 확인");
+        return "admin/feedback/feedback";
+    }
+
+
 }

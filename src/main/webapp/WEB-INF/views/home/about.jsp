@@ -2,12 +2,14 @@
 
 
 <img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" style="width: 20%; height: 10%; margin-top: 3%;">
-<div class="content is-medium mt-5">
-    <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 대표자 2인(유병덕, 김형종)이 직접 개발하여 운영하고 있습니다.<br/>
-    실제 투자를 하면서 필요한 정보들만을 취합하고 데이터를 정제, 가공하여 포트폴리오별 분석 화면을 만들어냈습니다.<br/>
-    대표자이자 개발자인 장점을 살려 <strong><span class="has-text-warning">BEE</span>STOCK</strong>에서는 이용하는 고객분들과 소통하기 위해 피드백 기능을 제공하고 있습니다.<br/>
-    사이트의 버그가 존재한다거나 데이터의 오류, 또는 고객분들의 원하는 포트폴리오가 있을 경우에는 피드백 기능을 적극 활용하여 전송해주십시오.<br/>
-    검토 후 빠르게 패치하여 더욱 질 좋은 사이트로 보답드리겠습니다.<br/>
+<div class="content is-medium mt-6">
+    <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 대표자 2인이 직접 개발하여 운영하고 있습니다.<br/>
+    실제 투자를 하면서 필요한 정보들만을 취합하고 데이터를 정제, 가공하여 포트폴리오별 인사이트를 얻기 위한 핵심 정보만을 담았습니다.<br/>
+    <br/>
+    <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 이용자들과 소통하기를 원합니다.<br/>
+    대표자이자 개발자인 장점을 살려 이용자들과 소통하기 위해 피드백 기능을 제공하고 있습니다.<br/>
+    사이트 버그, 개선점, 필요로 하는 새로운 기능의 화면, 보고싶어하는 포트폴리오 등 피드백 기능을 적극 활용하여 보내주세요.<br/>
+    빠르게 개선하여 더욱 질 좋은 사이트로 보답해 드리겠습니다.<br/>
     <br/>
     <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 투자대가들이 분기별로 의무공시하는 <strong>SEC_13F</strong> 포트폴리오를 추적하여 정리한 다음 보여드리는 서비스를 제공 합니다.<br/>
     미국에는 7,400개, 국내에는 2,300개가량 기업이 상장되어 있습니다.<br/>

@@ -678,7 +678,7 @@ const cmmUtils = (function () {
 
   function showPageLoader() {
     const pageLoader = document.getElementById('pageLoader');
-    pageLoader.style.top = window.pageYOffset + 300 + 'px'
+    pageLoader.style.top = window.pageYOffset + 400 + 'px'
     pageLoader.classList.remove('is-hidden');
   }
 

@@ -10,11 +10,11 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">이메일</label>
+            <label class="label">아이디</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipEmail" class="input" type="email" placeholder="Email 형식" onblur="main.isEmailPattern()" maxlength="50">
+                <input id="ipLoginId" class="input" type="text" placeholder="아이디 입력" onblur="main.isExistedLoginId()" maxlength="50">
                 <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
+                    <i class="fas fa-id-card"></i>
                 </span>
                 <span class="icon is-small is-right">
                     <i id="icoEmailCheck" class="fas fa-check is-hidden"></i>
@@ -64,7 +64,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">사용자명</label>
+            <label class="label">이름</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임" maxlength="50">
                 <span class="icon is-small is-left">
@@ -79,7 +79,7 @@
         <div class="field loginField">
             <label class="label">핸드폰 번호</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()" maxlength="50">
+                <input id="ipUserPhone" class="input" type="text" placeholder="'-' 없이 입력" onblur="main.isUserPhonePattern()" maxlength="11">
                 <span class="icon is-small is-left">
                      <i class="fas fa-mobile-alt"></i>
                 </span>
@@ -88,7 +88,7 @@
                     <i id="icoUserPhoneTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                 </span>
             </div>
-            <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요(010-xxxx-xxxx).</p>
+            <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요.</p>
         </div>
     </div>
 </nav>

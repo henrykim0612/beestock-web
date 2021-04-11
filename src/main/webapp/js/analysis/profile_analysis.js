@@ -2081,6 +2081,7 @@ const main = (function() {
 
         // 에디터
         initCKEditor();
+        initAvailableFileSize();
       }
     }
 
@@ -2095,6 +2096,15 @@ const main = (function() {
       }
     }
   }
+
+  async function initAvailableFileSize() {
+    const usedFileSize = await cmmUtils.awaitAxiosGet({url: '/api/v1/analysis/file/used-size'})
+    document.getElementById('usedFileSize').innerText = usedFileSize;
+    if (usedFileSize > (1000 * 0.9)) { // 90% 초과시
+      document.getElementById('maxFileSize').classList.add('has-text-danger');
+    }
+  }
+
 
   function initTooltips() {
     const arr = [
@@ -2155,13 +2165,15 @@ const main = (function() {
     document.getElementById('modCardTitle').innerText = response['ideaTitle'];
   }
 
-  function closeNewIdeaModal() {
+  async function closeNewIdeaModal() {
     cmmUtils.closeModal('newIdeaModal');
+    await cmmUtils.axiosPost({url: '/common/ckeditor5/unused-files'});
     reloadIdeaGrid();
   }
   
-  function closeModIdeaModal() {
+  async function closeModIdeaModal() {
     cmmUtils.closeModal('modIdeaModal');
+    await cmmUtils.axiosPost({url: '/common/ckeditor5/unused-files'});
     reloadIdeaGrid();
   }
 
@@ -2219,6 +2231,13 @@ const main = (function() {
       formData.append('ideaTitle', document.getElementById('newIdeaTitle').value);
       formData.append('ideaCont', global.ckEditNewIdeaCont.getData());
 
+      const images = document.getElementById('newIdeaModal').querySelector('.ck-content').querySelectorAll('img');
+      for (let i=0;i<images.length;i++) {
+        const split = images[i].src.split('.')[0].split('/');
+        const usedImageId = split[split.length - 1];
+        formData.append('usedImageIds', usedImageId);
+      }
+
       cmmUtils.axiosPost({
         url: '/api/v1/analysis/profile/insert-idea',
         body: formData,
@@ -2243,6 +2262,13 @@ const main = (function() {
         formData.append('ideaTitle', document.getElementById('modIdeaTitle').value);
         formData.append('ideaCont', global.ckEditModIdeaCont.getData());
 
+        const images = document.getElementById('modIdeaModal').querySelector('.ck-content').querySelectorAll('img');
+        for (let i=0;i<images.length;i++) {
+          const split = images[i].src.split('.')[0].split('/');
+          const usedImageId = split[split.length - 1];
+          formData.append('usedImageIds', usedImageId);
+        }
+
         cmmUtils.axiosPost({
           url: '/api/v1/analysis/profile/update-idea',
           body: formData,
@@ -2257,6 +2283,25 @@ const main = (function() {
         });
       });
     }
+  }
+
+  function removeIdea() {
+    const msg = '아이디어를 삭제 하시겠습니까?';
+    cmmConfirm.show({msg: msg, color: 'is-warning'}, async function() {
+      const response = await cmmUtils.awaitAxiosPost({
+        url: '/api/v1/analysis/profile/remove-idea',
+        body: {
+          ideaId: global.selectedIdeaId
+        }
+      });
+
+      if (response) {
+        cmmUtils.showToast({message: '삭제 되었습니다.'});
+        closeModIdeaModal();
+      } else {
+        cmmUtils.goToErrorPage(response);
+      }
+    });
   }
 
   function verifyNewIdeaForm() {
@@ -2377,6 +2422,7 @@ const main = (function() {
     downloadProfileGrid: downloadProfileGrid,
     saveIdea: saveIdea,
     modifyIdea: modifyIdea,
+    removeIdea: removeIdea,
     goToLinkPop: goToLinkPop,
     searchInputKeyup: searchInputKeyup,
     searchItemName: searchItemName,

@@ -11,11 +11,11 @@
         <nav class="level">
             <div class="level-item has-text-left">
                 <div class="field loginField">
-                    <label class="label">Email</label>
+                    <label class="label">아이디</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input id="loginId" name="username" class="input" type="email" placeholder="Email" value="${username}">
+                        <input id="loginId" name="username" class="input" type="text" placeholder="ID" value="${username}">
                         <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-id-card"></i>
                     </span>
                         <span class="icon is-small is-right">
                         <i id="icoEmailCheck" class="fas fa-check is-hidden"></i>
@@ -57,7 +57,7 @@
                             </button>
                         </div>
                         <div class="flex-col justify-content-center">
-                            <a class="is-primary" href="${pageContext.request.contextPath}/login/finding-account.do"><strong>Email/Password 찾기</strong></a>
+                            <a class="is-primary" href="${pageContext.request.contextPath}/login/finding-account.do"><strong>아이디/패스워드 찾기</strong></a>
                         </div>
                     </div>
                 </div>
