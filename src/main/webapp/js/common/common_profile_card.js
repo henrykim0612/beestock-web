@@ -25,6 +25,26 @@ const cmmProfileCard = (function () {
       fragment.appendChild(columns);
     }
     content.appendChild(fragment);
+    // 카드 툴팁
+    setTooltips();
+  }
+
+  // 카드 툴팁 적용
+  function setTooltips() {
+    const cardContents = document.querySelectorAll('.card-content');
+    const size = cardContents.length;
+    let tooltipArr = [];
+    for (let i = 0; i < size; i++) {
+      const ele = cardContents[i];
+      if (ele.dataset.tooltipTxt !== 'null') {
+        tooltipArr.push({
+          selector: ele,
+          content: ele.dataset.tooltipTxt,
+          placement: 'bottom'
+        });
+      }
+    }
+    cmmUtils.setTippy(tooltipArr);
   }
 
   function setUserRole(userRole) {
@@ -80,6 +100,7 @@ const cmmProfileCard = (function () {
     // 카드 타이틀
     const cardContent = document.createElement('div');
     cardContent.classList.add('card-content');
+    cardContent.dataset.tooltipTxt = data['tooltipTxt'];
     const media = document.createElement('div');
     media.classList.add('media');
     const mediaContent = document.createElement('div');

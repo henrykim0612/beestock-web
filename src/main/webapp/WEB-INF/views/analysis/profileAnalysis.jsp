@@ -107,11 +107,16 @@
             <sec:authorize access="isAuthenticated()">
                 <%--아이디어 탭--%>
                 <div id="ideaCont" class="is-hidden">
-                    <div class="columns is-flex-direction-row is-justify-content-flex-end">
-                        <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
-                            <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
-                            <span>아이디어 추가</span>
-                        </button>
+                    <div class="columns">
+                        <div class="flex-row width-50per align-items-center ml-4">
+                            <p id="availableFileSize" class="subtitle is-7">첨부 이미지 총 사용량: <span id="usedFileSize">0</span> / <span id="maxFileSize">1000 MB</span></p>
+                        </div>
+                        <div class="flex-row justify-content-end width-50per">
+                            <button id="btnMod" onclick="main.showIdeaModal()" class="button is-primary is-small mr-4">
+                                <span class="icon is-small"><i class="fas fa-pencil-alt"></i></span>
+                                <span>아이디어 추가</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="columns">
                         <div class="column is-full height250px">
@@ -432,13 +437,13 @@
             </div>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnNewIdea" onclick="main.saveIdea()" class="button is-success">
+            <button id="btnNewIdea" onclick="main.saveIdea()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                 <span>등록</span>
             </button>
-            <button onclick="main.closeNewIdeaModal()" class="button is-dark">
+            <button onclick="main.closeNewIdeaModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>
@@ -481,13 +486,19 @@
             </form>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnModIdea" onclick="main.modifyIdea()" class="button is-success">
+            <button id="btnModIdea" onclick="main.modifyIdea()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                 <span>수정</span>
             </button>
-            <button onclick="main.closeModIdeaModal()" class="button is-dark">
+            <button id="btnRmIdea" onclick="main.removeIdea()" class="button is-danger is-small">
+                <span class="icon is-small">
+                  <i class="fas fa-trash"></i>
+                </span>
+                <span>삭제</span>
+            </button>
+            <button onclick="main.closeModIdeaModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>

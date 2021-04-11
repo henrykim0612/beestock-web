@@ -7,7 +7,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Email</label>
+            <label class="label">아이디</label>
             <div class="control has-icons-left">
                 <input disabled id="ipEmail" class="input" type="email" value="<sec:authentication property="principal.username"/>">
                 <span class="icon is-small is-left">
@@ -20,7 +20,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Password</label>
+            <label class="label">패스워드</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern()">
                 <span class="icon is-small is-left">
@@ -38,7 +38,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Confirm password</label>
+            <label class="label">패스워드 확인</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipCfPwd" class="input" type="password" placeholder="패스워드 확인" onblur="main.isSamePassword()">
                 <span class="icon is-small is-left">
@@ -56,7 +56,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Your Name</label>
+            <label class="label">이름</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipUserName" class="input" type="text" maxlength="50" placeholder="사용자 이름 또는 닉네임" value="<sec:authentication property="principal.userNm"/>">
                 <span class="icon is-small is-left">
@@ -69,9 +69,9 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">Your Mobile</label>
+            <label class="label">핸드폰 번호</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipUserPhone" class="input" type="text" maxlength="50" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()" value="<sec:authentication property="principal.userPhone"/>">
+                <input id="ipUserPhone" class="input" type="text" maxlength="50" placeholder="'-' 없이 입력" onblur="main.isUserPhonePattern()" value="<sec:authentication property="principal.userPhone"/>">
                 <span class="icon is-small is-left">
                      <i class="fas fa-mobile-alt"></i>
                 </span>
@@ -80,7 +80,7 @@
                     <i id="icoUserPhoneTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                 </span>
             </div>
-            <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요(010-xxxx-xxxx).</p>
+            <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요.</p>
         </div>
     </div>
 </nav>

@@ -76,8 +76,8 @@ const main = (function() {
       loading: 'btnSearch',
       colModel: [
         {id: 'rowNum', name: 'No', isSort: true, isStrong: true, align: 'center'},
-        {id: 'loginId', name: '이메일', isSort: true, isExcel: true, align: 'left'},
-        {id: 'userNm', name: '사용자/닉네임', isSort: true, isExcel: true, align: 'center'},
+        {id: 'loginId', name: '아이디', isSort: true, isExcel: true, align: 'left'},
+        {id: 'userNm', name: '이름', isSort: true, isExcel: true, align: 'center'},
         {id: 'userPhone', name: '연락처', isExcel: true, align: 'center'},
         {id: 'regDate', name: '회원가입 일자', isSort: true, isExcel: true, align: 'center'},
         {id: 'uptDate', name: '수정일자', isSort: true, isExcel: true, align: 'center'},

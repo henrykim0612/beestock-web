@@ -30,7 +30,7 @@ public class AnalysisController {
     }
 
     @GetMapping("/profile/details.do")
-    public String goToPricingTable(ModelMap model,
+    public String goToAnalysis(ModelMap model,
                                    @RequestParam int profileType,
                                    @RequestParam String profileId,
                                    @RequestParam(required = false) String quarterDate,

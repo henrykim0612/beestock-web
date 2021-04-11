@@ -5,7 +5,7 @@
 
 <article class="message is-dark">
     <div class="message-body">
-        <p>등급별 이용가능한 항목을 확인하시고, 본인에게 맞는 등급으로 업그레이드하여 더욱 강력한 서비스를 이용하십시오.</p>
+        <p>등급별 이용가능한 항목을 확인하시고, 본인에게 맞는 등급으로 업그레이드하세요.</p>
         <sec:authorize access="hasRole('ROLE_BASIC')">
             <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-primary">Basic</strong>등급을 이용하고 계십니다.</p>
         </sec:authorize>

@@ -36,33 +36,24 @@ const main = (function() {
     }
   }
 
-  async function isEmailPattern() {
-
-    const ipEmail = document.getElementById('ipEmail');
+  async function isExistedLoginId() {
+    const ipLoginId = document.getElementById('ipLoginId');
     const helpEmail = document.getElementById('helpEmail');
     const icoEmailCheck = document.getElementById('icoEmailCheck');
     const icoEmailTriangle = document.getElementById('icoEmailTriangle');
-    clearClasses([ipEmail, helpEmail]);
-    if (ipEmail.value) {
-
-      const isExistedLoginId = await cmmUtils.awaitAxiosPost({url: '/api/v1/login/is-existed', body: {loginId: ipEmail.value}});
+    clearClasses([ipLoginId, helpEmail]);
+    if (ipLoginId.value) {
+      const isExistedLoginId = await cmmUtils.awaitAxiosPost({url: '/api/v1/login/is-existed', body: {loginId: ipLoginId.value}});
       if (isExistedLoginId) {
         // 사용중인 이메일
-        appendInfoClasses([ipEmail, helpEmail], false);
+        appendInfoClasses([ipLoginId, helpEmail], false);
         removeHiddenClass([icoEmailTriangle]);
         helpEmail.innerText = '이미 사용중인 이메일입니다.';
         appendHiddenClass([icoEmailCheck]);
       } else {
-        if ( isEmail(ipEmail.value) ) {
-          appendInfoClasses([ipEmail, helpEmail], true);
-          removeHiddenClass([icoEmailCheck]);
-          appendHiddenClass([icoEmailTriangle, helpEmail]);
-        } else { // 이메일 패턴이 아니라면
-          appendInfoClasses([ipEmail, helpEmail], false);
-          removeHiddenClass([icoEmailTriangle]);
-          helpEmail.innerText = '입력하신 값은 이메일 형식이 아닙니다.';
-          appendHiddenClass([icoEmailCheck]);
-        }
+        appendInfoClasses([ipLoginId, helpEmail], true);
+        removeHiddenClass([icoEmailCheck]);
+        appendHiddenClass([icoEmailTriangle, helpEmail]);
       }
     } else {
       appendHiddenClass([icoEmailCheck, icoEmailTriangle, helpEmail]);
@@ -236,7 +227,7 @@ const main = (function() {
   /*회원가입 처리*/
   function signup() {
 
-    const loginId = document.getElementById('ipEmail');
+    const loginId = document.getElementById('ipLoginId');
     const loginPwd = document.getElementById('ipPwd');
     const cfPwd = document.getElementById('ipCfPwd');
     const userNm = document.getElementById('ipUserName');
@@ -307,11 +298,11 @@ const main = (function() {
     }
   }
 
-  function focusIpEmail(id) {
+  function focusipLoginId(id) {
     document.getElementById(id).classList.remove('is-active');
-    const ipEmail = document.getElementById('ipEmail');
-    ipEmail.value = '';
-    ipEmail.focus();
+    const ipLoginId = document.getElementById('ipLoginId');
+    ipLoginId.value = '';
+    ipLoginId.focus();
   }
 
   // 이메일 체크 정규식
@@ -322,7 +313,7 @@ const main = (function() {
 
   // 핸드폰 번호 체크 정규식
   function isCellular(asValue) {
-    const regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    const regExp = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
 
   }
@@ -353,14 +344,14 @@ const main = (function() {
 
   return {
     init: init,
-    isEmailPattern: isEmailPattern,
+    isExistedLoginId: isExistedLoginId,
     isPwdPattern: isPwdPattern,
     isSamePassword: isSamePassword,
     isUserPhonePattern: isUserPhonePattern,
     signup: signup,
     closeModal: closeModal,
     showAgreeModal: showAgreeModal,
-    focusIpEmail: focusIpEmail,
+    focusipLoginId: focusipLoginId,
     checkAgreement: checkAgreement
   }
 

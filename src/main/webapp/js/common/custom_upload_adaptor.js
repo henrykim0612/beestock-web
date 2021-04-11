@@ -63,11 +63,16 @@ var ckeditor5CustomUploadAdapter = function () {
         if (!response || response.error) {
           return reject(response && response.error ? response.error.message : genericErrorText);
         }
+        console.log(response[0].status);
         // If the upload is successful, resolve the upload promise with an object containing
         // at least the "default" URL, pointing to the image on the server.
         if (response[0].status === 0) {
           // 파일 사이즈 초과함
-          cmmUtils.showIpModal(response[0].originalFileName + ' 파일 사이즈 초과', '3MB를 초과한 이미지는 첨부할 수 없습니다.');
+          cmmUtils.showWarningModal(response[0].originalFileName + ' 파일 사이즈 초과', '3MB를 초과한 이미지는 첨부할 수 없습니다.');
+          reject();
+        } else if(response[0].status === -1) {
+          // 총 사용량 초과
+          cmmUtils.showWarningModal('첨부 이미지 사용량 초과', '첨부 가능한 이미지 사용량을 초과하였습니다.');
           reject();
         } else {
           resolve({

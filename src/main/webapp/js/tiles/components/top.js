@@ -285,11 +285,11 @@ const topMain = (function() {
   async function sendFeedback() {
 
     const response = await cmmUtils.awaitAxiosPost({
-      url: '/api/v1/feedback/mail',
+      url: '/api/v1/feedback/new-feedback',
       loading: 'btnFeedback',
       body: {
-        title: document.getElementById('feedbackSelBox').value,
-        content: document.getElementById('feedbackContent').value
+        feedbackType: document.getElementById('feedbackSelBox').value,
+        feedbackCont: document.getElementById('feedbackContent').value
       }
     });
 

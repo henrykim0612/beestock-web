@@ -344,14 +344,14 @@
                 <div class="flex-row justify-content-start">
                     <div class="select is-small">
                         <select id="feedbackSelBox">
-                            <option value="데이터 오류신고">데이터 오류신고</option>
-                            <option value="신규 프트요청">신규 포트폴리오 요청</option>
-                            <option value="기타">기타</option>
+                            <option value="FB001">데이터 오류신고</option>
+                            <option value="FB002">신규 포트폴리오 요청</option>
+                            <option value="FB003">기타</option>
                         </select>
                     </div>
                 </div>
                 <div class="flex-row justify-content-start mt-3">
-                    <textarea id="feedbackContent" class="textarea" placeholder="고객의 피드벡을 받아 더 좋은 사이트로 보답하겠습니다."></textarea>
+                    <textarea id="feedbackContent" class="textarea" placeholder="내용 입력" maxlength="4000"></textarea>
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">

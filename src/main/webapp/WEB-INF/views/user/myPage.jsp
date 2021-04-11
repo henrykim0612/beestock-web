@@ -94,7 +94,7 @@
             </sec:authorize>
             <div class="columns">
                 <div class="column">
-                    <button class="button is-primary is-small" onclick="cmmUtils.showModal('confirmPwdModal')">
+                    <button class="button is-warning is-small" onclick="cmmUtils.showModal('confirmPwdModal')">
                         <span class="file-icon"><i class="fas fa-user-edit"></i></span>계정수정
                     </button>
                     <button class="button is-danger is-small" onclick="cmmUtils.showModal('withdrawalModal')">
