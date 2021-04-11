@@ -230,13 +230,19 @@
             </form>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnModIdea" onclick="main.modifyIdea()" class="button is-success">
+            <button id="btnModIdea" onclick="main.modifyIdea()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-check"></i>
                 </span>
                 <span>수정</span>
             </button>
-            <button onclick="main.closeModIdeaModal()" class="button is-dark">
+            <button id="btnRmIdea" onclick="main.removeIdea()" class="button is-danger is-small">
+                <span class="icon is-small">
+                  <i class="fas fa-trash"></i>
+                </span>
+                <span>삭제</span>
+            </button>
+            <button onclick="main.closeModIdeaModal()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>
                 </span>
