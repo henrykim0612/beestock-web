@@ -82,6 +82,12 @@
                             <span>참고자료</span>
                         </a>
                     </li>
+                    <li id="infoTab" class="topTabs" data-cont-id="infoCont">
+                        <a>
+                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span>소개</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <%--Fundamental 내용--%>
@@ -133,6 +139,15 @@
                 <div class="columns">
                     <div class="column is-full">
                         <div id="profileLinkDiv" class="flex-col justify-content-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%--소개 탭--%>
+            <div id="infoCont" class="is-hidden">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div id="infoDiv">
                         </div>
                     </div>
                 </div>
