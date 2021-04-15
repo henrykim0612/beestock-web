@@ -28,7 +28,7 @@
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">패스워드</label>
+            <label class="label">비밀번호</label>
             <div class="control has-icons-left has-icons-right">
                 <input id="ipPwd" class="input" type="password" placeholder="8 ~ 16자 영문, 숫자, 특수문자 조합" onblur="main.isPwdPattern(this)" maxlength="20">
                 <span class="icon is-small is-left">
@@ -39,16 +39,16 @@
                     <i id="icoPwdTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                 </span>
             </div>
-            <p id="helpPwd" class="help is-hidden">패스워드 형식을 다시 확인해주세요(8 ~ 16자 영문, 숫자, 특수문자 조합).</p>
+            <p id="helpPwd" class="help is-hidden">비밀번호 형식을 다시 확인해주세요(8 ~ 16자 영문, 숫자, 특수문자 조합).</p>
         </div>
     </div>
 </nav>
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
-            <label class="label">패스워드 확인</label>
+            <label class="label">비밀번호 확인</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipCfPwd" class="input" type="password" placeholder="패스워드 확인" onblur="main.isSamePassword()" maxlength="20">
+                <input id="ipCfPwd" class="input" type="password" placeholder="비밀번호 확인" onblur="main.isSamePassword()" maxlength="20">
                 <span class="icon is-small is-left">
                      <i class="fas fa-lock"></i>
                 </span>
@@ -57,7 +57,7 @@
                     <i id="icoCfPwdTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                 </span>
             </div>
-            <p id="helpCfPwd" class="help is-hidden">패스워드가 일치하지 않습니다.</p>
+            <p id="helpCfPwd" class="help is-hidden">비밀번호가 일치하지 않습니다.</p>
         </div>
     </div>
 </nav>
@@ -66,7 +66,7 @@
         <div class="field loginField">
             <label class="label">이름</label>
             <div class="control has-icons-left has-icons-right">
-                <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임" maxlength="50">
+                <input id="ipUserName" class="input" type="text" placeholder="사용자 이름" maxlength="50">
                 <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                 </span>

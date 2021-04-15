@@ -11,11 +11,11 @@ const main = (function() {
     }
   }
 
-  // 패스워드 검증
+  // 비밀번호 검증
   function isRightPassword() {
     const loginPwd = document.getElementById('loginPwd');
     if (cmmUtils.hasKoreanWord(loginPwd.value)) {
-      cmmUtils.showIpModal('패스워드', '패스워드에 한글이 포함되어 있습니다.');
+      cmmUtils.showIpModal('비밀번호', '비밀번호에 한글이 포함되어 있습니다.');
       return false;
     } else {
       return true;

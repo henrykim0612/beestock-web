@@ -269,7 +269,6 @@ const main = (function() {
   }
 
   function insertProc(body) {
-    cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
     cmmUtils.axiosPost({
       url: '/api/v1/login/insert-user',
       body: body
@@ -315,7 +314,6 @@ const main = (function() {
   function isCellular(asValue) {
     const regExp = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
-
   }
 
   // 비밀번호 체크 정규식

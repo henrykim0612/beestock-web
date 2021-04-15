@@ -120,7 +120,7 @@ const main = (function () {
           goToDetails();
         } else {
           if (isSecret && owner === loginId) {
-            // 자신이 작성한 비밀글인지 패스워드 확인
+            // 자신이 작성한 비밀글인지 비밀번호 확인
             cmmUtils.showModal('confirmPwdModal');
           } else {
             if (isSecret) {
@@ -150,7 +150,7 @@ const main = (function () {
     dataGrid.reload();
   }
 
-  // 비밀글은 패스워드 확인
+  // 비밀글은 비밀번호 확인
   function checkPwd() {
     const loginId = document.getElementById('loginId').value;
     const loginPwd = document.getElementById('ipPwd').value;
@@ -186,6 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
   main.init();
   // 사용자 검색 이벤트 리스너
   document.getElementById('inputSearch').addEventListener('keyup', main.findQa);
-  // 패스워드 확인 엔터키 이벤트
+  // 비밀번호 확인 엔터키 이벤트
   document.getElementById('ipPwd').addEventListener('keyup', main.keyupIpPwd)
 });

@@ -77,7 +77,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">패스워드 확인</p>
+            <p class="modal-card-title">비밀번호 확인</p>
             <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('confirmPwdModal')"></button>
         </header>
         <section class="modal-card-body">
@@ -96,7 +96,7 @@
             </nav>
             <nav class="level">
                 <div class="level-left">
-                    <p id="helpPwd" class="help is-danger is-hidden">패스워드가 일치하지 않습니다.</p>
+                    <p id="helpPwd" class="help is-danger is-hidden">비밀번호가 일치하지 않습니다.</p>
                 </div>
             </nav>
         </section>

@@ -183,9 +183,8 @@ const main = (function() {
 
   // 핸드폰 번호 체크 정규식
   function isCellular(asValue) {
-    const regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    const regExp = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
-
   }
 
   // 비밀번호 체크 정규식

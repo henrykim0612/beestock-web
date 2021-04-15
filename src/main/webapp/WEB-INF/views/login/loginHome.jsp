@@ -5,7 +5,7 @@
 
 <div class="height600px flex-col justify-content-center">
     <div class="flex-row justify-content-center mb-3">
-        <img class="width-20-p" src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png">
+        <img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" style="width: 200px; height: 100px;">
     </div>
     <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login/login-proc">
         <nav class="level">
@@ -33,7 +33,7 @@
         <nav class="level">
             <div class="level-item has-text-left">
                 <div class="field loginField">
-                    <label class="label">Password</label>
+                    <label class="label">비밀번호</label>
                     <div class="control has-icons-left has-icons-right">
                         <input id="loginPwd" name="password" class="input" type="password" placeholder="Password" value="${password}">
                         <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
@@ -57,7 +57,7 @@
                             </button>
                         </div>
                         <div class="flex-col justify-content-center">
-                            <a class="is-primary" href="${pageContext.request.contextPath}/login/finding-account.do"><strong>아이디/패스워드 찾기</strong></a>
+                            <a class="is-primary" href="${pageContext.request.contextPath}/login/finding-account.do"><strong>아이디/비밀번호 찾기</strong></a>
                         </div>
                     </div>
                 </div>

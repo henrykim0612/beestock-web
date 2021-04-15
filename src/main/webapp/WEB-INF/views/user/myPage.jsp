@@ -87,14 +87,19 @@
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
                 <div class="columns">
                     <div class="column flex-row align-items-center">
-                        <span class="icon has-text-grey mr-2"><i class="fas fa-hourglass-end"></i></span>
-                        <span class="has-text-grey"><sec:authentication property="principal.expDate"/> 까지 구독</span>
+                        <span class="icon has-text-grey mr-2"><i class="fas fa-clock"></i></span>
+                        <span class="has-text-grey"><sec:authentication property="principal.expDate"/> 까지</span>
+                        <%--결제 자동연장--%>
+                        <button id="btnAutoPayment" class="button is-success is-light is-small ml-3" onclick="main.showAuthPaymentModal()">
+                            <span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span>
+                            <span>결제 자동연장</span>
+                        </button>
                     </div>
                 </div>
             </sec:authorize>
             <div class="columns">
                 <div class="column">
-                    <button class="button is-warning is-small" onclick="cmmUtils.showModal('confirmPwdModal')">
+                    <button class="button is-warning is-small" onclick="main.showConfirmPwdModal()">
                         <span class="file-icon"><i class="fas fa-user-edit"></i></span>계정수정
                     </button>
                     <button class="button is-danger is-small" onclick="cmmUtils.showModal('withdrawalModal')">
@@ -146,14 +151,14 @@
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">패스워드 확인</p>
+            <p class="modal-card-title">비밀번호 확인</p>
             <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('confirmPwdModal')"></button>
         </header>
         <section class="modal-card-body">
             <nav class="level">
                 <div class="level-left">
                     <div class="is-vcentered">
-                        <label class="label mr-3">Password</label>
+                        <label class="label mr-3">비밀번호</label>
                     </div>
                     <div class="control has-icons-left">
                         <input id="ipPwd" class="input" type="password">
@@ -165,7 +170,7 @@
             </nav>
             <nav class="level">
                 <div class="level-left">
-                    <p id="helpPwd" class="help is-danger is-hidden">패스워드가 일치하지 않습니다.</p>
+                    <p id="helpPwd" class="help is-danger is-hidden">비밀번호가 일치하지 않습니다.</p>
                 </div>
             </nav>
         </section>
@@ -250,4 +255,37 @@
             </button>
         </footer>
     </div>
+</div>
+
+
+<div id="autoPaymentModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('autoPaymentModal')"></div>
+    <div class="modal-content" style="width: 800px;">
+        <div class="box flex-col justify-content-center">
+
+            <div class="mb-5">
+                <article class="message is-warning">
+                    <div class="message-body">
+                        <p>설정된 카드정보는 직접 PG사로 전달되므로 BEESTOCK 시스템에 카드정보를 저장하지 않아 보안에 안전합니다.</p>
+                    </div>
+                </article>
+            </div>
+
+            <div>
+
+            </div>
+
+
+            <div class="flex-row justify-content-end mt-3">
+                <div class="buttons">
+                    <button class="button is-dark is-small" onclick="cmmUtils.closeModal('autoPaymentModal')">
+                        <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                        <span>닫기</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
 </div>

@@ -10,9 +10,9 @@
         <button class="button is-text" onclick="footerMain.openModal3()">개인정보 처리방침</button>
     </div>
 
-    <div class="flex-row justify-content-center" >
+    <div class="flex-row justify-content-center mt-3 mb-3" >
         <div class="flex-row justify-content-end align-items-center" style="width: 42%;">
-            <img style="width: 14%; height: 50%; margin-right: 3%;" src="${pageContext.request.contextPath}/resources/images/logo/vertical/logo-vertical.png">
+            <img style="width: 80px; height: 80px; margin-right: 30px;" src="${pageContext.request.contextPath}/resources/images/logo/vertical/logo-vertical.png">
         </div>
         <div class="flex-row align-items-center" style="width: 58%;">
             <div class="flex-col">
