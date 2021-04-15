@@ -8,6 +8,7 @@
     <input type="hidden" id="accountNonExpired" value="<sec:authentication property="principal.accountNonExpired"/>"/>
     <input type="hidden" id="loginId" value="<sec:authentication property="principal.username"/>"/>
     <input type="hidden" id="loginUserNm" value="<sec:authentication property="principal.userNm"/>"/>
+    <input type="hidden" id="loginUserPhone" value="<sec:authentication property="principal.userPhone"/>"/>
     <input type="hidden" id="authority" value="<sec:authentication property="principal.authorities"/>"/>
     <input type="hidden" id="humanAccount" value="<sec:authentication property="principal.humanAccount"/>"/>
 </sec:authorize>

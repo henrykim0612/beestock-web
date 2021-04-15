@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 
-<img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" style="width: 20%; height: 10%; margin-top: 3%;">
+<img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" class="mt-7" style="width: 330px; height: 80px;">
 <div class="content is-medium mt-6">
     <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 대표자 2인이 직접 개발하여 운영하고 있습니다.<br/>
     실제 투자를 하면서 필요한 정보들만을 취합하고 데이터를 정제, 가공하여 포트폴리오별 인사이트를 얻기 위한 핵심 정보만을 담았습니다.<br/>

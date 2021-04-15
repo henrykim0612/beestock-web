@@ -791,7 +791,9 @@ const main = (function() {
       html = html + '    <p class="title is-6 cpTitle"><span class="is-orange mr-2">B</span><span>' + global['comparisonQuarterDate'] + '</span></p>';
 
     } else {
+
       html = html + '    <p class="title is-6 cpTitle"><span>' + global['comparisonQuarterDate'] + '</span></p>';
+
     }
 
     html = html + '  </div>';
@@ -825,7 +827,7 @@ const main = (function() {
   function initProfileGrid() {
     // 비교 날짜를 우선적으로 가져옴
     getComparisonQuarter(function(response) {
-      global['comparisonQuarterDate'] = response.quarterDate;
+      global['comparisonQuarterDate'] = (response.quarterDate !== undefined) ? response.quarterDate : '비교대상 없음';
       const body = {
         orderBy: [{column: 'viewWeight', desc: true}],
         quarterId: global.quarterId,
@@ -1802,6 +1804,8 @@ const main = (function() {
     document.getElementById('profileSubtitle').innerText = data['profileSubtitle'];
     // 참고자료 링크
     initProfileLink(data);
+    // 소개 랑크
+    initProfileInfoTab(data);
     // Fundamental 지수
     initFundamentalChart(data['profileId'], data['profileType'], data['profileTitle']);
     if (document.getElementById('benchmarkTab')) {
@@ -2095,6 +2099,10 @@ const main = (function() {
         })
       }
     }
+  }
+
+  function initProfileInfoTab(data) {
+    document.getElementById('infoDiv').innerHTML = data.profileInfo;
   }
 
   async function initAvailableFileSize() {

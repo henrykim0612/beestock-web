@@ -46,4 +46,5 @@
 <script src="${pageContext.request.contextPath}/js/common/bee_components/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
+  const COMPANY_NAME = '허니비소프트';
 </script>

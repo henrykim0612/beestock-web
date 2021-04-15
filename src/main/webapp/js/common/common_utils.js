@@ -1166,6 +1166,10 @@ const cmmUtils = (function () {
     }
   }
 
+  function replaceCellular(value) {
+    return value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1242,6 +1246,7 @@ const cmmUtils = (function () {
     isEmptyObject: isEmptyObject,
     hasKoreanWord: hasKoreanWord,
     getRole: getRole,
-    addZeroStr: addZeroStr
+    addZeroStr: addZeroStr,
+    replaceCellular: replaceCellular
   }
 })();

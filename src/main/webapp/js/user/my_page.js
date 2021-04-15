@@ -12,6 +12,7 @@ const main = (function() {
 
   function init() {
     createBreadCrumb();
+    initTooltips();
     initMyImage();
     addTabListener();
     initFavoriteProfiles();
@@ -37,6 +38,16 @@ const main = (function() {
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
   }
+
+  function initTooltips() {
+    cmmUtils.setTippy([{
+      selector: '#btnAutoPayment',
+      content: '<p>자동연장을 설정하시면 등록하신 신용카드로<br/>만료일 이후 자동으로 결제됩니다.</p>',
+      placement: 'right',
+      allowHTML: true
+    }]);
+  }
+
 
   function initMyImage() {
     cmmUtils.axiosGet({url: '/api/v1/login/my-image'}, function(response) {
@@ -297,6 +308,24 @@ const main = (function() {
     });
   }
 
+  function showConfirmPwdModal() {
+    cmmUtils.showModal('confirmPwdModal');
+    document.getElementById('ipPwd').focus();
+  }
+
+  function showAuthPaymentModal() {
+    cmmUtils.showModal('autoPaymentModal');
+    // cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
+    //   cmmUtils.axiosPost({
+    //     url: '/api/v1/admin/profile/insert-profile',
+    //     body: getParameters(),
+    //     loading: 'btnIns'
+    //   }, function (response) {
+    //     goToProfile();
+    //   });
+    // });
+  }
+
   return {
     init: init,
     goToModProfile: goToModProfile,
@@ -305,7 +334,9 @@ const main = (function() {
     modifyIdea: modifyIdea,
     removeIdea: removeIdea,
     closeModIdeaModal: closeModIdeaModal,
-    withdrawal: withdrawal
+    withdrawal: withdrawal,
+    showConfirmPwdModal: showConfirmPwdModal,
+    showAuthPaymentModal: showAuthPaymentModal
   }
 }());
 
