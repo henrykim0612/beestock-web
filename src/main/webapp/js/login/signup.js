@@ -192,7 +192,7 @@ const main = (function() {
     }
 
     if (!params.loginId.value || params.loginId.classList.contains('is-danger')) {
-      cmmUtils.showIpModal('이메일');
+      cmmUtils.showIpModal('아이디');
       return false;
     }
 

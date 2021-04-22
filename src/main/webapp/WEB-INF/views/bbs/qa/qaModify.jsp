@@ -78,7 +78,7 @@
 
 <div class="flex-row justify-content-center mt-6">
     <div id="uptDiv">
-        <button id="btnMod" onclick="main.modifyQa()" class="button is-success">
+        <button id="btnMod" onclick="main.modifyQa()" class="button is-success is-small">
                 <span class="icon is-small">
                   <i class="fas fa-edit"></i>
                 </span>
@@ -86,7 +86,7 @@
         </button>
     </div>
     <div id="removeDiv" class="ml-3">
-        <button id="btnRm" onclick="main.removeQa()" class="button is-danger">
+        <button id="btnRm" onclick="main.removeQa()" class="button is-danger is-small">
                 <span class="icon is-small">
                   <i class="fas fa-trash-alt"></i>
                 </span>
@@ -94,7 +94,7 @@
         </button>
     </div>
     <div class="ml-3">
-        <button onclick="main.goToQa()" class="button is-dark">
+        <button onclick="main.goToQa()" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-arrow-alt-circle-left"></i>
                 </span>

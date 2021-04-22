@@ -132,6 +132,7 @@
                 <label for="isPublic1">공개</label>
                 <input type="radio" class="is-checkradio is-primary is-circle" id="isPublic2" name="isPublic" value="0" data-bind="true" data-id="isPublic">
                 <label for="isPublic2">비공개</label>
+                <span class="has-text-danger subtitle is-7">* 벤치마크 데이터가 없으면 공개할 수 없음</span>
             </div>
         </div>
     </div>

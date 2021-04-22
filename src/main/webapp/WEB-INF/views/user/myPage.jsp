@@ -89,11 +89,8 @@
                     <div class="column flex-row align-items-center">
                         <span class="icon has-text-grey mr-2"><i class="fas fa-clock"></i></span>
                         <span class="has-text-grey"><sec:authentication property="principal.expDate"/> 까지</span>
-                        <%--결제 자동연장--%>
-                        <button id="btnAutoPayment" class="button is-success is-light is-small ml-3" onclick="main.showAuthPaymentModal()">
-                            <span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span>
-                            <span>결제 자동연장</span>
-                        </button>
+                        <div id="paymentDiv" class="flex-row align-items-center">
+                        </div>
                     </div>
                 </div>
             </sec:authorize>
@@ -195,8 +192,14 @@
             <p>탈퇴처리 후 계정은 <strong>1개월</strong>동안 <strong>휴먼계정</strong> 상태로 변경되어 복구 가능하며, <br/><strong>1개월</strong> 이후에는 계정내 저장된 모든 데이터는 <strong>삭제</strong>처리 됩니다.</p>
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-danger" id="btnWithdrawal" onclick="main.withdrawal()">탈퇴</button>
-            <button class="button" onclick="cmmUtils.closeModal('withdrawalModal')">취소</button>
+            <button class="button is-dark is-small" id="btnWithdrawal" onclick="main.withdrawal()">
+                <span class="icon has-text-danger"><i class="fas fa-user-alt-slash"></i></span>
+                <span>탈퇴</span>
+            </button>
+            <button class="button is-dark is-small" onclick="cmmUtils.closeModal('withdrawalModal')">
+                <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                <span>취소</span>
+            </button>
         </footer>
     </div>
 </div>
@@ -255,37 +258,4 @@
             </button>
         </footer>
     </div>
-</div>
-
-
-<div id="autoPaymentModal" class="modal">
-    <div class="modal-background" onclick="cmmUtils.closeModal('autoPaymentModal')"></div>
-    <div class="modal-content" style="width: 800px;">
-        <div class="box flex-col justify-content-center">
-
-            <div class="mb-5">
-                <article class="message is-warning">
-                    <div class="message-body">
-                        <p>설정된 카드정보는 직접 PG사로 전달되므로 BEESTOCK 시스템에 카드정보를 저장하지 않아 보안에 안전합니다.</p>
-                    </div>
-                </article>
-            </div>
-
-            <div>
-
-            </div>
-
-
-            <div class="flex-row justify-content-end mt-3">
-                <div class="buttons">
-                    <button class="button is-dark is-small" onclick="cmmUtils.closeModal('autoPaymentModal')">
-                        <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
-                        <span>닫기</span>
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <button class="modal-close is-large" aria-label="close"></button>
 </div>

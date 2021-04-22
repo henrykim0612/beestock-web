@@ -5,7 +5,7 @@
 
 <div class="height600px flex-col justify-content-center">
     <div class="flex-row justify-content-center mb-3">
-        <img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" style="width: 200px; height: 100px;">
+        <img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" style="width: 300px; height: 100px; margin-bottom: 25px;">
     </div>
     <form id="loginForm" method="post" action="${pageContext.request.contextPath}/login/login-proc">
         <nav class="level">

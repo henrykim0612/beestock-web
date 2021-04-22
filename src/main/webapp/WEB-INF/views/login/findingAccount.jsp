@@ -7,8 +7,8 @@
     <ul id="tabUl">
         <li id="liEmail" class="is-active" onclick="main.changeTab(this, 'tabContent0')">
             <a>
-                <span class="icon is-small"><i class="fas fa-at" aria-hidden="true"></i></span>
-                <span>이메일 찾기</span>
+                <span class="icon is-small"><i class="fas fa-id-card" aria-hidden="true"></i></span>
+                <span>아이디 찾기</span>
             </a>
         </li>
         <li id="liPassword" onclick="main.changeTab(this, 'tabContent1')">
@@ -25,9 +25,9 @@
     <nav class="level">
         <div class="level-item has-text-left">
             <div class="field loginField">
-                <label class="label">Your Name</label>
+                <label class="label">사용자 이름</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipUserName" class="input" type="text" placeholder="사용자 이름 또는 닉네임" maxlength="200">
+                    <input id="ipUserName" class="input" type="text" placeholder="사용자 이름" maxlength="200">
                     <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -38,9 +38,9 @@
     <nav class="level">
         <div class="level-item has-text-left">
             <div class="field loginField">
-                <label class="label">Your Mobile</label>
+                <label class="label">핸드폰 번호</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipUserPhone" class="input" type="text" placeholder="'-' 포함입력(010-xxxx-xxxx)" onblur="main.isUserPhonePattern()" maxlength="50">
+                    <input id="ipUserPhone" class="input" type="text" placeholder="'-' 없이 입력" onblur="main.isUserPhonePattern()" maxlength="50">
                     <span class="icon is-small is-left">
                          <i class="fas fa-mobile-alt"></i>
                     </span>
@@ -49,7 +49,7 @@
                         <i id="icoUserPhoneTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                     </span>
                 </div>
-                <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요(010-xxxx-xxxx).</p>
+                <p id="helpUserPhone" class="help is-hidden">핸드폰 번호 형식을 다시 확인해주세요.</p>
             </div>
         </div>
     </nav>
@@ -59,7 +59,7 @@
                 <div class="control">
                     <button id="btnEmail" class="button is-warning" onclick="main.findEmail()">
                         <span class="icon is-small"><i class="fas fa-search"></i></span>
-                        <span>이메일 찾기</span>
+                        <span>아이디 찾기</span>
                     </button>
                 </div>
             </div>
@@ -72,18 +72,18 @@
     <nav class="level">
         <div class="level-item has-text-left">
             <div class="field loginField">
-                <label class="label">Email</label>
+                <label class="label">아이디</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input id="ipEmail" class="input" type="email" placeholder="Email 형식" onblur="main.isEmailPattern()">
+                    <input id="ipEmail" class="input" type="email" placeholder="아이디 입력" maxlength="50">
                     <span class="icon is-small is-left">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-id-card"></i>
                     </span>
                     <span class="icon is-small is-right">
                         <i id="icoEmailCheck" class="fas fa-check is-hidden"></i>
                         <i id="icoEmailTriangle" class="fas fa-exclamation-triangle is-hidden"></i>
                     </span>
                 </div>
-                <p id="helpEmail" class="help is-hidden">입력하신 값은 이메일 형식이 아닙니다.</p>
+<%--                <p id="helpEmail" class="help is-hidden">입력하신 값은 이메일 형식이 아닙니다.</p>--%>
             </div>
         </div>
     </nav>
@@ -122,7 +122,7 @@
                 <div class="control">
                     <button id="btnPwd" class="button is-warning" onclick="main.findPassword()">
                         <span class="icon is-small"><i class="fas fa-search"></i></span>
-                        <span>비밀번호 변경</span>
+                        <span>비밀번호 찾기</span>
                     </button>
                 </div>
             </div>
@@ -136,7 +136,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">Email 확인 결과</p>
+            <p class="modal-card-title">아이디 확인 결과</p>
             <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('emailModal')"></button>
         </header>
         <section id="emailModalSect" class="modal-card-body">

@@ -4,23 +4,23 @@
 <script src="${pageContext.request.contextPath}/js/home/pricing_table.js" type="text/javascript"></script>
 
 <div class="notification is-warning is-light">
-    <p><span class="has-text-danger">﹡</span> 등급별로 제공하는 서비스 항목을 확인하시고, 본인에게 맞는 등급으로 <strong>업그레이드</strong>하세요.</p>
-    <p><span class="has-text-danger">﹡</span> 익월에도 동일한 등급으로 이용하시고 싶으신 경우, <span class="has-text-link cursor" onclick="topMain.goToMyPage()">마이 페이지</span>(사이트 오른쪽 상단 사람 아이콘 클릭) 화면의 결제 자동연장 서비스를 이용해주세요.</p>
+    <p><span class="has-text-danger">﹡</span> 등급별로 제공하는 서비스 항목을 확인하시고, 본인에게 맞는 등급으로 <strong>업그레이드</strong> 해보세요.</p>
+    <p><span class="has-text-danger">﹡</span> 현재 <strong>유료 회원</strong>이신 경우, <span class="has-text-link cursor" onclick="topMain.goToMyPage()">마이 페이지</span>(사이트 오른쪽 상단 사람 아이콘 클릭)에서 <strong>결제 자동연장</strong>을 등록하여 편리하게 이용해보세요.</p>
 </div>
 
 <article class="message is-dark">
     <div class="message-body">
         <sec:authorize access="hasRole('ROLE_BASIC')">
-            <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-primary">Basic</strong>등급을 이용하고 계십니다.</p>
+            <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-primary">Basic</strong> 등급을 이용하고 계십니다.</p>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_STANDARD')">
-            <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-info">Standard</strong>등급을 이용하고 계십니다.</p>
+            <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-info">Standard</strong> 등급을 이용하고 계십니다.</p>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_PREMIUM')">
             <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-warning">Premium</strong> 등급을 이용하고 계십니다.</p>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_PREMIUM_PLUS')">
-            <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-danger">Premium Plus</strong>등급을 이용하고 계십니다.</p>
+            <p>현재 <strong><sec:authentication property="principal.userNm"/></strong>님은 <strong class="has-text-danger">Premium Plus</strong> 등급을 이용하고 계십니다.</p>
         </sec:authorize>
     </div>
 </article>
@@ -44,7 +44,7 @@
 
     <div class="pricing-plan">
         <div class="plan-header is-primary">Basic 등급</div>
-        <div class="plan-price"><span class="plan-price-amount has-text-primary">무료</span>/월 (부가세 별도)</div>
+        <div class="plan-price"><span class="plan-price-amount has-text-primary">무료</span>/월 (부가세 포함)</div>
         <div class="plan-items">
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
             <div class="plan-item"><span class="has-text-danger">최근 8분기 자료만 공개</span></div>
@@ -59,7 +59,7 @@
 
     <div class="pricing-plan is-info">
         <div class="plan-header">Standard 등급</div>
-        <div class="plan-price"><span id="standardPrice" class="plan-price-amount">9,500원</span>/월 (부가세 별도)</div>
+        <div class="plan-price"><span id="standardPrice" class="plan-price-amount">9,500원</span>/월 (부가세 포함)</div>
         <div class="plan-items">
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
@@ -80,7 +80,7 @@
 
     <div class="pricing-plan is-warning">
         <div class="plan-header">Premium 등급</div>
-        <div class="plan-price"><span id="premiumPrice" class="plan-price-amount">14,500원</span>/월 (부가세 별도)</div>
+        <div class="plan-price"><span id="premiumPrice" class="plan-price-amount">14,500원</span>/월 (부가세 포함)</div>
         <div class="plan-items">
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
@@ -101,7 +101,7 @@
 
     <div class="pricing-plan is-danger">
         <div class="plan-header">Premium plus 등급</div>
-        <div class="plan-price"><span id="premiumPlusPrice" class="plan-price-amount">19,500원</span>/월 (부가세 별도)</div>
+        <div class="plan-price"><span id="premiumPlusPrice" class="plan-price-amount">19,500원</span>/월 (부가세 포함)</div>
         <div class="plan-items">
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
             <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>

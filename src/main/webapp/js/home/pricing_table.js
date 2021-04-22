@@ -6,7 +6,7 @@ const main = (function () {
   }
 
   function initIamport() {
-    IMP.init('imp75429459');
+    IMP.init(IMP_KEY);
   }
 
   // 등급별 금액설정
@@ -29,15 +29,14 @@ const main = (function () {
 
   // 업그레이드
   async function upgrade(grade) {
-    alert('현재 PG연동 준비중입니다.');
+    alert('오픈 준비중입니다.');
     // const price = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price/' + grade});
     // if (price > 0) {
-    //   payment(price, grade);
+    //   await payment(price, grade);
     // }
   }
 
   async function payment(price, grade) {
-
     IMP.request_pay({
       pg : 'html5_inicis',
       pay_method : 'card',

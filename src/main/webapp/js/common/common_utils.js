@@ -265,7 +265,7 @@ const cmmUtils = (function () {
 
   // 핸드폰 번호 체크 정규식
   function isCellular(asValue) {
-    const regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    const regExp = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
     return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
 
   }
@@ -282,8 +282,8 @@ const cmmUtils = (function () {
     const ipModalTitle = document.getElementById('ipModalTitle');
     const ipModalContent = document.getElementById('ipModalContent');
 
-    ipModalTitle.innerText = text + ' 입력 확인필요';
-    ipModalContent.innerText = argLen === 2 ? customText : text + ' 입력값은 필수값 또는 패턴이 일치해야 합니다.';
+    ipModalTitle.innerText = '"' + text + '" 오류';
+    ipModalContent.innerText = argLen === 2 ? customText : '"' + text + '" 입력값을 다시 확인해주세요.';
     showModal(ipModal);
   }
 
@@ -1170,6 +1170,10 @@ const cmmUtils = (function () {
     return value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
   }
 
+  function historyBack() {
+    history.back();
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1247,6 +1251,7 @@ const cmmUtils = (function () {
     hasKoreanWord: hasKoreanWord,
     getRole: getRole,
     addZeroStr: addZeroStr,
-    replaceCellular: replaceCellular
+    replaceCellular: replaceCellular,
+    historyBack: historyBack,
   }
 })();

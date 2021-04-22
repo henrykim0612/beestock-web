@@ -4,6 +4,15 @@
 <script src="${pageContext.request.contextPath}/js/common/common_profile_card.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/home/dashboard.js" type="text/javascript"></script>
 
+<article class="message is-warning">
+    <div class="message-body">
+        <p>
+            현재 <strong>테스트 버전</strong>으로 운영중이며, 회원가입시 <strong class="has-text-danger">프리미엄 플러스</strong> 등급으로 자동 업그레이드 해드립니다.<br/>
+            오픈 전까지 모든 기능을 무료로 이용해보세요.
+        </p>
+    </div>
+</article>
+
 <%--검색조건--%>
 <div class="flex-row mt-7">
     <div class="flex-row justify-content-start width-50per">

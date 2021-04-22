@@ -392,3 +392,26 @@
         </article>
     </div>
 </div>
+
+<div id="autopaySuccessModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('autopaySuccessModal')"></div>
+    <div class="modal-content">
+        <article class="message">
+            <div class="message-header">
+                <p>자동연장 등륵완료</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('autopaySuccessModal')"></button>
+            </div>
+            <div class="message-body has-text-dark">
+                <div class="flex-row justify-content-start mt-3">
+                    <p>결제 자동연장 등록이 완료되었습니다.</p>
+                </div>
+                <div class="flex-row justify-content-center mt-3">
+                    <button class="button is-dark is-small" onclick="cmmUtils.closeModal('autopaySuccessModal')">
+                        <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                        <span>확인</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

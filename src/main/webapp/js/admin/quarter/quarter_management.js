@@ -69,6 +69,9 @@ const main = (function() {
 
     const props = {
       url: '/api/v1/admin/profile/paging-profile-list',
+      body: {
+        pageSize: 20
+      },
       eId: 'dataGrid',
       pId: 'dataPagination',
       fileName: '포트폴리오 리스트',
@@ -129,7 +132,8 @@ const main = (function() {
       pId: 'quarterPagination',
       body: {
         orderBy: [{column: 'quarterDate', desc: true}],
-        profileId: rowId
+        profileId: rowId,
+        pageSize: 20
       },
       fileName: '포트폴리오 분기 리스트',
       isThead: true,
@@ -326,6 +330,23 @@ const main = (function() {
     quarterInfoGrid.downloadExcel();
   }
 
+  // 분기 삭제
+  function removeQuarterInfo() {
+    cmmConfirm.show({msg: '해당 분기를 제거하시겠습니까?', color: 'is-warning'}, function() {
+      cmmUtils.axiosPost({
+        url: '/api/v1/admin/quarter/delete-quarter',
+        body: {quarterId: global['selectedQuarterId']},
+        loading: 'btnRm'
+      }, function (response) {
+        if (0 < response) {
+          cmmUtils.closeModal('quarterInfoModal');
+          initQuarterGrid(global['selectedRowId']);
+          cmmUtils.showToast({message: '삭제되었습니다.'});
+        }
+      });
+    })
+  }
+
   return {
     init: init,
     goToProfileForm: goToProfileForm,
@@ -336,7 +357,8 @@ const main = (function() {
     downloadProfileExcel: downloadProfileExcel,
     downloadQuarterInfoExcel: downloadQuarterInfoExcel,
     removeFileTag: removeFileTag,
-    hideUploadModal: hideUploadModal
+    hideUploadModal: hideUploadModal,
+    removeQuarterInfo: removeQuarterInfo
   }
 }());
 
