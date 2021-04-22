@@ -24,7 +24,7 @@ const main = (function() {
     html += '  <li>';
     html += '    <a href="' + CONTEXT_PATH + '/home/dashboard.do">';
     html += '      <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>';
-    html += '      <span>BeeStock</span>';
+    html += '      <span>BEESTOCK</span>';
     html += '    </a>';
     html += '  </li>';
     html += '  <li>';

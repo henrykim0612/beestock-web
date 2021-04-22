@@ -137,7 +137,7 @@
             <div class="buttons">
                 <button class="button is-warning is-small" onclick="cmmUtils.goToPage('/home/dashboard')">
                     <span class="icon"><i class="fas fa-home"></i></span>
-                    <span>BeeStock 홈으로</span>
+                    <span>BEESTOCK 홈으로</span>
                 </button>
             </div>
         </footer>

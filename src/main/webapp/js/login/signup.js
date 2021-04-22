@@ -109,7 +109,6 @@ const main = (function() {
   }
 
   function isUserPhonePattern() {
-
     const ipUserPhone = document.getElementById('ipUserPhone');
     const helpUserPhone = document.getElementById('helpUserPhone');
     const icoUserPhoneCheck = document.getElementById('icoUserPhoneCheck');

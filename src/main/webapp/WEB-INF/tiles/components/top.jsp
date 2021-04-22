@@ -44,7 +44,7 @@
             <%--구독자, 관리자 전용--%>
             <%--<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BeeStock 프리미엄</a>
+                    <a class="navbar-link"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>BEESTOCK 프리미엄</a>
                 </div>
             </sec:authorize>--%>
             <div class="navbar-item has-dropdown is-hoverable">
