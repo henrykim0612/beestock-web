@@ -17,7 +17,7 @@ public class HomeController {
 
     @GetMapping("/documentation.do")
     public String goToDocumentation(ModelMap model) {
-        model.addAttribute("title", "BeeStock 가이드");
+        model.addAttribute("title", "BEESTOCK 가이드");
         return "home/documentation";
     }
 

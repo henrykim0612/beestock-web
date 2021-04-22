@@ -1252,6 +1252,6 @@ const cmmUtils = (function () {
     getRole: getRole,
     addZeroStr: addZeroStr,
     replaceCellular: replaceCellular,
-    historyBack: historyBack,
+    historyBack: historyBack
   }
 })();
