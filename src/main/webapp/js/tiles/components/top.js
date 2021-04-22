@@ -147,20 +147,21 @@ const topMain = (function() {
         // 버튼
         const btnDiv = document.createElement('div');
         btnDiv.classList.add('mt-3');
-        btnDiv.classList.add('is-flex');
-        btnDiv.classList.add('is-flex-direction-row');
-        btnDiv.classList.add('is-justify-content-center');
-        // 확인버튼
-        const btn1 = document.createElement("button");
-        btn1.classList.add('button');
-        btn1.classList.add('is-small');
-        btn1.classList.add('is-dark');
-        btn1.setAttribute('data-button', 'alarmCheck');
-        btn1.setAttribute('data-code', data['linkCode']);
-        btn1.setAttribute('data-link-id', data['linkId']);
-        btn1.setAttribute('data-key', data['alarmId']);
-        btn1.innerText = '확인하기';
-        btnDiv.appendChild(btn1);
+        btnDiv.classList.add('flex-row');
+        btnDiv.classList.add('justify-content-end');
+        if (cmmUtils.nvl(data['linkId']) !== '') {
+          // 확인버튼
+          const btn1 = document.createElement("button");
+          btn1.classList.add('button');
+          btn1.classList.add('is-small');
+          btn1.classList.add('is-dark');
+          btn1.setAttribute('data-button', 'alarmCheck');
+          btn1.setAttribute('data-code', data['linkCode']);
+          btn1.setAttribute('data-link-id', data['linkId']);
+          btn1.setAttribute('data-key', data['alarmId']);
+          btn1.innerText = '확인하기';
+          btnDiv.appendChild(btn1);
+        }
         // 닫기
         const btn2 = document.createElement("button");
         btn2.classList.add('button');

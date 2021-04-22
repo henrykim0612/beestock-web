@@ -54,7 +54,13 @@ const main = (function() {
       initCKEditor(response);
       setPreviewModal(response);
       initLinkColumns(response);
+      setDisabledOpenRadio(response);
     });
+  }
+
+  // 벤치마크 데이터가 없으면 비활성화
+  function setDisabledOpenRadio(response) {
+    document.getElementById('isPublic1').disabled  = !response.benchmarkCnt;
   }
 
   function initCKEditor(response) {

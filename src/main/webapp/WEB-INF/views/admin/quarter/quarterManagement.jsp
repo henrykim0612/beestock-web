@@ -121,6 +121,12 @@
             <table id="quarterInfoGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
         </section>
         <footer class="modal-card-foot justify-content-center">
+            <button id="btnRm is-small" onclick="main.removeQuarterInfo()" class="button is-danger">
+                <span class="icon is-small">
+                  <i class="fas fa-trash-alt"></i>
+                </span>
+                <span>삭제</span>
+            </button>
             <button onclick="cmmUtils.closeModal('quarterInfoModal')" class="button is-dark is-small">
                 <span class="icon is-small">
                   <i class="fas fa-times"></i>

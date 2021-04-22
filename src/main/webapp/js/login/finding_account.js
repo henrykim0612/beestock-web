@@ -70,10 +70,10 @@ const main = (function () {
     const selHintCode = document.getElementById('selHintCode');
     const ipHintAnswer = document.getElementById('ipHintAnswer');
 
-    if (!ipEmail.value || ipEmail.classList.contains('is-danger')) {
-      cmmUtils.showIpModal('이메일', 'ipEmail');
-      return false;
-    }
+    // if (!ipEmail.value || ipEmail.classList.contains('is-danger')) {
+    //   cmmUtils.showIpModal('이메일', 'ipEmail');
+    //   return false;
+    // }
 
     cmmUtils.axiosPost({
       url: '/api/v1/login/find-email',
@@ -100,9 +100,9 @@ const main = (function () {
     cmmUtils.clearChildNodes(emailModalSect);
     let html = '';
     if (data) {
-      html = '<p>가입하신 Email 계정은 <strong>' + data.loginId + '</strong> 입니다.</p>';
+      html = '<p>가입하신 아이디는 <strong>' + data.loginId + '</strong> 입니다.</p>';
     } else {
-      html = '<p>등록되어 있지 않은 Email 입니다. 이름과 핸드폰번호를 확인해주세요.</p>';
+      html = '<p>등록되어 있지 않은 아이디 입니다. 이름과 핸드폰번호를 확인해주세요.</p>';
     }
     emailModalSect.innerHTML = html;
     cmmUtils.showModal('emailModal');

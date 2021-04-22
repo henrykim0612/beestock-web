@@ -12,11 +12,13 @@ const main = (function() {
 
   function init() {
     createBreadCrumb();
+    initIamport();
     initTooltips();
     initMyImage();
     addTabListener();
     initFavoriteProfiles();
     initIdeaGrid();
+    initAutoPayment();
   }
 
   function createBreadCrumb() {
@@ -37,6 +39,10 @@ const main = (function() {
     html += '  </li>';
     html += '</ul>';
     breadCrumbNav.innerHTML = html;
+  }
+
+  function initIamport() {
+    IMP.init(IMP_KEY);
   }
 
   function initTooltips() {
@@ -131,6 +137,53 @@ const main = (function() {
     ideaGrid = new COMPONENTS.DataGrid(props);
     initCKEditor();
   }
+
+  async function initAutoPayment() {
+    if (document.getElementById('paymentDiv')) {
+      const response = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/user'});
+      const container = document.getElementById('paymentDiv');
+      cmmUtils.clearChildNodes('paymentDiv');
+      const button = document.createElement('button');
+      button.classList.add('button');
+      button.classList.add('is-light');
+      button.classList.add('is-small');
+      button.classList.add('ml-3');
+      if (cmmUtils.nvl(response.customerUid) === '') {
+        button.classList.add('is-warning');
+        button.innerHTML = '<span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span><span>결제 자동연장 등록</span>';
+        button.addEventListener('click', showAuthPaymentModal);
+        container.appendChild(button);
+      } else {
+        button.classList.add('is-success');
+        button.innerHTML = '<span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span><span>결제 자동연장 재등록</span>';
+        button.addEventListener('click', createOtherPayment);
+        container.appendChild(button);
+        const delButton = document.createElement('button');
+        delButton.classList.add('button');
+        delButton.classList.add('is-danger');
+        delButton.classList.add('is-light');
+        delButton.classList.add('is-small');
+        delButton.classList.add('ml-2');
+        delButton.innerHTML = '<span class="file-icon"><i class="fas fa-lg fa-credit-card"></i></span><span>자동연장 해제</span>';
+        delButton.addEventListener('click', stopAutoPayment);
+        container.appendChild(delButton);
+      }
+    }
+  }
+
+  function createOtherPayment(e) {
+    cmmConfirm.show({msg: '새로운 신용카드 정보로 자동연장을 재등록하시겠습니까?', color: 'is-warning'}, showAuthPaymentModal);
+  }
+
+  function stopAutoPayment(e) {
+    cmmConfirm.show({msg: '자동 결제를 해제하시겠습니까?', color: 'is-warning'}, async function() {
+      const response = await cmmUtils.awaitAxiosPost({url: '/api/v1/login/payment/stop'});
+      if (response) {
+        await initAutoPayment();
+      }
+    })
+  }
+
 
   function initCKEditor() {
     const modIdeaContWordCount = function(stats) {
@@ -314,17 +367,48 @@ const main = (function() {
   }
 
   function showAuthPaymentModal() {
-    cmmUtils.showModal('autoPaymentModal');
-    // cmmConfirm.show({msg: msg, color: 'is-warning'}, function() {
-    //   cmmUtils.axiosPost({
-    //     url: '/api/v1/admin/profile/insert-profile',
-    //     body: getParameters(),
-    //     loading: 'btnIns'
-    //   }, function (response) {
-    //     goToProfile();
-    //   });
-    // });
+    cmmConfirm.show({msg: '자동연장을 등록하시면 등급 만료일 하루전 자동으로 갱신됩니다.<br/>등록하시겠습니까?', color: 'is-warning'}, function() {
+      const custometUid = cmmUtils.getUUID();
+      IMP.request_pay({
+        pg : "html5_inicis.INIBillTst", // 실제 계약 후에는 실제 상점아이디로 변경
+        pay_method : 'card', // 'card'만 지원됩니다.
+        merchant_uid : 'merchant_' + new Date().getTime(),
+        name : 'BEESTOCK 자동연장',
+        amount : 0, // 결제창에 표시될 금액. 실제 승인이 이뤄지지는 않습니다. (모바일에서는 가격이 표시되지 않음)
+        customer_uid : custometUid,
+        buyer_name : document.getElementById('loginUserNm').value,
+        buyer_tel : cmmUtils.replaceCellular(document.getElementById('loginUserPhone').value)
+      }, function(rsp) {
+        if ( rsp.success ) {
+          updateCustomerUid(rsp.customer_uid);
+        } else {
+          cmmUtils.showToast({
+            message: '자동연장 실패',
+            type: 'is-danger'
+          });
+        }
+      });
+    });
   }
+
+  async function updateCustomerUid(customerUid) {
+    const response = await cmmUtils.awaitAxiosPost({
+      url: '/api/v1/login/payment/billing',
+      body: {
+        customerUid: customerUid
+      }
+    });
+    if (response) {
+      cmmUtils.showModal('autopaySuccessModal');
+      await initAutoPayment();
+    } else {
+      cmmUtils.showToast({
+        message: '빌링키 저장 실패',
+        type: 'is-danger'
+      });
+    }
+  }
+
 
   return {
     init: init,

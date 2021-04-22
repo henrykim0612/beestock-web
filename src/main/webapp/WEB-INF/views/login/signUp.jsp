@@ -3,10 +3,9 @@
 
 <nav class="level">
     <div class="level-item">
-        <img style="width: 15%;" src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png">
+        <img style="width: 300px;" src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png">
     </div>
 </nav>
-
 <nav class="level">
     <div class="level-item has-text-left">
         <div class="field loginField">
@@ -149,7 +148,7 @@
         </header>
         <section class="modal-card-body">
             <h2>회원가입 감사합니다.</h2>
-            <p><strong>BeeStock</strong>에서 다양한 정보를 확인하십시오.</p>
+            <p><strong>BEESTOCK</strong>에서 다양한 정보를 확인하십시오.</p>
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">

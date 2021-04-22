@@ -47,4 +47,5 @@
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
   const COMPANY_NAME = '허니비소프트';
+  const IMP_KEY = 'imp75429459';
 </script>
