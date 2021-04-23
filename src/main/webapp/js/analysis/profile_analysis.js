@@ -1283,7 +1283,7 @@ const main = (function() {
               dataZoom: {
                 yAxisIndex: 'none'
               },
-              magicType: {type: ['line', 'bar']},
+              // magicType: {type: ['line', 'bar']},
               restore: {},
               saveAsImage: {}
             }
