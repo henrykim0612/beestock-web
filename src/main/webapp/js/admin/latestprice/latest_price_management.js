@@ -312,17 +312,26 @@ const main = (function() {
 
   // 해외 종가를 저장
   function saveLastPrice() {
-    cmmConfirm.show({msg: '종가를 저장하시겠습니까? 해외 장이 열리는 시간에 저장하면 등락률에 문제가 발생합니다.', color: 'is-warning'}, async function() {
-      const response = await cmmUtils.awaitAxiosPost({
-        url: '/api/v1/admin/stock/lastprice',
-        loading: 'btnLastPrice'
+    // 저장할 수 있는 시간인지 확인
+    if (cmmUtils.isAvailableTime(1000, 2200)) {
+      cmmConfirm.show({msg: '종가를 저장하시겠습니까? 완료시간은 다소 소요됩니다.', color: 'is-warning'}, async function() {
+        const response = await cmmUtils.awaitAxiosPost({
+          url: '/api/v1/admin/stock/lastprice',
+          isPageLoader: true
+        });
+        cmmUtils.showToast({
+          message: (response) ? '종가 반영완료.' : '종가 반영실패.',
+          type: (response) ? 'is-success' : 'is-danger',
+          position: 'top-center'
+        });
       });
+    } else {
       cmmUtils.showToast({
-        message: (response) ? '종가 반영완료.' : '종가 반영실패.',
-        type: (response) ? 'is-success' : 'is-danger',
+        message: '종가를 저장할 수 없는 시간입니다. (10:00 ~ 22:00 내에만 가능)',
+        type: 'is-danger',
         position: 'top-center'
       });
-    });
+    }
   }
 
   return {

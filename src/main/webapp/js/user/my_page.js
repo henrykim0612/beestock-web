@@ -2,7 +2,7 @@ const COMPONENTS = BeeComponents('dataGrid', function(box) {});
 const main = (function() {
 
   let global = {
-    selectedTab: 'contIn', // 기본은 국내
+    selectedTab: null,
     splitNum: 4,
     selectedIdeaId: null,
     ckEditModIdeaCont: undefined,
@@ -12,6 +12,7 @@ const main = (function() {
 
   function init() {
     createBreadCrumb();
+    setActiveTab();
     initIamport();
     initTooltips();
     initMyImage();
@@ -19,6 +20,14 @@ const main = (function() {
     initFavoriteProfiles();
     initIdeaGrid();
     initAutoPayment();
+  }
+
+  function setActiveTab() {
+    document.getElementsByName('tabs').forEach(function(e) {
+      if (e.classList.contains('is-active')) {
+        global.selectedTab = e.dataset.contId;
+      }
+    })
   }
 
   function createBreadCrumb() {

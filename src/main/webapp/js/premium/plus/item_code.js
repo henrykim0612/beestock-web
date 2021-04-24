@@ -39,6 +39,7 @@ const main = (function () {
   }
   let profileGrid;
   let rightItemCodeChart;
+  let clipboard = undefined;
 
   function init() {
     createBreadCrumb();
@@ -179,8 +180,8 @@ const main = (function () {
     div.classList.add('hover-parent');
 
     const span = document.createElement('span');
-    span.classList.add('hover-main')
-    span.innerText = cmmUtils.addZeroStr(row['buyingPrice'].toLocaleString());
+    span.classList.add('hover-main');
+    span.innerText = global.selectedProfileType === 1 ? row['buyingPrice'].toLocaleString() : cmmUtils.addZeroStr(row['buyingPrice'].toLocaleString());
 
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
@@ -294,8 +295,11 @@ const main = (function () {
       selectedQuarterDate: global.selectedQuarterDate,
       profileType: global.selectedProfileType,
       isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
-      schType: getSearchType(),
-      schWord: getSearchWord()
+    }
+    const schWord = getSearchWord();
+    if (schWord) {
+      body.schType = getSearchType();
+      body.schWord = schWord;
     }
 
     const props = {
@@ -317,13 +321,29 @@ const main = (function () {
         {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: true, isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: global.selectedProfileType !== 1, isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}}
-      ]
+      ],
+      success: function (data, _this) {
+        setGridTooltips();
+        // Clipboard
+        initClipboard()
+      }
     }
     profileGrid = new COMPONENTS.DataGrid(props);
   }
+
+  function setGridTooltips() {
+    cmmUtils.setTippy([{selector: '.bpHeader', content: '단위: 달러'}]);
+    cmmUtils.setTippy([{selector: '.bspHeader', content: '단위: 백만달러'}]);
+  }
+
+  function initClipboard() {
+    if (!!clipboard) clipboard.destroy();
+    clipboard = new ClipboardJS('.has-clipboard');
+  }
+
 
   async function showColLineChartModal(itemCode, itemName, profileId, filterIdx) {
     // filterIdx => 0: 보유수량, 1:시가평가액, 2:매수매도금액, 3: 평균매수가
