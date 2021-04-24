@@ -499,7 +499,7 @@ const main = (function() {
 
     const span = document.createElement('span');
     span.classList.add('hover-main')
-    span.innerText = cmmUtils.addZeroStr(row['buyingPrice'].toLocaleString());
+    span.innerText = global.selectedProfileType === '1' ? row['buyingPrice'].toLocaleString() : cmmUtils.addZeroStr(row['buyingPrice'].toLocaleString());
 
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
@@ -536,7 +536,7 @@ const main = (function() {
         const span = document.createElement('span');
         const iconDiv = document.createElement('div');
         iconDiv.classList.add('height-24-px');
-        const fluctRate = parseInt(row['fluctRate']);
+        const fluctRate = parseFloat(row['fluctRate']);
         if (fluctRate < 0) { // 하향
           if (fluctRate < -15) {
             iconDiv.innerHTML = '<span class="icon cursor has-text-info"><i class="fas fa-long-arrow-alt-down"></i></span>'
@@ -800,7 +800,7 @@ const main = (function() {
     return html;
   }
 
-  function setGridTooptips() {
+  function setGridTooltips() {
 
     if (document.getElementById('authority') != null
       && document.getElementById('authority').value !== '[ROLE_BASIC]'
@@ -861,10 +861,9 @@ const main = (function() {
           {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-          {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, zeroRpad: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+          {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, zeroRpad: global.selectedProfileType !== '1', userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
-          // {id: 'stepBuyingSellingPrice', name: '스탭벨류', width: "100px"},
           {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
           {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: incRateHeader, userCustom: incsRate, isExcel: true, hasTooltip: {col: 'itemName'}}
         ],
@@ -882,7 +881,7 @@ const main = (function() {
                 case '2': initSoldOutGrid(); break;
               }
             });
-            setGridTooptips();
+            setGridTooltips();
             // Clipboard
             initClipboard();
           } else {
@@ -964,14 +963,14 @@ const main = (function() {
         {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: true, userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: global.selectedProfileType !== '1', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: newTransferSpinnerHeader, userCustom: newTransferIncsRate, isExcel: true, hasTooltip: {col: 'itemName'}}
       ],
       success: function (data, _this) {
-        setGridTooptips();
+        setGridTooltips();
         runRefreshTimer();
       }
     }
@@ -1035,13 +1034,13 @@ const main = (function() {
         {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: true, userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: global.selectedProfileType !== '1', userCustomHeader: currPriceHeader, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: soldOutSpinnerHeader, userCustom: soldOutIncRate, isExcel: true, hasTooltip: {col: 'itemName'}}
       ],
       success: function (data, _this) {
-        setGridTooptips();
+        setGridTooltips();
         runRefreshTimer();
       }
     }
@@ -2106,12 +2105,19 @@ const main = (function() {
 
   async function initAvailableFileSize() {
     const usedFileSize = await cmmUtils.awaitAxiosGet({url: '/api/v1/analysis/file/used-size'})
-    document.getElementById('usedFileSize').innerText = usedFileSize;
-    if (usedFileSize > (1000 * 0.9)) { // 90% 초과시
-      document.getElementById('maxFileSize').classList.add('has-text-danger');
-    }
+    const convertedSize = cmmUtils.byteCalculation(usedFileSize);
+    document.getElementById('usedFileSize').innerText = convertedSize;
+    setMaxFileColor(convertedSize);
   }
 
+  function setMaxFileColor(convertedSize) {
+    if (convertedSize.indexOf('MB') !== -1) {
+      const size = parseFloat(convertedSize.split(' ')[0]);
+      if (950 < size) {
+        document.getElementById('usedFileSize').classList.add('has-text-danger');
+      }
+    }
+  }
 
   function initTooltips() {
     const arr = [
@@ -2175,12 +2181,14 @@ const main = (function() {
   async function closeNewIdeaModal() {
     cmmUtils.closeModal('newIdeaModal');
     await cmmUtils.axiosPost({url: '/common/ckeditor5/unused-files'});
+    await initAvailableFileSize();
     reloadIdeaGrid();
   }
   
   async function closeModIdeaModal() {
     cmmUtils.closeModal('modIdeaModal');
     await cmmUtils.axiosPost({url: '/common/ckeditor5/unused-files'});
+    await initAvailableFileSize();
     reloadIdeaGrid();
   }
 

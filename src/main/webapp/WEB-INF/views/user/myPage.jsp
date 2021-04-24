@@ -113,13 +113,13 @@
             <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-star"></i></span>즐겨찾기한 포트폴리오</p>
             <div class="tabs is-centered">
                 <ul>
-                    <li id="tabOut" name="tabs" data-cont-id="contOut">
+                    <li id="tabOut" name="tabs" data-cont-id="contOut" class="is-active">
                         <a>
                             <span class="icon is-small"><i class="fas fa-globe"></i></span>
                             <span>해외</span>
                         </a>
                     </li>
-                    <li id="tabIn" name="tabs" class="is-active" data-cont-id="contIn">
+                    <li id="tabIn" name="tabs" data-cont-id="contIn">
                         <a>
                             <span class="icon is-small"><i class="fas fa-globe-asia"></i></span>
                             <span>국내</span>
@@ -127,8 +127,8 @@
                     </li>
                 </ul>
             </div>
-            <div id="contIn"></div>
-            <div id="contOut" class="is-hidden"></div>
+            <div id="contOut"></div>
+            <div id="contIn" class="is-hidden"></div>
         </div>
     </div>
 </div>

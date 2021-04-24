@@ -1174,6 +1174,21 @@ const cmmUtils = (function () {
     history.back();
   }
 
+  function isAvailableTime(range1, range2) {
+    const date = new Date();
+    const currentTime = parseInt(date.getHours().toString() + date.getMinutes().toString());
+    return (range1 < currentTime && currentTime < range2);
+  }
+
+  function byteCalculation(size) {
+    const bytes = parseInt(size);
+    const s = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    const e = Math.floor(Math.log(bytes)/Math.log(1024));
+    if(e == "-Infinity") return "0 "+s[0];
+    else
+      return (bytes/Math.pow(1024, Math.floor(e))).toFixed(2)+" "+s[e];
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1252,6 +1267,8 @@ const cmmUtils = (function () {
     getRole: getRole,
     addZeroStr: addZeroStr,
     replaceCellular: replaceCellular,
-    historyBack: historyBack
+    historyBack: historyBack,
+    isAvailableTime: isAvailableTime,
+    byteCalculation: byteCalculation
   }
 })();
