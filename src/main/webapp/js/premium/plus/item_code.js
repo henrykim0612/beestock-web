@@ -7,6 +7,10 @@ const main = (function () {
     selectedProfileId: null,
     selectedItemName: null,
     selectedItemCode: null,
+    maxNegativeBsp: null,
+    maxPositiveBsp: null,
+    maxNegativeEarnRate: null,
+    maxPositiveEarnRate: null,
     width: {
       profileTitle: '250px', // 포트폴리오
       itemName: '200px', // 종목명
@@ -230,27 +234,19 @@ const main = (function () {
 
   // 매수금액 막대표
   function buyingSellingPrice(col, row, thOrTd, props) {
-    // 100분율 처리
-    const bspArr = props.rowData.map(function(p) {
-      return parseInt(p.buyingSellingPrice); // 100만달러 단위
-    });
-    const maxValue = _.max(bspArr);
-    const minValue = _.min(bspArr);
 
-    // 비율 적용하여 결과값 생성
-    let percent = 0;
-    let v = parseInt(row.buyingSellingPrice); // 100만달러 단위
-    if (0 < v) { // 0 보다 큰경우
-      const rate = (maxValue / 100);
-      percent = (v / rate).toFixed(3);
-      percent = percent < 1 ? 1 : percent; // 0.xx 단위는 1로 처리
-    } else if (v < 0) { // 0 보다 작은경우
-      const rate = Math.abs((minValue / 100));
-      percent = (v / rate).toFixed(3);
-      percent = -1 < percent ? -1 : percent; // 0.xx 단위는 1로 처리
+    if (global.maxNegativeBsp == null) {
+      const negativeValues = cmmUtils.getNegativeValues(props.rowData, 'buyingSellingPrice');
+      global.maxNegativeBsp = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'buyingSellingPrice'));
+    }
+    if (global.maxPositiveBsp == null) {
+      const positiveValues = cmmUtils.getPositiveValues(props.rowData, 'buyingSellingPrice');
+      global.maxPositiveBsp = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'buyingSellingPrice'));
     }
 
-    const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  cmmUtils.roundCurrency(v, 1000000, 1).toLocaleString());
+    const percent = parseInt(cmmUtils.getPercentage(row['buyingSellingPrice'], row['buyingSellingPrice'] < 0 ? global.maxNegativeBsp : global.maxPositiveBsp, true).toFixed(1));
+    const barDiv = cmmUtils.createAnalysisBar(percent,  cmmUtils.roundCurrency(row['buyingSellingPrice'], 1000000, 1).toLocaleString());
+
     // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
     barDiv.classList.add('width-100-p');
     barDiv.classList.add('hover-main');
@@ -260,7 +256,7 @@ const main = (function () {
     chartDiv.classList.add('justify-content-center');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', \''+ row['profileId'] +'\', 2)"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2)"><i class="fas fa-chart-line"></i></span>'
 
     const resultDiv = document.createElement('div');
     resultDiv.classList.add('flex-row');
@@ -269,12 +265,23 @@ const main = (function () {
     resultDiv.appendChild(barDiv);
     resultDiv.appendChild(chartDiv);
     return resultDiv;
+
   }
 
   // 수익률 막대 표
-  function earnRate(col, row) {
+  function earnRate(col, row, thOrTd, props) {
+    if (global.maxNegativeEarnRate == null) {
+      const negativeValues = cmmUtils.getNegativeValues(props.rowData, 'earnRate');
+      global.maxNegativeEarnRate = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'earnRate'));
+    }
+    if (global.maxPositiveEarnRate == null) {
+      const positiveValues = cmmUtils.getPositiveValues(props.rowData, 'earnRate');
+      global.maxPositiveEarnRate = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'earnRate'));
+    }
+
     row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
-    return cmmUtils.createAnalysisBar(row['earnRate']);
+    const percent = parseInt(cmmUtils.getPercentage(row['earnRate'], row['earnRate'] < 0 ? global.maxNegativeEarnRate : global.maxPositiveEarnRate, true).toFixed(1));
+    return cmmUtils.createAnalysisBar(percent, row['earnRate'] + '%');
   }
 
   function removeInitParagraph() {
@@ -283,9 +290,16 @@ const main = (function () {
     }
   }
 
+  function resetMinMaxValues() {
+    global.maxNegativeBsp = null;
+    global.maxPositiveBsp = null;
+    global.maxNegativeEarnRate = null;
+    global.maxPositiveEarnRate = null;
+  }
+
   // 그리드 생성
   function initGrid() {
-
+    resetMinMaxValues();
     removeInitParagraph();
     setQuarterDate();
     setProfileType();
