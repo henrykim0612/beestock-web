@@ -779,9 +779,7 @@ const cmmUtils = (function () {
 
   // 포트폴리오 분석막대 생성
   function createAnalysisBar(value, viewValue) {
-
     const arg = arguments.length;
-
     if (Math.abs(value) === 100) value = Math.floor(value); // 100 이면 소수점 제거
     const mainDiv = document.createElement('div');
     mainDiv.classList.add('flex-row');
@@ -809,6 +807,8 @@ const cmmUtils = (function () {
         contDiv.classList.add('flex-col');
         contDiv.classList.add('justify-content-center');
         const strong = document.createElement('strong');
+        strong.classList.add('flex-row');
+        strong.classList.add('justify-content-end');
         strong.style.color = '#0a0a0a';
         strong.innerText = arg === 2 ? viewValue : value + '%';
         contDiv.appendChild(strong);
@@ -840,6 +840,7 @@ const cmmUtils = (function () {
         contDiv.classList.add('analysis-plus');
         contDiv.style.width = value + '%';
         const strong = document.createElement('strong');
+        strong.classList.add('flex-row');
         strong.style.color = '#0a0a0a';
         strong.innerText = arg === 2 ? viewValue : value + '%';
         contDiv.appendChild(strong);
@@ -1189,6 +1190,35 @@ const cmmUtils = (function () {
       return (bytes/Math.pow(1024, Math.floor(e))).toFixed(2)+" "+s[e];
   }
 
+  function getNegativeValues(rowData, key) {
+    return rowData.filter(function(o) {
+      return o[key] < 0;
+    });
+  }
+
+  function getPositiveValues(rowData, key) {
+    return rowData.filter(function(o) {
+      return 0 <= o[key];
+    });
+  }
+
+  function getAbsValues(rowData, key) {
+    return rowData.map(function(o) { return Math.abs(o[key]); });
+  }
+
+  function getPercentage(value, maxValue, adjustedValue) {
+    if (maxValue === 0) {
+      return 0;
+    } else {
+      const result = (100 * value) / maxValue;
+      if (arguments.length === 3 && adjustedValue) {
+        return (-1 < result && result < 0) ? -1 : (0 < result && result < 1) ? 1 : result;
+      } else {
+        return result;
+      }
+    }
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1269,6 +1299,10 @@ const cmmUtils = (function () {
     replaceCellular: replaceCellular,
     historyBack: historyBack,
     isAvailableTime: isAvailableTime,
-    byteCalculation: byteCalculation
+    byteCalculation: byteCalculation,
+    getNegativeValues: getNegativeValues,
+    getPositiveValues: getPositiveValues,
+    getAbsValues: getAbsValues,
+    getPercentage: getPercentage
   }
 })();

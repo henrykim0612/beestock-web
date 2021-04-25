@@ -34,8 +34,10 @@ const main = (function() {
     paramQuarterDate: null,
     matchedQuarterSliderIdx: 0, // 다른 화면에서 링크되어 넘어왔을 경우에 이 값이 변경됨
     latestQuarterDate: null, // 해당 프로필의 가장 최신분기
-    maxEarnRate: null,
-    maxBsp: null,
+    maxNegativeBsp: null,
+    maxPositiveBsp: null,
+    maxNegativeEarnRate: null,
+    maxPositiveEarnRate: null,
     itemCodeAutoCompleteList: [],
     itemNameAutoCompleteList: [],
     width: {
@@ -299,6 +301,7 @@ const main = (function() {
         button.disabled = true;
         button.classList.add('is-danger');
         button.classList.add('is-inverted');
+        button.classList.add('is-rounded');
         const iconSpan = document.createElement('span');
         iconSpan.classList.add('icon');
         const icon = document.createElement('i');
@@ -306,6 +309,7 @@ const main = (function() {
         icon.classList.add('fa-clock');
         iconSpan.appendChild(icon);
         const textSpan = document.createElement('span');
+        textSpan.classList.add('quarter-slider__label');
         textSpan.innerText = '미공시'
         button.append(iconSpan);
         button.append(textSpan);
@@ -331,6 +335,7 @@ const main = (function() {
     button.classList.add('is-dark');
     button.classList.add('is-inverted');
     button.classList.add('is-small');
+    button.classList.add('is-rounded');
     button.setAttribute('data-button', 'slide');
     button.setAttribute('data-key', quarter['quarterId']);
     button.setAttribute('data-quarter', quarter['quarterDate']);
@@ -347,6 +352,7 @@ const main = (function() {
     icon.classList.add('fa-clock');
     iconSpan.appendChild(icon);
     const textSpan = document.createElement('span');
+    textSpan.classList.add('quarter-slider__label');
     textSpan.innerText = quarter['quarterDate'] + 'Q';
     button.append(iconSpan);
     button.append(textSpan);
@@ -357,9 +363,9 @@ const main = (function() {
 
   function initSwiper() {
     const slider = new Swiper('#quarterSlider', {
-      slidesPerView: 7,
-      centeredSlides: false,
+      slidesPerView: 6,
       spaceBetween: 0,
+      centeredSlides: false,
       loop: false,
       grabCursor: true,
       navigation: {
@@ -373,6 +379,13 @@ const main = (function() {
     });
   }
 
+  function resetMinMaxValues() {
+    global.maxNegativeBsp = null;
+    global.maxPositiveBsp = null;
+    global.maxNegativeEarnRate = null;
+    global.maxPositiveEarnRate = null;
+  }
+
   // 분기 버튼 이벤트 생성
   function addSlideButtonEvents(el) {
     const slideButtons = el.querySelectorAll('[data-button=slide]');
@@ -384,6 +397,7 @@ const main = (function() {
           global.quarterId = that.getAttribute('data-key');
           global.selectedQuarterDate = that.getAttribute('data-quarter');
 
+          resetMinMaxValues();
           // 이벤트를 사용할 권한이 있는지 확인
           cmmUtils.axiosPost({
             url: '/api/v1/analysis/profile/is-available-event',
@@ -443,20 +457,18 @@ const main = (function() {
 
   // 수익률 막대 표
   function earnRate(col, row, thOrTd, props) {
-
-    if (global.maxEarnRate == null) {
-      global.maxEarnRate = _.maxBy(props.rowData, function(o) { return o.earnRate; }).earnRate;
+    if (global.maxNegativeEarnRate == null) {
+      const negativeValues = cmmUtils.getNegativeValues(props.rowData, 'earnRate');
+      global.maxNegativeEarnRate = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'earnRate'));
     }
-    let percent = (row['earnRate'] !== 0) ? (100 * row['earnRate']) / global.maxEarnRate : 0;
-    if (0 < percent && percent < 1) {
-      percent = 1;
-    }
-    if (-1 < percent && percent < 0) {
-      percent = -1;
+    if (global.maxPositiveEarnRate == null) {
+      const positiveValues = cmmUtils.getPositiveValues(props.rowData, 'earnRate');
+      global.maxPositiveEarnRate = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'earnRate'));
     }
 
     row['excelText'] = row['earnRate'] + '%'; // 엑셀전용
-    return cmmUtils.createAnalysisBar(parseInt(percent.toFixed(1)), row['earnRate']);
+    const percent = parseInt(cmmUtils.getPercentage(row['earnRate'], row['earnRate'] < 0 ? global.maxNegativeEarnRate : global.maxPositiveEarnRate, true).toFixed(1));
+    return cmmUtils.createAnalysisBar(percent, row['earnRate'] + '%');
   }
 
   // 보유수량
@@ -568,6 +580,8 @@ const main = (function() {
     }
   }
 
+
+
   // 매수·금액 막대 표
   function buyingSellingPrice(col, row, thOrTd, props) {
 
@@ -576,19 +590,17 @@ const main = (function() {
     // 매수매도금액은 프리미엄 사용자 이상부터 이용 가능
     if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
 
-      if (global.maxBsp == null) {
-        global.maxBsp = _.maxBy(props.rowData, function(o) { return o.buyingSellingPrice; }).buyingSellingPrice;
+      if (global.maxNegativeBsp == null) {
+        const negativeValues = cmmUtils.getNegativeValues(props.rowData, 'buyingSellingPrice');
+        global.maxNegativeBsp = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'buyingSellingPrice'));
+      }
+      if (global.maxPositiveBsp == null) {
+        const positiveValues = cmmUtils.getPositiveValues(props.rowData, 'buyingSellingPrice');
+        global.maxPositiveBsp = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'buyingSellingPrice'));
       }
 
-      let percent = (row['buyingSellingPrice'] !== 0) ? (100 * row['buyingSellingPrice']) / global.maxBsp : 0;
-      if (0 < percent && percent < 1) {
-        percent = 1;
-      }
-      if (-1 < percent && percent < 0) {
-        percent = -1;
-      }
-
-      const barDiv = cmmUtils.createAnalysisBar(parseInt(percent.toFixed(1)),  cmmUtils.roundCurrency(row['buyingSellingPrice'], 1000000, 1).toLocaleString());
+      const percent = parseInt(cmmUtils.getPercentage(row['buyingSellingPrice'], row['buyingSellingPrice'] < 0 ? global.maxNegativeBsp : global.maxPositiveBsp, true).toFixed(1));
+      const barDiv = cmmUtils.createAnalysisBar(percent,  cmmUtils.roundCurrency(row['buyingSellingPrice'], 1000000, 1).toLocaleString());
 
       // const barDiv = cmmUtils.createAnalysisBar(parseInt(percent),  v.toLocaleString());
       barDiv.classList.add('width-100-p');
@@ -1943,6 +1955,7 @@ const main = (function() {
         grid: {
           left: '3%',
           right: '3%',
+          bottom: '7%',
           containLabel: true
         },
         legend: {
@@ -1984,6 +1997,10 @@ const main = (function() {
     const props = {
       eId: 'fundamentalChart',
       options: {
+        title: {
+          subtext: global.selectedProfileType === '1' ? '(단위: 백만원)' : '(단위: 백만달러)',
+          left: '88%'
+        },
         tooltip: {
           trigger: 'axis',
           confine: true,
@@ -1998,6 +2015,7 @@ const main = (function() {
         grid: {
           left: '3%',
           right: '3%',
+          bottom: '7%',
           containLabel: true
         },
         legend: {

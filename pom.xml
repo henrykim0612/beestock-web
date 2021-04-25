@@ -5,12 +5,12 @@
     <parent>
         <artifactId>beestock-parent</artifactId>
         <groupId>com.beestock</groupId>
-        <version>1.4.10</version>
+        <version>1.4.11</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>beestock-web</artifactId>
-    <version>1.4.10</version>
+    <version>1.4.11</version>
     <packaging>war</packaging>
 
     <dependencies>
@@ -18,7 +18,7 @@
         <dependency>
             <artifactId>beestock-core</artifactId>
             <groupId>com.beestock</groupId>
-            <version>1.4.10</version>
+            <version>1.4.11</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring -->
