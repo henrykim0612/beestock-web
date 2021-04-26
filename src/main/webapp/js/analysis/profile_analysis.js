@@ -138,8 +138,10 @@ const main = (function() {
   };
   let ideaGrid = undefined;
   let profileGrid = undefined;
-  let soldOutGrid = undefined;
   let newTransferGrid = undefined;
+  let soldOutGrid = undefined;
+  let buyingGrid = undefined;
+  let sellingGrid = undefined;
   let profileBarChart = undefined;
   let profilePieChart = undefined;
   let leftItemCodeChart = undefined;
@@ -442,6 +444,8 @@ const main = (function() {
       case 'soldOut': initSoldOutGrid(); break;
       case 'barChart': initBarChart(); break;
       case 'pieChart': initPieChart(); break;
+      case 'buying': initBuyingGrid(); break;
+      case 'selling': initSellingGrid(); break;
     }
   }
 
@@ -452,6 +456,8 @@ const main = (function() {
       case 'soldOut': soldOutGrid.reload(); break;
       case 'barChart': initBarChart(); break;
       case 'pieChart': initPieChart(); break;
+      case 'buying': buyingGrid.reload(); break;
+      case 'selling': sellingGrid.reload(); break;
     }
   }
 
@@ -677,6 +683,11 @@ const main = (function() {
     return html;
   }
 
+  function resetAutoComplete() {
+    global.itemCodeAutoCompleteList = [];
+    global.itemNameAutoCompleteList = [];
+  }
+
   function makeAutoCompleteList(row) {
     global.itemCodeAutoCompleteList.push(row.itemCode);
     global.itemNameAutoCompleteList.push(row.itemName);
@@ -814,7 +825,6 @@ const main = (function() {
   }
 
   function setGridTooltips() {
-
     if (document.getElementById('authority') != null
       && document.getElementById('authority').value !== '[ROLE_BASIC]'
       && document.getElementById('authority').value !== '[ROLE_STANDARD]') {
@@ -837,6 +847,7 @@ const main = (function() {
 
   // 포트폴리오 그리드
   function initProfileGrid() {
+    resetAutoComplete();
     // 비교 날짜를 우선적으로 가져옴
     getComparisonQuarter(function(response) {
       global['comparisonQuarterDate'] = (response.quarterDate !== undefined) ? response.quarterDate : '비교대상 없음';
@@ -1058,6 +1069,91 @@ const main = (function() {
       }
     }
     soldOutGrid = new COMPONENTS.DataGrid(props);
+  }
+
+  // 매수금액 그리드
+  function initBuyingGrid() {
+    const body = {
+      orderBy: [{column: 'buyingSellingPrice', desc: true}],
+      quarterId: global.quarterId,
+      profileId: global.profileId,
+      comparisonQuarter: global.comparisonQuarter,
+      selectedQuarterDate: global.selectedQuarterDate,
+      profileType: global.selectedProfileType,
+      isLatestQuarter: isLatestQuarterDate()
+    }
+
+    const props = {
+      url: '/api/v1/analysis/profile/buying',
+      body: body,
+      eId: 'buyingGrid',
+      isThead: true,
+      isTfoot: false,
+      isPageLoader: true,
+      singleSorting: true,
+      refreshHeader: false,
+      fileName: global.selectedQuarterDate,
+      colModel: [
+        {id: 'itemCode', isHidden: true},
+        {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
+        {id: 'itemName', name: '종목명', width: global.width.itemName, isSort: true, align: 'left', isExcel: true, type: 'node', userCustom: titleAnchor, hasTooltip: {col: 'itemName', placement: 'right', valueOnly: true}},
+        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, zeroRpad: global.selectedProfileType !== '1', userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: incRateHeader, userCustom: incsRate, isExcel: true, hasTooltip: {col: 'itemName'}}
+      ],
+      success: function (data, _this) {
+        setGridTooltips();
+        runRefreshTimer();
+      }
+    }
+    buyingGrid = new COMPONENTS.DataGrid(props);
+  }
+
+  function initSellingGrid() {
+    const body = {
+      orderBy: [{column: 'buyingSellingPrice'}],
+      quarterId: global.quarterId,
+      profileId: global.profileId,
+      comparisonQuarter: global.comparisonQuarter,
+      selectedQuarterDate: global.selectedQuarterDate,
+      profileType: global.selectedProfileType,
+      isLatestQuarter: isLatestQuarterDate()
+    }
+
+    const props = {
+      url: '/api/v1/analysis/profile/selling',
+      body: body,
+      eId: 'sellingGrid',
+      isThead: true,
+      isTfoot: false,
+      isPageLoader: true,
+      singleSorting: true,
+      refreshHeader: false,
+      fileName: global.selectedQuarterDate,
+      colModel: [
+        {id: 'itemCode', isHidden: true},
+        {id: 'rowNum', name: 'No', align: 'center', isExcel: true},
+        {id: 'itemName', name: '종목명', width: global.width.itemName, isSort: true, align: 'left', isExcel: true, type: 'node', userCustom: titleAnchor, hasTooltip: {col: 'itemName', placement: 'right', valueOnly: true}},
+        {id: 'viewWeight', name: '비중', width: global.width.viewWeight, isSort: true, align: 'center', prefixText: '%', toFixed: 1, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', isCurrency: true, zeroRpad: global.selectedProfileType !== '1', userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'fluctRate', name: '등락률', width: global.width.fluctRate, isSort: true, align: 'center', type: 'node', userCustom: fluctRate, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'incsRate', name: global['comparisonQuarterDate'] + ' C%', width: global.width.incsRate, isSort: true, align: 'center', type: 'custom', userCustomHeader: incRateHeader, userCustom: incsRate, isExcel: true, hasTooltip: {col: 'itemName'}}
+      ],
+      success: function (data, _this) {
+        setGridTooltips();
+        runRefreshTimer();
+      }
+    }
+    sellingGrid = new COMPONENTS.DataGrid(props);
   }
 
 
@@ -1953,6 +2049,7 @@ const main = (function() {
           }
         },
         grid: {
+          top: '10%',
           left: '3%',
           right: '3%',
           bottom: '7%',
@@ -1998,14 +2095,18 @@ const main = (function() {
       eId: 'fundamentalChart',
       options: {
         title: {
-          subtext: global.selectedProfileType === '1' ? '(단위: 백만원)' : '(단위: 백만달러)',
+          text: global.selectedProfileType === '1' ? '(단위: 백만원)' : '(단위: 백만달러)',
+          textStyle: {
+            fontSize: 11
+          },
+          top: 0,
           left: '88%'
         },
         tooltip: {
           trigger: 'axis',
           confine: true,
           axisPointer: {
-            type: 'cross',
+            type: 'shadow',
             axis: 'auto',
             crossStyle: {
               color: '#999'
@@ -2013,6 +2114,7 @@ const main = (function() {
           }
         },
         grid: {
+          top: '10%',
           left: '3%',
           right: '3%',
           bottom: '7%',
