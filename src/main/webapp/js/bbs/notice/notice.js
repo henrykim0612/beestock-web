@@ -82,7 +82,7 @@ const main = (function() {
     const props = {
       url: '/api/v1/bbs/paging-notice-list',
       body: {
-        orderBy: [{column: 'uptDate', desc: true}]
+        orderBy: [{column: 'regDate', desc: true}]
       },
       eId: 'dataGrid',
       pId: 'dataPagination',

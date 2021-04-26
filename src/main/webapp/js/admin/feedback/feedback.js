@@ -56,7 +56,7 @@ const main = (function() {
       const div = document.createElement('div');
       div.classList.add('flex-row');
       const anchor = document.createElement('a');
-      anchor.innerText = cmmUtils.convertDotText(row['feedbackCont'], 10);
+      anchor.innerText = cmmUtils.convertDotText(row['feedbackCont'], 20);
       anchor.addEventListener('click', function() {
         showContent(row['feedbackCont']);
       });

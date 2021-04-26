@@ -58,34 +58,40 @@
                 <ul>
                     <li id="fundamentalTab" class="is-active topTabs" data-cont-id="fundamentalCont">
                         <a>
-                            <span class="icon"><i class="fas fa-gem"></i></span>
+                            <span class="icon has-text-primary"><i class="fas fa-gem"></i></span>
                             <span>운용자산 규모</span>
                         </a>
                     </li>
                     <li id="benchmarkTab" class="topTabs" data-cont-id="benchmarkCont">
                         <a>
-                            <span class="icon"><i class="fas fa-gem"></i></span>
+                            <span class="icon has-text-primary"><i class="fas fa-gem"></i></span>
                             <span>벤치마크 지수</span>
                         </a>
                     </li>
                     <sec:authorize access="isAuthenticated()">
                         <li id="ideaTab" class="topTabs" data-cont-id="ideaCont">
                             <a>
-                                <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                                <span class="icon has-text-warning"><i class="fas fa-lightbulb"></i></span>
                                 <span>투자 아이디어</span>
                             </a>
                         </li>
                     </sec:authorize>
                     <li id="linkTab" class="topTabs" data-cont-id="linkCont">
                         <a>
-                            <span class="icon"><i class="fas fa-link"></i></span>
+                            <span class="icon has-text-link"><i class="fas fa-link"></i></span>
                             <span>참고자료</span>
                         </a>
                     </li>
                     <li id="infoTab" class="topTabs" data-cont-id="infoCont">
                         <a>
-                            <span class="icon"><i class="fas fa-info-circle"></i></span>
+                            <span class="icon has-text-info"><i class="fas fa-info-circle"></i></span>
                             <span>소개</span>
+                        </a>
+                    </li>
+                    <li id="notiTab" class="topTabs" data-cont-id="notiCont">
+                        <a>
+                            <span class="icon has-text-danger"><i class="fas fa-exclamation-triangle"></i></span>
+                            <span>유의사항</span>
                         </a>
                     </li>
                 </ul>
@@ -154,6 +160,33 @@
                     </div>
                 </div>
             </div>
+            <%--유의사항 탭--%>
+            <div id="notiCont" class="is-hidden">
+                <div class="columns">
+                    <div class="column is-full ml-5">
+                        <c:if test="${profileVo.profileType eq '1'}">
+                            <ol>
+                                <li>액면분할, 유.무상 증자, 감자 이슈에 대한 수정 보유수량을 제공하지 않습니다.</li>
+                                <li>전분기대비 급격한 보유수량 증가가 생긴다면 해당이슈에 대해서 검토하시기 바랍니다</li>
+                                <li>예시) 삼성전자가 액면분할을 1주 -> 50주로 단행하였을 때 운용사의 삼성전자 주식 보유량은 50배씩 늘어난 것으로 보이게 되지만, 실은 액면분할 효과일 뿐 주식취득은 없습니다.</li>
+                                <li>매수가가 비정상적으로 높다면 마찬가지로 액면분할 관련이슈에 대하여 검토하시기 바랍니다.</li>
+                                <li>현재가, 수익률, 포트폴리오 시가총액은 발표된 보고서의 최근 분기만 최신주가를 반영하여 만들어 집니다.</li>
+                                <li>예시) 2018-2Q의 보고서를 본다면 현재가, 수익률, 포트폴리오 시가총액은 2018년 6월 30일 주가를 기반으로 보여 집니다.</li>
+                            </ol>
+                        </c:if>
+                        <c:if test="${profileVo.profileType eq '2'}">
+                            <ol>
+                                <li>보유종목은 미국 내 상장기업만 표시됩니다(예시: 워렌버핏은 일본의 상사기업 5곳을 보유하고 있지만 표시되지 않습니다).</li>
+                                <li>벤치마크지수는 시간가중수익률을 기반으로 만들어졌습니다.</li>
+                                <li>채권, 파생상품 포지션은 표시되지 않습니다.</li>
+                                <li>현재가, 수익률, 포트폴리오 시가총액은 발표된 보고서의 최근 분기만 최신주가를 반영하여 만들어 집니다.</li>
+                                <li>예시) 2018-2Q의 보고서를 본다면 현재가, 수익률, 포트폴리오 시가총액은 2018년 6월 30일 주가를 기반으로 보여 집니다.</li>
+                                <li>운용자산 규모축소, 확대로 밸류에이션과 주가움직임과 무관하게 매수.매도가 일어 났을 수도 있습니다. 이부분에 유념하시기 바랍니다.</li>
+                            </ol>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -184,7 +217,7 @@
         <ul>
             <li id="gridTab" class="is-active bottomTabs" data-view="grid" data-cont-id="gridCont">
                 <a>
-                    <span class="icon has-text-primary-dark"><i class="fas fa-table"></i></span>
+                    <span class="icon has-text-primary"><i class="fas fa-table"></i></span>
                     <span>전체</span>
                 </a>
             </li>
@@ -200,16 +233,28 @@
                     <span>전량매도</span>
                 </a>
             </li>
+            <li id="barBTab" class="bottomTabs" data-view="buying" data-cont-id="buyingCont">
+                <a>
+                    <span class="icon has-text-danger"><i class="fas fa-hand-holding-usd"></i></span>
+                    <span>매수금액</span>
+                </a>
+            </li>
+            <li id="barSTab" class="bottomTabs" data-view="selling" data-cont-id="sellingCont">
+                <a>
+                    <span class="icon has-text-info"><i class="fas fa-hand-holding-usd"></i></span>
+                    <span>매도금액</span>
+                </a>
+            </li>
             <li id="barTab" class="bottomTabs" data-view="barChart" data-cont-id="barCont">
                 <a>
-                    <span class="icon has-text-primary-dark"><i class="fas fa-chart-bar"></i></span>
-                    <span>막대차트</span>
+                    <span class="icon has-text-primary"><i class="fas fa-poll-h"></i></span>
+                    <span>비중(막대))</span>
                 </a>
             </li>
             <li id="pieTab" class="bottomTabs" data-view="pieChart" data-cont-id="pieCont">
                 <a>
-                    <span class="icon has-text-primary-dark"><i class="fas fa-chart-pie"></i></span>
-                    <span>비중</span>
+                    <span class="icon has-text-primary"><i class="fas fa-chart-pie"></i></span>
+                    <span>비중(원형)</span>
                 </a>
             </li>
         </ul>
@@ -355,6 +400,20 @@
         <table id="soldOutGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
     </div>
 
+    <%--매수금액--%>
+    <div id="buyingCont" class="is-hidden">
+        <div class="flex-row">
+            <table id="buyingGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
+        </div>
+    </div>
+
+    <%--매도금액--%>
+    <div id="sellingCont" class="is-hidden">
+        <div class="flex-row">
+            <table id="sellingGrid" class="mt-3 table is-bordered is-narrow is-hoverable is-fullwidth"></table>
+        </div>
+    </div>
+
     <%--차트 탭--%>
     <div id="barCont" class="is-hidden">
         <div class="flex-row">
@@ -380,7 +439,7 @@
                     </div>
                 </div>
             </div>
-            <div class="field ml-3">
+            <div class="field ml-3 is-hidden">
                 <div class="control has-icons-left">
                     <div class="select is-small">
                         <select id="selBarChartFilter">
