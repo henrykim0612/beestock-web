@@ -248,7 +248,7 @@
             <li id="barTab" class="bottomTabs" data-view="barChart" data-cont-id="barCont">
                 <a>
                     <span class="icon has-text-primary"><i class="fas fa-poll-h"></i></span>
-                    <span>비중(막대))</span>
+                    <span>비중(막대)</span>
                 </a>
             </li>
             <li id="pieTab" class="bottomTabs" data-view="pieChart" data-cont-id="pieCont">
@@ -665,3 +665,7 @@
         </section>
     </div>
 </div>
+
+<figure class="image is-128x128 is-hidden" id="miniProfileImg">
+    <img src="https://bulma.io/images/placeholders/128x128.png">
+</figure>

@@ -1115,7 +1115,10 @@ const cmmUtils = (function () {
   }
 
   function openNewTab(url) {
-    window.open(CONTEXT_PATH + url + '.do', '_blank').focus();
+    const splitUrl = url.split('?');
+    const urlArr = [splitUrl[0], '.do?', splitUrl[1]];
+    window.open(CONTEXT_PATH + urlArr.join(''), '_blank').focus();
+
   }
 
   function getCurrentTime() {
