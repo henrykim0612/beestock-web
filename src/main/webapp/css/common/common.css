@@ -409,3 +409,8 @@ table tfoot th {
 .quarter-slider__label {
 	font-size: 15px;
 }
+
+#miniProfileImg {
+	position: fixed;
+	z-index: 999999;
+}

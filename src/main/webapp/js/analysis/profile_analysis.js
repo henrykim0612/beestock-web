@@ -48,8 +48,8 @@ const main = (function() {
       buyingPrice: '120px', // 평균 매수가
       currPrice: '100px', // 현재가
       fluctRate: '100px', // 등락률
-      earnRate: '140px', // 수익률
-      buyingSellingPrice: '140px', //매수매도금액
+      earnRate: '150px', // 수익률
+      buyingSellingPrice: '150px', //매수매도금액
       incsRate: '120px' // 증감률
     },
     visualMap: {
@@ -1156,20 +1156,30 @@ const main = (function() {
     sellingGrid = new COMPONENTS.DataGrid(props);
   }
 
-
   // 왼쪽 차트모달 그리드 종목명
   function stackChartGridtitleAnchor(col, row) {
-
     const div = document.createElement('div');
     div.classList.add('flex-row');
     div.classList.add('justify-content-start');
-    div.classList.add('hover-type1');
-
-    const textDiv = document.createElement('div');
-    textDiv.innerText = row['profileTitle'];
-    textDiv.classList.add('mr-3');
-
-    div.appendChild(textDiv);
+    const anchor = document.createElement('a');
+    anchor.innerText = cmmUtils.convertDotText(row['profileTitle'], 20);
+    anchor.addEventListener('click', function(e) {
+      const url = '/analysis/profile/details?profileType=' + row['profileType'] + '&profileId=' + row['profileId'];
+      cmmUtils.openNewTab(url); // 새탭으로
+    });
+    const miniImg = document.getElementById('miniProfileImg');
+    anchor.addEventListener('mouseover', async function(e) {
+      const pos = e.target.getBoundingClientRect();
+      const response = await cmmUtils.awaitAxiosGet({url: '/api/v1/admin/profile/' + row['profileId']});
+      miniImg.children[0].src =  CONTEXT_PATH + '/common/image/' + response.fileId + '.do';
+      miniImg.style.top = (pos.top - 50) + 'px';
+      miniImg.style.left = (pos.left - 140) + 'px';
+      miniImg.classList.remove('is-hidden');
+    });
+    anchor.addEventListener('mouseleave', function(e) {
+      miniImg.classList.add('is-hidden');
+    });
+    div.appendChild(anchor);
     return div;
   }
 
@@ -1385,7 +1395,7 @@ const main = (function() {
           },
           toolbox: {
             show: true,
-            left: '63%',
+            left: '68%',
             feature: {
               dataZoom: {
                 yAxisIndex: 'none'
@@ -2061,6 +2071,7 @@ const main = (function() {
         xAxis:  {
           type: 'category',
           data: response['categories'],
+          boundaryGap: false,
           axisPointer: {
             type: 'shadow'
           }
@@ -2127,6 +2138,7 @@ const main = (function() {
         xAxis:  {
           type: 'category',
           data: response['categories'],
+          boundaryGap: false,
           axisPointer: {
             type: 'shadow'
           }
