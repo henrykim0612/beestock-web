@@ -139,6 +139,12 @@
             </resource>
         </resources>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>com.samaxes.maven</groupId>-->
+<!--                <artifactId>minify-maven-plugin</artifactId>-->
+<!--                <version>1.7.6</version>-->
+<!--                &lt;!&ndash;  Execution Configuration &ndash;&gt;-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -11,6 +11,7 @@ const main = (function () {
     maxPositiveBsp: null,
     maxNegativeEarnRate: null,
     maxPositiveEarnRate: null,
+    bspName: null,
     width: {
       profileTitle: '250px', // 포트폴리오
       itemName: '200px', // 종목명
@@ -24,16 +25,10 @@ const main = (function () {
     },
     visualMap: {
       show: false,
-      pieces: [{
-        gt: 0,
-        lte: 1,
-        color: '#3273DC'
-      }, {
-        gt: 1,
-        color: '#3273DC'
-      }],
-      outOfRange: {
-        color: '#F14668'
+      min: 0,
+      max: 1,
+      inRange: {
+        color: ['#3273DC', '#F14668']
       }
     },
     autocomplete: {
@@ -47,10 +42,10 @@ const main = (function () {
 
   function init() {
     createBreadCrumb();
+    initSearchFilter();
     initAutoComplete();
     initFilterEventListeners();
     initQuarterSelbox();
-    focusSchWord();
     addSelectedLineChartFilterEvents();
   }
 
@@ -80,15 +75,30 @@ const main = (function () {
     breadCrumbNav.innerHTML = html;
   }
 
+  // 검색조건 필터
+  function initSearchFilter() {
+    const selType = document.getElementById('selType').value;
+    const idx = selType === '1' ? 0 : 1;
+    document.getElementById('schType')[idx].selected = true;
+  }
+
   async function initAutoComplete() {
     global.autocomplete.data = await cmmUtils.awaitAxiosGet({url: '/api/v1/premium/autocomplete'});
     global.autocomplete.instance = new Awesomplete(document.getElementById('inputSearch'));
-    global.autocomplete.instance.list = global.autocomplete.data.outStockItemNameList; // 기본은 해외종목명
+    changeAutocompleteList();
   }
 
   function initFilterEventListeners() {
-    document.getElementById('selType').addEventListener('change', changeAutocompleteList);
-    document.getElementById('schType').addEventListener('change', changeAutocompleteList);
+    document.getElementById('selType').addEventListener('change', function() {
+      resetSchWord();
+      initSearchFilter();
+      changeAutocompleteList();
+    });
+    document.getElementById('schType').addEventListener('change', function() {
+      resetSchWord();
+      changeAutocompleteList();
+      focusSchWord();
+    });
   }
 
   function changeAutocompleteList() {
@@ -121,7 +131,6 @@ const main = (function () {
     document.getElementById('selQuarter').appendChild(fragment);
   }
 
-  // 종목명
   function titleAnchor(col, row) {
 
     const div = document.createElement('div');
@@ -137,6 +146,7 @@ const main = (function () {
       const url = '/analysis/profile/details?profileType=' + row['profileType'] + '&profileId=' + row['profileId'] + '&quarterDate=' + global.selectedQuarterDate;
       cmmUtils.goToPage(url);
     });
+    cmmUtils.initMiniProfileImg(anchor, row['profileId']);
 
     div.appendChild(anchor);
     return div;
@@ -147,9 +157,25 @@ const main = (function () {
     const div = document.createElement('div');
     div.classList.add('flex-row');
     div.classList.add('justify-content-start');
-    const span = document.createElement('span');
-    span.innerText = cmmUtils.convertDotText(row['itemName'], 20);
-    div.appendChild(span);
+
+    const anchor = document.createElement('a');
+    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 20);
+    anchor.classList.add('mr-3');
+    anchor.addEventListener('click', function() {
+      cmmUtils.callPopup({
+        url: '/premium/plus/itemcode/detailpop',
+        param: {
+          selectedQuarterDate: global.selectedQuarterDate,
+          profileType: row['profileType'],
+          profileId: row['profileId'],
+          itemCode: row['itemCode'],
+          itemName: row['itemName'],
+          schType: getSearchType()
+        }
+      })
+    });
+
+    div.appendChild(anchor);
     return div;
   }
 
@@ -168,7 +194,7 @@ const main = (function () {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', \''+ row['profileId'] +'\', 0)"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0, \''+ row['profileId'] +'\')"><i class="fas fa-chart-line"></i></span>'
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -190,7 +216,7 @@ const main = (function () {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', \''+ row['profileId'] +'\', 3)"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3, \''+ row['profileId'] +'\')"><i class="fas fa-chart-line"></i></span>'
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -229,7 +255,7 @@ const main = (function () {
     div.classList.add('flex-row');
     div.classList.add('justify-content-center');
     div.classList.add('bspHeader');
-    div.innerText = '매수 · 매도금액';
+    div.innerText = global.bspName;
   }
 
   // 매수금액 막대표
@@ -256,7 +282,7 @@ const main = (function () {
     chartDiv.classList.add('justify-content-center');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2)"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2, \''+ row['profileId'] +'\')"><i class="fas fa-chart-line"></i></span>'
 
     const resultDiv = document.createElement('div');
     resultDiv.classList.add('flex-row');
@@ -297,18 +323,25 @@ const main = (function () {
     global.maxPositiveEarnRate = null;
   }
 
+  async function isLatestQuarter() {
+    const url = '/api/v1/analysis/profile/latest-quarter/' + global.selectedProfileId;
+    const response = await cmmUtils.awaitAxiosGet({url: url});
+    return global.selectedQuarterDate === response.quarterDate ? 1 : 0;
+  }
+
   // 그리드 생성
   function initGrid() {
     resetMinMaxValues();
     removeInitParagraph();
     setQuarterDate();
     setProfileType();
+    setBspName();
+    setChartModalFilter();
 
     const body = {
       orderBy: [{column: 'viewWeight', desc: true}],
       selectedQuarterDate: global.selectedQuarterDate,
-      profileType: global.selectedProfileType,
-      isLatestQuarter: cmmUtils.isLatestQuarter(global.selectedQuarterDate),
+      profileType: global.selectedProfileType
     }
     const schWord = getSearchWord();
     if (schWord) {
@@ -336,7 +369,7 @@ const main = (function () {
         {id: 'quantity', name: '보유수량', width: global.width.quantity, isSort: true, align: 'right', isCurrency: true, type: 'node', userCustom: customQuantity, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'buyingPrice', name: '평균 매수가', width: global.width.buyingPrice, isSort: true, align: 'right', userCustomHeader: bpHeader, type: 'node', userCustom: customBp, isCurrency: true, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'currPrice', name: '현재가', width: global.width.currPrice, isSort: true, align: 'right', zeroRpad: global.selectedProfileType !== 1, isCurrency: true, userCustomHeader: currPriceHeader , isExcel: true, hasTooltip: {col: 'itemName'}},
-        {id: 'buyingSellingPrice', name: '매수 · 매도금액', width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
+        {id: 'buyingSellingPrice', name: global.bspName, width: global.width.buyingSellingPrice, isSort: true, align: 'center', type: 'node', userCustomHeader: bspHeader, userCustom: buyingSellingPrice, isExcel: true, hasTooltip: {col: 'itemName'}},
         {id: 'earnRate', name: '수익률', width: global.width.earnRate, isSort: true, align: 'center', type: 'node', userCustom: earnRate, isExcel: true, hasTooltip: {col: 'itemName'}}
       ],
       success: function (data, _this) {
@@ -359,7 +392,7 @@ const main = (function () {
   }
 
 
-  async function showColLineChartModal(itemCode, itemName, profileId, filterIdx) {
+  async function showColLineChartModal(itemCode, itemName, filterIdx, profileId) {
     // filterIdx => 0: 보유수량, 1:시가평가액, 2:매수매도금액, 3: 평균매수가
     const args = arguments.length;
     try {
@@ -367,7 +400,7 @@ const main = (function () {
       console.log(response);
       if (response.data) {
 
-        setSelectedLineChartFilter(filterIdx);
+        setSelectedLineChartFilter(2 < args ? filterIdx : 0); // 보유수량을 기본으로
         cmmUtils.showModal('colLineChartModal');
         global.selectedItemCode = itemCode;
         global.selectedItemName = itemName;
@@ -407,6 +440,7 @@ const main = (function () {
           },
           toolbox: {
             show: true,
+            left: '76%',
             feature: {
               dataZoom: {
                 yAxisIndex: 'none'
@@ -454,9 +488,8 @@ const main = (function () {
         },
         data: modifiedChartData.data,
         markArea: {
-          silent: true,
           itemStyle: {
-            color: '#E6E6E6',
+            color: '#FFFBEB',
             opacity: 0.7
           },
           data: modifiedChartData.markArea
@@ -510,6 +543,23 @@ const main = (function () {
     global.selectedProfileType = parseInt(document.getElementById('selType').value);
   }
 
+  function setBspName() {
+    global.bspName = global.selectedProfileType === 1 ? '매수금액' : '매수 · 매도금액';
+  }
+
+  function setChartModalFilter() {
+    let html = '';
+    html = html + '<option value="0" selected>보유수량</option>';
+    html = html + '<option value="1">시가평가액</option>';
+    html = html + '<option value="2">' + global.bspName + '</option>';
+    html = html + '<option value="3">평균매수가</option>';
+    document.getElementById('selLineChartFilter').innerHTML = html;
+  }
+
+  function resetSchWord() {
+    document.getElementById('inputSearch').value = '';
+  }
+
   function focusSchWord() {
     document.getElementById('inputSearch').focus();
   }
@@ -537,12 +587,14 @@ const main = (function () {
     initGrid: initGrid,
     showColLineChartModal: showColLineChartModal,
     closeColLineChartModal: closeColLineChartModal,
-    inputKeyup: inputKeyup
+    inputKeyup: inputKeyup,
+    focusSchWord: focusSchWord
   }
 
 }());
 
 document.addEventListener("DOMContentLoaded", function () {
   main.init();
+  setTimeout(main.focusSchWord, 1000);
   document.getElementById('inputSearch').addEventListener('keyup', main.inputKeyup)
 });

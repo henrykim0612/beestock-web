@@ -1,5 +1,6 @@
 package com.beestock.controller.premium;
 
+import com.beestock.vo.profile.QuarterInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,5 +17,18 @@ public class PremiumPlusController {
         model.addAttribute("title", "종목코드 검색");
         return "premium/plus/itemCode";
     }
+
+    @GetMapping("/itemcode/detailpop.do")
+    public String goToItemCodeDetailPopup(QuarterInfoVo param, ModelMap model) {
+        model.addAttribute("title", "");
+        model.addAttribute("selectedQuarterDate", param.getSelectedQuarterDate());
+        model.addAttribute("profileType", param.getProfileType());
+        model.addAttribute("profileId", param.getProfileId());
+        model.addAttribute("itemCode", param.getItemCode());
+        model.addAttribute("itemName", param.getItemName());
+        model.addAttribute("schType", param.getSchType());
+        return "premium/plus/itemCodeDetailPopup";
+    }
+
 
 }
