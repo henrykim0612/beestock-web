@@ -239,12 +239,14 @@
                     <span>매수금액</span>
                 </a>
             </li>
-            <li id="barSTab" class="bottomTabs" data-view="selling" data-cont-id="sellingCont">
-                <a>
-                    <span class="icon has-text-info"><i class="fas fa-hand-holding-usd"></i></span>
-                    <span>매도금액</span>
-                </a>
-            </li>
+            <c:if test="${profileVo.profileType eq '2'}">
+                <li id="barSTab" class="bottomTabs" data-view="selling" data-cont-id="sellingCont">
+                    <a>
+                        <span class="icon has-text-info"><i class="fas fa-hand-holding-usd"></i></span>
+                        <span>매도금액</span>
+                    </a>
+                </li>
+            </c:if>
             <li id="barTab" class="bottomTabs" data-view="barChart" data-cont-id="barCont">
                 <a>
                     <span class="icon has-text-primary"><i class="fas fa-poll-h"></i></span>
@@ -642,7 +644,12 @@
                                 <select id="selLineChartFilter">
                                     <option value="0" selected>보유수량</option>
                                     <option value="1">시가평가액</option>
-                                    <option value="2">매수·매도금액</option>
+                                    <c:if test="${profileVo.profileType eq '1'}">
+                                        <option value="2">매수금액</option>
+                                    </c:if>
+                                    <c:if test="${profileVo.profileType eq '2'}">
+                                        <option value="2">매수·매도금액</option>
+                                    </c:if>
                                     <option value="3">평균매수가</option>
                                 </select>
                             </div>

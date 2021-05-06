@@ -46,7 +46,7 @@
             </button>
         </p>
     </div>
-</div>
+ </div>
 
 <div class="box mt-3">
     <p id="initParagraph" class="has-text-grey-light">종목을 검색하세요.</p>
@@ -69,10 +69,6 @@
                     <div class="control has-icons-left">
                         <div class="select is-small">
                             <select id="selLineChartFilter">
-                                <option value="0" selected>보유수량</option>
-                                <option value="1">시가평가액</option>
-                                <option value="2">매수·매도금액</option>
-                                <option value="3">평균매수가</option>
                             </select>
                         </div>
                         <div class="icon is-small is-left">
@@ -94,3 +90,8 @@
         </section>
     </div>
 </div>
+
+<figure class="image is-128x128 is-hidden" id="miniProfileImg">
+    <img src="https://bulma.io/images/placeholders/128x128.png">
+</figure>
+

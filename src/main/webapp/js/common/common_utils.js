@@ -900,6 +900,19 @@ const cmmUtils = (function () {
     window.open(url, '', "width=500,height=600");
   }
 
+  function callPopup(prop) {
+    let url = prop.url + '.do';
+    if (prop.param != null) {
+      let param = [];
+      for (let key in prop.param) {
+        param.push(key + '=' + prop.param[key]);
+      }
+      url = url + '?' + param.join('&');
+    }
+    window.open(url, '_blank', "width= 1000, height= 600, left=0, top=0, resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no");
+    window.focus();
+  }
+
   // 최근 업로드된 분기를 리턴 (최근 업도드된 분기는 현재 분기에서 2분기 이전임)
   function getLatestQuarter() {
     const currentDate = new Date();
@@ -996,7 +1009,7 @@ const cmmUtils = (function () {
             if (1 < argLen) newSeriesDataArr.push(0);
           }
           // markArea 추가
-          markArea.push([{name: '미공시', xAxis: categoryArr[i - 1], label: {color: '#888888'}}, {xAxis: categoryArr[i]}]);
+          markArea.push([{name: '미공시', label: {color: 'grey', fontWeight: 'bold'}, xAxis: categoryArr[i - 1]}, {xAxis: categoryArr[i]}]);
         }
         // 존재하는 분기 추가
         newCategoryArr.push(currentQuarter)
@@ -1011,13 +1024,18 @@ const cmmUtils = (function () {
           newCategoryArr.push(latestQuarter);
           if (1 < argLen) newSeriesDataArr.push(0);
           // markArea 추가
-          markArea.push([{name: '미공시', xAxis: currentQuarter, label: {color: '#888888'}}, {xAxis: latestQuarter}]);
+          markArea.push([{name: '미공시', label: {color: 'grey', fontWeight: 'bold'}, xAxis: currentQuarter}, {xAxis: latestQuarter}]);
         }
       }
     }
 
     // 분기 뒤에 Q 표시
     newCategoryArr = newCategoryArr.map(function(e) { return e + 'Q'});
+    markArea.forEach(function(arr) {
+      arr.forEach(function(v) {
+        v.xAxis = v.xAxis + 'Q';
+      })
+    });
 
     return 1 < argLen
       ? {quarters: newCategoryArr, data: newSeriesDataArr, markArea: markArea}
@@ -1180,7 +1198,11 @@ const cmmUtils = (function () {
 
   function isAvailableTime(range1, range2) {
     const date = new Date();
-    const currentTime = parseInt(date.getHours().toString() + date.getMinutes().toString());
+    let hour = date.getHours().toString();
+    if (hour.length === 1) hour = '0' + hour;
+    let minutes = date.getMinutes().toString();
+    if (minutes.length === 1) minutes = '0' + minutes;
+    const currentTime = parseInt(hour + minutes);
     return (range1 < currentTime && currentTime < range2);
   }
 
@@ -1222,6 +1244,67 @@ const cmmUtils = (function () {
     }
   }
 
+  function initMiniProfileImg(eventTag, profileId) {
+    const miniImg = document.getElementById('miniProfileImg');
+    eventTag.addEventListener('mouseover', async function(e) {
+      const pos = e.target.getBoundingClientRect();
+      const response = await cmmUtils.awaitAxiosGet({url: '/api/v1/admin/profile/' + profileId});
+      miniImg.children[0].src =  CONTEXT_PATH + '/common/image/' + response.fileId + '.do';
+      miniImg.style.top = (pos.top - 50) + 'px';
+      miniImg.style.left = (pos.left - 140) + 'px';
+      miniImg.classList.remove('is-hidden');
+    });
+    eventTag.addEventListener('mouseleave', function(e) {
+      miniImg.classList.add('is-hidden');
+    });
+  }
+
+  function initDraggableBox(id) {
+    // Make the DIV element draggable:
+    dragElement(document.getElementById(id));
+
+    function dragElement(elmnt) {
+      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      if (document.getElementById(elmnt.id + "header")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+      } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        elmnt.onmousedown = dragMouseDown;
+      }
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+    }
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1238,6 +1321,7 @@ const cmmUtils = (function () {
     goToPage: goToPage,
     goToLoginHome: goToLoginHome,
     goToLinkPop: goToLinkPop,
+    callPopup: callPopup,
     clearChildNodes: clearChildNodes,
     removeHiddenClass: removeHiddenClass,
     appendHiddenClass: appendHiddenClass,
@@ -1306,6 +1390,8 @@ const cmmUtils = (function () {
     getNegativeValues: getNegativeValues,
     getPositiveValues: getPositiveValues,
     getAbsValues: getAbsValues,
-    getPercentage: getPercentage
+    getPercentage: getPercentage,
+    initMiniProfileImg: initMiniProfileImg,
+    initDraggableBox: initDraggableBox
   }
 })();
