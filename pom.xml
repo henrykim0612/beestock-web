@@ -5,12 +5,12 @@
     <parent>
         <artifactId>beestock-parent</artifactId>
         <groupId>com.beestock</groupId>
-        <version>1.5.0</version>
+        <version>1.5.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>beestock-web</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <packaging>war</packaging>
 
     <dependencies>
@@ -18,7 +18,7 @@
         <dependency>
             <artifactId>beestock-core</artifactId>
             <groupId>com.beestock</groupId>
-            <version>1.5.0</version>
+            <version>1.5.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring -->
@@ -139,6 +139,12 @@
             </resource>
         </resources>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>com.samaxes.maven</groupId>-->
+<!--                <artifactId>minify-maven-plugin</artifactId>-->
+<!--                <version>1.7.6</version>-->
+<!--                &lt;!&ndash;  Execution Configuration &ndash;&gt;-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
