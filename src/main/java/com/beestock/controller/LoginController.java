@@ -1,5 +1,6 @@
 package com.beestock.controller;
 
+import com.beestock.attribute.CommonAttribute;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @Slf4j
 //@SessionAttributes("loginSession")
-public class LoginController {
+public class LoginController extends CommonAttribute {
 
     @RequestMapping(value={"/index.do"}, method = RequestMethod.GET)
     public String goToIndex(ModelMap model) {

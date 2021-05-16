@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script src="${pageContext.request.contextPath}/js/login/finding_account.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/login/finding_account.js" type="text/javascript"></script>
 
 <div class="tabs is-centered is-boxed">
     <ul id="tabUl">

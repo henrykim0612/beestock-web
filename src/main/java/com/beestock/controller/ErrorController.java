@@ -1,5 +1,6 @@
 package com.beestock.controller;
 
+import com.beestock.attribute.CommonAttribute;
 import com.beestock.vo.common.ExceptionVo;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/errors")
-public class ErrorController {
+public class ErrorController extends CommonAttribute {
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/403.do")
     public String accessDenied(ExceptionVo exceptionVo, ModelMap model, Authentication auth, HttpServletRequest req) {

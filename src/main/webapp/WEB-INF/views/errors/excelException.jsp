@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/common.css" type="text/css">
 </head>
 <body>
-<script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/common_utils.js" type="text/javascript"></script>
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
 </script>

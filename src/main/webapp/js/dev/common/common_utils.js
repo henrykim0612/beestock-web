@@ -1305,6 +1305,10 @@ const cmmUtils = (function () {
     }
   }
 
+  function closeMiniProfileImg() {
+    document.getElementById('miniProfileImg').classList.add('is-hidden');
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1392,6 +1396,7 @@ const cmmUtils = (function () {
     getAbsValues: getAbsValues,
     getPercentage: getPercentage,
     initMiniProfileImg: initMiniProfileImg,
+    closeMiniProfileImg: closeMiniProfileImg,
     initDraggableBox: initDraggableBox
   }
 })();

@@ -1,5 +1,6 @@
 package com.beestock.controller.analysis;
 
+import com.beestock.attribute.CommonAttribute;
 import com.beestock.common.CommonUtils;
 import com.beestock.service.profile.ProfileLogService;
 import com.beestock.service.profile.ProfileService;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 //@SessionAttributes("loginSession")
 @RequestMapping("/analysis")
-public class AnalysisController {
+public class AnalysisController extends CommonAttribute {
 
     private final ProfileService profileService;
     private final ProfileLogService profileLogService;

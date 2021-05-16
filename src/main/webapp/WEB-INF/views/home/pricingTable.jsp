@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/home/pricing_table.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/home/pricing_table.js" type="text/javascript"></script>
 
 <div class="notification is-warning is-light">
     <p><span class="has-text-danger">﹡</span> 등급별로 제공하는 서비스 항목을 확인하시고, 본인에게 맞는 등급으로 <strong>업그레이드</strong> 해보세요.</p>

@@ -1,5 +1,6 @@
 package com.beestock.controller.admin;
 
+import com.beestock.attribute.CommonAttribute;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Slf4j
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController extends CommonAttribute {
 
     @GetMapping("/user-management.do")
     public String goToUserManagement(ModelMap model) {

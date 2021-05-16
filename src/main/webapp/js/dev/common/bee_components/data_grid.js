@@ -311,10 +311,14 @@ BeeComponents.modules.dataGrid = function(component) {
           if (col['type'] != null) {
             // 태그타입
             if (col['type'] === 'custom') {
-              col['userCustom'] != null ? thOrTd.innerHTML = col['userCustom'](col, row, thOrTd, props) : '<span class="tag is-dark">' + value + '</span>';
+              thOrTd.innerHTML = col['userCustom'] != null ? col['userCustom'](col, row, thOrTd, props) : '<span class="tag is-dark">' + value + '</span>';
             }
             if (col['type'] === 'node') {
-              col['userCustom'] != null ? thOrTd.appendChild(col['userCustom'](col, row, thOrTd, props)) : '<span class="tag is-dark">' + value + '</span>';
+              if (col['userCustom'] != null) {
+                thOrTd.appendChild(col['userCustom'](col, row, thOrTd, props));
+              } else {
+                thOrTd.innerHTML = '<span class="tag is-dark">' + value + '</span>';
+              }
             }
           } else {
             // Link 타입

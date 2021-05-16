@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/user/mod_account.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/user/mod_account.js" type="text/javascript"></script>
 
 <input type="hidden" id="hiddenHintCode" value="<sec:authentication property="principal.hintCode"/>"/>
 

@@ -1,5 +1,6 @@
 package com.beestock.controller.user;
 
+import com.beestock.attribute.CommonAttribute;
 import com.beestock.common.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import java.security.Principal;
 @Controller
 @Slf4j
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends CommonAttribute {
 
     private final CommonUtils cmmUtils;
 

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/premium/plus/item_code_detail_popup.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/premium/plus/item_code_detail_popup.js" type="text/javascript"></script>
 
 <input type="hidden" id="selectedQuarterDate" value="${selectedQuarterDate}"/>
 <input type="hidden" id="profileType" value="${profileType}"/>

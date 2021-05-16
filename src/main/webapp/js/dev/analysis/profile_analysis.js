@@ -1568,6 +1568,7 @@ const main = (function() {
     runRefreshTimer();
     document.getElementById('selStackChartFilter')[0].selected = true;
     cmmUtils.closeModal('stackChartModal');
+    cmmUtils.closeMiniProfileImg();
   }
 
   function closeColLineChartModal() {

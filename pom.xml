@@ -5,12 +5,12 @@
     <parent>
         <artifactId>beestock-parent</artifactId>
         <groupId>com.beestock</groupId>
-        <version>1.5.1</version>
+        <version>1.5.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>beestock-web</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.2</version>
     <packaging>war</packaging>
 
     <dependencies>
@@ -18,7 +18,7 @@
         <dependency>
             <artifactId>beestock-core</artifactId>
             <groupId>com.beestock</groupId>
-            <version>1.5.1</version>
+            <version>1.5.2</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring -->
@@ -139,12 +139,29 @@
             </resource>
         </resources>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>com.samaxes.maven</groupId>-->
-<!--                <artifactId>minify-maven-plugin</artifactId>-->
-<!--                <version>1.7.6</version>-->
-<!--                &lt;!&ndash;  Execution Configuration &ndash;&gt;-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>com.github.blutorange</groupId>
+                <artifactId>closure-compiler-maven-plugin</artifactId>
+                <version>2.21.0</version>
+                <executions>
+                    <execution>
+                        <id>default-minify</id>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <sourceDir>js/dev</sourceDir>
+                            <targetDir>js/production</targetDir>
+                            <includes>**/*.js</includes>
+                            <outputFilename>#{path}/#{basename}.#{extension}</outputFilename>
+                            <skipMerge>true</skipMerge>
+                            <closureLanguageOut>ECMASCRIPT5</closureLanguageOut>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -168,7 +185,8 @@
                     -->
                     <packagingExcludes>
                         <!--메모리 누수가 있다고 톰캣의 bin/lib에 해당 jar를 넣어놓으라는 메세지를 반영함-->
-                        WEB-INF/lib/postgresql-42.2.14.jre7.jar
+                        WEB-INF/lib/postgresql-42.2.14.jre7.jar,
+                        js/dev/**
                     </packagingExcludes>
                 </configuration>
             </plugin>
