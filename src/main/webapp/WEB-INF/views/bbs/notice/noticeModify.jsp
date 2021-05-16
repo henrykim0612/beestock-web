@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix = "sec" %>
-<script src="${pageContext.request.contextPath}/js/bbs/notice/notice_modify.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/bbs/notice/notice_modify.js" type="text/javascript"></script>
 
 <input type="hidden" id="noticeId" value="${noticeId}"/>
 

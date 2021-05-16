@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/admin/user/user_management.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/admin/user/user_management.js" type="text/javascript"></script>
 
 <div class="level mr-3 mb-5">
     <div class="level-left">

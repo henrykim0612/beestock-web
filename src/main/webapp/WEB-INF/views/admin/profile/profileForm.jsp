@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/admin/profile/profile_form.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/admin/profile/profile_form.js" type="text/javascript"></script>
 
 <form id="qaForm">
     <div class="columns">

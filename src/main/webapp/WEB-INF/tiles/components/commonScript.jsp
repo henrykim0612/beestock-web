@@ -38,12 +38,12 @@
 <%--common--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/vendors/iamport/1.1.5/iamport.payment-1.1.5.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/custom_upload_adaptor.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/common_utils.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/common_confirm.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/bee_components/main.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/bee_components/data_grid.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/common/bee_components/chart.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/custom_upload_adaptor.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/common_utils.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/common_confirm.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/bee_components/main.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/bee_components/data_grid.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/bee_components/chart.js" type="text/javascript"></script>
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
   const COMPANY_NAME = '허니비소프트';

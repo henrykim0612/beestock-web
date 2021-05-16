@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<script src="${pageContext.request.contextPath}/js/tiles/components/footer.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/tiles/components/footer.js" type="text/javascript"></script>
 
 <footer class="flex-col justify-content-center mt-6" style="height: 250px; background-color: #fafafa;">
 

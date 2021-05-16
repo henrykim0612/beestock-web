@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/admin/avg/avg_price_management.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/admin/avg/avg_price_management.js" type="text/javascript"></script>
 
 <article class="message is-warning">
     <div class="message-body">

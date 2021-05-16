@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script src="${pageContext.request.contextPath}/js/admin/feedback/feedback.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/admin/feedback/feedback.js" type="text/javascript"></script>
 
 <div class="flex-row justify-content-start">
     <div class="field has-addons">

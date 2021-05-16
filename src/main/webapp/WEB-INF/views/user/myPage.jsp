@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="${pageContext.request.contextPath}/js/common/common_profile_card.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/user/my_page.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/common/common_profile_card.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/user/my_page.js" type="text/javascript"></script>
 
 <div class="tile is-ancestor">
     <div class="tile is-parent is-2">

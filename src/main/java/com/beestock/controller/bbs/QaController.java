@@ -1,5 +1,6 @@
 package com.beestock.controller.bbs;
 
+import com.beestock.attribute.CommonAttribute;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/bbs")
-public class QaController {
+public class QaController extends CommonAttribute {
 
     // Q&A 메인
     @GetMapping("/qa.do")

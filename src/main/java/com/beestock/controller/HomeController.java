@@ -1,5 +1,6 @@
 package com.beestock.controller;
 
+import com.beestock.attribute.CommonAttribute;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/home")
-public class HomeController {
+public class HomeController extends CommonAttribute {
 
     @GetMapping("/dashboard.do")
     public String goToDashboard(ModelMap model) {

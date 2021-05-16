@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="${pageContext.request.contextPath}/js/login/signup.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/${jsDir}/login/signup.js" type="text/javascript"></script>
 
 <nav class="level">
     <div class="level-item">
