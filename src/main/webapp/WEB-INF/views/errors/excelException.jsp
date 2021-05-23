@@ -15,9 +15,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/common.css" type="text/css">
 </head>
 <body>
-<script src="${pageContext.request.contextPath}/${jsDir}/common/common_utils.js" type="text/javascript"></script>
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
+
+  function goToHome() {
+    const form = document.createElement('form');
+    form.method = 'get';
+    form.action = CONTEXT_PATH + '/home/dashboard.do';
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
+  function historyBack() {
+    history.back();
+  }
 </script>
 <div class="container">
     <div class="flex-col justify-content-center height700px is-fullwidth">
@@ -32,11 +44,11 @@
 
                 <div class="flex-row justify-content-start">
                     <div class="buttons mt-5">
-                        <button class="button is-warning is-small" onclick="cmmUtils.goToPage('/home/dashboard')">
+                        <button class="button is-warning is-small" onclick="goToHome()">
                             <span class="icon"><i class="fas fa-home"></i></span>
                             <span>홈으로</span>
                         </button>
-                        <button class="button is-info is-small" onclick="cmmUtils.historyBack()">
+                        <button class="button is-info is-small" onclick="historyBack()">
                             <span class="icon"><i class="fas fa-history"></i></span>
                             <span>이전 화면으로</span>
                         </button>

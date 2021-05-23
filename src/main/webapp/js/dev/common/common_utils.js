@@ -600,16 +600,27 @@ const cmmUtils = (function () {
     }
   }
 
-  function setTippy(selectorArr) {
-    for (let i = 0; i < selectorArr.length; i++) {
-      const obj = selectorArr[i];
-      tippy(obj.selector, {
-        content: obj.content,
-        placement: obj.placement != null ? obj.placement : 'top',
-        animation: 'perspective',
+  function setTippy(data) {
+    if (data.length === undefined) {
+      tippy(data.selector, {
+        content: data.content,
+        placement: data.placement != null ? data.placement : 'top',
+        animation: 'scale',
         theme: 'translucent',
-        allowHTML: obj.allowHTML != null ? obj.allowHTML : false
+        allowHTML: data.allowHTML != null ? data.allowHTML : false
       });
+    } else {
+      // 배열
+      for (let i = 0; i < data.length; i++) {
+        const obj = data[i];
+        tippy(obj.selector, {
+          content: obj.content,
+          placement: obj.placement != null ? obj.placement : 'top',
+          animation: 'scale',
+          theme: 'translucent',
+          allowHTML: obj.allowHTML != null ? obj.allowHTML : false
+        });
+      }
     }
   }
 
@@ -678,7 +689,7 @@ const cmmUtils = (function () {
 
   function showPageLoader() {
     const pageLoader = document.getElementById('pageLoader');
-    pageLoader.style.top = window.pageYOffset + 400 + 'px'
+    // pageLoader.style.top = (window.innerHeight / 2) + 'px';
     pageLoader.classList.remove('is-hidden');
   }
 
@@ -1178,6 +1189,10 @@ const cmmUtils = (function () {
     return auth != null ? auth : null;
   }
 
+  function getRoleNm() {
+    return document.getElementById('authority').value;
+  }
+
   function addZeroStr(str) {
     const result = (typeof str === 'number') ? str.toString() : str;
     const arr = result.split('.');
@@ -1386,6 +1401,7 @@ const cmmUtils = (function () {
     isEmptyObject: isEmptyObject,
     hasKoreanWord: hasKoreanWord,
     getRole: getRole,
+    getRoleNm: getRoleNm,
     addZeroStr: addZeroStr,
     replaceCellular: replaceCellular,
     historyBack: historyBack,

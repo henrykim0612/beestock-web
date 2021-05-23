@@ -137,7 +137,7 @@
         <div class="tile is-child box">
             <p class="subtitle"><span class="icon has-text-warning mr-2"><i class="fas fa-lightbulb"></i></span>투자 아이디어 목록</p>
             <div class="table-container mt-3">
-                <table id="ideaGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+                <table id="ideaGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
             </div>
             <nav id="ideaPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
         </div>

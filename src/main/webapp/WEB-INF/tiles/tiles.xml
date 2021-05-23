@@ -61,6 +61,9 @@
     <definition name="home/dashboard" extends="adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/home/dashboard.jsp" />
     </definition>
+    <definition name="premium/plus/itemCode" extends="adsense-layout">
+        <put-attribute name="content" value="/WEB-INF/views/premium/plus/itemCode.jsp" />
+    </definition>
 
     <definition name="premium/plus/itemCodeDetailPopup" extends="popup-layout">
         <put-attribute name="content" value="/WEB-INF/views/premium/plus/itemCodeDetailPopup.jsp" />

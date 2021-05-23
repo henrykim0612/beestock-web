@@ -44,6 +44,7 @@ const main = (function() {
     width: {
       profileTitle: '250px', // 포트폴리오
       itemName: '250px', // 종목명
+      itemCode: '100px', // 종목명
       viewWeight: '100px', // 비중
       quantity: '120px', // 보유수량
       buyingPrice: '120px', // 평균 매수가
@@ -502,7 +503,7 @@ const main = (function() {
 
     if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
       // 차트 아이콘
-      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span>'
+      chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
     } else {
       // 프리미엄 이상만 이용 가능함
       chartDiv.innerHTML = '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
@@ -532,7 +533,7 @@ const main = (function() {
 
     if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
       // 차트 아이콘
-      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3)"><i class="fas fa-chart-line"></i></span>'
+      chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3)"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
     } else {
       // 프리미엄 이상만 이용 가능함
       chartDiv.innerHTML = '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
@@ -623,7 +624,7 @@ const main = (function() {
       chartDiv.classList.add('justify-content-center');
       chartDiv.classList.add('hover-sub');
       chartDiv.classList.add('height-24-px');
-      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2)"><i class="fas fa-chart-line"></i></span>'
+      chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2)"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
       const resultDiv = document.createElement('div');
       resultDiv.classList.add('flex-row');
@@ -658,10 +659,10 @@ const main = (function() {
     } else {
       if (row['itemStatus']) { // 전량매도 또는 신규편입
         if (row['itemStatus'] === 1) {
-          html = '<div class="flex-row justify-content-center hover-parent"><span class="tag is-success is-light hover-main">신규편입</span><span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span></div>';
+          html = '<div class="flex-row justify-content-center hover-parent"><span class="tag is-success is-light hover-main">신규편입</span><div class="flex-row" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><span class="icon cursor ml-1 hover-sub has-text-link"><i class="fas fa-chart-line"></i></span><span class="has-text-link hover-sub">Chart</span></div></div>';
         }
         if (row['itemStatus'] === 2) {
-          html = '<div class="flex-row justify-content-center hover-parent"><span class="tag is-danger is-light hover-main">전량매도</span><span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span></div>';
+          html = '<div class="flex-row justify-content-center hover-parent"><span class="tag is-danger is-light hover-main">전량매도</span><div class="flex-row" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><span class="icon cursor ml-1 hover-sub has-text-link"><i class="fas fa-chart-line"></i></span><span class="has-text-link hover-sub">Chart</span></div></div>';
         }
       } else { // 해당없음~
         let rate = row['incsRate'];
@@ -678,7 +679,7 @@ const main = (function() {
 
         if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
           // 차트 아이콘
-          html = html + '<span class="icon cursor hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><i class="fas fa-chart-line"></i></span></div>';
+          html = html + '<div class="flex-row" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0)"><span class="icon cursor hover-sub has-text-link"><i class="fas fa-chart-line"></i></span><span class="has-text-link hover-sub">Chart</span><div></div>';
         } else {
           // 프리미엄 이상만 이용 가능함
           html = html + '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span></div>';
@@ -715,7 +716,7 @@ const main = (function() {
     div.classList.add('hover-type1');
 
     const anchor = document.createElement('a');
-    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 23);
+    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 14) + ' (' + row['itemCode'] + ')';
     anchor.classList.add('mr-3');
     anchor.addEventListener('click', async function() {
       global['selectedItemName'] = row['itemName'];
@@ -746,12 +747,12 @@ const main = (function() {
     span.dataset.clipboardAction = 'copy';
     // 클립보드 저장 툴팁 생성
     span.addEventListener('click', function() {
-      span.classList.add('has-tooltip-right');
+      span.classList.add('has-tooltip-top');
       span.dataset.tooltip = 'Copied!';
     });
     // 툴팁 제거
     span.addEventListener('mouseout', function() {
-      span.classList.remove('has-tooltip-right');
+      span.classList.remove('has-tooltip-top');
       delete span.dataset.tooltip;
     });
     const i = document.createElement('i');
@@ -948,7 +949,7 @@ const main = (function() {
 
       if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
         // 차트 아이콘
-        html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+        html = html + '<div class="flex-row" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><span class="icon cursor ml-1 has-text-link hover-sub"><i class="fas fa-chart-line"></i></span><span class="has-text-link hover-sub">Chart</span></div>';
       } else {
         // 프리미엄 이상만 이용 가능함
         html = html + '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
@@ -1019,7 +1020,8 @@ const main = (function() {
 
       if (roleNm === 'ROLE_ADMIN' || roleNm === 'ROLE_PREMIUM' || roleNm === 'ROLE_PREMIUM_PLUS') {
         // 차트 아이콘
-        html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+        // html = html + '<span class="icon cursor ml-1 hover-sub" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><i class="fas fa-chart-line"></i></span>';
+        html = html + '<div class="flex-row" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\')"><span class="icon cursor ml-1 has-text-link hover-sub"><i class="fas fa-chart-line"></i></span><span class="has-text-link hover-sub">Chart</span></div>';
       } else {
         // 프리미엄 이상만 이용 가능함
         html = html + '<span class="icon cursor hover-sub has-text-grey" onclick="cmmUtils.showModal(\'premiumModal\')"><i class="fas fa-lock"></i></span>';
@@ -1193,7 +1195,7 @@ const main = (function() {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0, \'' + row['profileId'] + '\')"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0, \'' + row['profileId'] + '\')"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -1215,7 +1217,7 @@ const main = (function() {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3, \'' + row['profileId'] + '\')"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3, \'' + row['profileId'] + '\')"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -1258,7 +1260,7 @@ const main = (function() {
       chartDiv.classList.add('justify-content-center');
       chartDiv.classList.add('hover-sub');
       chartDiv.classList.add('height-24-px');
-      chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2, \'' + row['profileId'] + '\')"><i class="fas fa-chart-line"></i></span>'
+      chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2, \'' + row['profileId'] + '\')"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
       const resultDiv = document.createElement('div');
       resultDiv.classList.add('flex-row');

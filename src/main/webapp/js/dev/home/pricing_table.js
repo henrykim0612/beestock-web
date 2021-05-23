@@ -29,11 +29,10 @@ const main = (function () {
 
   // 업그레이드
   async function upgrade(grade) {
-    alert('오픈 준비중입니다.');
-    // const price = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price/' + grade});
-    // if (price > 0) {
-    //   await payment(price, grade);
-    // }
+    const price = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price/' + grade});
+    if (price > 0) {
+      await payment(price, grade);
+    }
   }
 
   async function payment(price, grade) {

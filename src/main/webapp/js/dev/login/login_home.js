@@ -2,6 +2,24 @@ const main = (function() {
 
   function init() {
     document.getElementById('loginId').focus();
+    setTooltips();
+    addDOMEvents()
+  }
+
+  function setTooltips() {
+    cmmUtils.setTippy({
+      selector: '#labelRememberMe',
+      content: '2주동안 자동 로그인 됩니다.',
+      placement: 'right'
+    })
+  }
+
+  function addDOMEvents() {
+    addPwdKeyupEvent();
+  }
+
+  function addPwdKeyupEvent() {
+    document.getElementById('loginPwd').addEventListener('keyup', keyupEvent);
   }
 
   function login() {
@@ -35,21 +53,11 @@ const main = (function() {
 
   return {
     init: init,
-    login: login,
-    keyupEvent: keyupEvent
+    login: login
   }
 }());
 
 document.addEventListener('DOMContentLoaded', function() {
-
   main.init();
-
-  tippy('#labelRememberMe', {
-    content: '2주동안 자동 로그인 됩니다.',
-    placement: 'right'
-  });
-
-  document.getElementById('loginPwd').addEventListener('keyup', main.keyupEvent)
-
 })
 

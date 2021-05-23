@@ -37,9 +37,7 @@
                 </div>
             </div>
 
-            <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM_PLUS')">
-                <a class="navbar-item" href="${pageContext.request.contextPath}/premium/plus/itemcode.do"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>종목검색</a>
-            </sec:authorize>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/itemcode.do"><span class="icon has-text-warning mr-1"><i class="fas fa-search-dollar"></i></span>종목검색</a>
 
             <%--구독자, 관리자 전용--%>
             <%--<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">

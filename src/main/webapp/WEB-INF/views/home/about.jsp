@@ -4,9 +4,11 @@
 <img src="${pageContext.request.contextPath}/resources/images/logo/horizontal/logo.png" class="mt-7" style="width: 330px; height: 80px;">
 <div class="content is-medium mt-6">
     먼저 사이트를 이용해주시는 모든 고객분들께 감사드리며,<br/>
-    실패없는 멋진 투자자가 되시길 항상 응원하겠습니다.<br/><br/>
+    실패없는 멋진 투자자가 되시길 항상 응원하겠습니다.<br/>
+    <br/>
     <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 대표자 2인이 직접 개발하여 운영하고 있습니다.<br/>
-    실제 투자를 하면서 필요한 정보들만을 취합하고 데이터를 정제, 가공하여 포트폴리오별 인사이트를 얻기 위한 핵심 정보만을 담았습니다.<br/>
+    실제 투자를 하면서 필요한 정보들만을 취합하고 데이터를 정제, 가공하여 포트폴리오별 인사이트를 얻기 위한 핵심 정보만을 담았으며,<br/>
+    여러 화면을 띄워놓고 분석하기 편리하게 개발되어 모바일로 사이트를 이용하시는 것은 권장하지 않습니다.<br/>
     <br/>
     <strong><span class="has-text-warning">BEE</span>STOCK</strong>은 이용자들과 소통하기를 원합니다.<br/>
     대표자이자 개발자인 장점을 살려 이용자들과 소통하기 위해 피드백 기능을 제공하고 있습니다.<br/>

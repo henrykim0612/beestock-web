@@ -5,9 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<%--Fontawesome--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.15.3/css/all.min.css" type="text/css">
 <%--Bulma Main--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.2/css/bulma.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/0.9.2/bulma-sass.css" type="text/css">
+
 <%--Bulma-Extensions--%>
 <%--Calendar--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/calendar/bulma-calendar.min.css" type="text/css">
@@ -41,9 +43,9 @@
 <%--Swiper--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/swiper/swiper-bundle.min.css" type="text/css">
 <%--Tippy Animation--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/perspective.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/animations/scale.css" type="text/css">
 <%--Tippy Theme--%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/translucent.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/tippy/themes/translucent.css" type="text/css">
 <%--Autocomplete--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/autocomplete/awesomplete.css" type="text/css">
 <%--Page loader--%>

@@ -396,6 +396,7 @@ table tfoot th {
 
 #pageLoader {
 	position: fixed;
+	top: calc(100vh / 2);
 	z-index: 99999;
 }
 

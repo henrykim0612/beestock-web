@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/premium/plus")
 public class PremiumPlusController extends CommonAttribute {
 
-    @GetMapping("/itemcode.do")
-    public String goToItemCode(ModelMap model) {
-        model.addAttribute("title", "종목코드 검색");
-        return "premium/plus/itemCode";
-    }
+//    @GetMapping("/itemcode.do")
+//    public String goToItemCode(ModelMap model) {
+//        model.addAttribute("title", "종목코드 검색");
+//        return "premium/plus/itemCode";
+//    }
 
     @GetMapping("/itemcode/detailpop.do")
     public String goToItemCodeDetailPopup(QuarterInfoVo param, ModelMap model) {

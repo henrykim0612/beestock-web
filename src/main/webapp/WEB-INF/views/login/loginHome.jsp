@@ -13,7 +13,7 @@
                 <div class="field loginField">
                     <label class="label">아이디</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input id="loginId" name="username" class="input" type="text" placeholder="ID" value="${username}">
+                        <input id="loginId" name="username" class="input" type="text" placeholder="ID" value="${username}" maxlength="50">
                         <span class="icon is-small is-left">
                         <i class="fas fa-id-card"></i>
                     </span>
@@ -35,8 +35,8 @@
                 <div class="field loginField">
                     <label class="label">비밀번호</label>
                     <div class="control has-icons-left has-icons-right">
-                        <input id="loginPwd" name="password" class="input" type="password" placeholder="Password" value="${password}">
-                        <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                        <input id="loginPwd" name="password" class="input" type="password" placeholder="Password" value="${password}" maxlength="20">
+                        <span class="icon is-small is-left"><i class="fas fa-key"></i></span>
                     </div>
                     <p id="helpPwd" class="help is-info is-hidden">Caps Lock 키가 켜져있습니다.</p>
                 </div>
