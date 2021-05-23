@@ -15,6 +15,15 @@
         <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
     </definition>
 
+    <definition name="footerless-adsense-layout" template="/WEB-INF/tiles/layouts/adsenseLayoutWithoutFooter.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
+        <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
+        <put-attribute name="top" value="/WEB-INF/tiles/components/top.jsp" />
+        <put-attribute name="adsenseTop" value="/WEB-INF/tiles/components/adsenseTop.jsp" />
+        <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
+    </definition>
+
     <definition name="default-layout" template="/WEB-INF/tiles/layouts/defaultLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
@@ -61,7 +70,7 @@
     <definition name="home/dashboard" extends="adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/home/dashboard.jsp" />
     </definition>
-    <definition name="premium/plus/itemCode" extends="adsense-layout">
+    <definition name="premium/plus/itemCode" extends="footerless-adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/premium/plus/itemCode.jsp" />
     </definition>
 
