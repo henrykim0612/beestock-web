@@ -146,10 +146,10 @@
 <div id="standardModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message">
+        <article class="message is-info">
             <div class="message-header">
                 <div class="icon-text">
-                    <span class="icon has-text-danger"><i class="fas fa-ban"></i></span>
+                    <span class="icon"><i class="fas fa-ban"></i></span>
                     <span>Standard 등급 이상 전용화면</span>
                 </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('standardModal')"></button>
@@ -161,16 +161,10 @@
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
-                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
-                            <span>로그인 화면으로</span>
+                        <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                            <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                            <span>등급 업그레이드</span>
                         </button>
-                        <sec:authorize access="isAuthenticated()">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                                <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
-                                <span>결제 화면으로</span>
-                            </button>
-                        </sec:authorize>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">
                             <span class="icon has-text-success"><i class="fas fa-check"></i></span>
                             <span>확인</span>
@@ -185,10 +179,10 @@
 <div id="premiumModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
-        <article class="message is-danger">
+        <article class="message is-warning">
             <div class="message-header">
                 <div class="icon-text">
-                    <span class="icon has-text-danger"><i class="fas fa-ban"></i></span>
+                    <span class="icon"><i class="fas fa-ban"></i></span>
                     <span>Premium 등급 이상 전용화면</span>
                 </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumModal')"></button>
@@ -200,16 +194,10 @@
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
-                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
-                            <span>로그인 화면으로</span>
+                        <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                            <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                            <span>등급 업그레이드</span>
                         </button>
-                        <sec:authorize access="isAuthenticated()">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                                <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
-                                <span>결제 화면으로</span>
-                            </button>
-                        </sec:authorize>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumModal')">
                             <span class="icon has-text-success"><i class="fas fa-check"></i></span>
                             <span>확인</span>
@@ -227,7 +215,7 @@
         <article class="message is-danger">
             <div class="message-header">
                 <div class="icon-text">
-                    <span class="icon has-text-danger"><i class="fas fa-ban"></i></span>
+                    <span class="icon"><i class="fas fa-ban"></i></span>
                     <span>Premium Plus 등급 전용화면</span>
                 </div>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('premiumPlusModal')"></button>
@@ -239,16 +227,10 @@
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
-                        <button name="btnModalLogin" class="button is-dark is-small" onclick="cmmUtils.goToLoginHome()">
-                            <span class="icon has-text-warning"><i class="fas fa-sign-in-alt"></i></span>
-                            <span>로그인 화면으로</span>
+                        <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
+                            <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                            <span>등급 업그레이드</span>
                         </button>
-                        <sec:authorize access="isAuthenticated()">
-                            <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                                <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
-                                <span>결제 화면으로</span>
-                            </button>
-                        </sec:authorize>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">
                             <span class="icon has-text-success"><i class="fas fa-check"></i></span>
                             <span>확인</span>
