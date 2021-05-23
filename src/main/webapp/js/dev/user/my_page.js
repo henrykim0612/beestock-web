@@ -137,8 +137,8 @@ const main = (function() {
       colModel: [
         {id: 'ideaId', isHidden: true},
         {id: 'profileType', isHidden: true},
-        {id: 'rowNum', name: 'No', isSort: true, isStrong: true},
-        {id: 'profileTitle', name: '포트폴리오', width: '300px', isSort: true, align: 'left', isLink: true, userCustom: profileTitleAnchor},
+        {id: 'rowNum', name: 'No', isSort: true, align: 'center'},
+        {id: 'profileTitle', name: '포트폴리오', width: '300px', isSort: true, dotText: 22, align: 'left', isLink: true, userCustom: profileTitleAnchor},
         {id: 'ideaTitle', name: '아이디어 제목', width: '800px', isSort: true, isLink: true, userCustom: ideaTitleAnchor},
         {id: 'uptDate', name: '최근 수정일', width: '150px', isSort: true, align: 'center'}
       ]

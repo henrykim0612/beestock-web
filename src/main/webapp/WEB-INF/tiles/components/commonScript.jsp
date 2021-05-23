@@ -2,12 +2,12 @@
 <%--Axios--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/axios/0.21.1/axios.min.js" type="text/javascript"></script>
 <%--fontawesome--%>
-<script src="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.3.1/fontawesome.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.15.3/js/all.min.js" type="text/javascript"></script>
 <%--Lodash--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/lodash/4.17.15/lodash.js" type="text/javascript"></script>
 <%--Tippy--%>
-<script src="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/popper.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/resources/vendors/tippy/6.2.6/tippy.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/tippy/popper/2.9.2/popper.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/vendors/tippy/6.3.1/tippy.min.js" type="text/javascript"></script>
 
 <%--Bulma-Extensions--%>
 <%--Calendar--%>

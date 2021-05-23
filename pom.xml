@@ -185,8 +185,8 @@
                     -->
                     <packagingExcludes>
                         <!--메모리 누수가 있다고 톰캣의 bin/lib에 해당 jar를 넣어놓으라는 메세지를 반영함-->
-                        WEB-INF/lib/postgresql-42.2.14.jre7.jar,
-                        js/dev/**
+                        WEB-INF/lib/postgresql-42.2.14.jre7.jar
+<!--                        js/dev/**-->
                     </packagingExcludes>
                 </configuration>
             </plugin>

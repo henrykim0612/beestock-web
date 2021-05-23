@@ -156,8 +156,8 @@
             </div>
             <div class="message-body">
                 <div class="is-left mb-5">
-                    <p><strong>Standard</strong> 등급 이상의 구독자만 열람 가능합니다.</p>
-                    <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
+                    <p><strong>Standard</strong> 등급 이상의 이용자만 열람 가능합니다.</p>
+                    <p>등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
@@ -167,8 +167,8 @@
                         </button>
                         <sec:authorize access="isAuthenticated()">
                             <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
-                                <span>구독 화면으로</span>
+                                <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                                <span>결제 화면으로</span>
                             </button>
                         </sec:authorize>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">
@@ -195,8 +195,8 @@
             </div>
             <div class="message-body has-text-dark">
                 <div class="is-left mb-5">
-                    <p>해당 화면은<strong>Premium</strong> 등급 이상의 구독자만 이용이 가능합니다.</p>
-                    <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
+                    <p><strong>Premium</strong> 등급 이상의 이용자만 열람 가능합니다.</p>
+                    <p>등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
@@ -206,8 +206,8 @@
                         </button>
                         <sec:authorize access="isAuthenticated()">
                             <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
-                                <span>구독 화면으로</span>
+                                <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                                <span>결제 화면으로</span>
                             </button>
                         </sec:authorize>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumModal')">
@@ -234,8 +234,8 @@
             </div>
             <div class="message-body has-text-dark">
                 <div class="is-left mb-5">
-                    <p>해당 화면은<strong>Premium Plus</strong> 등급 구독자만 이용이 가능합니다.</p>
-                    <p>구독 등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
+                    <p><strong>Premium Plus</strong> 등급 이상의 이용자만 열람 가능합니다.</p>
+                    <p>등급을 올려 더욱 다양한 인사이트를 얻어 보세요.</p>
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
@@ -245,8 +245,8 @@
                         </button>
                         <sec:authorize access="isAuthenticated()">
                             <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                                <span class="icon has-text-warning"><i class="fas fa-book-reader"></i></span>
-                                <span>구독 화면으로</span>
+                                <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                                <span>결제 화면으로</span>
                             </button>
                         </sec:authorize>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">

@@ -29,6 +29,7 @@ BeeComponents.modules.dataGrid = function(component) {
     const body = props['body'];
     body['curPage'] = body['curPage'] != null ? body['curPage'] : 1;
 
+    console.log(props);
     // 페이징 사이즈
     if (props['pId'] != null) {
       const pagenation = document.getElementById(props['pId']).querySelector('[data-custom=pageSel]');
@@ -267,6 +268,10 @@ BeeComponents.modules.dataGrid = function(component) {
 
           if (col['toFixed'] != null) {
             value = value.toFixed(col['toFixed']);
+          }
+
+          if (col['dotText'] != null) {
+            value = cmmUtils.convertDotText(value, col['dotText'])
           }
 
           value = col['prefixText'] != null ? value + col['prefixText'] : value;

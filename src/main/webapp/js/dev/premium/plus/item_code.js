@@ -83,7 +83,7 @@ const main = (function () {
   }
 
   async function initAutoComplete() {
-    global.autocomplete.data = await cmmUtils.awaitAxiosGet({url: '/api/v1/premium/autocomplete'});
+    global.autocomplete.data = await cmmUtils.awaitAxiosGet({url: '/api/v1/itemcode/autocomplete'});
     global.autocomplete.instance = new Awesomplete(document.getElementById('inputSearch'));
     changeAutocompleteList();
   }
@@ -144,7 +144,8 @@ const main = (function () {
     anchor.addEventListener('click', function() {
       global['selectedProfileId'] = row['profileId'];
       const url = '/analysis/profile/details?profileType=' + row['profileType'] + '&profileId=' + row['profileId'] + '&quarterDate=' + global.selectedQuarterDate;
-      cmmUtils.goToPage(url);
+      // cmmUtils.goToPage(url);
+      cmmUtils.openNewTab(url); // 새탭으로
     });
     cmmUtils.initMiniProfileImg(anchor, row['profileId']);
 
@@ -157,9 +158,12 @@ const main = (function () {
     const div = document.createElement('div');
     div.classList.add('flex-row');
     div.classList.add('justify-content-start');
+    div.classList.add('hover-type1');
 
     const anchor = document.createElement('a');
-    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 20);
+    // anchor.innerText = cmmUtils.convertDotText(row['itemName'], 20);
+    anchor.innerText = cmmUtils.convertDotText(row['itemName'], 12) + ' (' + row['itemCode'] + ')';
+
     anchor.classList.add('mr-3');
     anchor.addEventListener('click', function() {
       cmmUtils.callPopup({
@@ -175,7 +179,30 @@ const main = (function () {
       })
     });
 
+    const span = document.createElement('span');
+    span.classList.add('icon');
+    span.classList.add('cursor');
+    span.classList.add('has-clipboard');
+    span.classList.add('hover-sub');
+    span.dataset.clipboardText = row['itemName'] + '(' + row['itemCode'] + ')';
+    span.dataset.clipboardAction = 'copy';
+    // 클립보드 저장 툴팁 생성
+    span.addEventListener('click', function() {
+      span.classList.add('has-tooltip-top');
+      span.dataset.tooltip = 'Copied!';
+    });
+    // 툴팁 제거
+    span.addEventListener('mouseout', function() {
+      span.classList.remove('has-tooltip-top');
+      delete span.dataset.tooltip;
+    });
+    const i = document.createElement('i');
+    i.classList.add('fas');
+    i.classList.add('fa-clipboard');
+    span.appendChild(i);
+
     div.appendChild(anchor);
+    div.appendChild(span);
     return div;
   }
 
@@ -194,7 +221,7 @@ const main = (function () {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0, \''+ row['profileId'] +'\')"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 0, \''+ row['profileId'] +'\')"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -216,7 +243,7 @@ const main = (function () {
     const chartDiv = document.createElement('div');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3, \''+ row['profileId'] +'\')"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 3, \''+ row['profileId'] +'\')"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
     div.appendChild(span);
     div.appendChild(chartDiv);
@@ -282,7 +309,7 @@ const main = (function () {
     chartDiv.classList.add('justify-content-center');
     chartDiv.classList.add('hover-sub');
     chartDiv.classList.add('height-24-px');
-    chartDiv.innerHTML = '<span class="icon cursor" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2, \''+ row['profileId'] +'\')"><i class="fas fa-chart-line"></i></span>'
+    chartDiv.innerHTML = '<div class="icon-text" onclick="main.showColLineChartModal(\'' + row['itemCode'] + '\', \'' + row['itemName'] + '\', 2, \''+ row['profileId'] +'\')"><span class="has-text-link pr-1"><i class="fas fa-chart-line"></i></span><span class="has-text-link">Chart</span></div>'
 
     const resultDiv = document.createElement('div');
     resultDiv.classList.add('flex-row');
@@ -344,13 +371,29 @@ const main = (function () {
       profileType: global.selectedProfileType
     }
     const schWord = getSearchWord();
+    const schType = getSearchType();
     if (schWord) {
-      body.schType = getSearchType();
+      body.schType = schType;
       body.schWord = schWord;
+    }
+    const url = '/api/v1/itemcode/paging/itemcode/' + schType;
+
+    if (schType === 1) {
+      // 국내
+      if (cmmUtils.getRole() == null || (cmmUtils.getRoleNm() !== '[ROLE_PREMIUM_PLUS]' && cmmUtils.getRoleNm() !== '[ROLE_ADMIN]')) {
+        cmmUtils.showModal('premiumPlusModal');
+        return false;
+      }
+    } else {
+      // 해외
+      if (cmmUtils.getRole() == null || (cmmUtils.getRoleNm() !== '[ROLE_PREMIUM]' && cmmUtils.getRoleNm() !== '[ROLE_PREMIUM_PLUS]' && cmmUtils.getRoleNm() !== '[ROLE_ADMIN]')) {
+        cmmUtils.showModal('premiumModal');
+        return false;
+      }
     }
 
     const props = {
-      url: '/api/v1/premium/paging/itemcode',
+      url: url,
       body: body,
       eId: 'profileGrid',
       pId: 'profileGridPagination',

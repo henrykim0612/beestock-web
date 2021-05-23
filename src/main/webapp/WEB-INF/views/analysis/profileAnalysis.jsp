@@ -56,16 +56,16 @@
         <div class="tile is-child box">
             <div id="headerTabs" class="tabs">
                 <ul>
-                    <li id="fundamentalTab" class="is-active topTabs" data-cont-id="fundamentalCont">
-                        <a>
-                            <span class="icon has-text-primary"><i class="fas fa-gem"></i></span>
-                            <span>운용자산 규모</span>
-                        </a>
-                    </li>
-                    <li id="benchmarkTab" class="topTabs" data-cont-id="benchmarkCont">
+                    <li id="benchmarkTab" class="is-active topTabs" data-cont-id="benchmarkCont">
                         <a>
                             <span class="icon has-text-primary"><i class="fas fa-gem"></i></span>
                             <span>벤치마크 지수</span>
+                        </a>
+                    </li>
+                    <li id="fundamentalTab" class="topTabs" data-cont-id="fundamentalCont">
+                        <a>
+                            <span class="icon has-text-primary"><i class="fas fa-gem"></i></span>
+                            <span>운용자산 규모</span>
                         </a>
                     </li>
                     <sec:authorize access="isAuthenticated()">
@@ -96,24 +96,24 @@
                     </li>
                 </ul>
             </div>
-            <%--Fundamental 내용--%>
-            <div id="fundamentalCont">
-                <div class="columns">
-                    <div class="column is-full">
-                        <div class="flex-col justify-content-center">
-                            <div id="fundamentalChart" class="is-fullwidth" style="width: 950px; height: 300px;"></div>
-                            <p class="subtitle is-7 pl-5">※ 비상장회사, 해외자산, 현금, 채권, 파생상품 등은 포함되지 않은 수치입니다.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <%--Benchmark 내용--%>
-            <div id="benchmarkCont" class="is-hidden">
+            <div id="benchmarkCont">
                 <div class="columns">
                     <div class="column is-full">
                         <div class="flex-col justify-content-center">
                             <div id="benchmarkChart" class="is-fullwidth" style="width: 950px; height: 300px;"></div>
                             <p class="subtitle is-7 pl-5">※ 벤치마크 지수는 추정치이며 수치를 따지기 보다는"못함, 보통, 잘함, 아주 잘함" 정도로 인식하는 것이 좋습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%--Fundamental 내용--%>
+            <div id="fundamentalCont" class="is-hidden">
+                <div class="columns">
+                    <div class="column is-full">
+                        <div class="flex-col justify-content-center">
+                            <div id="fundamentalChart" class="is-fullwidth" style="width: 950px; height: 300px;"></div>
+                            <p class="subtitle is-7 pl-5">※ 비상장회사, 해외자산, 현금, 채권, 파생상품 등은 포함되지 않은 수치입니다.</p>
                         </div>
                     </div>
                 </div>
@@ -468,9 +468,9 @@
                 <div class="control has-icons-left">
                     <div class="select is-small">
                         <select id="selPieChartFilter">
-                            <option value="">Basic Pie</option>
-                            <option value="radious">Radious Pie</option>
-                            <option value="area">Area Pie</option>
+                            <option value="">Normal</option>
+                            <option value="radious">Nightingale(Radious)</option>
+                            <option value="area">Nightingale(Area)</option>
                         </select>
                     </div>
                     <div class="icon is-small is-left">
@@ -676,3 +676,7 @@
 <figure class="image is-128x128 is-hidden" id="miniProfileImg">
     <img src="https://bulma.io/images/placeholders/128x128.png">
 </figure>
+
+
+
+

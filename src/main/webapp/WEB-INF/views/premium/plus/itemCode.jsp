@@ -13,17 +13,10 @@
         </p>
         <p class="control has-icons-left">
             <span class="select">
-                <sec:authorize access="hasRole('ROLE_PREMIUM')">
-                    <select id="selType">
-                        <option value="2">해외</option>
-                    </select>
-                </sec:authorize>
-                <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_PREMIUM_PLUS')">
-                    <select id="selType">
-                        <option value="1">국내</option>
-                        <option selected value="2">해외</option>
-                    </select>
-                </sec:authorize>
+                <select id="selType">
+                    <option value="1">국내</option>
+                    <option selected value="2">해외</option>
+                </select>
             </span>
             <span class="icon is-left"><i class="fas fa-globe"></i></span>
         </p>

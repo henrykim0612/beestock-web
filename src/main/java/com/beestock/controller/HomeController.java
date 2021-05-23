@@ -34,4 +34,11 @@ public class HomeController extends CommonAttribute {
         return "home/pricingTable";
     }
 
+    @GetMapping("/itemcode.do")
+    public String goToItemCode(ModelMap model) {
+        model.addAttribute("title", "종목코드 검색");
+        return "premium/plus/itemCode";
+    }
+
+
 }
