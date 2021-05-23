@@ -9,7 +9,7 @@
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
         <div class="container is-fullhd mt-6 min-screen-height">
-<%--            <tiles:insertAttribute name="adsenseTop"/>--%>
+            <tiles:insertAttribute name="adsenseTop"/>
             <tiles:insertAttribute name="content"/>
         </div>
         <tiles:insertAttribute name="modal" />
