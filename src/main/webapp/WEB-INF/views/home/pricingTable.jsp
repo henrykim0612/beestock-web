@@ -144,3 +144,103 @@
     </div>
 </div>
 
+<div id="paymentModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="width: 800px; height: 800px;">
+        <header class="modal-card-head">
+            <p class="modal-card-title">약관 동의</p>
+            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('paymentModal')"></button>
+        </header>
+        <section class="modal-card-body">
+
+            <div class="notification is-warning is-light mb-0">
+                <a href="#" onclick="main.goToGuide()" style="text-decoration: none; color: #3273dc;">[서비스 내용 보기]</a> 자료를 확인하였습니까?
+            </div>
+            <div class="flex-row justify-content-end align-items-center mt-2">
+                <div>
+                    <input class="is-checkradio is-block is-warning" id="chkNoti1" type="checkbox" name="chkNoti">
+                    <label for="chkNoti1">확인했습니다</label>
+                </div>
+            </div>
+
+            <div class="notification is-warning is-light mb-0 mt-5 premiumPlusOnly">
+                국내, 국외자료 차이점을 확인하였습니까? <a href="#" onclick="main.goToDifference()" style="text-decoration: none; color: #3273dc;">[내용보기]</a>
+            </div>
+            <div class="flex-row justify-content-end align-items-center mt-2 premiumPlusOnly">
+                <div>
+                    <input class="is-checkradio is-block is-warning" id="chkNoti2" type="checkbox" name="chkNoti">
+                    <label for="chkNoti2">확인했습니다</label>
+                </div>
+            </div>
+
+            <div class="notification is-warning is-light mb-0 mt-5">
+                이 상품은 법령에 의거해서 환불이 불가한 상품입니다(단, 결제 후 서비스 사용이력이 없다면 환불 가능합니다).<br/>
+                <a href="#" onclick="main.goToStatute()" style="text-decoration: none; color: #3273dc;">[관련법령 보기]</a>
+                <a href="#" onclick="main.goToSummaryArt()" class="ml-2" style="text-decoration: none; color: #3273dc;">[요약자료 보기]</a>
+                <a href="#" onclick="main.goToArticle()" class="ml-2" style="text-decoration: none; color: #3273dc;">[관련기사 보기]</a>
+            </div>
+            <div class="flex-row justify-content-end align-items-center mt-2">
+                <div>
+                    <input class="is-checkradio is-block is-warning" id="chkNoti3" type="checkbox" name="chkNoti">
+                    <label for="chkNoti3">확인했습니다</label>
+                </div>
+            </div>
+
+            <div class="notification is-warning is-light mb-0 mt-5">
+                <sec:authentication property="principal.userNm"/>님은 웹 사이트 <a href="#" onclick="cmmUtils.showModal('footerModal1')" style="text-decoration: none; color: #3273dc;">[이용약관]</a> 을 읽었으며 이에 동의합니다.
+            </div>
+            <div class="flex-row justify-content-end align-items-center mt-2">
+                <div>
+                    <input class="is-checkradio is-block is-warning" id="chkNoti4" type="checkbox" name="chkNoti">
+                    <label for="chkNoti4">확인했습니다</label>
+                </div>
+            </div>
+
+        </section>
+        <footer class="modal-card-foot flex-row justify-content-end">
+            <div class="buttons">
+                <button id="btnPayment" disabled class="button is-dark is-small" onclick="main.payment()">
+                    <span class="icon has-text-warning"><i class="far fa-credit-card"></i></span>
+                    <span>결제하기</span>
+                </button>
+                <button class="button is-dark is-small" onclick="cmmUtils.closeModal('paymentModal')">
+                    <span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                    <span>취소</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+<div id="summaryArtModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('summaryArtModal')"></div>
+    <div class="modal-content" style="width: 1200px; height: 350px;">
+        <p class="image">
+            <img src="${pageContext.request.contextPath}/resources/images/guide/summary/image.jpg" alt="">
+        </p>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="cmmUtils.closeModal('summaryArtModal')"></button>
+</div>
+
+<div id="articleModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('articleModal')"></div>
+    <div class="modal-content">
+        <p class="image">
+            <img src="${pageContext.request.contextPath}/resources/images/guide/article/image.jpg" alt="">
+        </p>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="cmmUtils.closeModal('articleModal')"></button>
+</div>
+
+<div id="differenceModal" class="modal">
+    <div class="modal-background" onclick="cmmUtils.closeModal('differenceModal')"></div>
+    <div class="modal-content">
+        <p class="image">
+            <img src="${pageContext.request.contextPath}/resources/images/guide/difference/image.jpg" alt="">
+        </p>
+    </div>
+    <button class="modal-close is-large" aria-label="close" onclick="cmmUtils.closeModal('differenceModal')"></button>
+</div>
+
+

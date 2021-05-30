@@ -32,6 +32,11 @@
         <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
     </definition>
 
+    <definition name="none-layout" template="/WEB-INF/tiles/layouts/noneLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
+        <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
+    </definition>
+
     <definition name="layout-without-footer" template="/WEB-INF/tiles/layouts/layoutWithoutFooter.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
@@ -52,9 +57,9 @@
 
 
     <!--패턴 정의-->
-    <definition name="index" extends="default-layout">
-        <put-attribute name="content" value="/WEB-INF/views/index.jsp" />
-    </definition>
+<!--    <definition name="index" extends="default-layout">-->
+<!--        <put-attribute name="content" value="/WEB-INF/views/index.jsp" />-->
+<!--    </definition>-->
 
     <definition name="login/findingAccount" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/login/findingAccount.jsp" />
@@ -69,6 +74,9 @@
     </definition>
     <definition name="home/dashboard" extends="adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/home/dashboard.jsp" />
+    </definition>
+    <definition name="home/guide" extends="none-layout">
+        <put-attribute name="content" value="/WEB-INF/views/home/guide.jsp" />
     </definition>
     <definition name="premium/plus/itemCode" extends="footerless-adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/premium/plus/itemCode.jsp" />

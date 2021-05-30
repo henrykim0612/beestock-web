@@ -48,4 +48,28 @@
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
   const COMPANY_NAME = '허니비소프트';
   const IMP_KEY = 'imp75429459';
+  const GUIDE = [{
+    name: 'bsp',
+    src: CONTEXT_PATH + '/resources/images/guide/bsp/image.jpg',
+    link: 'https://youtu.be/keYN8ic2j3g'
+  }, {
+    name: 'quantity',
+    src: CONTEXT_PATH + '/resources/images/guide/quantity/image.jpg',
+    link: 'https://www.youtube.com/watch?v=GxPp6W1XmmQ'
+  }, {
+    name: 'search',
+    src: CONTEXT_PATH + '/resources/images/guide/search/image.jpg'
+  }, {
+    name: 'avgbsp',
+    src: CONTEXT_PATH + '/resources/images/guide/avgbsp/image.jpg',
+    link: 'https://youtu.be/RUxsX_YuSUc'
+  }, {
+    name: 'portfolio',
+    src: CONTEXT_PATH + '/resources/images/guide/portfolio/image.jpg',
+    link: 'https://youtu.be/2Ce9lwuoHUo'
+  }, {
+    name: 'rate',
+    src: CONTEXT_PATH + '/resources/images/guide/rate/image.jpg',
+    link: 'https://youtu.be/4N4IUL9ju2o'
+  }]
 </script>

@@ -1324,6 +1324,35 @@ const cmmUtils = (function () {
     document.getElementById('miniProfileImg').classList.add('is-hidden');
   }
 
+  function isCheckedAll(name) {
+    const tags = document.getElementsByName(name);
+    let result = true;
+    tags.forEach(function(v) {
+      if (!v.checked) {
+        result = false;
+      }
+    });
+    return result;
+  }
+
+  function isCheckedCnt(name) {
+    const tags = document.getElementsByName(name);
+    let result = 0;
+    tags.forEach(function(v) {
+      if (v.checked) {
+        result++;
+      }
+    });
+    return result;
+  }
+
+  function resetCheckedItems(name) {
+    const tags = document.getElementsByName(name);
+    tags.forEach(function(v) {
+      v.checked = false;
+    });
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1413,6 +1442,9 @@ const cmmUtils = (function () {
     getPercentage: getPercentage,
     initMiniProfileImg: initMiniProfileImg,
     closeMiniProfileImg: closeMiniProfileImg,
-    initDraggableBox: initDraggableBox
+    initDraggableBox: initDraggableBox,
+    isCheckedAll: isCheckedAll,
+    isCheckedCnt: isCheckedCnt,
+    resetCheckedItems: resetCheckedItems
   }
 })();
