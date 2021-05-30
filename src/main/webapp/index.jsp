@@ -8,18 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=9" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"  />
-    <title>Insert title here</title>
+    <title>BEESTOCK</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript">
-      function goToMain() {
-        const CONTEXT_PATH = "${pageContext.request.contextPath}";
-        const form = document.createElement('form');
-        form.action = CONTEXT_PATH + '/index.do';
-        document.body.appendChild(form);
-        form.submit();
-        form.remove();
-      }
+      const goToMain = (function() {
+        return function goToMain() {
+          const CONTEXT_PATH = "${pageContext.request.contextPath}";
+          const form = document.createElement('form');
+          form.action = CONTEXT_PATH + '/index.do';
+          document.body.appendChild(form);
+          form.submit();
+          form.remove();
+        }
+      })();
+      goToMain();
     </script>
 </head>
 <body onload="goToMain()">
