@@ -57,7 +57,7 @@ const main = (function() {
   function initTooltips() {
     cmmUtils.setTippy([{
       selector: '#btnAutoPayment',
-      content: '<p>자동연장을 설정하시면 등록하신 신용카드로<br/>만료일 이후 자동으로 결제됩니다.</p>',
+      content: '<p>정기결제를 설정하시면 등록된 신용카드로<br/>만료일 이후 자동으로 결제됩니다.</p>',
       placement: 'right',
       allowHTML: true
     }]);
@@ -158,13 +158,13 @@ const main = (function() {
       button.classList.add('is-small');
       button.classList.add('ml-3');
       if (cmmUtils.nvl(response.customerUid) === '') {
-        button.classList.add('is-warning');
-        button.innerHTML = '<span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span><span>결제 자동연장 등록</span>';
+        button.classList.add('is-success');
+        button.innerHTML = '<span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span><span>정기결제 등록</span>';
         button.addEventListener('click', showAuthPaymentModal);
         container.appendChild(button);
       } else {
         button.classList.add('is-success');
-        button.innerHTML = '<span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span><span>결제 자동연장 재등록</span>';
+        button.innerHTML = '<span class="file-icon"><i class="fab fa-lg fa-cc-visa"></i></span><span>정기결제 재등록</span>';
         button.addEventListener('click', createOtherPayment);
         container.appendChild(button);
         const delButton = document.createElement('button');
@@ -173,7 +173,7 @@ const main = (function() {
         delButton.classList.add('is-light');
         delButton.classList.add('is-small');
         delButton.classList.add('ml-2');
-        delButton.innerHTML = '<span class="file-icon"><i class="fas fa-lg fa-credit-card"></i></span><span>자동연장 해제</span>';
+        delButton.innerHTML = '<span class="file-icon"><i class="fas fa-lg fa-credit-card"></i></span><span>정기결제 해제</span>';
         delButton.addEventListener('click', stopAutoPayment);
         container.appendChild(delButton);
       }
@@ -181,7 +181,7 @@ const main = (function() {
   }
 
   function createOtherPayment(e) {
-    cmmConfirm.show({msg: '새로운 신용카드 정보로 자동연장을 재등록하시겠습니까?', color: 'is-warning'}, showAuthPaymentModal);
+    cmmConfirm.show({msg: '새로운 신용카드 정보로 정기결제를 재등록하시겠습니까?', color: 'is-warning'}, showAuthPaymentModal);
   }
 
   function stopAutoPayment(e) {
@@ -376,29 +376,28 @@ const main = (function() {
   }
 
   function showAuthPaymentModal() {
-    alert('오픈 준비중입니다.');
-    // cmmConfirm.show({msg: '자동연장을 등록하시면 등급 만료일 하루전 자동으로 갱신됩니다.<br/>등록하시겠습니까?', color: 'is-warning'}, function() {
-    //   const custometUid = cmmUtils.getUUID();
-    //   IMP.request_pay({
-    //     pg : "html5_inicis.INIBillTst", // 실제 계약 후에는 실제 상점아이디로 변경
-    //     pay_method : 'card', // 'card'만 지원됩니다.
-    //     merchant_uid : 'merchant_' + new Date().getTime(),
-    //     name : 'BEESTOCK 자동연장',
-    //     amount : 0, // 결제창에 표시될 금액. 실제 승인이 이뤄지지는 않습니다. (모바일에서는 가격이 표시되지 않음)
-    //     customer_uid : custometUid,
-    //     buyer_name : document.getElementById('loginUserNm').value,
-    //     buyer_tel : cmmUtils.replaceCellular(document.getElementById('loginUserPhone').value)
-    //   }, function(rsp) {
-    //     if ( rsp.success ) {
-    //       updateCustomerUid(rsp.customer_uid);
-    //     } else {
-    //       cmmUtils.showToast({
-    //         message: '자동연장 실패',
-    //         type: 'is-danger'
-    //       });
-    //     }
-    //   });
-    // });
+    cmmConfirm.show({msg: '정기결제를 등록하시면 등급 만료일 하루전 자동으로 갱신됩니다.<br/>등록하시겠습니까?', color: 'is-warning'}, function() {
+      const custometUid = cmmUtils.getUUID();
+      IMP.request_pay({
+        pg : "html5_inicis.INIBillTst", // 실제 계약 후에는 실제 상점아이디로 변경
+        pay_method : 'card', // 'card'만 지원됩니다.
+        merchant_uid : 'merchant_' + new Date().getTime(),
+        name : 'BEESTOCK 정기결제 토큰발급',
+        amount : 0, // 결제창에 표시될 금액. 실제 승인이 이뤄지지는 않습니다. (모바일에서는 가격이 표시되지 않음)
+        customer_uid : custometUid,
+        buyer_name : document.getElementById('loginUserNm').value,
+        buyer_tel : cmmUtils.replaceCellular(document.getElementById('loginUserPhone').value)
+      }, function(rsp) {
+        if ( rsp.success ) {
+          updateCustomerUid(rsp.customer_uid);
+        } else {
+          cmmUtils.showToast({
+            message: '정기결제 실패',
+            type: 'is-danger'
+          });
+        }
+      });
+    });
   }
 
   async function updateCustomerUid(customerUid) {

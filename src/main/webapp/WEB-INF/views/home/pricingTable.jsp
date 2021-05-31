@@ -5,7 +5,7 @@
 
 <div class="notification is-warning is-light">
     <p><span class="has-text-danger">﹡</span> 등급별로 제공하는 서비스 항목을 확인하시고, 본인에게 맞는 등급으로 <strong>업그레이드</strong> 해보세요.</p>
-    <p><span class="has-text-danger">﹡</span> 현재 <strong>유료 회원</strong>이신 경우, <span class="has-text-link cursor" onclick="topMain.goToMyPage()">마이 페이지</span>(사이트 오른쪽 상단 사람 아이콘 클릭)에서 <strong>결제 자동연장</strong>을 등록하여 편리하게 이용해보세요.</p>
+    <p><span class="has-text-danger">﹡</span> 현재 <strong>유료 회원</strong>이신 경우, <span class="has-text-link cursor" onclick="topMain.goToMyPage()">마이 페이지</span>(사이트 오른쪽 상단 사람 아이콘 클릭)에서 <strong>정기결제</strong>를 등록하여 편리하게 이용해보세요.</p>
 </div>
 
 <article class="message is-dark">
