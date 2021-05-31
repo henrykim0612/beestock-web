@@ -380,12 +380,12 @@
     <div class="modal-content">
         <article class="message">
             <div class="message-header">
-                <p>자동연장 등륵완료</p>
+                <p>정기결제 등륵완료</p>
                 <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('autopaySuccessModal')"></button>
             </div>
             <div class="message-body has-text-dark">
                 <div class="flex-row justify-content-start mt-3">
-                    <p>결제 자동연장 등록이 완료되었습니다.</p>
+                    <p>결제 정기결제 등록이 완료되었습니다.</p>
                 </div>
                 <div class="flex-row justify-content-center mt-3">
                     <button class="button is-dark is-small" onclick="cmmUtils.closeModal('autopaySuccessModal')">
