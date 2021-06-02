@@ -73,10 +73,11 @@ const main = (function () {
     const price = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price/' + selectedGrade});
     if (price > 0) {
       IMP.request_pay({
-        pg : 'html5_inicis',
+        // pg : 'html5_inicis',
+        pg : 'MOI5164440',
         pay_method : 'card',
         merchant_uid : cmmUtils.getUUID(),
-        name : 'BEESTOCK 월 유료서비스', // 16자 이내로 작성하길 권장
+        name : 'BEESTOCK 월 결제', // 16자 이내로 작성하길 권장
         amount : price,
         buyer_name : document.getElementById('loginUserNm').value,
         buyer_email : '',
