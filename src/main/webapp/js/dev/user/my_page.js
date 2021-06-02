@@ -376,18 +376,20 @@ const main = (function() {
   }
 
   function showAuthPaymentModal() {
-    cmmConfirm.show({msg: '정기결제를 등록하시면 등급 만료일 하루전 자동으로 갱신됩니다.<br/>등록하시겠습니까?', color: 'is-warning'}, function() {
+    cmmConfirm.show({msg: '정기결제를 등록하시면 등급 만료일 하루 전 자동으로 갱신됩니다.<br/>등록하시겠습니까?', color: 'is-warning'}, function() {
       const custometUid = cmmUtils.getUUID();
       IMP.request_pay({
-        pg : "html5_inicis.INIBillTst", // 실제 계약 후에는 실제 상점아이디로 변경
+        // pg : "html5_inicis.INIBillTst", // 실제 계약 후에는 실제 상점아이디로 변경
+        pg : "html5_inicis.MOIbeesto1", // 실제 계약 후에는 실제 상점아이디로 변경
         pay_method : 'card', // 'card'만 지원됩니다.
         merchant_uid : 'merchant_' + new Date().getTime(),
-        name : 'BEESTOCK 정기결제 토큰발급',
+        name : 'BEESTOCK 정기결제 등록',
         amount : 0, // 결제창에 표시될 금액. 실제 승인이 이뤄지지는 않습니다. (모바일에서는 가격이 표시되지 않음)
         customer_uid : custometUid,
         buyer_name : document.getElementById('loginUserNm').value,
         buyer_tel : cmmUtils.replaceCellular(document.getElementById('loginUserPhone').value)
       }, function(rsp) {
+        console.log(rsp);
         if ( rsp.success ) {
           updateCustomerUid(rsp.customer_uid);
         } else {

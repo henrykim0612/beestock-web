@@ -8,7 +8,7 @@
                 <span class="select">
                     <select id="selSearch">
                         <option value="userNm" selected>이름</option>
-                        <option value="loginId">Email</option>
+                        <option value="loginId">아이디</option>
                         <option value="userPhone">연락처</option>
                     </select>
                 </span>
