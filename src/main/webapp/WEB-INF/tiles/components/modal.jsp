@@ -397,3 +397,27 @@
         </article>
     </div>
 </div>
+
+
+<div id="upgradeModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">등급 업그레이드 알림</p>
+            <button class="delete" aria-label="close" onclick="topMain.closeUpgradeModal()"></button>
+        </header>
+        <section class="modal-card-body">
+            <h2 id="upgradeCont">스탠다드 등급으로 업그레이드 되었습니다.</h2>
+            <p>서비스 이용에 감사드리며, 더 좋은 서비스로 보답드리겠습니다.</p>
+        </section>
+        <footer class="modal-card-foot justify-content-center">
+            <div class="buttons">
+                <button class="button is-warning is-small" onclick="topMain.closeUpgradeModal()">
+                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                    <strong>확인</strong>
+                </button>
+            </div>
+        </footer>
+    </div>
+</div>
+

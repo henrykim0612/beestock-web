@@ -121,7 +121,7 @@
             <table id="quarterInfoGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
         </section>
         <footer class="modal-card-foot justify-content-center">
-            <button id="btnRm is-small" onclick="main.removeQuarterInfo()" class="button is-danger">
+            <button id="btnRm" onclick="main.removeQuarterInfo()" class="button is-danger is-small">
                 <span class="icon is-small">
                   <i class="fas fa-trash-alt"></i>
                 </span>

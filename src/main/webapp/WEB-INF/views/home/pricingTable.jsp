@@ -25,8 +25,25 @@
     </div>
 </article>
 
-<div class="pricing-table is-comparative">
+<div id="tabs" class="tabs is-boxed">
+    <ul>
+        <li class="is-active" data-cont-id="month1" data-month="1">
+            <a>
+                <span class="icon is-small"><i class="fas fa-calendar-day"></i></span>
+                <span>1개월</span>
+            </a>
+        </li>
+        <li data-cont-id="month3" data-month="3">
+            <a>
+                <span class="icon is-small"><i class="fas fa-calendar-week"></i></span>
+                <span>3개월</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
+
+<div id="month1" class="pricing-table is-comparative">
     <div class="pricing-plan is-features">
         <div class="plan-header">Features</div>
         <div class="plan-price"><span class="plan-price-amount">&nbsp;</span></div>
@@ -44,7 +61,7 @@
 
     <div class="pricing-plan">
         <div class="plan-header is-primary">Basic 등급</div>
-        <div class="plan-price"><span class="plan-price-amount has-text-primary">무료</span>/월 (부가세 포함)</div>
+        <div class="plan-price"><span class="plan-price-amount has-text-primary">무료</span></div>
         <div class="plan-items">
             <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
             <div class="plan-item"><span class="has-text-danger">최근 8분기 자료만 공개</span></div>
@@ -122,27 +139,135 @@
     </div>
 </div>
 
-<div id="sucModal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">결제완료</p>
-            <button class="delete" aria-label="close" onclick="main.closeModal('sucModal')"></button>
-        </header>
-        <section class="modal-card-body">
-            <h2>결제가 완료되었습니다.</h2>
-            <p>이용에 감사드리며, 더 좋은 사이트로 보답 드리겠습니다.</p>
-        </section>
-        <footer class="modal-card-foot justify-content-center">
-            <div class="buttons">
-                <button class="button is-warning is-small" onclick="cmmUtils.goToPage('/home/dashboard')">
-                    <span class="icon"><i class="fas fa-home"></i></span>
-                    <span>BEESTOCK 홈으로</span>
-                </button>
-            </div>
-        </footer>
+<div id="month3" class="pricing-table is-comparative is-hidden">
+    <div class="pricing-plan is-features">
+        <div class="plan-header">Features</div>
+        <div class="plan-price"><span class="plan-price-amount">&nbsp;</span></div>
+        <div class="plan-items">
+            <div class="plan-item">광고제거</div>
+            <div class="plan-item">해외 포트폴리오</div>
+            <div class="plan-item">해외 포트폴리오 종목별 시각화자료</div>
+            <div class="plan-item">국내 포트폴리오</div>
+            <div class="plan-item">국내 포트폴리오 종목별 시각화자료</div>
+            <div class="plan-item">포트폴리오별 종목 검색</div>
+        </div>
+        <div class="plan-footer">
+        </div>
+    </div>
+
+    <div class="pricing-plan">
+        <div class="plan-header is-primary">Basic 등급</div>
+        <div class="plan-price"><span class="plan-price-amount has-text-primary">무료</span></div>
+        <div class="plan-items">
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="has-text-danger">최근 8분기 자료만 공개</span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+        </div>
+        <div class="plan-footer">
+        </div>
+    </div>
+
+    <div class="pricing-plan is-info">
+        <div class="plan-header">Standard 등급</div>
+        <div class="plan-price"><span id="standardPrice3" class="plan-price-amount">28,500원</span>/3개월 (부가세 포함)</div>
+        <div class="plan-items">
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+        </div>
+        <div class="plan-footer">
+            <sec:authorize access="hasRole('ROLE_BASIC')">
+                <button class="button is-fullwidth" onclick="main.upgrade('ROLE_STANDARD')">업그레이드하기</button>
+            </sec:authorize>
+            <sec:authorize access="hasAnyRole('ROLE_STANDARD', 'ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
+                <button disabled class="button is-fullwidth">업그레이드하기</button>
+            </sec:authorize>
+        </div>
+    </div>
+
+    <div class="pricing-plan is-warning">
+        <div class="plan-header">Premium 등급</div>
+        <div class="plan-price"><span id="premiumPrice3" class="plan-price-amount">43,500</span>/3개월 (부가세 포함)</div>
+        <div class="plan-items">
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-danger is-small"><i class="fas fa-times"></i></span></div>
+        </div>
+        <div class="plan-footer">
+            <sec:authorize access="hasAnyRole('ROLE_BASIC', 'ROLE_STANDARD')">
+                <button class="button is-fullwidth" onclick="main.upgrade('ROLE_PREMIUM')">업그레이드하기</button>
+            </sec:authorize>
+            <sec:authorize access="hasAnyRole('ROLE_PREMIUM', 'ROLE_PREMIUM_PLUS')">
+                <button disabled class="button is-fullwidth">업그레이드하기</button>
+            </sec:authorize>
+        </div>
+    </div>
+
+    <div class="pricing-plan is-danger">
+        <div class="plan-header">Premium plus 등급</div>
+        <div class="plan-price"><span id="premiumPlusPrice3" class="plan-price-amount">58,500</span>/3개월 (부가세 포함)</div>
+        <div class="plan-items">
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+            <div class="plan-item"><span class="icon has-text-success is-small"><i class="fas fa-check"></i></span></div>
+        </div>
+        <div class="plan-footer">
+            <sec:authorize access="hasAnyRole('ROLE_BASIC', 'ROLE_STANDARD', 'ROLE_PREMIUM')">
+                <button class="button is-fullwidth" onclick="main.upgrade('ROLE_PREMIUM_PLUS')">업그레이드하기</button>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_PREMIUM_PLUS')">
+                <button disabled class="button is-fullwidth">업그레이드하기</button>
+            </sec:authorize>
+
+        </div>
     </div>
 </div>
+
+
+<div id="sucModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <article class="message">
+            <div class="message-header">
+                <p>가상계좌 채번완료</p>
+                <button class="delete" aria-label="delete" onclick="cmmUtils.closeModal('sucModal')"></button>
+            </div>
+            <div class="message-body has-text-dark">
+                <div class="flex-col mt-3">
+                    <p>아래 채번된 가상계좌로 이체를 부탁드리며, 이체완료시 자동으로 등급이 업그레이드 됩니다.</p>
+                    <p id="vbankName"></p>
+                    <p id="vbankNum"></p>
+                    <p class="has-text-danger mt-3">※ 이체결과는 마이페이지에서 확인 가능합니다.</p>
+                </div>
+                <div class="flex-row justify-content-center mt-5">
+                    <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmUtils.closeModal('sucModal')">
+                            <span class="icon has-text-success"><i class="fas fa-check"></i></span>
+                            <span>확인</span>
+                        </button>
+                        <button class="button is-dark is-small" onclick="topMain.goToMyPage()">
+                            <span class="icon has-text-warning"><i class="fas fa-user-alt"></i></span>
+                            <span>마이페이지로 이동</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+
 
 <div id="paymentModal" class="modal">
     <div class="modal-background"></div>

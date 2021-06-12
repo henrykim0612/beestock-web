@@ -99,6 +99,9 @@
                     <button class="button is-warning is-small" onclick="main.showConfirmPwdModal()">
                         <span class="file-icon"><i class="fas fa-user-edit"></i></span>계정수정
                     </button>
+                    <button class="button is-success is-small" onclick="main.showOrderModal()">
+                        <span class="file-icon"><i class="fas fa-wallet"></i></span>가상계좌 이체결과
+                    </button>
                     <button class="button is-danger is-small" onclick="cmmUtils.showModal('withdrawalModal')">
                         <span class="file-icon"><i class="fas fa-user-slash"></i></span>회원탈퇴
                     </button>
@@ -255,6 +258,28 @@
                   <i class="fas fa-times"></i>
                 </span>
                 <span>취소</span>
+            </button>
+        </footer>
+    </div>
+</div>
+
+
+<div id="myOrderModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card width1200px">
+        <header class="modal-card-head">
+            <p class="modal-card-title">가상계좌 이체결과</p>
+            <button class="delete" aria-label="close" onclick="cmmUtils.closeModal('myOrderModal');"></button>
+        </header>
+        <section class="modal-card-body height500px overflowY-auto">
+            <table id="myOrderGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
+        </section>
+        <footer class="modal-card-foot justify-content-center">
+            <button onclick="cmmUtils.closeModal('myOrderModal')" class="button is-dark is-small">
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+                <span>닫기</span>
             </button>
         </footer>
     </div>

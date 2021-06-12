@@ -10,6 +10,7 @@ const topMain = (function() {
     initTooltips();
     checkHumanUser();
     removeModalLoginButtons();
+    initUpgradeModal();
   }
 
   function initBurgerMenu() {
@@ -70,6 +71,21 @@ const topMain = (function() {
     }
     cmmUtils.setTippy(arr);
   }
+
+  // 등급업이 된경우 모달 호출
+  function initUpgradeModal() {
+    if (cmmUtils.getRole() != null) {
+      cmmUtils.axiosGet({
+        url: '/api/v1/login/usermodal/upgrade-modal'
+      }, function(response) {
+        if (response) {
+          document.getElementById('upgradeCont').innerHTML = response.cont;
+          cmmUtils.showModal('upgradeModal');
+        }
+      })
+    }
+  }
+
 
   // 휴먼 계정 해제 확인
   function checkHumanUser() {
@@ -284,7 +300,6 @@ const topMain = (function() {
 
   // 피드백 전송
   async function sendFeedback() {
-
     const response = await cmmUtils.awaitAxiosPost({
       url: '/api/v1/feedback/new-feedback',
       loading: 'btnFeedback',
@@ -298,7 +313,20 @@ const topMain = (function() {
     if (response) {
       cmmUtils.showModal('feedbackSuccessModal');
     }
+  }
 
+  function closeUpgradeModal() {
+    cmmUtils.axiosPost({
+      url: '/api/v1/login/usermodal/upgrade-modal'
+    }, function(response) {
+      if (!response) {
+        cmmUtils.showToast({
+          message: '오류가 발생했습니다',
+          type: 'is-danger'
+        });
+      }
+      cmmUtils.closeModal('upgradeModal');
+    });
   }
 
   return {
@@ -309,7 +337,8 @@ const topMain = (function() {
     signUp: signUp,
     initAlarmQuickView: initAlarmQuickView,
     closeAlarmBoxAll: closeAlarmBoxAll,
-    sendFeedback: sendFeedback
+    sendFeedback: sendFeedback,
+    closeUpgradeModal: closeUpgradeModal
   }
 
 }());

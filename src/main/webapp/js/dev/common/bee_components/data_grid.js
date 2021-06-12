@@ -29,7 +29,6 @@ BeeComponents.modules.dataGrid = function(component) {
     const body = props['body'];
     body['curPage'] = body['curPage'] != null ? body['curPage'] : 1;
 
-    console.log(props);
     // 페이징 사이즈
     if (props['pId'] != null) {
       const pagenation = document.getElementById(props['pId']).querySelector('[data-custom=pageSel]');

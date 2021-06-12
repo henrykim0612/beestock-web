@@ -4,6 +4,7 @@
 <title>BEESTOCK</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/favicon.ico"/>
 
 <%--Fontawesome--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/fontawesome/5.15.3/css/all.min.css" type="text/css">
