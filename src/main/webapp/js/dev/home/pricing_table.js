@@ -1,6 +1,6 @@
 const main = (function () {
 
-  selectedGrade = null;
+  let selectedGrade = null;
   let selectedMonth = '1';
   let impKey = null;
   let pg = null;
