@@ -357,6 +357,10 @@ table tfoot th {
 	background: #f7f7f8;
 }
 
+.min-screen-width {
+	min-width: 1300px;
+}
+
 .min-screen-height {
 	min-height: 1080px;
 }
