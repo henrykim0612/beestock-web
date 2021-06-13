@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE tiles-definitions PUBLIC
-        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC 
+    "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" 
+    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
     <!--레이아웃 정의-->
+    <definition name="dashboard-layout" template="/WEB-INF/tiles/layouts/dashboardLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
+        <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
+        <put-attribute name="top" value="/WEB-INF/tiles/components/top.jsp" />
+        <put-attribute name="adsenseTop" value="/WEB-INF/tiles/components/adsenseTop.jsp" />
+        <put-attribute name="adsenseBottom" value="/WEB-INF/tiles/components/adsenseBottom.jsp" />
+        <put-attribute name="modal" value="/WEB-INF/tiles/components/modal.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/components/footer.jsp" />
+    </definition>
+
     <definition name="adsense-layout" template="/WEB-INF/tiles/layouts/adsenseLayout.jsp">
         <put-attribute name="header" value="/WEB-INF/tiles/components/header.jsp" />
         <put-attribute name="commonScript" value="/WEB-INF/tiles/components/commonScript.jsp" />
@@ -56,44 +66,51 @@
     </definition>
 
 
-    <!--패턴 정의-->
-<!--    <definition name="index" extends="default-layout">-->
-<!--        <put-attribute name="content" value="/WEB-INF/views/index.jsp" />-->
-<!--    </definition>-->
-
+    <!--layout-without-footer-->
     <definition name="login/findingAccount" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/login/findingAccount.jsp" />
     </definition>
-
     <definition name="login/loginHome" extends="layout-without-footer">
         <put-attribute name="content" value="/WEB-INF/views/login/loginHome.jsp" />
     </definition>
+    <definition name="login/signUp" extends="layout-without-footer">
+        <put-attribute name="content" value="/WEB-INF/views/login/signUp.jsp" />
+    </definition>
 
+    <!--dashboard-layout-->
+    <definition name="home/dashboard" extends="dashboard-layout">
+        <put-attribute name="content" value="/WEB-INF/views/home/dashboard.jsp" />
+    </definition>
+
+    <!--adsense-layout-->
     <definition name="analysis/profileAnalysis" extends="adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/analysis/profileAnalysis.jsp" />
     </definition>
-    <definition name="home/dashboard" extends="adsense-layout">
-        <put-attribute name="content" value="/WEB-INF/views/home/dashboard.jsp" />
-    </definition>
+
+    <!--none-layout-->
     <definition name="home/guide" extends="none-layout">
         <put-attribute name="content" value="/WEB-INF/views/home/guide.jsp" />
     </definition>
+
+    <!--adsenseLayoutWithoutFooter-->
     <definition name="premium/plus/itemCode" extends="footerless-adsense-layout">
         <put-attribute name="content" value="/WEB-INF/views/premium/plus/itemCode.jsp" />
     </definition>
 
+    <!--popup-layout-->
     <definition name="premium/plus/itemCodeDetailPopup" extends="popup-layout">
         <put-attribute name="content" value="/WEB-INF/views/premium/plus/itemCodeDetailPopup.jsp" />
     </definition>
 
+    <!--error-layout-->
     <definition name="errors/*" extends="error-layout">
         <put-attribute name="content" value="/WEB-INF/views/errors/{1}.jsp" />
     </definition>
 
+    <!--default-layout-->
     <definition name="*/*" extends="default-layout">
         <put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
     </definition>
-
     <definition name="*/*/*" extends="default-layout">
         <put-attribute name="content" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
     </definition>

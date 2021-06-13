@@ -30,7 +30,7 @@
         <div class="tile is-child flex-col justify-content-center">
             <div class="card">
                 <div class="card-image">
-                    <figure class="image is-square">
+                    <figure class="image is-1by1">
                         <img id="profileImg" src="" alt="Placeholder image">
                     </figure>
                 </div>

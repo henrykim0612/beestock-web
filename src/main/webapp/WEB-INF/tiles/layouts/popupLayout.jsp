@@ -5,7 +5,7 @@
     <head>
         <tiles:insertAttribute name="header" />
     </head>
-    <body>
+    <body class="min-screen-width">
         <tiles:insertAttribute name="commonScript" />
         <div class="container">
             <tiles:insertAttribute name="content" />
