@@ -1,6 +1,9 @@
 const main = (function () {
 
-  let selectedGrade = null;
+  selectedGrade = null;
+  let selectedMonth = '1';
+  let impKey = null;
+  let pg = null;
 
   function init() {
     initIamport();
@@ -9,15 +12,35 @@ const main = (function () {
     initDOMEvents();
   }
 
-  function initIamport() {
-    IMP.init(IMP_KEY);
+  async function initIamport() {
+    const response = await cmmUtils.awaitAxiosGet({url: '/api/v1/import/keys'});
+    impKey = response.find(function(v) { return v.codeId === 'K0001'; }).codeName;
+    pg = response.find(function(v) { return v.codeId === 'K0002'; }).codeName;
+    IMP.init(impKey);
   }
 
   function initAccordion() {
     bulmaAccordion.attach();
   }
 
+  function setSelectedMonth(month) {
+    selectedMonth = month;
+  }
+
   function initDOMEvents() {
+    // 탭 이벤트
+    const tabs = document.getElementById('tabs').querySelectorAll('li');
+    const pricingTables = document.querySelectorAll('.pricing-table');
+    tabs.forEach(function(el) {
+      el.addEventListener('click', function() {
+        setSelectedMonth(this.dataset.month);
+        tabs.forEach(function(v) { v.classList.remove('is-active'); });
+        pricingTables.forEach(function(v) { v.classList.add('is-hidden') });
+        this.classList.add('is-active');
+        document.getElementById(this.dataset.contId).classList.remove('is-hidden');
+      })
+    });
+    // 약관 이벤트
     document.getElementsByName('chkNoti').forEach(function(el) {
       el.addEventListener('click', function() {
         if (selectedGrade === 'ROLE_PREMIUM_PLUS') {
@@ -32,9 +55,12 @@ const main = (function () {
   // 등급별 금액설정
   async function initPrices() {
     const response = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price'});
-    document.getElementById('standardPrice').innerText = getPrice(response, 'ROLE_STANDARD').toLocaleString() + '원'
-    document.getElementById('premiumPrice').innerText = getPrice(response, 'ROLE_PREMIUM').toLocaleString() + '원'
-    document.getElementById('premiumPlusPrice').innerText = getPrice(response, 'ROLE_PREMIUM_PLUS').toLocaleString() + '원'
+    document.getElementById('standardPrice').innerText = (getPrice(response, 'ROLE_STANDARD') + (getPrice(response, 'ROLE_STANDARD') * 0.5)).toLocaleString() + '원';
+    document.getElementById('premiumPrice').innerText = (getPrice(response, 'ROLE_PREMIUM') + (getPrice(response, 'ROLE_PREMIUM') * 0.5)).toLocaleString() + '원';
+    document.getElementById('premiumPlusPrice').innerText = (getPrice(response, 'ROLE_PREMIUM_PLUS') + (getPrice(response, 'ROLE_PREMIUM_PLUS') * 0.5)).toLocaleString() + '원';
+    document.getElementById('standardPrice3').innerText = (getPrice(response, 'ROLE_STANDARD') * 3).toLocaleString() + '원';
+    document.getElementById('premiumPrice3').innerText = (getPrice(response, 'ROLE_PREMIUM') * 3).toLocaleString() + '원';
+    document.getElementById('premiumPlusPrice3').innerText = (getPrice(response, 'ROLE_PREMIUM_PLUS') * 3).toLocaleString() + '원';
   }
 
   function getPrice(data, roleNm) {
@@ -69,23 +95,57 @@ const main = (function () {
     cmmUtils.showModal('paymentModal');
   }
 
+  function getDueDate() {
+    const tomorrow = cmmUtils.getTomorrow();
+    const year = tomorrow.getFullYear();
+    let month = tomorrow.getMonth() + 1
+    if (month.toString().length === 1) {
+      month = '0' + month;
+    }
+    let day = tomorrow.getDate();
+    if (day.toString().length === 1) {
+      day = '0' + day;
+    }
+    return year + month + day + '1800'; // 18시까지
+  }
+
   async function payment() {
-    const price = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price/' + selectedGrade});
+    const price = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price/' + selectedMonth + '/' + selectedGrade});
     if (price > 0) {
+      const dueDate = getDueDate();
       IMP.request_pay({
         // pg : 'html5_inicis',
-        pg : 'MOI5164440',
-        pay_method : 'card',
+        pg : pg,
+        pay_method : 'vbank',
+        vbank_due: dueDate,
         merchant_uid : cmmUtils.getUUID(),
-        name : 'BEESTOCK 월 결제', // 16자 이내로 작성하길 권장
-        amount : price,
+        name : 'BEESTOCK 유료서비스', // 16자 이내로 작성하길 권장
+        // amount : price,
+        amount : 1000,
         buyer_name : document.getElementById('loginUserNm').value,
         buyer_email : '',
         buyer_tel : cmmUtils.replaceCellular(document.getElementById('loginUserPhone').value),
         company: COMPANY_NAME
-      }, function(rsp) {
+      }, async function(rsp) {
         if ( rsp.success ) {
-          updateGrade(grade);
+          rsp.month = selectedMonth;
+          rsp.dueDate = makeDueDate(dueDate);
+          rsp.grade = selectedGrade.split('ROLE_')[1];
+          const response = await cmmUtils.awaitAxiosPost({
+            url: '/api/v1/import/order',
+            loading: 'btnPayment',
+            body: rsp
+          });
+          if (response) {
+            cmmUtils.closeModal('paymentModal');
+            showSucModal(rsp, price);
+          } else {
+            cmmUtils.showToast({
+              message: '가상계좌 주문정보 저장에 실패했습니다.',
+              type: 'is-danger'
+            });
+          }
+          // updateGrade(selectedGrade);
           // var msg = '결제가 완료되었습니다.';
           // msg += '고유ID : ' + rsp.imp_uid;
           // msg += '상점 거래ID : ' + rsp.merchant_uid;
@@ -100,6 +160,25 @@ const main = (function () {
       });
     }
   }
+
+  function makeDueDate(dueDate) {
+    const year = dueDate.substr(0, 4);
+    const month = dueDate.substr(4, 2);
+    const day = dueDate.substr(6, 2);
+    const hour = dueDate.substr(8, 2);
+    const minutes = dueDate.substr(10, 2);
+    return parseInt(year.concat(month).concat(day).concat(hour).concat(minutes), 10);
+  }
+
+
+  // 채번완료 모달
+  function showSucModal(rsp, price) {
+    document.getElementById('vbankName').innerHTML = '<strong>은행명 : ' + rsp.vbank_name + '</strong>';
+    document.getElementById('vbankNum').innerHTML = '<strong>가상계좌 : ' + rsp.vbank_num + '</strong>';
+    document.getElementById('money').innerHTML = '<strong>금액 : ' + price.toLocaleString() + '</strong>원';
+    cmmUtils.showModal('sucModal');
+  }
+
 
   async function updateGrade(grade) {
     const response = await cmmUtils.awaitAxiosPost({url: '/api/v1/login/price/grade-up', body: {roleNm: grade}});
@@ -139,7 +218,8 @@ const main = (function () {
     goToStatute: goToStatute,
     goToSummaryArt: goToSummaryArt,
     goToArticle: goToArticle,
-    goToDifference: goToDifference
+    goToDifference: goToDifference,
+    getDueDate: getDueDate
   }
 }());
 

@@ -1353,6 +1353,13 @@ const cmmUtils = (function () {
     });
   }
 
+  function getTomorrow() {
+    const today = new Date()
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1445,6 +1452,7 @@ const cmmUtils = (function () {
     initDraggableBox: initDraggableBox,
     isCheckedAll: isCheckedAll,
     isCheckedCnt: isCheckedCnt,
-    resetCheckedItems: resetCheckedItems
+    resetCheckedItems: resetCheckedItems,
+    getTomorrow: getTomorrow
   }
 })();

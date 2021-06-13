@@ -9,17 +9,18 @@ const main = (function() {
     modIdeaWordCount: 0
   }
   let ideaGrid = undefined;
+  let myOrderGrid = undefined;
 
   function init() {
     createBreadCrumb();
     setActiveTab();
-    initIamport();
-    initTooltips();
+    // initIamport();
+    // initTooltips();
     initMyImage();
     addTabListener();
     initFavoriteProfiles();
     initIdeaGrid();
-    initAutoPayment();
+    // initAutoPayment();
   }
 
   function setActiveTab() {
@@ -50,9 +51,9 @@ const main = (function() {
     breadCrumbNav.innerHTML = html;
   }
 
-  function initIamport() {
-    IMP.init(IMP_KEY);
-  }
+  // function initIamport() {
+  //   IMP.init(IMP_KEY);
+  // }
 
   function initTooltips() {
     cmmUtils.setTippy([{
@@ -420,6 +421,58 @@ const main = (function() {
     }
   }
 
+  // 가상계좌 주문내역 확인 모달
+  function showOrderModal() {
+    cmmUtils.showModal('myOrderModal');
+    initMyOrderGrid();
+  }
+
+  function initMyOrderGrid() {
+    // 상태 커스텀
+    const status = function(col, row) {
+      if (row.expired === 1) {
+        return '<span class="tag is-danger is-light">기한만료</span>';
+      } else if (row.status === 'ready') {
+        return '<span class="tag is-warning is-light">이체예정</span>';
+      } else if(row.status === 'paid') {
+        return '<span class="tag is-success is-light">이체완료</span>';
+      } else {
+        return '<span class="tag is-danger is-light">오류</span>';
+      }
+    }
+    const dueDate = function(col, row) {
+      return '<span>' + makeDueDate(row.dueDate.toString()) + '</span>';
+    }
+    const props = {
+      url: '/api/v1/login/mypage/order',
+      eId: 'myOrderGrid',
+      body: {
+        orderBy: [{column: 'orderDate', desc: true}],
+      },
+      isThead: true,
+      isTfoot: false,
+      colModel: [
+        {id: 'orderDate', name: '가상계좌 채번일', isSort: true, align: 'center'},
+        {id: 'vbankName', name: '은행명', isSort: true, align: 'center'},
+        {id: 'vbankNum', name: '가상계좌', align: 'center'},
+        {name: '이체기한', align: 'center', type: 'custom', userCustom: dueDate},
+        {id: 'month', name: '이용 개월수', align: 'center'},
+        {id: 'paidAmount', name: '금액', align: 'right', isCurrency: true},
+        {name: '상태', align: 'center', type: 'custom', userCustom: status}
+      ]
+    }
+    myOrderGrid = new COMPONENTS.DataGrid(props);
+  }
+
+  function makeDueDate(dueDate) {
+    const year = dueDate.substr(0, 4);
+    const month = dueDate.substr(4, 2);
+    const day = dueDate.substr(6, 2);
+    const hour = dueDate.substr(8, 2);
+    const minutes = dueDate.substr(10, 2);
+    return year.concat('-').concat(month).concat('-').concat(day).concat(' ').concat(hour).concat(':').concat(minutes);
+  }
+
 
   return {
     init: init,
@@ -431,7 +484,8 @@ const main = (function() {
     closeModIdeaModal: closeModIdeaModal,
     withdrawal: withdrawal,
     showConfirmPwdModal: showConfirmPwdModal,
-    showAuthPaymentModal: showAuthPaymentModal
+    showAuthPaymentModal: showAuthPaymentModal,
+    showOrderModal: showOrderModal
   }
 }());
 

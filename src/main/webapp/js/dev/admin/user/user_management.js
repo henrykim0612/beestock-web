@@ -113,7 +113,7 @@ const main = (function() {
   // 권한변경
   function saveAuth() {
     const roleNm = document.getElementById('modalSelAuth').value;
-    const expDate = document.getElementById('expDate').value;
+    const expDate = cmmUtils.getCheckedValues('expDate')[0];
     cmmUtils.axiosPost({
       url: '/api/v1/admin/change-role',
       body: {
@@ -135,7 +135,7 @@ const main = (function() {
     document.getElementById('labelModalAuth').textContent = loginId;
     const selBox = document.getElementById('modalSelAuth');
     cmmUtils.hideElement('divExpDate'); // 만료일은 구독자를 선택했을 경우만 보임
-    cmmUtils.clearCalendarValue('expDate');
+    // cmmUtils.clearCalendarValue('expDate');
     for (let i = 0; i < selBox.length; i++) {
       const option = selBox[i];
       if (option.value === roleNm) {

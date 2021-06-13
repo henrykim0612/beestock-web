@@ -45,7 +45,6 @@
 <script type="text/javascript">
   const CONTEXT_PATH = "${pageContext.request.contextPath}";
   const COMPANY_NAME = '허니비소프트';
-  const IMP_KEY = 'imp75429459';
   const GUIDE = [{
     name: 'bsp',
     src: CONTEXT_PATH + '/resources/images/guide/bsp/image.jpg',
@@ -69,5 +68,5 @@
     name: 'rate',
     src: CONTEXT_PATH + '/resources/images/guide/rate/image.jpg',
     link: 'https://youtu.be/4N4IUL9ju2o'
-  }]
+  }];
 </script>

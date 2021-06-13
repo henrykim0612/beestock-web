@@ -39,7 +39,7 @@
 <%--권한변경 모달--%>
 <div id="authModal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-card">
+    <div class="modal-card" style="width: 800px;">
         <header class="modal-card-head">
             <p class="modal-card-title">권한 변경</p>
             <button class="delete" aria-label="close" onclick="main.closeChangeRoleModal('authModal')"></button>
@@ -68,11 +68,18 @@
             </div>
             <div id="divExpDate" class="columns">
                 <div class="column is-5 has-text-centered mt-2">
-                    <label class="label" for="expDate">만료일 선택</label>
+                    <label class="label">만료일 선택</label>
                 </div>
                 <div class="column">
-                    <div class="control input-single-date">
-                        <input id="expDate" type="date">
+                    <div class="field">
+                        <input class="is-checkradio" id="expDate1" value="" type="radio" name="expDate" checked="checked">
+                        <label for="expDate1">유지</label>
+                        <input class="is-checkradio" id="expDate2" value="1" type="radio" name="expDate">
+                        <label for="expDate2">1달 연장</label>
+                        <input class="is-checkradio" id="expDate3" value="3" type="radio" name="expDate">
+                        <label for="expDate3">3달 연장</label>
+                        <input class="is-checkradio" id="expDate4" value="12" type="radio" name="expDate">
+                        <label for="expDate4">1년 연장</label>
                     </div>
                 </div>
             </div>
