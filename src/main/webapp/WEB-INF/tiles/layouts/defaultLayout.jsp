@@ -5,7 +5,7 @@
     <head>
         <tiles:insertAttribute name="header" />
     </head>
-    <body class="min-screen-width">
+    <body>
         <tiles:insertAttribute name="commonScript" />
         <tiles:insertAttribute name="top" />
         <div class="container is-fullhd mt-6 min-screen-height">
