@@ -249,6 +249,7 @@
                     <p>아래 채번된 가상계좌로 이체를 부탁드리며, 이체완료시 자동으로 등급이 업그레이드 됩니다.</p>
                     <p id="vbankName"></p>
                     <p id="vbankNum"></p>
+                    <p id="money"></p>
                     <p class="has-text-danger mt-3">※ 이체결과는 마이페이지에서 확인 가능합니다.</p>
                 </div>
                 <div class="flex-row justify-content-center mt-5">

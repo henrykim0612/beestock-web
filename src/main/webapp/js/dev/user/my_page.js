@@ -15,12 +15,12 @@ const main = (function() {
     createBreadCrumb();
     setActiveTab();
     // initIamport();
-    initTooltips();
+    // initTooltips();
     initMyImage();
     addTabListener();
     initFavoriteProfiles();
     initIdeaGrid();
-    initAutoPayment();
+    // initAutoPayment();
   }
 
   function setActiveTab() {

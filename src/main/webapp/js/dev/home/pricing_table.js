@@ -138,7 +138,7 @@ const main = (function () {
           });
           if (response) {
             cmmUtils.closeModal('paymentModal');
-            showSucModal(rsp);
+            showSucModal(rsp, price);
           } else {
             cmmUtils.showToast({
               message: '가상계좌 주문정보 저장에 실패했습니다.',
@@ -172,9 +172,10 @@ const main = (function () {
 
 
   // 채번완료 모달
-  function showSucModal(rsp) {
+  function showSucModal(rsp, price) {
     document.getElementById('vbankName').innerHTML = '<strong>은행명 : ' + rsp.vbank_name + '</strong>';
     document.getElementById('vbankNum').innerHTML = '<strong>가상계좌 : ' + rsp.vbank_num + '</strong>';
+    document.getElementById('money').innerHTML = '<strong>금액 : ' + price.toLocaleString() + '</strong>원';
     cmmUtils.showModal('sucModal');
   }
 
