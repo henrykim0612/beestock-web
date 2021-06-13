@@ -7,9 +7,11 @@
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- 하단수평1 -->
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:600px;height:90px"
+                     style="display:block"
                      data-ad-client="ca-pub-8183196412584390"
-                     data-ad-slot="8967716341"></ins>
+                     data-ad-slot="8967716341"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
                 <script>
                   (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
@@ -18,9 +20,11 @@
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- 하단수평2 -->
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:600px;height:90px"
+                     style="display:block"
                      data-ad-client="ca-pub-8183196412584390"
-                     data-ad-slot="4726284661"></ins>
+                     data-ad-slot="4726284661"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
                 <script>
                   (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>

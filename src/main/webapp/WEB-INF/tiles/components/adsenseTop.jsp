@@ -8,9 +8,11 @@
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- 상단수평1 -->
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:1200px;height:90px"
+                     style="display:block"
                      data-ad-client="ca-pub-8183196412584390"
-                     data-ad-slot="2075004933"></ins>
+                     data-ad-slot="2075004933"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
                 <script>
                   (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
