@@ -54,7 +54,7 @@
     <%--상단 탭--%>
     <div class="tile is-fullwidth is-vertical is-parent">
         <div class="tile is-child box">
-            <div id="headerTabs" class="tabs">
+            <div id="headerTabs" class="tabs is-boxed">
                 <ul>
                     <li id="benchmarkTab" class="is-active topTabs" data-cont-id="benchmarkCont">
                         <a>
@@ -213,7 +213,7 @@
     </div>
 
     <%--분석탭--%>
-    <div id="bottomTabs" class="tabs mt-2 flex-row">
+    <div id="bottomTabs" class="tabs is-boxed mt-2 flex-row">
         <ul>
             <li id="gridTab" class="is-active bottomTabs" data-view="grid" data-cont-id="gridCont">
                 <a>
