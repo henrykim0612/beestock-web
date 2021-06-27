@@ -341,7 +341,7 @@ BeeComponents.modules.dataGrid = function(component) {
                 const button = document.createElement('button');
                 button.classList.add('button');
                 button.classList.add('is-small');
-                button.classList.add('is-white');
+                button.classList.add('is-ghost');
                 // 뱃지 추가
                 const span = document.createElement('span');
                 span.classList.add('badge');

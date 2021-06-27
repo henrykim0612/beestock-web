@@ -39,6 +39,13 @@
                         <span class="icon is-small is-left"><i class="fas fa-key"></i></span>
                     </div>
                     <p id="helpPwd" class="help is-info is-hidden">Caps Lock 키가 켜져있습니다.</p>
+                    <c:if test="${not empty ERRORMSG}">
+                        <div class="flex-row justify-content-center mt-3">
+                            <p class="help"><strong class="has-text-danger">${ERRORMSG }</strong></p>
+                        </div>
+
+                    </c:if>
+
                 </div>
             </div>
         </nav>
@@ -64,18 +71,4 @@
             </div>
         </nav>
     </form>
-    <c:if test="${not empty ERRORMSG}">
-        <nav class="level mt-5">
-            <div class="level-item has-text-centered">
-                <article class="message is-danger is-small loginField">
-                    <div class="message-header">
-                        <p>Login failed.</p>
-                    </div>
-                    <div class="message-body">
-                        <strong>${ERRORMSG }</strong>
-                    </div>
-                </article>
-            </div>
-        </nav>
-    </c:if>
 </div>

@@ -61,7 +61,7 @@
                     </a>
                 </div>
             </div>
-            <a class="navbar-item" href="${pageContext.request.contextPath}/home/pricing-table.do"><span class="icon has-text-warning mr-1"><i class="fas fa-donate"></i></span>가격</a>
+            <a class="navbar-item" href="${pageContext.request.contextPath}/home/pricing-table.do"><span class="icon has-text-warning mr-1"><i class="fas fa-comment-dollar"></i></span>가격</a>
             <%--관리자만 가능--%>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="navbar-item has-dropdown is-hoverable">

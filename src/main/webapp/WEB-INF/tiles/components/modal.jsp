@@ -162,7 +162,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                            <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-level-up-alt"></i></span>
                             <span>등급 업그레이드</span>
                         </button>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('standardModal')">
@@ -194,8 +194,12 @@
                 </div>
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
+                        <button class="button is-dark is-small" onclick="cmmUtils.openNewTab('/home/guide')">
+                            <span class="icon has-text-primary"><i class="fas fa-book"></i></span>
+                            <span>가이드 보기</span>
+                        </button>
                         <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                            <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-level-up-alt"></i></span>
                             <span>등급 업그레이드</span>
                         </button>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumModal')">
@@ -228,7 +232,7 @@
                 <div class="flex-row justify-content-end mt-3">
                     <div class="buttons">
                         <button class="button is-dark is-small" onclick="cmmUtils.goToPage('/home/pricing-table')">
-                            <span class="icon has-text-warning"><i class="fas fa-donate"></i></span>
+                            <span class="icon has-text-warning"><i class="fas fa-level-up-alt"></i></span>
                             <span>등급 업그레이드</span>
                         </button>
                         <button class="button is-dark is-small" onclick="cmmUtils.closeModal('premiumPlusModal')">

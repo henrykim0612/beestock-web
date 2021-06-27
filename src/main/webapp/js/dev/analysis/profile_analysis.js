@@ -730,7 +730,7 @@ const main = (function() {
           initStackChartGrid();
         } else {
           // 이용할 수 없음
-          cmmUtils.showGuideModal({color: 'is-danger', header: 'Premium 등급 이상 전용화면'});
+          cmmUtils.showModal('premiumModal');
         }
       } catch (err) {
         console.error(err);
