@@ -259,6 +259,12 @@
                     <span>비중(원형)</span>
                 </a>
             </li>
+            <li id="treeMapTab" class="is-hidden bottomTabs" data-view="treeMap" data-cont-id="treeMapCont">
+                <a>
+                    <span class="icon has-text-primary"><i class="fas fa-th-large"></i></span>
+                    <span>비중(트리맵)</span>
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -484,6 +490,11 @@
         </div>
     </div>
 
+    <div id="treeMapCont" class="is-hidden">
+        <div class="flex-row justify-content-center">
+            <div id="profileTreeMapChart" class="is-fullwidth" style="width: 1400px; height: 800px;"></div>
+        </div>
+    </div>
 
     <%--아이디어 등록 모달--%>
     <div id="newIdeaModal" class="modal">

@@ -153,6 +153,7 @@ const main = (function() {
   let fundamentalChart = undefined;
   let benchmarkChart = undefined;
   let autoComplete = undefined;
+  let treeMapChart = undefined;
 
   function init() {
     createBreadCrumb();
@@ -453,6 +454,7 @@ const main = (function() {
       case 'pieChart': initPieChart(); break;
       case 'buying': initBuyingGrid(); break;
       case 'selling': initSellingGrid(); break;
+      case 'treeMap': initTreeMapChart(); break;
     }
   }
 
@@ -1731,6 +1733,12 @@ const main = (function() {
     function setName(itemName, value) {
       return itemName + '(' + value.toFixed(1) + '%)';
     }
+  }
+
+  function initTreeMapChart() {
+    getQuarterInfo(function(response) {
+      console.log(response);
+    });
   }
 
   function initBarChart() {
