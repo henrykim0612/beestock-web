@@ -1737,8 +1737,83 @@ const main = (function() {
 
   function initTreeMapChart() {
     getQuarterInfo(function(response) {
-      console.log(response);
+      const props = {
+        eId: 'profileTreeMapChart',
+        options: {
+          backgroundColor: {
+            type: 'pattern',
+            image: getWarterMarkImage(),
+            repeat: 'repeat'
+          },
+          tooltip: {
+            formatter: function (info) {
+              const fullData = info.data.fullData;
+              if (fullData) {
+                return [
+                  '<div class="tooltip-title">' + fullData.itemName + '</div>',
+                  '<div class="tooltip-title">비중: ' + fullData.weight.toFixed(1) + '%</div>',
+                  '<div class="tooltip-title">등락률: ' + fullData.fluctRate + '%</div>'
+                ].join('');
+              } else {
+                return '';
+              }
+            }
+          },
+          grid: {
+            left: '1%',
+            right: '3%',
+            // bottom: '1%',
+            containLabel: true
+          },
+          series: getTreeMapSeries(response.rowData)
+        }
+      }
+      if (!!treeMapChart) {
+        reloadTreeMapChart(props.options);
+      } else {
+        treeMapChart= new COMPONENTS.Chart(props);
+      }
+      runRefreshTimer();
     });
+  }
+
+  function getTreeMapSeries(rowData) {
+    const negativeValues = cmmUtils.getNegativeValues(rowData, 'fluctRate');
+    const maxNegativeValue = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'fluctRate'));
+    const positiveValues = cmmUtils.getPositiveValues(rowData, 'fluctRate');
+    const maxPositiveValue = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'fluctRate'));
+    const data = rowData.map(function(v) {
+      const percent = parseInt(cmmUtils.getPercentage(v['fluctRate'], v['fluctRate'] < 0 ? maxNegativeValue : maxPositiveValue).toFixed(1));
+      return {
+        name: v.itemCode + '\n' + v.fluctRate + '%',
+        value: v.weight,
+        itemStyle: {
+          color: cmmUtils.getChroma(percent, v.fluctRate < 0)
+        },
+        fullData: v
+      };
+    });
+    return [{
+      name: 'ALL',
+      label: {
+        show: true,
+        formatter: "{b}",
+        normal: {
+          textStyle: {
+            ellipsis: true
+          }
+        }
+      },
+      type: 'treemap',
+      levels: [
+        {
+          itemStyle: {
+            gapWidth: 3
+          }
+        }
+      ],
+      data: data
+    }];
   }
 
   function initBarChart() {
@@ -1917,6 +1992,11 @@ const main = (function() {
   function reloadPieChart(options) {
     profilePieChart.resize();
     profilePieChart.setOption(options);
+  }
+
+  function reloadTreeMapChart (options) {
+    treeMapChart.resize();
+    treeMapChart.setOption(options);
   }
 
   // 포트폴리오 헤더 생성
@@ -2517,7 +2597,6 @@ const main = (function() {
 
   // 일정 간격으로 새로고침
   function runRefreshTimer() {
-
     // 현재는 해외만.. 국내는 새로고침이 의미가 없어서 제거
     if (global.selectedProfileType === '2') {
       removeRefreshTimer(); // 타이머 해제
@@ -2529,9 +2608,7 @@ const main = (function() {
       if (timerDiv) {
         timerDiv.remove();
       }
-
     }
-
   }
 
   function changeRefreshSwitch() {

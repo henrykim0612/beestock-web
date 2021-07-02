@@ -32,6 +32,8 @@
 <script src="${pageContext.request.contextPath}/resources/vendors/clipboard/2.0.6/clipboard.min.js" type="text/javascript"></script>
 <%--Autocomplete--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/autocomplete/awesomplete.min.js" type="text/javascript"></script>
+<%--Chroma.js--%>
+<script src="${pageContext.request.contextPath}/resources/vendors/chroma-js/chroma.js" type="text/javascript"></script>
 
 <%--common--%>
 <script src="${pageContext.request.contextPath}/resources/vendors/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>

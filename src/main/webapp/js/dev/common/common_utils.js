@@ -1360,6 +1360,15 @@ const cmmUtils = (function () {
     return tomorrow;
   }
 
+  function getChroma(percentage, negative) {
+    const v = Math.abs((2.5 * percentage) / 100);
+    if (negative) {
+      return chroma('#ff0000').darken(v).hex();
+    } else {
+      return chroma('#0eff0e').darken(v).hex();
+    }
+  }
+
   return {
     axiosGet: axiosGet,
     awaitAxiosGet: awaitAxiosGet,
@@ -1453,6 +1462,7 @@ const cmmUtils = (function () {
     isCheckedAll: isCheckedAll,
     isCheckedCnt: isCheckedCnt,
     resetCheckedItems: resetCheckedItems,
-    getTomorrow: getTomorrow
+    getTomorrow: getTomorrow,
+    getChroma: getChroma
   }
 })();
