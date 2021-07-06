@@ -1610,7 +1610,8 @@ const main = (function() {
         profileId: global.profileId,
         comparisonQuarter: global.comparisonQuarter,
         selectedQuarterDate: global.selectedQuarterDate,
-        profileType: global.selectedProfileType
+        profileType: global.selectedProfileType,
+        isLatestQuarter: isLatestQuarterDate()
       }
     }, callback);
   }
@@ -1748,11 +1749,18 @@ const main = (function() {
             formatter: function (info) {
               const fullData = info.data.fullData;
               if (fullData) {
-                return [
-                  '<div class="tooltip-title">' + fullData.itemName + '</div>',
-                  '<div class="tooltip-title">비중: ' + fullData.weight.toFixed(1) + '%</div>',
-                  '<div class="tooltip-title">등락률: ' + fullData.fluctRate + '%</div>'
-                ].join('');
+                if (isLatestQuarterDate()) {
+                  return [
+                    '<div class="tooltip-title">' + fullData.itemName + '</div>',
+                    '<div class="tooltip-title">비중: ' + fullData.weight.toFixed(1) + '%</div>',
+                    '<div class="tooltip-title">등락률: ' + fullData.fluctRate + '%</div>'
+                  ].join('');
+                } else {
+                  return [
+                    '<div class="tooltip-title">' + fullData.itemName + '</div>',
+                    '<div class="tooltip-title">비중: ' + fullData.weight.toFixed(1) + '%</div>'
+                  ].join('');
+                }
               } else {
                 return '';
               }
@@ -1782,12 +1790,28 @@ const main = (function() {
     const positiveValues = cmmUtils.getPositiveValues(rowData, 'fluctRate');
     const maxPositiveValue = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'fluctRate'));
     const data = rowData.map(function(v) {
-      const percent = parseInt(cmmUtils.getPercentage(v['fluctRate'], v['fluctRate'] < 0 ? maxNegativeValue : maxPositiveValue).toFixed(1));
+      let color;
+      let name;
+      let fontColor;
+      if (isLatestQuarterDate()) { // 최신 분기만 등락률을 가지고 있으므로 색상처리
+        const percent = parseInt(cmmUtils.getPercentage(v['fluctRate'], v['fluctRate'] < 0 ? maxNegativeValue : maxPositiveValue).toFixed(1));
+        color = cmmUtils.getChroma(percent, v.fluctRate < 0);
+        name = v.itemCode + '\n' + v.fluctRate + '%';
+        fontColor = 'white';
+      } else { // 최신 분기가 아니라면
+        color = '#f0b940';
+        name = v.itemCode + '\n' + v.weight.toFixed(1) + '%';
+        fontColor = 'black';
+      }
       return {
-        name: v.itemCode + '\n' + v.fluctRate + '%',
+        name: name,
         value: v.weight,
+        label: {
+          color: fontColor,
+          fontWeight: 'bold'
+        },
         itemStyle: {
-          color: cmmUtils.getChroma(percent, v.fluctRate < 0)
+          color: color
         },
         fullData: v
       };
