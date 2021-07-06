@@ -259,7 +259,7 @@
                     <span>비중(원형)</span>
                 </a>
             </li>
-            <li id="treeMapTab" class="bottomTabs is-hidden" data-view="treeMap" data-cont-id="treeMapCont">
+            <li id="treeMapTab" class="bottomTabs" data-view="treeMap" data-cont-id="treeMapCont">
                 <a>
                     <span class="icon has-text-primary"><i class="fas fa-th-large"></i></span>
                     <span>비중(트리맵)</span>
