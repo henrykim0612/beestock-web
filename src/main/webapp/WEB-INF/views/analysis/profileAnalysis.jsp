@@ -492,6 +492,20 @@
 
     <%--TreeMap--%>
     <div id="treeMapCont" class="is-hidden">
+        <div id="treeMapColorInfo" class="flex-row">
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag" style="background: #F01C2B; color: white;">-3%</span>
+                    <span class="tag" style="background: #B02B35; color: white;">-2%</span>
+                    <span class="tag" style="background: #76323D; color: white;">-1%</span>
+                    <span class="tag" style="background: #323543; color: white;">0</span>
+                    <span class="tag" style="background: #2A643D; color: white;">1%</span>
+                    <span class="tag" style="background: #28913D; color: white;">2%</span>
+                    <span class="tag" style="background: #2EC548; color: white;">3%</span>
+                    <span class="tag is-white">※ 등락률은 최신 분기에만 표시됩니다.</span>
+                </div>
+            </div>
+        </div>
         <div class="flex-row justify-content-center">
             <div id="profileTreeMapChart" class="is-fullwidth" style="width: 1400px; height: 800px;"></div>
         </div>
