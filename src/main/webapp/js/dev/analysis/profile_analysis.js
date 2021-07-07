@@ -1776,39 +1776,42 @@ const main = (function() {
         }
       }
       if (!!treeMapChart) {
-        reloadTreeMapChart(props.options);
-      } else {
-        treeMapChart= new COMPONENTS.Chart(props);
+        treeMapChart.dispose();
       }
+      treeMapChart= new COMPONENTS.Chart(props);
       runRefreshTimer();
     });
   }
 
   function getTreeMapSeries(rowData) {
-    const negativeValues = cmmUtils.getNegativeValues(rowData, 'fluctRate');
-    const maxNegativeValue = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'fluctRate'));
-    const positiveValues = cmmUtils.getPositiveValues(rowData, 'fluctRate');
-    const maxPositiveValue = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'fluctRate'));
+    const negativeValues = cmmUtils.getNegativeValues(rowData, 'weight');
+    const maxNegativeValue = _.maxBy(cmmUtils.getAbsValues(negativeValues, 'weight'));
+    const positiveValues = cmmUtils.getPositiveValues(rowData, 'weight');
+    const maxPositiveValue = _.maxBy(cmmUtils.getAbsValues(positiveValues, 'weight'));
     const data = rowData.map(function(v) {
       let color;
       let name;
       let fontColor;
+      const fontSize = parseInt(cmmUtils.getPercentage(v['weight'], v['weight'] < 0 ? maxNegativeValue : maxPositiveValue));
       if (isLatestQuarterDate()) { // 최신 분기만 등락률을 가지고 있으므로 색상처리
-        const percent = parseInt(cmmUtils.getPercentage(v['fluctRate'], v['fluctRate'] < 0 ? maxNegativeValue : maxPositiveValue).toFixed(1));
-        color = cmmUtils.getChroma(percent, v.fluctRate < 0);
-        name = v.itemCode + '\n' + v.fluctRate + '%';
+        const fluctRate = v.fluctRate > 0 ? '+' + v.fluctRate : v.fluctRate;
+        color = getTreeMapColor(v['fluctRate']);
+        name = v.itemCode + '\n' + fluctRate + '%';
         fontColor = 'white';
       } else { // 최신 분기가 아니라면
-        color = '#f0b940';
+        color = '#E9AB31';
         name = v.itemCode + '\n' + v.weight.toFixed(1) + '%';
-        fontColor = 'black';
+        fontColor = '#262834';
       }
       return {
         name: name,
         value: v.weight,
         label: {
           color: fontColor,
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          fontSize: fontSize < 12
+            ? 12
+            : fontSize > 60 ? 60 : fontSize
         },
         itemStyle: {
           color: color
@@ -1837,6 +1840,25 @@ const main = (function() {
       ],
       data: data
     }];
+  }
+
+  function getTreeMapColor(value) {
+    const v = value < 0 ? Math.floor(Math.abs(value)) * -1 : Math.floor(Math.abs(value));
+    if (-3 >= v) {
+      return '#F01C2B';
+    } else if (v === -2) {
+      return '#B02B35';
+    } else if (v === -1) {
+      return '#76323D';
+    } else if (v === 0) {
+      return '#323543';
+    } else if (v === 1) {
+      return '#2A643D';
+    } else if (v === 2) {
+      return '#28913D';
+    } else {
+      return '#2EC548';
+    }
   }
 
   function initBarChart() {
