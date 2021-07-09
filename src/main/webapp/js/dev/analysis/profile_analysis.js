@@ -216,6 +216,8 @@ const main = (function() {
       // 국내는 Benchmark 지수 탭이 없음
       document.getElementById('benchmarkTab').remove();
       document.getElementById('benchmarkCont').remove();
+      document.getElementById('fundamentalTab').classList.add('is-active');
+      document.getElementById('fundamentalCont').classList.remove('is-hidden');
     }
   }
 
