@@ -143,7 +143,7 @@ BeeComponents.modules.dataGrid = function(component) {
           // div.style.width = '60px';
         } else {
           if (col['width'] != null) {
-            th.style.width = col['width'];
+            th.style.minWidth = col['width'];
             // div.style.width = col['width'];
           }
         }
