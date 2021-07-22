@@ -2092,6 +2092,7 @@ const main = (function() {
         const button = document.createElement('button');
         button.type = 'button';
         button.classList.add('button');
+        button.classList.add('analysis-media-button');
         // button.classList.add('is-small');
         button.classList.add('is-white');
         button.appendChild(createLinkIcon(profileInfo[0]));
