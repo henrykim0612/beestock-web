@@ -24,6 +24,7 @@ const main = (function() {
 
   function login() {
     if (isRightPassword()) {
+      cmmUtils.showLoadingElement(document.getElementById('btnSubmit'));
       const form = document.getElementById('loginForm');
       form.submit();
     }
