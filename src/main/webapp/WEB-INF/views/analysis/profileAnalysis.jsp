@@ -143,7 +143,7 @@
                 </div>
             </sec:authorize>
             <%--참고링크 탭--%>
-            <div id="linkCont" class="is-hidden">
+            <div id="linkCont" class="is-hidden analysis-tab-content__link">
                 <div class="columns">
                     <div class="column is-full">
                         <div id="profileLinkDiv" class="flex-col justify-content-center">
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <%--소개 탭--%>
-            <div id="infoCont" class="is-hidden">
+            <div id="infoCont" class="is-hidden analysis-tab-content">
                 <div class="columns">
                     <div class="column is-full">
                         <div id="infoDiv">
@@ -161,7 +161,7 @@
                 </div>
             </div>
             <%--유의사항 탭--%>
-            <div id="notiCont" class="is-hidden">
+            <div id="notiCont" class="is-hidden analysis-tab-content">
                 <div class="columns">
                     <div class="column is-full ml-5">
                         <c:if test="${profileVo.profileType eq '1'}">

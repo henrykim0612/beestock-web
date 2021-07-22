@@ -444,3 +444,20 @@ table tfoot th {
 .plan-item {
 	border-right: 0.1rem solid #fff;
 }
+
+.analysis-tab-content {
+	min-height: 330px;
+	max-height: 330px;
+	overflow: auto;
+}
+
+.analysis-tab-content__link {
+	min-height: 330px;
+	max-height: 330px;
+}
+
+.analysis-media-button {
+	max-width: 920px;
+	justify-content: start !important;
+	overflow-x: auto;
+}
