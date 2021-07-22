@@ -440,3 +440,7 @@ table tfoot th {
 	/*background-color: #2196F3;*/
 	/*color: #fff;*/
 }
+
+.plan-item {
+	border-right: 0.1rem solid #fff;
+}

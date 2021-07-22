@@ -79,10 +79,20 @@ const main = (function() {
     const colModel = global.selectedProfileType === 1
       ? [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},
-        {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center'},
-        {id: 'itemName', name: '종목명', isSort: true, isExcel: true, align: 'center'},
-        {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, align: 'center', isCurrency: true},
-        {id: 'fluctRate', name: '등락률', isSort: true, isExcel: true, align: 'center'}
+        {id: 'itemCode', name: '종목코드', isSort: true, isExcel: true, align: 'center', width: '200px'},
+        {id: 'itemName', name: '종목명', isSort: true, isExcel: true, align: 'left', width: '300px'},
+        {id: 'market', name: '시장구분', isSort: true, isExcel: true, align: 'center', width: '200px'},
+        {id: 'belong', name: '소속부', isSort: true, isExcel: true, align: 'center', width: '200px'},
+        {id: 'currPrice', name: '현재가', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'fluctRate', name: '등락률', isSort: true, isExcel: true, align: 'center', width: '150px'},
+        {id: 'contrast', name: '대비', isSort: true, isExcel: true, align: 'center', width: '150px'},
+        {id: 'marketPrice', name: '시가', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'lowerPrice', name: '저가', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'highPrice', name: '고가', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'transVol', name: '거래량', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'transAmount', name: '거래대금', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'totalMarketPrice', name: '시가총액', isSort: true, isExcel: true, isCurrency: true, width: '150px'},
+        {id: 'pubStockCount', name: '상장주식수', isSort: true, isExcel: true, isCurrency: true, width: '150px'}
       ]
       : [
         {id: 'rowNum', name: 'NO', isSort: true, align: 'center', isStrong: true},

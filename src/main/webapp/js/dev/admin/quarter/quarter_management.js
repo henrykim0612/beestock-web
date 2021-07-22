@@ -46,7 +46,7 @@ const main = (function() {
     html += '  <li class="is-active">';
     html += '    <a aria-current="page">';
     html += '      <span class="icon is-small"><i class="fas fa-database"></i></span>';
-    html += '      <span>분기별 포트폴리오 관리</span>';
+    html += '      <span>포트폴리오 분기 수동 업로드</span>';
     html += '    </a>';
     html += '  </li>';
     html += '</ul>';

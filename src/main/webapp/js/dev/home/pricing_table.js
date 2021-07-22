@@ -6,7 +6,9 @@ const main = (function () {
   let pg = null;
 
   function init() {
-    initIamport();
+    if (cmmUtils.getRole() != null) { // Guest 가 아닌 경우에만
+      initIamport();
+    }
     initPrices();
     initAccordion();
     initDOMEvents();
@@ -55,12 +57,21 @@ const main = (function () {
   // 등급별 금액설정
   async function initPrices() {
     const response = await cmmUtils.awaitAxiosGet({url: '/api/v1/login/price'});
-    document.getElementById('standardPrice').innerText = (getPrice(response, 'ROLE_STANDARD') + (getPrice(response, 'ROLE_STANDARD') * 0.5)).toLocaleString() + '원';
-    document.getElementById('premiumPrice').innerText = (getPrice(response, 'ROLE_PREMIUM') + (getPrice(response, 'ROLE_PREMIUM') * 0.5)).toLocaleString() + '원';
-    document.getElementById('premiumPlusPrice').innerText = (getPrice(response, 'ROLE_PREMIUM_PLUS') + (getPrice(response, 'ROLE_PREMIUM_PLUS') * 0.5)).toLocaleString() + '원';
-    document.getElementById('standardPrice3').innerText = (getPrice(response, 'ROLE_STANDARD') * 3).toLocaleString() + '원';
-    document.getElementById('premiumPrice3').innerText = (getPrice(response, 'ROLE_PREMIUM') * 3).toLocaleString() + '원';
-    document.getElementById('premiumPlusPrice3').innerText = (getPrice(response, 'ROLE_PREMIUM_PLUS') * 3).toLocaleString() + '원';
+    setPriceText('standardPrice', (getPrice(response, 'ROLE_STANDARD') + (getPrice(response, 'ROLE_STANDARD') * 0.5)).toLocaleString());
+    setPriceText('premiumPrice', (getPrice(response, 'ROLE_PREMIUM') + (getPrice(response, 'ROLE_PREMIUM') * 0.5)).toLocaleString());
+    setPriceText('premiumPlusPrice', (getPrice(response, 'ROLE_PREMIUM_PLUS') + (getPrice(response, 'ROLE_PREMIUM_PLUS') * 0.5)).toLocaleString());
+    setPriceText('standardPrice3', (getPrice(response, 'ROLE_STANDARD') * 3).toLocaleString());
+    setPriceText('premiumPrice3', (getPrice(response, 'ROLE_PREMIUM') * 3).toLocaleString());
+    setPriceText('premiumPlusPrice3', (getPrice(response, 'ROLE_PREMIUM_PLUS') * 3).toLocaleString());
+  }
+
+  function setPriceText(id, price) {
+    const ele = document.getElementById(id);
+    if (price === '0') {
+      ele.parentNode.parentNode.classList.add('is-hidden');
+    } else {
+      ele.innerText = price + '원';
+    }
   }
 
   function getPrice(data, roleNm) {
@@ -120,8 +131,7 @@ const main = (function () {
         vbank_due: dueDate,
         merchant_uid : cmmUtils.getUUID(),
         name : 'BEESTOCK 유료서비스', // 16자 이내로 작성하길 권장
-        // amount : price,
-        amount : 1000,
+        amount : price,
         buyer_name : document.getElementById('loginUserNm').value,
         buyer_email : '',
         buyer_tel : cmmUtils.replaceCellular(document.getElementById('loginUserPhone').value),

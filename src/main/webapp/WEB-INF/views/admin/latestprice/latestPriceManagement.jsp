@@ -62,7 +62,9 @@
 </sec:authorize>
 
 <%--테이블 그리드--%>
-<table id="dataGrid" class="table is-narrow is-hoverable is-fullwidth"></table>
+<div class="table-container mt-3">
+    <table id="dataGrid" class="table is-narrow is-bordered is-hoverable is-fullwidth"></table>
+</div>
 <nav id="dataPagination" class="pagination is-small ml-3 mr-3" role="navigation" aria-label="pagination"></nav>
 
 <%--업로드 모달--%>

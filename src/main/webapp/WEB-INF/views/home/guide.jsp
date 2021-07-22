@@ -116,7 +116,7 @@
         <div class="column is-full">
             <div class="flex-col justify-content-center">
                 <figure class="image is-16by9">
-                    <iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/2Ce9lwuoHUo" frameborder="0" allowfullscreen></iframe>
+                    <iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/4N4IUL9ju2o" frameborder="0" allowfullscreen></iframe>
                 </figure>
                 <figure class="image">
                     <img src="${pageContext.request.contextPath}/resources/images/guide/rate/image.jpg">
@@ -132,7 +132,7 @@
         <div class="column is-full">
             <div class="flex-col justify-content-center">
                 <figure class="image">
-                    <img src="${pageContext.request.contextPath}/resources/images/guide/search/image.jpg">
+                    <img src="${pageContext.request.contextPath}/resources/images/guide/search/image.jpeg">
                 </figure>
             </div>
         </div>
