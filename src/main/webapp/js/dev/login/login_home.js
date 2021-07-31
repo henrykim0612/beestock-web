@@ -42,13 +42,17 @@ const main = (function() {
   }
 
   function keyupEvent(e) {
-    // 대소문자 확인
-    const helpPwd = document.getElementById('helpPwd');
-    let capsLockOn = e.getModifierState('CapsLock');
-    capsLockOn ? helpPwd.classList.remove('is-hidden') : helpPwd.classList.add('is-hidden');
-    // 엔터 입력시 로그인
-    if (e.key === 'Enter') {
-      login();
+    try {
+      // 대소문자 확인
+      const helpPwd = document.getElementById('helpPwd');
+      let capsLockOn = e.getModifierState('CapsLock');
+      capsLockOn ? helpPwd.classList.remove('is-hidden') : helpPwd.classList.add('is-hidden');
+      // 엔터 입력시 로그인
+      if (e.key === 'Enter') {
+        login();
+      }
+    } catch(err) {
+      console.log(err);
     }
   }
 

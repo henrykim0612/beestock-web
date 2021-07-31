@@ -4,15 +4,6 @@
 <script src="${pageContext.request.contextPath}/${jsDir}/common/common_profile_card.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/${jsDir}/home/dashboard.js" type="text/javascript"></script>
 
-<article class="message is-danger">
-    <div class="message-body">
-        <p>
-            <strong>2021년 8월 1일</strong>부터 정식 서비스를 시작합니다.<br/>
-            이용하고 계시는 <strong>프리미엄 플러스</strong> 등급은 <strong>베이직</strong> 등급으로 자동 전환 되오니 양해 부탁드립니다.
-        </p>
-    </div>
-</article>
-
 <%--검색조건--%>
 <div class="flex-row mt-7">
     <div class="flex-row justify-content-start width-50per">
