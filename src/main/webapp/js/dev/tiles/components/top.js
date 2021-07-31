@@ -2,7 +2,7 @@ const topMain = (function() {
 
   function init() {
     initBurgerMenu();
-    initPageloaderPosition();
+    checkCurrentUserRole();
     setLayout();
     // showNoticeBadge();
     bulmaQuickview.attach();
@@ -34,11 +34,11 @@ const topMain = (function() {
     }
   }
 
-  function initPageloaderPosition() {
-    // const y = window.screen.height / 2;
-    // const pageLoader = document.getElementById('pageLoader');
-    // pageLoader.style.top = y + 'px';
-    // pageLoader.style.left = '50%';
+  // 권한이 변경되었다면 적용
+  function checkCurrentUserRole() {
+    cmmUtils.axiosPost({
+      url: '/api/v1/auth/check'
+    }, function (response) {});
   }
 
   // 로그인되면 로그인버튼은 숨김
@@ -85,7 +85,6 @@ const topMain = (function() {
       })
     }
   }
-
 
   // 휴먼 계정 해제 확인
   function checkHumanUser() {
