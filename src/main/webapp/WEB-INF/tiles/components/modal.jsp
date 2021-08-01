@@ -416,8 +416,8 @@
         </section>
         <footer class="modal-card-foot justify-content-center">
             <div class="buttons">
-                <button class="button is-warning is-small" onclick="topMain.closeUpgradeModal()">
-                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                <button class="button is-dark is-small" onclick="topMain.closeUpgradeModal()">
+                    <span class="icon has-text-success"><i class="fas fa-check"></i></span>
                     <strong>확인</strong>
                 </button>
             </div>
