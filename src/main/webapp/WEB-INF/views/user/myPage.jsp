@@ -274,13 +274,5 @@
         <section class="modal-card-body height500px overflowY-auto">
             <table id="myOrderGrid" class="table table is-bordered is-narrow is-hoverable is-fullwidth"></table>
         </section>
-        <footer class="modal-card-foot justify-content-center">
-            <button onclick="cmmUtils.closeModal('myOrderModal')" class="button is-dark is-small">
-                <span class="icon is-small">
-                  <i class="fas fa-times"></i>
-                </span>
-                <span>닫기</span>
-            </button>
-        </footer>
     </div>
 </div>

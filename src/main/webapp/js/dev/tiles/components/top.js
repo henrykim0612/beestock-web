@@ -318,13 +318,7 @@ const topMain = (function() {
     cmmUtils.axiosPost({
       url: '/api/v1/login/usermodal/upgrade-modal'
     }, function(response) {
-      if (!response) {
-        cmmUtils.showToast({
-          message: '오류가 발생했습니다',
-          type: 'is-danger'
-        });
-      }
-      cmmUtils.closeModal('upgradeModal');
+      window.location.reload();
     });
   }
 
