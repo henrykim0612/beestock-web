@@ -698,6 +698,7 @@ const cmmUtils = (function () {
   }
 
   function showToast(props) {
+    const defaultAnimate = { in: 'fadeInDown', out: 'fadeOutUp' };
     if (arguments.length === 0) {
       bulmaToast.toast({
         message: '저장되었습니다.',
@@ -705,7 +706,7 @@ const cmmUtils = (function () {
         duration: 3000,
         position: 'top-center',
         dismissible: true,
-        animate: { in: 'fadeIn', out: 'fadeOut' }
+        animate: defaultAnimate
       });
     } else {
       bulmaToast.toast({
@@ -714,7 +715,7 @@ const cmmUtils = (function () {
         duration: props['duration'] != null ? props['duration'] : 3000,
         position: props['position'] != null ? props['position'] : 'top-center',
         dismissible: props['dismissible'] != null ? props['dismissible'] : true,
-        animate: { in: 'fadeIn', out: 'fadeOut' }
+        animate: defaultAnimate
       });
     }
   }
