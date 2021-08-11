@@ -32,7 +32,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/o-steps/bulma-steps.min.css" type="text/css">
 <%--Divider--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/divider/divider.min.css" type="text/css">
-
 <%--Quick view--%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/bulma/bulma-extension/quick-view/bulma-quickview.min.css" type="text/css">
 <%--Toast--%>
