@@ -9,17 +9,26 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@heroicons/react": "^2.2.0",
+    "clsx": "^2.1.1",
+    "motion": "^12.23.24",
+    "motion-plus": "https://api.motion.dev/registry.tgz?package=motion-plus&version=2.0.2&token=8e89b689b5fc6d0855f1c20919b385dc00ac2b3816023fc7ff63daafe0c3a510",
     "next": "16.0.4",
+    "next-themes": "^0.4.6",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "react-loading-skeleton": "^3.5.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
+    "eslint-config-prettier": "^10.1.8",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
