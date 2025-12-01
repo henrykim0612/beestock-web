@@ -1,6 +1,6 @@
 import ThemeSwitch from '@/components/switches/ThemeSwitch';
 
-export default function Home() {
+export default function Page() {
   return (
     <div className={'h-screen'}>
       <div className="rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
