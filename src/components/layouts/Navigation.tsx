@@ -17,7 +17,7 @@ export function Navigation() {
     <Link
       key={label}
       href={href}
-      className="relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors delay-150 hover:text-slate-900 hover:delay-0"
+      className="relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm font-medium"
       onMouseEnter={() => {
         if (timeoutRef.current) {
           window.clearTimeout(timeoutRef.current);
@@ -33,10 +33,10 @@ export function Navigation() {
       <AnimatePresence>
         {hoveredIndex === index && (
           <motion.span
-            className="absolute inset-0 rounded-lg bg-slate-100"
+            className="absolute inset-0 rounded-lg bg-yellow-400"
             layoutId="hoverBackground"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.15 } }}
+            animate={{ opacity: 0.5, transition: { duration: 0.15 } }}
             exit={{
               opacity: 0,
               transition: { duration: 0.15 },
