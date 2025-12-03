@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 
-function SunIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+export function SunIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -22,7 +22,7 @@ function SunIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
-function MoonIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+export function MoonIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <path
@@ -43,13 +43,13 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      className="group rounded-full bg-white/90 px-3 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-[#1C2128] dark:ring-white/10 dark:hover:ring-white/20"
+      className="group rounded-full bg-white/90 px-2 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-[#1C2128] dark:ring-white/10 dark:hover:ring-white/20"
       onClick={() => setTheme(otherTheme)}
     >
       <SunIcon
-        className="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600" />
+        className="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden" />
       <MoonIcon
-        className="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition not-[@media_(prefers-color-scheme:dark)]:fill-teal-400/10 not-[@media_(prefers-color-scheme:dark)]:stroke-yellow-500 dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400" />
+        className="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:stroke-yellow-500 dark:block" />
     </button>
   );
 }

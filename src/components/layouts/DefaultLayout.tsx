@@ -9,7 +9,7 @@ export default function DefaultLayout({ children }: Props) {
   return (
     <DefaultContainer>
       <Header />
-      <main>
+      <main className={'px-4 lg:px-0'}>
         {children}
       </main>
     </DefaultContainer>

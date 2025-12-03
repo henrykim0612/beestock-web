@@ -14,7 +14,6 @@
     --color-gray-800: oklch(0.269 0 0);
     --color-gray-900: oklch(0.205 0 0);
     --color-gray-950: oklch(0.145 0 0);
-
 }
 
 @theme inline {
@@ -40,7 +39,6 @@
 /*    }*/
 /*}*/
 
-
 body {
     font-family: var(--font-outfit), Arial, Helvetica, sans-serif;
 }
@@ -49,7 +47,37 @@ button {
     cursor: pointer;
 }
 
+@utility bst-box-hover {
+    @apply bg-zinc-200/50 dark:bg-zinc-600/10;
+}
 
-/*@utility hover-text {*/
-/*    @apply hover:text-gray-900;*/
-/*}*/
+@utility bst-button {
+    @apply transition rounded-md bg-white dark:bg-[#1C2128] px-3 py-2 text-sm font-semibold shadow-xs;
+}
+
+@utility bst-button-hover {
+    @apply hover:bg-zinc-200/20 dark:hover:bg-zinc-600/10;
+}
+
+@utility bst-button-ring-inset {
+    @apply inset-ring inset-ring-gray-300
+}
+
+
+@utility bst-stroke {
+    @apply stroke-zinc-900 dark:stroke-white;
+}
+
+@utility bst-stroke-hover {
+    @apply hover:bg-zinc-200/50 dark:hover:bg-zinc-600/10 hover:stroke-zinc-600 dark:hover:stroke-zinc-200;
+}
+
+@utility bst-stroke-active {
+    @apply active:stroke-zinc-600 dark:active:stroke-zinc-200;
+}
+
+@utility bst-backdrop {
+    @apply bg-gray-300/60 dark:bg-zinc-900 backdrop-blur-sm;
+}
+
+
