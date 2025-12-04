@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
     <body
-      className={`${outfit.variable} ${montserrat.variable} antialiased bg-gray-50 dark:bg-[#1C2128] text-zinc-900 dark:text-white`}
+      className={`${outfit.variable} ${montserrat.variable} antialiased bst-bg bst-text`}
     >
     <ThemeProvider attribute="class"
                    defaultTheme="system"

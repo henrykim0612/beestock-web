@@ -53,22 +53,12 @@ export default function Header() {
   return (
     <header>
       <nav className={'relative z-50 flex justify-between py-8 px-4'}>
-        <div className="relative z-10 flex items-center gap-6">
-          <Link href="/" aria-label="Home">
-            <Logo />
-          </Link>
-          <div className="hidden lg:flex lg:gap-10">
-            <Navigation />
-          </div>
-        </div>
-
-        {/*Mobile*/}
-        <div className="flex items-center gap-4">
+        <div className="z-10 flex items-center gap-6">
           <Popover className="lg:hidden flex items-center">
             {({ open }) => (
               <>
                 <PopoverButton
-                  className="relative z-10 -m-2 inline-flex items-center rounded-lg bst-stroke bst-stroke-hover p-2 focus:not-data-focus:outline-hidden bst-stroke-active"
+                  className="relative z-10 -m-2 inline-flex items-center rounded-lg bst-stroke bst-button-hover bst-stroke-hover p-2 focus:not-data-focus:outline-hidden bst-stroke-active"
                   aria-label="Toggle site navigation"
                 >
                   {({ open }) =>
@@ -100,7 +90,7 @@ export default function Header() {
                           y: -32,
                           transition: { duration: 0.2 },
                         }}
-                        className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 dark:bg-[#1C2128] px-6 pt-24 pb-6 shadow-2xl shadow-gray-900/20"
+                        className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bst-bg px-6 pt-32 pb-6 shadow-2xl shadow-gray-900/20"
                       >
                         <div className="space-y-4">
                           <MobileNavLink href={MENU_ITEMS[0][1]}>
@@ -117,7 +107,6 @@ export default function Header() {
                           </MobileNavLink>
                         </div>
                         <div className="mt-8 flex flex-col gap-4">
-                          <MobileThemeToggle />
                           {/*  <Button href="/login" variant="outline">*/}
                           {/*    Log in*/}
                           {/*  </Button>*/}
@@ -130,9 +119,15 @@ export default function Header() {
               </>
             )}
           </Popover>
-          <div className={'hidden lg:block'}>
-            <ThemeToggle />
+          <Link href="/" aria-label="Home" className={'z-100'}>
+            <Logo />
+          </Link>
+          <div className="hidden lg:flex lg:gap-10">
+            <Navigation />
           </div>
+        </div>
+        <div className="flex items-center gap-4 z-100">
+          <ThemeToggle />
         </div>
       </nav>
     </header>

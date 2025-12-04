@@ -43,13 +43,13 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      className="group rounded-full bg-white/90 px-2 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-[#1C2128] dark:ring-white/10 dark:hover:ring-white/20"
+      className="group rounded-lg px-2 py-2 transition bst-button-hover bst-stroke-hover"
       onClick={() => setTheme(otherTheme)}
     >
       <SunIcon
-        className="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden" />
+        className="dark:hidden bst-icon" />
       <MoonIcon
-        className="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:stroke-yellow-500 dark:block" />
+        className="hidden dark:block bst-icon" />
     </button>
   );
 }

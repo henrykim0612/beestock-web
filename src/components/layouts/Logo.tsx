@@ -4,10 +4,9 @@ export default function Logo() {
   return <Image
     src={'/logos/logo.png'}
     alt="logo"
-    width={40}
-    height={38}
-    style={{ width: 'auto', height: 'auto' }}
-    className={'rounded-xl'}
+    width={36}
+    height={36}
+    style={{ width: 36, height: 36 }}
     loading="eager"
   />;
 }
