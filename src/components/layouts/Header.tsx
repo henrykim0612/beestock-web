@@ -6,7 +6,7 @@ import ThemeToggle from '@/components/toggles/ThemeToggle';
 import Logo from '@/components/layouts/Logo';
 import { Popover, PopoverBackdrop, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { AnimatePresence, motion } from 'motion/react';
-import MobileThemeToggle from '@/components/toggles/MobileThemeToggle';
+import Search from '@/components/Search';
 
 function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -58,7 +58,7 @@ export default function Header() {
             {({ open }) => (
               <>
                 <PopoverButton
-                  className="relative z-10 -m-2 inline-flex items-center rounded-lg bst-stroke bst-button-hover bst-stroke-hover p-2 focus:not-data-focus:outline-hidden bst-stroke-active"
+                  className="relative z-10 -m-2 inline-flex items-center rounded-lg bst-stroke bst-button-bg-hover bst-stroke-hover p-2 focus:not-data-focus:outline-hidden bst-stroke-active"
                   aria-label="Toggle site navigation"
                 >
                   {({ open }) =>
@@ -127,6 +127,7 @@ export default function Header() {
           </div>
         </div>
         <div className="flex items-center gap-4 z-100">
+          <Search />
           <ThemeToggle />
         </div>
       </nav>

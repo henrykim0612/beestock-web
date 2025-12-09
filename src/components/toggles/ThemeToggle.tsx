@@ -43,7 +43,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      className="group rounded-lg px-2 py-2 transition bst-button-hover bst-stroke-hover"
+      className="group rounded-lg p-2 transition bst-button-bg-hover"
       onClick={() => setTheme(otherTheme)}
     >
       <SunIcon

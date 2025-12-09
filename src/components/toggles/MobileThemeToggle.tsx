@@ -10,7 +10,7 @@ export default function MobileThemeToggle() {
   return (
     <button
       type="button"
-      className="bst-button bst-button-ring-inset bst-button-hover inline-flex justify-center"
+      className="bst-button bst-button-ring-inset bst-button-bg-hover inline-flex justify-center"
       onClick={() => setTheme(otherTheme)}
     >
       <SunIcon

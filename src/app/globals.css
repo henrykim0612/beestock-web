@@ -47,28 +47,57 @@ button {
     cursor: pointer;
 }
 
-@utility bst-bg {
-    @apply bg-gray-50 dark:bg-[#1C2128];
+@utility bst-bg-dark {
+    @apply dark:bg-[#1C2128];
 }
 
+@utility bst-bg {
+    @apply bg-gray-50 bst-bg-dark;
+}
+
+@utility bst-backdrop {
+    @apply bg-gray-300/60 dark:bg-zinc-900 backdrop-blur-sm;
+}
+
+/**********
+Box
+***********/
 @utility bst-box-hover {
     @apply bg-zinc-200/50 dark:bg-zinc-600/20;
 }
 
-@utility bst-button {
-    @apply transition rounded-md bg-white dark:bg-[#1C2128] px-3 py-2 text-sm font-semibold shadow-xs;
+@utility bst-box-slate {
+    @apply rounded-md bg-zinc-200/50 dark:bg-zinc-600/20;
 }
 
-@utility bst-button-hover {
-    @apply hover:bg-zinc-200/50 dark:hover:bg-zinc-600/20;
+/**********
+Button
+***********/
+@utility bst-button {
+    @apply transition rounded-md bst-bg-dark px-3 py-2 text-sm font-semibold shadow-xs;
+}
+
+@utility bst-button-bg-hover {
+    @apply hover:bg-zinc-200/50 dark:hover:bg-white/5;
+}
+
+@utility bst-button-bg-hover-mobile {
+    @apply bst-button-bg-hover sm:hover:bg-transparent sm:dark:hover:bg-transparent;
 }
 
 @utility bst-button-ring-inset {
     @apply inset-ring inset-ring-gray-300;
 }
 
+@utility bst-button-ring {
+    @apply ring-1 ring-slate-200 hover:ring-slate-300 dark:ring-white/5 dark:ring-inset dark:hover:ring-white/10;
+}
+
+/**********
+Stroke
+***********/
 @utility bst-stroke {
-    @apply stroke-zinc-900 dark:stroke-white;
+    @apply stroke-slate-500 dark:stroke-white/75;
 }
 
 @utility bst-stroke-hover {
@@ -79,31 +108,38 @@ button {
     @apply active:stroke-zinc-600 dark:active:stroke-zinc-200;
 }
 
-@utility bst-backdrop {
-    @apply bg-gray-300/60 dark:bg-zinc-900 backdrop-blur-sm;
-}
+/**********
+Ring
+***********/
+/*@utility bst-ring {*/
+/*    @apply ring-1 ring-zinc-900/5 dark:ring-white/10;*/
+/*}*/
 
-@utility bst-ring {
-    @apply ring-1 ring-zinc-900/5 dark:ring-white/10;
-}
+/*@utility bst-ring-hover {*/
+/*    @apply dark:hover:ring-white/20;*/
+/*}*/
 
-@utility bst-ring-hover {
-    @apply dark:hover:ring-white/20;
-}
-
-@utility bst-icon {
-    @apply h-6 w-6 fill-white dark:fill-[#1C2128] bst-stroke transition;
-}
-
+/**********
+Border
+***********/
 @utility bst-border-color {
-    @apply border-gray-900/10;
+    @apply border-slate-200 dark:border-white/5;
 }
 
+/**********
+Text
+***********/
 @utility bst-text {
     @apply text-zinc-900 dark:text-white;
 }
 
 @utility bst-text-light {
-    @apply text-zinc-500 dark:text-zinc-400;
+    @apply text-zinc-400 dark:text-zinc-500;
 }
 
+/**********
+Icon
+***********/
+@utility bst-icon {
+    @apply h-5 w-5 fill-white dark:fill-[#1C2128] bst-stroke transition;
+}
