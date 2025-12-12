@@ -7,6 +7,5 @@ export default function Logo() {
     width={36}
     height={36}
     style={{ width: 36, height: 36 }}
-    loading="eager"
   />;
 }

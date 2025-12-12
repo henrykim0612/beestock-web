@@ -6,7 +6,7 @@ import ThemeToggle from '@/components/toggles/ThemeToggle';
 import Logo from '@/components/layouts/Logo';
 import { Popover, PopoverBackdrop, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { AnimatePresence, motion } from 'motion/react';
-import Search from '@/components/Search';
+import Search from '@/components/search/Search';
 
 function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (

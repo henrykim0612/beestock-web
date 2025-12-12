@@ -56,18 +56,22 @@ button {
 }
 
 @utility bst-backdrop {
-    @apply bg-gray-300/60 dark:bg-zinc-900 backdrop-blur-sm;
+    @apply bg-gray-300/50 dark:bg-zinc-900/50 backdrop-blur-sm;
+}
+
+@utility bst-bg-aria-selected {
+    @apply aria-selected:bg-zinc-200/50 dark:aria-selected:bg-zinc-600/10;
 }
 
 /**********
 Box
 ***********/
 @utility bst-box-hover {
-    @apply bg-zinc-200/50 dark:bg-zinc-600/20;
+    @apply bg-zinc-200/50 dark:bg-zinc-600/10;
 }
 
-@utility bst-box-slate {
-    @apply rounded-md bg-zinc-200/50 dark:bg-zinc-600/20;
+@utility bst-box {
+    @apply rounded-md bg-zinc-200/50 dark:bg-zinc-600/10;
 }
 
 /**********
@@ -101,19 +105,24 @@ Stroke
 }
 
 @utility bst-stroke-hover {
-    @apply hover:stroke-zinc-600 dark:hover:stroke-zinc-200;
+    @apply hover:stroke-slate-600 dark:hover:stroke-slate-200;
 }
 
 @utility bst-stroke-active {
-    @apply active:stroke-zinc-600 dark:active:stroke-zinc-200;
+    @apply active:stroke-slate-600 dark:active:stroke-slate-200;
 }
 
 /**********
 Ring
 ***********/
-/*@utility bst-ring {*/
-/*    @apply ring-1 ring-zinc-900/5 dark:ring-white/10;*/
-/*}*/
+@utility bst-ring {
+    @apply ring-1 ring-slate-200 dark:ring-white/5;
+}
+
+@utility bst-ring-dark {
+    @apply dark:ring-1 dark:ring-white/5;
+}
+
 
 /*@utility bst-ring-hover {*/
 /*    @apply dark:hover:ring-white/20;*/
@@ -129,17 +138,38 @@ Border
 /**********
 Text
 ***********/
+@utility bst-text-primary {
+    @apply text-yellow-500;
+}
+
 @utility bst-text {
     @apply text-zinc-900 dark:text-white;
 }
 
-@utility bst-text-light {
+@utility bst-text-darker {
+    @apply text-zinc-900 dark:text-white;
+}
+
+@utility bst-text-lighter {
+    @apply text-zinc-500 dark:text-zinc-400;
+}
+
+@utility bst-text-subtle {
     @apply text-zinc-400 dark:text-zinc-500;
 }
+
+@utility bst-text-placeholder {
+    @apply placeholder:text-zinc-400 dark:placeholder:text-zinc-500;
+}
+
+@utility bst-text-group-aria-selected {
+    @apply group-aria-selected:text-yellow-500;
+}
+
 
 /**********
 Icon
 ***********/
 @utility bst-icon {
-    @apply h-5 w-5 fill-white dark:fill-[#1C2128] bst-stroke transition;
+    @apply h-full w-5 fill-gray-50 dark:fill-[#1C2128] bst-stroke transition;
 }
